@@ -1,0 +1,10 @@
+export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;
+export const RPC_LIST = process.env.NEXT_PUBLIC_RPC_LIST ?? 'https://mainnet.api.tez.ie,https://mainnet.smartpy.io';
+export const TZ_NETWORK = process.env.NEXT_PUBLIC_TZ_NETWORK ?? 'hangzhounet';
+export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https://xweb-test.hasura.app/v1/graphql';
+export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://xweb-test.hasura.app/v1/graphql';
+export const GRAPHQL_API_KEY = process.env.NEXT_PUBLIC_GRAPHQL_API_KEY ?? '';
+export const IPFS_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_PREFIX_URL ?? 'https://xweb.mypinata.cloud/ipfs/';
+export const ITEMS_PER_PAGE = process.env.NEXT_PUBLIC_ITEMS_PER_PAGE ?? 10;
+export const IMAGE_SEO = process.env.NEXT_PUBLIC_IMAGE_SEO ?? 'https://xweb.mypinata.cloud/ipfs/QmYpBL6SiURbxyEKQQrWnzY7wXeEEh8shbCLFU268Dg7p6';
+export const DESCRIPTION_SEO = process.env.NEXT_PUBLIC_DESCRIPTION_SEO ?? 'web3 design platform';
