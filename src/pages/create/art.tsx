@@ -1,15 +1,15 @@
 import Head from 'next/head';
-import Page from '../components/Page/Page';
-import { DESCRIPTION_SEO, IMAGE_SEO } from '../constants';
-import ConditionRender from '../components/Utils/ConditionRender';
-import Create from 'src/containers/Create/Create';
+import { DESCRIPTION_SEO, IMAGE_SEO } from '../../constants';
+import Page from '../../components/Page/Page';
+import ConditionRender from '../../components/Utils/ConditionRender';
+import CreateArt from '../../containers/CreateArt/CreateArt';
 
-export default function CreatePage() {
+export default function CreateArtPage() {
   return (
     <Page>
       <Head>
-        <title>Create – xweb</title>
-        <meta key="og:title" property="og:title" content={'Create – xweb'} />
+        <title>create art – art3s</title>
+        <meta key="og:title" property="og:title" content={'create art – art3s'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />
@@ -18,7 +18,7 @@ export default function CreatePage() {
       </Head>
 
       <ConditionRender client>
-        <Create />
+        <CreateArt />
       </ConditionRender>
     </Page>
   );
