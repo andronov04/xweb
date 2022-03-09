@@ -26,7 +26,8 @@ const CreateArt = () => {
           <div
             style={{
               width: size.width,
-              height: size.height
+              height: size.height,
+              border: '1px solid #212121'
             }}
           >
             <iframe width={'100%'} height={'100%'} src={'https://xeditor-dun.vercel.app/'} className={'iframe'} sandbox={'allow-same-origin allow-scripts'} />
