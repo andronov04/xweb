@@ -1,5 +1,5 @@
 module.exports = {
-  purge: ['./src/containers/**/*.{js,ts,jsx,tsx}', './src/pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
+  content: ['./src/containers/**/*.{js,ts,jsx,tsx}', './src/pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
   variants: {
     extend: {
       margin: ['last', 'first'],
@@ -71,7 +71,9 @@ module.exports = {
         white20: 'rgba(255, 255, 255, 0.2)',
         white30: 'rgba(255, 255, 255, 0.3)',
         green: '#5AFB1E',
-        dark: '#101010'
+        dark: '#101010',
+        dark21: '#212121',
+        dart2C: '#2c2c2c'
       },
       fontSize: {
         small: '0.45rem',

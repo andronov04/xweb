@@ -2,35 +2,39 @@ import React, { PropsWithChildren, useState } from 'react';
 import { useAsync } from 'react-async-hook';
 import { WalletApi } from '../api/WalletApi';
 import { IWalletUser } from '../types';
+import { CreArt } from '../services/creart';
 
-interface IZContext {
+interface IXContext {
   user: IWalletUser | null;
   wallet: WalletApi | null;
+  art: CreArt | null;
   connect: () => Promise<void>;
   disconnect: () => void;
 }
 
-const initialContext: IZContext = {
+const initialContext: IXContext = {
   user: null,
   wallet: null,
+  art: null,
   connect: () => new Promise(() => false),
   disconnect: () => {
     /**/
   }
 };
 
-export const UserContext = React.createContext<IZContext>(initialContext);
+export const XContext = React.createContext<IXContext>(initialContext);
 
-export const ZProvider = ({ children }: PropsWithChildren<unknown>) => {
-  const [context, setContext] = useState<IZContext>(initialContext);
+export const XProvider = ({ children }: PropsWithChildren<unknown>) => {
+  const [context, setContext] = useState<IXContext>(initialContext);
 
   // init context
   useAsync(async () => {
     const wallet = new WalletApi();
 
-    const _initialContext: IZContext = {
+    const _initialContext: IXContext = {
       ...initialContext,
       wallet,
+      art: new CreArt(),
       connect: async () => {
         /**/
         const tzId = await wallet.connect();
@@ -58,5 +62,5 @@ export const ZProvider = ({ children }: PropsWithChildren<unknown>) => {
     setContext(_initialContext);
   }, []);
 
-  return <UserContext.Provider value={context}>{children}</UserContext.Provider>;
+  return <XContext.Provider value={context}>{children}</XContext.Provider>;
 };

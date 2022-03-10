@@ -1,5 +1,5 @@
 import '../styles/globals.css';
-import { ZProvider } from '../providers/ZProvider';
+import { XProvider } from '../providers/XProvider';
 import { ApolloProvider } from '@apollo/client';
 import GraphqlApi from '../api/GraphqlApi';
 import NextNProgress from 'nextjs-progressbar';
@@ -9,9 +9,9 @@ const App = ({ Component, pageProps }) => {
     <>
       <NextNProgress color={'#fff'} height={2} />
       <ApolloProvider client={GraphqlApi}>
-        <ZProvider>
+        <XProvider>
           <Component {...pageProps} />
-        </ZProvider>
+        </XProvider>
       </ApolloProvider>
     </>
   );

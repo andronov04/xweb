@@ -1,12 +1,15 @@
 interface IButton {
   value: string;
   classNames?: string;
+  style?: 'black' | 'white';
 }
 
-const CustomButton = ({ value, classNames }: IButton) => {
+const CustomButton = ({ value, classNames, style }: IButton) => {
   return (
     <>
-      <button className={` ${classNames} text-inactive hover:bg-white20 bg-white10 rounded-sm py-3 px-5`}>{value}</button>
+      <button className={` ${classNames} ${style === 'white' ? ' bg-white text-black' : 'bg-white10 text-inactive '} hover:opacity-80 rounded-sm py-3 px-5`}>
+        {value}
+      </button>
     </>
   );
 };

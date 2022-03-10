@@ -8,3 +8,7 @@ export const IPFS_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_PREFIX_URL ?? 'https
 export const ITEMS_PER_PAGE = process.env.NEXT_PUBLIC_ITEMS_PER_PAGE ?? 10;
 export const IMAGE_SEO = process.env.NEXT_PUBLIC_IMAGE_SEO ?? 'https://xweb.mypinata.cloud/ipfs/QmYpBL6SiURbxyEKQQrWnzY7wXeEEh8shbCLFU268Dg7p6';
 export const DESCRIPTION_SEO = process.env.NEXT_PUBLIC_DESCRIPTION_SEO ?? 'the web3 art platform on the tezos blockchain';
+export const EDITOR_URL = process.env.NEXT_PUBLIC_EDITOR_URL ?? 'https://xeditor-dun.vercel.app/';
+export const DEV_ASSET_URL = process.env.NEXT_PUBLIC_DEV_ASSET_URL ?? 'http://localhost:8001';
+export const MESSAGE_SEND_ASSET = 'X_SEND_ASSET';
+export const MESSAGE_GENERATE_NEW = 'X_GENERATE_NEW';

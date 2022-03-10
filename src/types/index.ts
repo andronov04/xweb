@@ -50,3 +50,8 @@ export interface IArt {
 export interface IItem extends IArt, IScript {
   id: string;
 }
+
+export interface IActiveArt {
+  assets: any[];
+  proxy: WindowProxy;
+}

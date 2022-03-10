@@ -4,7 +4,7 @@ const Breadcrumbs = () => {
     <nav className="flex font-thin" aria-label="Breadcrumb">
       <ol className="inline-flex items-center space-x-1 md:space-x-3">
         <li className="inline-flex items-center">
-          <a href="#" className="inline-flex items-center   text-gray-700 text-sm">
+          <a href="#" className="inline-flex items-center   text-inactive text-sm">
             Editor
           </a>
         </li>
@@ -19,7 +19,7 @@ const Breadcrumbs = () => {
         <li aria-current="page">
           <div className="flex items-center">
             <span>/</span>
-            <span className="ml-2 text-sm  text-gray-700">Basic</span>
+            <span className="ml-2 text-sm  text-inactive">Basic</span>
           </div>
         </li>
       </ol>

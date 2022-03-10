@@ -1,10 +1,10 @@
-import { UserContext } from '../../providers/ZProvider';
+import { XContext } from '../../providers/XProvider';
 import { useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const Menu = () => {
-  const userContext = useContext(UserContext);
+  const userContext = useContext(XContext);
   const router = useRouter();
 
   return (
