@@ -12,3 +12,4 @@ export const EDITOR_URL = process.env.NEXT_PUBLIC_EDITOR_URL ?? 'https://xeditor
 export const DEV_ASSET_URL = process.env.NEXT_PUBLIC_DEV_ASSET_URL ?? 'http://localhost:8001';
 export const MESSAGE_SEND_ASSET = 'X_SEND_ASSET';
 export const MESSAGE_GENERATE_NEW = 'X_GENERATE_NEW';
+export const MESSAGE_GET_ASSET_META = 'X_GET_ASSET_META';

@@ -1,4 +1,4 @@
-import { DEV_ASSET_URL, EDITOR_URL, MESSAGE_SEND_ASSET } from '../../../constants';
+import { DEV_ASSET_URL, EDITOR_URL, MESSAGE_GET_ASSET_META, MESSAGE_SEND_ASSET } from '../../../constants';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { XContext } from '../../../providers/XProvider';
 
@@ -8,7 +8,7 @@ const IframeArt = () => {
 
   useEffect(() => {
     const test_asset = {
-      url: 'https://crxatorz.mypinata.cloud/ipfs/QmbBaZSe2aSHYptA5H1kVRvxDpJWM3eQBTns8yTifumbHW', //DEV_ASSET_URL ?? 'http://localhost:8001',
+      url: DEV_ASSET_URL ?? 'http://localhost:8001',
       metadata: {
         name: 'Suprematism'
       }
@@ -24,7 +24,17 @@ const IframeArt = () => {
       if (refIframe.current?.contentWindow) {
         xContext.art?.setProxy(refIframe.current?.contentWindow);
       }
-    }, 500);
+    }, 1000);
+
+    window.addEventListener(
+      'message',
+      (event) => {
+        if (event.data?.type === MESSAGE_GET_ASSET_META) {
+          // console.log('WEB', event.data);
+        }
+      },
+      false
+    );
   }, []);
 
   return (
