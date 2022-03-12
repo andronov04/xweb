@@ -1,5 +1,5 @@
 import { IAsset } from '../types';
-import { DEV_ASSET_URL, EDITOR_URL, MESSAGE_SEND_ASSET } from '../constants';
+import { DEV_ASSET_URL, EDITOR_URL, MESSAGE_GET_ASSET_META, MESSAGE_SEND_ASSET } from '../constants';
 import { ipfsToUrl } from '../utils';
 
 export class CreArt {
@@ -33,6 +33,18 @@ export class CreArt {
         })
       },
       EDITOR_URL
+    );
+  };
+
+  emit = () => {
+    window.addEventListener(
+      'message',
+      (event) => {
+        if (event.data?.type === MESSAGE_GET_ASSET_META) {
+          // console.log('WEB', event.data, this.assets);
+        }
+      },
+      false
     );
   };
 }
