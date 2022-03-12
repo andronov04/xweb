@@ -33,18 +33,18 @@ const ArtItem = ({ item }: { item: IArt }) => {
             <p className={'text-inactive pt-8 font-light'}>{item.description}</p>
           </div>
           <div className={'mt-10 flex font-light justify-end'}>
-            <Link href={`/style/${item.script?.slug ?? item.script?.id}`}>
-              <a href={`/style/${item.script?.slug ?? item.script?.id}`}>
+            <Link href={`/style/${item.asset?.slug ?? item.asset?.id}`}>
+              <a href={`/style/${item.asset?.slug ?? item.asset?.id}`}>
                 <div className={'flex gap-x-3 text-right'}>
                   <div>
                     <p className={'text-inactive text-xs'}>Using by style</p>
-                    <h3 className={'text-active text-base'}>{item.script?.name}</h3>
+                    <h3 className={'text-active text-base'}>{item.asset?.name}</h3>
                   </div>
                   <div>
                     <div
                       style={{
                         backgroundSize: 'cover',
-                        backgroundImage: `url(${ipfsToUrl(item.script?.metadata?.displayUri)})`
+                        backgroundImage: `url(${ipfsToUrl(item.asset?.metadata?.displayUri)})`
                       }}
                       className={'w-24 h-24 rounded-sm'}
                     />

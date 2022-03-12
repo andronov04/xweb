@@ -14,7 +14,15 @@ export interface IUser {
   updated?: string;
 }
 
-export interface IScript {
+interface INestedAggregateCount {
+  count: number;
+}
+
+interface INestedAggregate {
+  aggregate: INestedAggregateCount;
+}
+
+export interface IAsset {
   id: string;
   name: string;
   description?: string;
@@ -22,7 +30,7 @@ export interface IScript {
   slug?: string;
   created?: string;
   metadata?: any; // TODO Description
-  count_tokens?: number;
+  token_assets_aggregate?: INestedAggregate;
 }
 
 export interface IArt {
@@ -44,10 +52,10 @@ export interface IArt {
   enabled?: boolean;
   tags?: string[];
   __typename?: string;
-  script?: IScript;
+  asset?: IAsset;
 }
 
-export interface IItem extends IArt, IScript {
+export interface IItem extends IArt, IAsset {
   id: string;
 }
 

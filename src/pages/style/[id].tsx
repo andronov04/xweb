@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import Page from 'src/components/Page/Page';
-import { IScript } from '../../types';
+import { IAsset } from '../../types';
 import GraphqlApi from '../../api/GraphqlApi';
 import { QL_GET_SCRIPT } from '../../api/queries';
 import { ipfsToUrl } from '../../utils';
 import ScriptItem from '../../containers/ScriptItem/ScriptItem';
 
-const ArtPage = ({ item }: { item: IScript }) => {
+const ArtPage = ({ item }: { item: IAsset }) => {
   return (
     <Page>
       <Head>

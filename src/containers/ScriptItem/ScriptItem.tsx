@@ -1,13 +1,13 @@
 import { ipfsToUrl } from '../../utils';
 import Spacing from '../../components/Spacing/Spacing';
-import { IScript } from '../../types';
+import { IAsset } from '../../types';
 import Link from 'next/link';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Navs from '../../components/Navs/Navs';
 import ScriptArts from './ScriptArts';
 import ConditionRender from 'src/components/Utils/ConditionRender';
 
-const ScriptItem = ({ item }: { item: IScript }) => {
+const ScriptItem = ({ item }: { item: IAsset }) => {
   const user = item.user?.username ?? item.user?.id;
   return (
     <section>

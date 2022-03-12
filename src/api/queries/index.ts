@@ -81,20 +81,25 @@ export const QL_GET_SCRIPS_BY_USER = gql`
   }
 `;
 
-export const QL_GET_SCRIPT_ITEMS = gql`
+export const QL_GET_ASSET_ITEMS = gql`
   query MyQuery($limit: Int, $offset: Int) {
-    scripts(order_by: { created: asc }, limit: $limit, offset: $offset) {
+    asset(order_by: { created: asc }, limit: $limit, offset: $offset) {
       name
       id
       description
       min_price
+      kind
       flag
       enabled
       metadata
       royalties
       slug
-      zhash
       created
+      token_assets_aggregate {
+        aggregate {
+          count
+        }
+      }
       user {
         id
         username

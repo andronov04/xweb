@@ -7,20 +7,7 @@ const IframeArt = () => {
   const refIframe = useRef<HTMLIFrameElement | null>(null);
 
   useEffect(() => {
-    const test_asset = {
-      url: DEV_ASSET_URL ?? 'http://localhost:8001',
-      metadata: {
-        name: 'Suprematism'
-      }
-    };
     setTimeout(() => {
-      refIframe.current?.contentWindow?.postMessage(
-        {
-          type: MESSAGE_SEND_ASSET,
-          data: [test_asset]
-        },
-        EDITOR_URL
-      );
       if (refIframe.current?.contentWindow) {
         xContext.art?.setProxy(refIframe.current?.contentWindow);
       }

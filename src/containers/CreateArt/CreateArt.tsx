@@ -4,11 +4,18 @@ import IframeArt from './Iframe/Iframe';
 import { XContext } from '../../providers/XProvider';
 import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_SEND_ASSET } from '../../constants';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import Items from '../../components/Items/Items';
+import { QL_GET_ASSET_ITEMS } from '../../api/queries';
 
 const CreateArt = () => {
+  const [assets, setAssets] = useState<any[]>([]); // TODO Set interface
   const xContext = useContext(XContext);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const refContainer = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    xContext.art?.setAssets(assets);
+  }, [assets]);
 
   useEffect(() => {
     if (refContainer.current) {
@@ -61,6 +68,30 @@ const CreateArt = () => {
             <IframeArt />
           </div>
         )}
+      </div>
+
+      <div>
+        <div className={'flex my-5 font-thin gap-x-4'}>
+          <p className={'text-whitegrey'}>all assets*</p>
+          <p className={'text-active'}>styles</p>
+          <p className={'text-whitegrey'}>
+            in beta version, you can select only one style, <b className={'hover:opacity-80 cursor-pointer text-inactive'}>learn more</b>
+          </p>
+        </div>
+        <Items
+          kind={'asset'}
+          mode={'selected'}
+          activeIds={assets.map((a) => a.id)}
+          onClickItem={(item) => {
+            // Now only once
+            if (assets.includes(item)) {
+              setAssets([]);
+            } else {
+              setAssets([item]);
+            }
+          }}
+          query={QL_GET_ASSET_ITEMS}
+        />
       </div>
     </section>
   );
