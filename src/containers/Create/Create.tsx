@@ -4,7 +4,6 @@ import { QL_GET_SCRIPTS } from '../../api/queries';
 import Loader from '../../components/Utils/Loader';
 import { IItem } from '../../types';
 import { useMemo } from 'react';
-import Items from '../Items/Items';
 
 const Create = () => {
   const { data, loading, fetchMore, refetch } = useQuery(QL_GET_SCRIPTS, {
@@ -30,7 +29,7 @@ const Create = () => {
           </div>
         </div>
       )}
-      <Items items={items} />
+      {/*<Items items={items} />*/}
     </main>
   );
 };

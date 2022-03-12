@@ -30,11 +30,11 @@ const ScriptItem = ({ item }: { item: IAsset }) => {
           </div>
           <div className={'flex justify-end text-right'}>
             <div>
-              {item.count_tokens ? (
-                <p className={'font-light pb-1 text-inactive text-sm'}>
-                  {item.count_tokens} {(item.count_tokens || 0) <= 1 ? 'art' : 'arts'}
-                </p>
-              ) : null}
+              {/*{item.count_tokens ? (*/}
+              {/*  <p className={'font-light pb-1 text-inactive text-sm'}>*/}
+              {/*    {item.count_tokens} {(item.count_tokens || 0) <= 1 ? 'art' : 'arts'}*/}
+              {/*  </p>*/}
+              {/*) : null}*/}
               <CustomButton classNames={'bg-active text-dark hover:bg-inactive'} value={'Create art'} />
             </div>
           </div>

@@ -21,13 +21,6 @@ export class CreArt {
   };
 
   sendAssets = () => {
-    const test_asset = {
-      // TODO Delete
-      url: DEV_ASSET_URL ?? 'http://localhost:8001',
-      metadata: {
-        name: 'Suprematism'
-      }
-    };
     this.proxy?.postMessage(
       {
         type: MESSAGE_SEND_ASSET,
@@ -35,7 +28,7 @@ export class CreArt {
           return {
             asset: a,
             // url: ipfsToUrl(a.metadata?.displayUri ?? ''),
-            ...test_asset
+            url: DEV_ASSET_URL ?? 'http://localhost:8001'
           };
         })
       },

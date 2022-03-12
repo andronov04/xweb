@@ -4,7 +4,7 @@ import { QL_GET_SALES_TOKENS } from '../../api/queries';
 import Loader from '../../components/Utils/Loader';
 import { IItem } from '../../types';
 import { useMemo } from 'react';
-import Items from '../Items/Items';
+// import Items from '../Items/Items';
 
 const Marketplace = () => {
   const { data, loading, fetchMore, refetch } = useQuery(QL_GET_SALES_TOKENS, {
@@ -30,7 +30,7 @@ const Marketplace = () => {
           </div>
         </div>
       )}
-      <Items price={true} items={items} />
+      {/*<Items price={true} items={items} />*/}
     </main>
   );
 };

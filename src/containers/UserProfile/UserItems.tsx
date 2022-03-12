@@ -3,7 +3,7 @@ import { ITEMS_PER_PAGE } from '../../constants';
 import Loader from '../../components/Utils/Loader';
 import { IItem, IUser } from '../../types';
 import { useMemo } from 'react';
-import Items from '../Items/Items';
+// import Items from '../Items/Items';
 
 export interface IUserItemsVariables {
   [key: string]: string | number;
@@ -33,7 +33,7 @@ const UserItems = ({ user, query, price, variables }: IUserItems) => {
   return (
     <main>
       {loading && <Loader className={'mt-32'} />}
-      <Items items={items} price={price} />
+      {/*<Items items={items} price={price} />*/}
     </main>
   );
 };

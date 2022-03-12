@@ -4,7 +4,7 @@ import { QL_GET_TOKEN_ITEMS } from '../../api/queries';
 import Loader from '../../components/Utils/Loader';
 import { IItem } from '../../types';
 import { useMemo } from 'react';
-import Items from '../Items/Items';
+// import Items from '../Items/Items';
 
 const Explore = () => {
   const { data, loading, fetchMore, refetch } = useQuery(QL_GET_TOKEN_ITEMS, {
@@ -30,7 +30,7 @@ const Explore = () => {
           </div>
         </div>
       )}
-      <Items items={items} />
+      {/*<Items items={items} />*/}
     </main>
   );
 };
