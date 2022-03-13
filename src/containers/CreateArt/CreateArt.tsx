@@ -41,7 +41,7 @@ const CreateArt = () => {
                 active: true
               },
               {
-                name: assets?.[0].name ?? '',
+                name: assets?.[0]?.name ?? '',
                 active: false
               }
             ]}
@@ -76,6 +76,10 @@ const CreateArt = () => {
             <IframeArt />
           </div>
         )}
+      </div>
+
+      <div id={'digest'} className={'pt-2 h-3 text-xs font-thin'}>
+        {/*{xContext.art?.digest ?? 'hash'}*/}
       </div>
 
       <div>

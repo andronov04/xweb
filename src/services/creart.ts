@@ -1,10 +1,11 @@
 import { IAsset } from '../types';
-import { DEV_ASSET_URL, EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_ASSET_META, MESSAGE_SEND_ASSET } from '../constants';
+import { DEV_ASSET_URL, EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_ASSET_META, MESSAGE_GET_DIGEST, MESSAGE_SEND_ASSET } from '../constants';
 import { ipfsToUrl } from '../utils';
 import { nanoid } from 'nanoid';
 
 export class CreArt {
   assets: IAsset[] = [];
+  digest: string = '';
   proxy: WindowProxy | null = null;
 
   constructor() {
@@ -19,6 +20,10 @@ export class CreArt {
     this.assets = assets;
 
     this.sendAssets();
+
+    if (!assets.length) {
+      this.setDigest('');
+    }
   };
 
   sendAssets = () => {
@@ -44,12 +49,21 @@ export class CreArt {
     window.addEventListener(
       'message',
       (event) => {
-        if (event.data?.type === MESSAGE_GET_ASSET_META) {
-          // console.log('WEB', event.data, this.assets);
+        if (event.data?.type === MESSAGE_GET_DIGEST) {
+          // console.log('MESSAGE_GET_DIGEST', event.data);
+          this.setDigest(event.data.data.digest);
         }
       },
       false
     );
+  };
+
+  setDigest = (digest: string) => {
+    this.digest = digest;
+    const el = document.querySelector('#digest'); // TEMP
+    if (el) {
+      el.innerHTML = this.digest;
+    }
   };
 
   generate = () => {
