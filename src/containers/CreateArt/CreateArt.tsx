@@ -2,7 +2,6 @@ import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import { useContext, useEffect, useRef, useState } from 'react';
 import IframeArt from './Iframe/Iframe';
 import { XContext } from '../../providers/XProvider';
-import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_SEND_ASSET } from '../../constants';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Items from '../../components/Items/Items';
 import { QL_GET_ASSET_ITEMS } from '../../api/queries';
@@ -31,19 +30,28 @@ const CreateArt = () => {
     <section className={'h-full'}>
       <div className={'flex w-full justify-between items-center'}>
         <div className={'w-1/3'}>
-          <Breadcrumbs />
+          <Breadcrumbs
+            navs={[
+              {
+                name: 'Editor',
+                active: false
+              },
+              {
+                name: 'Your Art',
+                active: true
+              },
+              {
+                name: assets?.[0].name ?? '',
+                active: false
+              }
+            ]}
+          />
         </div>
 
         <div className={'flex-grow text-center'}>
           <button
             onClick={() => {
-              xContext.art?.proxy?.postMessage(
-                {
-                  type: MESSAGE_GENERATE_NEW,
-                  data: {}
-                },
-                EDITOR_URL
-              );
+              xContext.art?.generate();
             }}
             className={'outline-0 hover:opacity-80 text-base cursor-pointer z-30 top-2 px-3 py-1 bg-dart2C rounded-sm'}
           >

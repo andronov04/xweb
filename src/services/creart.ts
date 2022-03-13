@@ -1,6 +1,7 @@
 import { IAsset } from '../types';
-import { DEV_ASSET_URL, EDITOR_URL, MESSAGE_GET_ASSET_META, MESSAGE_SEND_ASSET } from '../constants';
+import { DEV_ASSET_URL, EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_ASSET_META, MESSAGE_SEND_ASSET } from '../constants';
 import { ipfsToUrl } from '../utils';
+import { nanoid } from 'nanoid';
 
 export class CreArt {
   assets: IAsset[] = [];
@@ -21,14 +22,17 @@ export class CreArt {
   };
 
   sendAssets = () => {
+    // TODO Configuration order
+    //  asset.asset?.metadata?.artifactUri;
     this.proxy?.postMessage(
       {
         type: MESSAGE_SEND_ASSET,
-        data: this.assets.map((a) => {
+        data: this.assets.map((a, i) => {
           return {
-            asset: a,
+            asset: { ...a, metadata: { name: a.name, artifactUri: DEV_ASSET_URL } }, // TODO Remove test
+            order: i
             // url: ipfsToUrl(a.metadata?.displayUri ?? ''),
-            url: DEV_ASSET_URL ?? 'http://localhost:8001'
+            // url: DEV_ASSET_URL ?? 'http://localhost:8001'
           };
         })
       },
@@ -45,6 +49,18 @@ export class CreArt {
         }
       },
       false
+    );
+  };
+
+  generate = () => {
+    this.proxy?.postMessage(
+      {
+        type: MESSAGE_GENERATE_NEW,
+        data: {
+          requestId: nanoid()
+        }
+      },
+      EDITOR_URL
     );
   };
 }
