@@ -1,8 +1,13 @@
 import { useRef, useState } from 'react';
+import { CachePolicies, useFetch } from 'use-http';
+import { FILE_API_ASSET_STYLE_URL } from '../../constants';
+import { UploadFileError } from '../../types/error';
+import { UploadAssetFileResponse } from '../../types/api';
 
 const UploadFile = () => {
   const [active, setActive] = useState(false);
   const refInput = useRef<HTMLInputElement | null>(null);
+  const { data, loading, error, post } = useFetch<UploadAssetFileResponse | UploadFileError>(FILE_API_ASSET_STYLE_URL, { cachePolicy: CachePolicies.NO_CACHE });
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -24,17 +29,22 @@ const UploadFile = () => {
     setActive(false);
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     const files = e.dataTransfer.files;
-    handleFiles(files);
+    await handleFiles(files);
     setActive(false);
   };
 
-  const handleFiles = (files: FileList) => {
+  const handleFiles = async (files: FileList) => {
     // TODO Validation files
     console.log('handleFiles:::', files);
+    if (files.length) {
+      const data = new FormData();
+      data.append('file', files[0]);
+      await post(data);
+    }
   };
 
   return (
@@ -50,9 +60,9 @@ const UploadFile = () => {
     >
       <input
         ref={refInput}
-        onChange={(e) => {
+        onChange={async (e) => {
           if (e.target.files) {
-            handleFiles(e.target.files);
+            await handleFiles(e.target.files);
           }
         }}
         className={'hidden'}
