@@ -1,13 +1,25 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CachePolicies, useFetch } from 'use-http';
 import { FILE_API_ASSET_STYLE_URL } from '../../constants';
 import { UploadFileError } from '../../types/error';
 import { UploadAssetFileResponse } from '../../types/api';
+import Loader from '../Utils/Loader';
 
-const UploadFile = () => {
+interface IUploadFile {
+  onSuccess: (data: UploadAssetFileResponse) => void;
+}
+
+const UploadFile = ({ onSuccess }: IUploadFile) => {
   const [active, setActive] = useState(false);
   const refInput = useRef<HTMLInputElement | null>(null);
   const { data, loading, error, post } = useFetch<UploadAssetFileResponse | UploadFileError>(FILE_API_ASSET_STYLE_URL, { cachePolicy: CachePolicies.NO_CACHE });
+
+  // TODO Handle error
+  useEffect(() => {
+    if (data) {
+      onSuccess(data as UploadAssetFileResponse);
+    }
+  }, [data]);
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -48,29 +60,35 @@ const UploadFile = () => {
   };
 
   return (
-    <div
-      onDrop={handleDrop}
-      onDragOver={handleDrag}
-      onDragEnter={handleDragIn}
-      onDragLeave={handleDragOut}
-      onClick={() => {
-        refInput.current?.click();
-      }}
-      className={`${active ? 'opacity-80' : ''} my-10 z-20 bg-white10 cursor-pointer hover:opacity-80 h-32 rounded-sm flex justify-center items-center`}
-    >
-      <input
-        ref={refInput}
-        onChange={async (e) => {
-          if (e.target.files) {
-            await handleFiles(e.target.files);
-          }
-        }}
-        className={'hidden'}
-        accept={'application/zip,application/x-zip-compressed'}
-        type={'file'}
-        autoComplete={'off'}
-      />
-      <p className={'text-inactive font-thin text-sm'}>Drag and Drop your ZIP file here or click to upload</p>
+    <div>
+      {loading ? (
+        <Loader className={'mt-32'} />
+      ) : (
+        <div
+          onDrop={handleDrop}
+          onDragOver={handleDrag}
+          onDragEnter={handleDragIn}
+          onDragLeave={handleDragOut}
+          onClick={() => {
+            refInput.current?.click();
+          }}
+          className={`${active ? 'opacity-80' : ''} my-10 z-20 bg-white10 cursor-pointer hover:opacity-80 h-32 rounded-sm flex justify-center items-center`}
+        >
+          <input
+            ref={refInput}
+            onChange={async (e) => {
+              if (e.target.files) {
+                await handleFiles(e.target.files);
+              }
+            }}
+            className={'hidden'}
+            accept={'application/zip,application/x-zip-compressed'}
+            type={'file'}
+            autoComplete={'off'}
+          />
+          <p className={'text-inactive font-thin text-sm'}>Drag and Drop your ZIP file here or click to upload</p>
+        </div>
+      )}
     </div>
   );
 };

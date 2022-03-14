@@ -30,7 +30,11 @@ const CreateStyle = () => {
       </div>
 
       <div>
-        <UploadFile />
+        <UploadFile
+          onSuccess={(data) => {
+            console.log('data', data.cid, data.requestHash);
+          }}
+        />
       </div>
     </section>
   );
