@@ -19,7 +19,7 @@ const UploadFile = ({ onSuccess }: IUploadFile) => {
     if (data) {
       onSuccess(data as UploadAssetFileResponse);
     }
-  }, [data]);
+  }, [data, onSuccess]);
 
   const handleDrag = (e) => {
     e.preventDefault();

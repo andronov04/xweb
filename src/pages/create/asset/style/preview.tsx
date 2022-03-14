@@ -1,15 +1,15 @@
 import Head from 'next/head';
-import Page from '../../../components/Page/Page';
-import ConditionRender from '../../../components/Utils/ConditionRender';
-import { DESCRIPTION_SEO, IMAGE_SEO } from '../../../constants';
-import CreateStyle from '../../../containers/CreateStyle/CreateStyle';
+import Page from '../../../../components/Page/Page';
+import ConditionRender from '../../../../components/Utils/ConditionRender';
+import { DESCRIPTION_SEO, IMAGE_SEO } from '../../../../constants';
+import PreviewStyle from '../../../../containers/CreateStyle/PreviewStyle/PreviewStyle';
 
-export default function CreateAssetStylePage() {
+export default function BasePage() {
   return (
     <Page>
       <Head>
         <title>create a style – art3s</title>
-        <meta key="og:title" property="og:title" content={'create a style– art3s'} />
+        <meta key="og:title" property="og:title" content={'create a style – art3s'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />
@@ -18,7 +18,7 @@ export default function CreateAssetStylePage() {
       </Head>
 
       <ConditionRender client>
-        <CreateStyle />
+        <PreviewStyle />
       </ConditionRender>
     </Page>
   );

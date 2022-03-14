@@ -1,7 +1,7 @@
 const Breadcrumbs = ({ navs }: { navs: { name: string; url?: string; active: boolean }[] }) => {
   return (
     <nav className="flex font-thin" aria-label="Breadcrumb">
-      <ol className="inline-flex items-center space-x-1 md:space-x-3">
+      <ol className="inline-flex items-center space-x-1 md:space-x-2">
         {navs
           .filter((a) => a.name)
           .map((nav, i) => (

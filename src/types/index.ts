@@ -23,7 +23,7 @@ interface INestedAggregate {
 }
 
 export interface IAsset {
-  id: string;
+  id: number;
   name: string;
   description?: string;
   user?: IUser;
@@ -34,7 +34,7 @@ export interface IAsset {
 }
 
 export interface IArt {
-  id: string;
+  id: number;
   name: string;
   description?: string;
   user?: IUser;
@@ -56,7 +56,7 @@ export interface IArt {
 }
 
 export interface IItem extends IArt, IAsset {
-  id: string;
+  id: number;
 }
 
 export interface IActiveArt {

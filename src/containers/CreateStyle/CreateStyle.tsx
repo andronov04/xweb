@@ -2,9 +2,11 @@ import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { XContext } from '../../providers/XProvider';
 import UploadFile from '../../components/UploadFile/UploadFile';
+import { useRouter } from 'next/router';
 
 const CreateStyle = () => {
   const xContext = useContext(XContext);
+  const router = useRouter();
 
   return (
     <section className={'h-full'}>
@@ -33,6 +35,7 @@ const CreateStyle = () => {
         <UploadFile
           onSuccess={(data) => {
             console.log('data', data.cid, data.requestHash);
+            router.replace('/create/asset/style/preview').then().catch();
           }}
         />
       </div>

@@ -34,7 +34,8 @@ export class CreArt {
         type: MESSAGE_SEND_ASSET,
         data: this.assets.map((a, i) => {
           return {
-            asset: { ...a, metadata: { name: a.name, artifactUri: DEV_ASSET_URL } }, // TODO Remove test
+            // asset: { ...a, metadata: { name: a.name, artifactUri: DEV_ASSET_URL } }, // TODO Remove test
+            asset: a,
             order: i
             // url: ipfsToUrl(a.metadata?.displayUri ?? ''),
             // url: DEV_ASSET_URL ?? 'http://localhost:8001'
