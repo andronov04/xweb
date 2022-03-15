@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Page from '../../../../components/Page/Page';
 import ConditionRender from '../../../../components/Utils/ConditionRender';
 import { DESCRIPTION_SEO, IMAGE_SEO } from '../../../../constants';
+import PublishStyle from '../../../../containers/CreateStyle/PublishStyle/PublishStyle';
 
 export default function BasePage() {
   return (
@@ -17,7 +18,7 @@ export default function BasePage() {
       </Head>
 
       <ConditionRender client>
-        <div>Publish</div>
+        <PublishStyle />
       </ConditionRender>
     </Page>
   );

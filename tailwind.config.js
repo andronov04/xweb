@@ -70,6 +70,7 @@ module.exports = {
         white10: 'rgba(255, 255, 255, 0.1)',
         white20: 'rgba(255, 255, 255, 0.2)',
         white30: 'rgba(255, 255, 255, 0.3)',
+        warn: '#FF6D03',
         green: '#5AFB1E',
         dark: '#101010',
         dark21: '#212121',
