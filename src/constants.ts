@@ -15,3 +15,5 @@ export const MESSAGE_GENERATE_NEW = 'X_GENERATE_NEW';
 export const MESSAGE_GET_ASSET_META = 'X_GET_ASSET_META';
 export const MESSAGE_GET_DIGEST = 'X_GET_GET_DIGEST';
 export const FILE_API_ASSET_STYLE_URL = process.env.NEXT_PUBLIC_FILE_API_ASSET_STYLE_URL ?? 'http://localhost:8080/upload/file/asset/style';
+export const IFRAME_ALLOW = process.env.NEXT_PUBLIC_IFRAME_ALLOW ?? 'gyroscope; accelerometer; xr-spatial-tracking; microphone; camera;';
+export const IFRAME_SANDBOX = process.env.NEXT_PUBLIC_IFRAME_SANDBOX ?? 'allow-same-origin allow-scripts';

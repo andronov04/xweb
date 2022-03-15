@@ -1,4 +1,4 @@
-import { EDITOR_URL } from '../../../constants';
+import { EDITOR_URL, IFRAME_ALLOW, IFRAME_SANDBOX } from '../../../constants';
 import { useContext, useEffect, useRef } from 'react';
 import { XContext } from '../../../providers/XProvider';
 
@@ -17,15 +17,7 @@ const IframeArt = () => {
 
   return (
     <div className={'border-2 border-solid border-dark21 w-full h-full'}>
-      <iframe
-        ref={refIframe}
-        width={'100%'}
-        height={'100%'}
-        src={EDITOR_URL}
-        className={'iframe'}
-        sandbox={'allow-same-origin allow-scripts'}
-        allow={'gyroscope; accelerometer; xr-spatial-tracking; microphone; camera;'}
-      />
+      <iframe ref={refIframe} width={'100%'} height={'100%'} src={EDITOR_URL} className={'iframe'} sandbox={IFRAME_SANDBOX} allow={IFRAME_ALLOW} />
     </div>
   );
 };

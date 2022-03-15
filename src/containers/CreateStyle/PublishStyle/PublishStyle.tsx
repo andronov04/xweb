@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import Input from '../../../components/Form/Input';
 import { useRef } from 'react';
 import CustomButton from '../../../components/CustomButton/CustomButton';
+import PreviewMedia from './PreviewMedia/PreviewMedia';
 
 const PublishStyle = () => {
   // TODO Validation https://github.com/ianstormtaylor/superstruct one place for use backend and another
@@ -42,7 +43,11 @@ const PublishStyle = () => {
             <input ref={refSubmit} className={'hidden'} type="submit" />
           </form>
         </div>
-        <div className={'w-1/2'}></div>
+        <div className={'w-1/2'}>
+          <div className={'p-4'}>
+            <PreviewMedia url={'http://localhost:8001/'} />
+          </div>
+        </div>
       </div>
       <div className={'flex justify-end items-center space-x-2'}>
         <i className={'font-thin text-sm opacity-90 text-warn'}>warning: edit is not available in beta version</i>
