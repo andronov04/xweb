@@ -5,15 +5,16 @@ interface IInput {
   register: UseFormRegisterReturn;
   label: string;
   placeholder?: string;
+  defaultValue?: string | number;
   type?: HTMLInputTypeAttribute | 'textarea' | undefined;
 }
-const Input = ({ register, label, type, placeholder }: IInput) => (
+const Input = ({ register, label, type, placeholder, defaultValue }: IInput) => (
   <div className={'flex font-thin flex-col'}>
     <label className={'text-inactive'}>{label}</label>
     {type === 'textarea' ? (
-      <textarea {...register} placeholder={placeholder} className={'rounded-sm font-thin bg-black p-2'} />
+      <textarea {...register} defaultValue={defaultValue} placeholder={placeholder} className={'rounded-sm font-thin bg-black p-2'} />
     ) : (
-      <input type={type} {...register} placeholder={placeholder} className={'rounded-sm font-thin bg-black p-2'} />
+      <input defaultValue={defaultValue} type={type} {...register} placeholder={placeholder} className={'rounded-sm font-thin bg-black p-2'} />
     )}
   </div>
 );

@@ -50,7 +50,7 @@ const createCapture = (props: ICapture, updater: () => void) => {
             postFetch(FILE_API_CAPTURE_IMG_URL, formData)
               .then(async (response) => {
                 const data = await response.json();
-                setState({ loading: false, status: '', data });
+                setState({ loading: false, status: '', data: { ...data, hash: event.data.data.hash } });
               })
               .catch((e) => {
                 console.log('error', e);

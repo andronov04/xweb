@@ -19,10 +19,11 @@ const PublishStyle = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log('onSubmit', data);
+    xContext.asset?.publish(data);
   };
 
   useEffect(() => {
+    console.log('xContext.asset', xContext.asset);
     if (!xContext.asset?.cid) {
       router.replace('/create/asset/style');
     }
@@ -39,12 +40,12 @@ const PublishStyle = () => {
           <form className={'flex gap-y-3 flex-col'} onSubmit={handleSubmit(onSubmit)}>
             {errors.name && <p>name is required.</p>}
             {errors.royalties && <p>royalties error.</p>}
-            <Input label={'Name'} placeholder={'Name (max 280 characters)'} register={register('name', { required: true, maxLength: 280 })} />
+            <Input label={'Name'} placeholder={'Name (max 280 characters)'} register={register('name', { required: true, minLength: 3, maxLength: 280 })} />
             <Input
               type={'textarea'}
               placeholder={'Description (max 2048 characters)'}
               label={'Description'}
-              register={register('description', { maxLength: 2048 })}
+              register={register('description', { maxLength: 2048, required: true, minLength: 80 })}
             />
             <Input label={'Tags'} placeholder={'Tags (comma separated)'} register={register('tags', { maxLength: 512 })} />
 
@@ -52,6 +53,7 @@ const PublishStyle = () => {
               <Input
                 label={'Royalties'}
                 type={'number'}
+                defaultValue={0}
                 placeholder={'royalties (0-25%)'}
                 register={register('royalties', { min: 0, max: 25, valueAsNumber: true })}
               />
@@ -67,7 +69,13 @@ const PublishStyle = () => {
       </div>
       <div className={'flex justify-end items-center space-x-2'}>
         <i className={'font-thin text-sm opacity-90 text-warn'}>warning: edit is not available in beta version</i>
-        <CustomButton style={'white'} value={'publish'} />
+        <CustomButton
+          onClick={() => {
+            refSubmit.current?.click();
+          }}
+          style={'white'}
+          value={'publish'}
+        />
       </div>
     </section>
   );

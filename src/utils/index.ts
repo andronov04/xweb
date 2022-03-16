@@ -4,3 +4,7 @@ export const ipfsToUrl = (ipfs: string): string => {
   const preIpfs = ipfs.slice(7);
   return `${IPFS_PREFIX_URL}${preIpfs}`;
 };
+
+export const urlToIpfs = (ipfs: string): string => {
+  return `ipfs://${ipfs}`;
+};

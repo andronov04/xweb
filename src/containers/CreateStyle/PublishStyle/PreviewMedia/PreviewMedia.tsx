@@ -1,14 +1,16 @@
 import { IFRAME_ALLOW, IFRAME_SANDBOX, IPFS_PREFIX_URL, MESSAGE_GET_CAPTURE_IMG } from '../../../../constants';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { useCapture } from '../../../../hooks/use-capture/useCapture';
 import Loader from '../../../../components/Utils/Loader';
+import { XContext } from '../../../../providers/XProvider';
 
 interface IPreviewMedia {
   url: string;
 }
 
 const PreviewMedia = ({ url }: IPreviewMedia) => {
+  const xContext = useContext(XContext);
   const [requestId, setRequestId] = useState<string>('initial');
   const refIframe = useRef<HTMLIFrameElement | null>(null);
   const {
@@ -18,6 +20,12 @@ const PreviewMedia = ({ url }: IPreviewMedia) => {
   } = useCapture();
 
   // console.log('loading', loading, status, data);
+  useEffect(() => {
+    if (data) {
+      console.log('xContext', xContext);
+      xContext?.asset?.setPreview([data.cid], data.hash);
+    }
+  }, [data]);
 
   // useEffect(() => {
   //   return () => {};

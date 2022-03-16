@@ -18,7 +18,7 @@ const initialContext: IXContext = {
   user: null,
   wallet: null,
   art: null,
-  asset: null,
+  asset: new CreAsset(),
   connect: () => new Promise(() => false),
   disconnect: () => {
     /**/
@@ -38,7 +38,6 @@ export const XProvider = ({ children }: PropsWithChildren<unknown>) => {
       ...initialContext,
       wallet,
       art: new CreArt(),
-      asset: new CreAsset(),
       connect: async () => {
         /**/
         const tzId = await wallet.connect();
