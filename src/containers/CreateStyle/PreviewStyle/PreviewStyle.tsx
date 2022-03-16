@@ -5,8 +5,11 @@ import { XContext } from '../../../providers/XProvider';
 import IframeArt from '../../CreateArt/Iframe/Iframe';
 import { IAsset } from '../../../types';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Loader from '../../../components/Utils/Loader';
 
 const PreviewStyle = () => {
+  const router = useRouter();
   const [assets, setAssets] = useState<IAsset[]>([]); // TODO Set interface
   const xContext = useContext(XContext);
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -33,6 +36,10 @@ const PreviewStyle = () => {
   }, []);
 
   useEffect(() => {
+    if (!xContext.asset?.cid) {
+      router.replace('/create/asset/style');
+    }
+
     if (refContainer.current) {
       const offset = 50;
       const rect = refContainer.current?.getBoundingClientRect();
@@ -41,6 +48,10 @@ const PreviewStyle = () => {
       setSize({ width, height });
     }
   }, []);
+
+  if (!xContext.asset?.cid) {
+    return <Loader />;
+  }
 
   return (
     <section className={'h-full'}>

@@ -3,11 +3,13 @@ import { useAsync } from 'react-async-hook';
 import { WalletApi } from '../api/WalletApi';
 import { IWalletUser } from '../types';
 import { CreArt } from '../services/creart';
+import { CreAsset } from '../services/creasset';
 
 interface IXContext {
   user: IWalletUser | null;
   wallet: WalletApi | null;
   art: CreArt | null;
+  asset: CreAsset | null;
   connect: () => Promise<void>;
   disconnect: () => void;
 }
@@ -16,6 +18,7 @@ const initialContext: IXContext = {
   user: null,
   wallet: null,
   art: null,
+  asset: null,
   connect: () => new Promise(() => false),
   disconnect: () => {
     /**/
@@ -35,6 +38,7 @@ export const XProvider = ({ children }: PropsWithChildren<unknown>) => {
       ...initialContext,
       wallet,
       art: new CreArt(),
+      asset: new CreAsset(),
       connect: async () => {
         /**/
         const tzId = await wallet.connect();

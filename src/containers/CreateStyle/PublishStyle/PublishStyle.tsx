@@ -1,10 +1,15 @@
 import { useForm } from 'react-hook-form';
 import Input from '../../../components/Form/Input';
-import { useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import PreviewMedia from './PreviewMedia/PreviewMedia';
+import { XContext } from '../../../providers/XProvider';
+import Loader from '../../../components/Utils/Loader';
+import { useRouter } from 'next/router';
 
 const PublishStyle = () => {
+  const router = useRouter();
+  const xContext = useContext(XContext);
   // TODO Validation https://github.com/ianstormtaylor/superstruct one place for use backend and another
   const refSubmit = useRef<HTMLInputElement | null>(null);
   const {
@@ -12,9 +17,20 @@ const PublishStyle = () => {
     handleSubmit,
     formState: { errors }
   } = useForm();
+
   const onSubmit = (data) => {
     console.log('onSubmit', data);
   };
+
+  useEffect(() => {
+    if (!xContext.asset?.cid) {
+      router.replace('/create/asset/style');
+    }
+  }, []);
+
+  if (!xContext.asset?.cid) {
+    return <Loader />;
+  }
 
   return (
     <section className={'h-full'}>

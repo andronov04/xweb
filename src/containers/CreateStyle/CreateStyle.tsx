@@ -34,7 +34,9 @@ const CreateStyle = () => {
       <div>
         <UploadFile
           onSuccess={(data) => {
-            console.log('data', data.cid, data.requestHash);
+            if (data.cid && data.requestHash) {
+              xContext.asset?.initAsset(data.cid, data.requestHash);
+            }
             router.replace('/create/asset/style/preview').then().catch();
           }}
         />
