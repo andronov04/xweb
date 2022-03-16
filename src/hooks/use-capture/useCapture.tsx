@@ -1,5 +1,6 @@
 import React, { RefObject, useEffect } from 'react';
-import { MESSAGE_GET_CAPTURE_IMG, MESSAGE_GET_DIGEST } from '../../constants';
+import { FILE_API_CAPTURE_IMG_URL, MESSAGE_GET_CAPTURE_IMG, MESSAGE_GET_DIGEST } from '../../constants';
+import { postFetch } from '../../api/RestApi';
 
 interface ICapture {}
 
@@ -43,6 +44,17 @@ const createCapture = (props: ICapture, updater: () => void) => {
           if (event.data?.type === MESSAGE_GET_CAPTURE_IMG) {
             console.log('MESSAGE_GET_CAPTURE_IMG', event.data);
             setState({ status: 'Upload image to ipfs...' });
+            const formData = new FormData();
+            formData.append('file', event.data.data.blob);
+            postFetch(FILE_API_CAPTURE_IMG_URL, formData)
+              .then(async (response) => {
+                const data = await response.json();
+                console.log('response', data);
+              })
+              .catch((e) => {
+                console.log('error', e);
+                setState({ loading: false, status: '' });
+              });
           }
         },
         false

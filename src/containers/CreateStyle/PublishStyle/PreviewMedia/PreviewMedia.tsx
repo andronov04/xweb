@@ -42,7 +42,7 @@ const PreviewMedia = ({ url }: IPreviewMedia) => {
               <Loader />
             </div>
           ) : (
-            <div>
+            <div className={'flex flex-col gap-y-4 justify-center items-center'}>
               <button className={'block bg-black p-2 opacity-20 hover:opacity-80 rounded-sm'}>set as preview</button>
               <button
                 onClick={() => {
