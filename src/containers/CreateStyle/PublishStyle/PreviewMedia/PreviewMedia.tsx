@@ -1,51 +1,86 @@
-import { IFRAME_ALLOW, IFRAME_SANDBOX } from '../../../../constants';
-import { useRef, useState } from 'react';
+import { IFRAME_ALLOW, IFRAME_SANDBOX, MESSAGE_GET_CAPTURE_IMG } from '../../../../constants';
+import { useEffect, useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
+import { useCapture } from '../../../../hooks/use-capture/useCapture';
+import Loader from '../../../../components/Utils/Loader';
 
 interface IPreviewMedia {
   url: string;
 }
 
 const PreviewMedia = ({ url }: IPreviewMedia) => {
-  const [requestId, setRequestId] = useState<string>('');
+  const [requestId, setRequestId] = useState<string>('initial');
   const refIframe = useRef<HTMLIFrameElement | null>(null);
+  const {
+    setup,
+    capture,
+    captureState: { loading, status }
+  } = useCapture();
+
+  console.log('loading', loading, status);
+
+  // useEffect(() => {
+  //   return () => {};
+  // }, []);
+  const fullUrl = `${url}?immediately=1&requestId=${requestId}`;
 
   return (
-    <div
-      style={{
-        width: '500px',
-        height: '500px'
-      }}
-      className={'group bg-black flex relative justify-center items-center'}
-    >
-      <div className={'absolute z-10 w-full h-full flex flex-col gap-y-4 justify-center items-center'}>
-        <button className={'block bg-black p-2 opacity-20 hover:opacity-80 rounded-sm'}>set as preview</button>
-        <button
-          onClick={() => {
-            setRequestId(nanoid());
-          }}
-          className={'block bg-black p-2 opacity-20 hover:opacity-80 rounded-sm'}
-        >
-          show another
-        </button>
-      </div>
-
+    <div className={'w-full h-full flex justify-center items-center'}>
       <div
         style={{
           width: '500px',
           height: '500px'
         }}
-        className={'relative cursor-pointer opacity-10 group-hover:opacity-100'}
+        onClick={capture}
+        className={'group bg-black flex relative justify-center items-center'}
       >
-        <iframe
-          ref={refIframe}
-          width={'100%'}
-          height={'100%'}
-          src={`${url}?immediately=1&requestId=${requestId}`}
-          className={'iframe select-none'}
-          sandbox={IFRAME_SANDBOX}
-          allow={IFRAME_ALLOW}
-        />
+        <div></div>
+        <div className={`absolute z-10 w-full h-full flex flex-col gap-y-4 justify-center items-center`}>
+          {loading ? (
+            <div>
+              <p className={'font-thin text-center'}>{status}</p>
+              <Loader />
+            </div>
+          ) : (
+            <div>
+              <button className={'block bg-black p-2 opacity-20 hover:opacity-80 rounded-sm'}>set as preview</button>
+              <button
+                onClick={() => {
+                  setRequestId(nanoid());
+                }}
+                className={'block bg-black p-2 opacity-20 hover:opacity-80 rounded-sm'}
+              >
+                show another
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div
+          style={{
+            width: '500px',
+            height: '500px'
+          }}
+          className={`relative ${loading ? 'invisible' : ''} cursor-pointer opacity-10 group-hover:opacity-100`}
+        >
+          <iframe
+            {...setup({
+              ref: refIframe,
+              postData: {
+                type: MESSAGE_GET_CAPTURE_IMG,
+                requestId,
+                url: fullUrl
+              }
+            })}
+            ref={refIframe}
+            width={'100%'}
+            height={'100%'}
+            src={fullUrl}
+            className={'iframe select-none'}
+            sandbox={IFRAME_SANDBOX}
+            allow={IFRAME_ALLOW}
+          />
+        </div>
       </div>
     </div>
   );
