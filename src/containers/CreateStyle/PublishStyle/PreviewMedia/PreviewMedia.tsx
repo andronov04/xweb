@@ -1,4 +1,4 @@
-import { IFRAME_ALLOW, IFRAME_SANDBOX, MESSAGE_GET_CAPTURE_IMG } from '../../../../constants';
+import { IFRAME_ALLOW, IFRAME_SANDBOX, IPFS_PREFIX_URL, MESSAGE_GET_CAPTURE_IMG } from '../../../../constants';
 import { useEffect, useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { useCapture } from '../../../../hooks/use-capture/useCapture';
@@ -14,10 +14,10 @@ const PreviewMedia = ({ url }: IPreviewMedia) => {
   const {
     setup,
     capture,
-    captureState: { loading, status }
+    captureState: { loading, status, data }
   } = useCapture();
 
-  console.log('loading', loading, status);
+  // console.log('loading', loading, status, data);
 
   // useEffect(() => {
   //   return () => {};
@@ -26,13 +26,22 @@ const PreviewMedia = ({ url }: IPreviewMedia) => {
 
   return (
     <div className={'w-full h-full flex justify-center items-center'}>
+      {data && (
+        <img
+          style={{
+            minWidth: '500px',
+            minHeight: '500px'
+          }}
+          alt={'Name'}
+          src={`${IPFS_PREFIX_URL}${data.cid}`}
+        />
+      )}
       <div
         style={{
           width: '500px',
           height: '500px'
         }}
-        onClick={capture}
-        className={'group bg-black flex relative justify-center items-center'}
+        className={`${data ? 'hidden' : ''} group bg-black flex relative justify-center items-center`}
       >
         <div></div>
         <div className={`absolute z-10 w-full h-full flex flex-col gap-y-4 justify-center items-center`}>
@@ -43,7 +52,9 @@ const PreviewMedia = ({ url }: IPreviewMedia) => {
             </div>
           ) : (
             <div className={'flex flex-col gap-y-4 justify-center items-center'}>
-              <button className={'block bg-black p-2 opacity-20 hover:opacity-80 rounded-sm'}>set as preview</button>
+              <button onClick={capture} className={'block bg-black p-2 opacity-20 hover:opacity-80 rounded-sm'}>
+                set as preview
+              </button>
               <button
                 onClick={() => {
                   setRequestId(nanoid());

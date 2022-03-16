@@ -19,7 +19,8 @@ const createCapture = (props: ICapture, updater: () => void) => {
   let _controlState = {
     loading: false,
     status: '',
-    error: ''
+    error: '',
+    data: null
   };
   let init = false;
   let postData: null | ICaptureSetupData = null;
@@ -49,7 +50,7 @@ const createCapture = (props: ICapture, updater: () => void) => {
             postFetch(FILE_API_CAPTURE_IMG_URL, formData)
               .then(async (response) => {
                 const data = await response.json();
-                console.log('response', data);
+                setState({ loading: false, status: '', data });
               })
               .catch((e) => {
                 console.log('error', e);
@@ -87,6 +88,7 @@ interface ICaptureState {
   loading: boolean;
   status: string;
   error: string;
+  data: any | null;
 }
 
 export const useCapture = (props: ICapture = {}) => {
@@ -94,7 +96,8 @@ export const useCapture = (props: ICapture = {}) => {
   const [captureState, setCaptureState] = React.useState<ICaptureState>({
     loading: false,
     status: '',
-    error: ''
+    error: '',
+    data: null
   });
   // loading, errors, message (loading)
   const control = _reference.current?.control;
