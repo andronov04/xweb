@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Page from '../components/Page/Page';
+import Page from '../containers/Page/Page';
 import { DESCRIPTION_SEO, IMAGE_SEO } from '../constants';
 import ConditionRender from '../components/Utils/ConditionRender';
 import Marketplace from 'src/containers/Marketplace/Marketplace';

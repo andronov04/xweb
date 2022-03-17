@@ -1,4 +1,4 @@
-import Page from '../components/Page/Page';
+import Page from '../containers/Page/Page';
 import Head from 'next/head';
 import GraphqlApi from '../api/GraphqlApi';
 import { QL_GET_USER } from '../api/queries';

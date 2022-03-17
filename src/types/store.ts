@@ -19,7 +19,15 @@ export interface ITempArt {
   digest: string;
 }
 
+export interface IMessageBar {
+  kind: 'error' | 'warn' | 'info' | 'success';
+  title: string;
+  description?: string;
+}
+
 export interface IStore {
   asset: ITempAsset;
   art: ITempArt;
+  message: IMessageBar | null;
+  setMessage: (message: IMessageBar | null) => void;
 }

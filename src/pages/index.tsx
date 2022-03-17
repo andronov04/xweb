@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Page from '../components/Page/Page';
+import Page from '../containers/Page/Page';
 import { DESCRIPTION_SEO, IMAGE_SEO } from '../constants';
 
 export default function Home() {

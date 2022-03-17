@@ -69,7 +69,12 @@ export const useStore = create<IStore>((set, get) => ({
         EDITOR_URL
       );
     }
-  }
+  },
+  message: {
+    title: 'Message',
+    kind: 'success'
+  },
+  setMessage: (message) => set((state) => ({ message }))
 }));
 
 if (typeof window !== 'undefined') {

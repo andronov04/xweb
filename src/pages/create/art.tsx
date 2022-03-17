@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { DESCRIPTION_SEO, IMAGE_SEO } from '../../constants';
-import Page from '../../components/Page/Page';
+import Page from '../../containers/Page/Page';
 import ConditionRender from '../../components/Utils/ConditionRender';
 import CreateArt from '../../containers/CreateArt/CreateArt';
 

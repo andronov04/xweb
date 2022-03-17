@@ -1,8 +1,8 @@
 import Head from 'next/head';
-import Page from '../components/Page/Page';
 import Explore from '../containers/Explore/Explore';
 import ConditionRender from '../components/Utils/ConditionRender';
 import { DESCRIPTION_SEO, IMAGE_SEO } from '../constants';
+import Page from '../containers/Page/Page';
 
 export default function ExplorePage() {
   return (

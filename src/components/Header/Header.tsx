@@ -2,7 +2,7 @@ import Menu from '../Menu/Menu';
 
 function Header() {
   return (
-    <header className={'flex items-center justify-between'}>
+    <header id={'header'} className={'flex items-center justify-between'}>
       <div>
         <a href={'/'} className={'flex items-center'}>
           <span>
