@@ -6,6 +6,10 @@ import PreviewMedia from './PreviewMedia/PreviewMedia';
 import Loader from '../../../components/Utils/Loader';
 import { useRouter } from 'next/router';
 import { useStore } from '../../../store';
+import { useContract } from '../../../hooks/use-contract/useContract';
+import { getWallet } from '../../../api/WalletApi';
+import { MintAssetCallData } from '../../../types/contract';
+import { strToByteStr } from '../../../utils/string';
 
 const PublishStyle = () => {
   const asset = useStore((state) => state.asset);
@@ -17,20 +21,27 @@ const PublishStyle = () => {
     handleSubmit,
     formState: { errors }
   } = useForm();
+  const {
+    call,
+    state: { loading, status, result: hash }
+  } = useContract<MintAssetCallData>(getWallet().mintAsset);
+  console.log('useContract:::', loading, status);
+
+  // useEffect(())
 
   const onSubmit = (data) => {
     console.log('publish', data);
   };
 
   useEffect(() => {
-    if (!asset?.cid) {
-      router.replace('/create/asset/style');
-    }
+    // if (!asset?.cid) {
+    //   router.replace('/create/asset/style');
+    // }
   }, []);
 
-  if (!asset?.cid) {
-    return <Loader />;
-  }
+  // if (!asset?.cid) {
+  //   return <Loader />;
+  // }
 
   return (
     <section className={'h-full'}>
@@ -70,7 +81,13 @@ const PublishStyle = () => {
         <i className={'font-thin text-sm opacity-90 text-warn'}>warning: edit is not available in beta version</i>
         <CustomButton
           onClick={() => {
-            refSubmit.current?.click();
+            call({
+              enabled: true,
+              metadata: strToByteStr('ipfs://QmbLPqeBM9Stv7xRb9J8ou4qMmL7TqtPakNMXfK4rmmbg6'),
+              min_price: 156,
+              royalties: 122
+            });
+            // refSubmit.current?.click();
           }}
           style={'white'}
           value={'publish'}
