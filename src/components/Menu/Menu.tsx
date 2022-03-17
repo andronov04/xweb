@@ -1,10 +1,10 @@
-import { XContext } from '../../providers/XProvider';
-import { useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useStore } from '../../store';
+import shallow from 'zustand/shallow';
 
 const Menu = () => {
-  const userContext = useContext(XContext);
+  const [user, connectUser] = useStore((state) => [state.user, state.connectUser], shallow);
   const router = useRouter();
 
   return (
@@ -27,12 +27,12 @@ const Menu = () => {
             </Link>
           </li>
           <li className={`hover:text-active ${router.pathname.startsWith('/[id]') && 'text-active'}`}>
-            {userContext.user ? (
-              <Link href={`/@${userContext.user.username ?? userContext.user.id}`}>
-                <a href={`/@${userContext.user.username ?? userContext.user.id}`}>profile</a>
+            {user ? (
+              <Link href={`/@${user.username ?? user.id}`}>
+                <a href={`/@${user.username ?? user.id}`}>profile</a>
               </Link>
             ) : (
-              <div className={'cursor-pointer'} onClick={userContext.connect}>
+              <div className={'cursor-pointer'} onClick={connectUser}>
                 connect wallet
               </div>
             )}

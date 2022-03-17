@@ -6,7 +6,6 @@ import PreviewMedia from './PreviewMedia/PreviewMedia';
 import Loader from '../../../components/Utils/Loader';
 import { useRouter } from 'next/router';
 import { useStore } from '../../../store';
-import { publish } from 'rxjs/operators';
 
 const PublishStyle = () => {
   const asset = useStore((state) => state.asset);
@@ -21,7 +20,6 @@ const PublishStyle = () => {
 
   const onSubmit = (data) => {
     console.log('publish', data);
-    // xContext.asset?.publish(data);
   };
 
   useEffect(() => {

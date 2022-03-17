@@ -1,4 +1,4 @@
-import { IAsset } from './index';
+import { IAsset, IUser } from './index';
 
 export interface ITempAsset {
   kind: 'style' | null;
@@ -28,6 +28,11 @@ export interface IMessageBar {
 export interface IStore {
   asset: ITempAsset;
   art: ITempArt;
+
   message: IMessageBar | null;
   setMessage: (message: IMessageBar | null) => void;
+
+  user: IUser | null;
+  connectUser: () => Promise<void>;
+  initUser: () => Promise<void>;
 }

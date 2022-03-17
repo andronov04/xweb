@@ -1,7 +1,5 @@
 import { IUser } from '../../types';
 import Avatar from '../../components/Avatar/Avatar';
-import { useContext } from 'react';
-import { XContext } from '../../providers/XProvider';
 import CustomButton from 'src/components/CustomButton/CustomButton';
 import Spacing from '../../components/Spacing/Spacing';
 import Link from 'next/link';
@@ -9,11 +7,12 @@ import { useRouter } from 'next/router';
 import ConditionRender from 'src/components/Utils/ConditionRender';
 import UserItems, { IUserItemsVariables } from './UserItems';
 import { QL_GET_TOKENS_BY_USER, QL_GET_TOKEN_OWNED_ITEMS_BY_USER, QL_GET_TOKEN_SALES_ITEMS_BY_USER, QL_GET_SCRIPS_BY_USER } from '../../api/queries';
+import { useStore } from '../../store';
 
 const UserProfile = ({ user }: { user: IUser }) => {
+  const stateUser = useStore((state) => state.user);
   const router = useRouter();
-  const userContext = useContext(XContext);
-  const isCurrent = user.id === userContext.user?.id;
+  const isCurrent = user.id === stateUser?.id;
   const url = `/@${user.username ?? user.id}`;
   let query = QL_GET_TOKENS_BY_USER;
   let variables: IUserItemsVariables = { user_id: user.id };

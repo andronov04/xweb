@@ -3,7 +3,7 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { RPC_LIST, TZ_NETWORK } from '../constants';
 import { NetworkType } from '@airgap/beacon-sdk/dist/cjs/types/beacon/NetworkType';
 
-export class WalletApi {
+class WalletApi {
   wallet: BeaconWallet;
   rpcl: string[] = [];
   tzToolkit: TezosToolkit;
@@ -49,3 +49,10 @@ export class WalletApi {
     }
   }
 }
+let wallet;
+export const getWallet = (): WalletApi => {
+  if (!wallet) {
+    wallet = new WalletApi();
+  }
+  return wallet;
+};

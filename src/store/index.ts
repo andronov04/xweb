@@ -3,6 +3,8 @@ import produce from 'immer';
 import { IStore } from '../types/store';
 import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_DIGEST } from '../constants';
 import { nanoid } from 'nanoid';
+import { getWallet } from '../api/WalletApi';
+import { IUser } from '../types';
 
 let artProxy;
 export const useStore = create<IStore>((set, get) => ({
@@ -70,8 +72,31 @@ export const useStore = create<IStore>((set, get) => ({
       );
     }
   },
+
   message: null,
-  setMessage: (message) => set((state) => ({ message }))
+  setMessage: (message) => set((state) => ({ message })),
+
+  user: null,
+  initUser: async () => {
+    const tzId = await getWallet().connectLocalStorage();
+    let user: IUser | null = null;
+    if (tzId) {
+      user = {
+        id: tzId
+      };
+    }
+    set({ user });
+  },
+  connectUser: async () => {
+    const tzId = await getWallet().connect();
+    let user: IUser | null = null;
+    if (tzId) {
+      user = {
+        id: tzId
+      };
+    }
+    set({ user });
+  }
 }));
 
 if (typeof window !== 'undefined') {
