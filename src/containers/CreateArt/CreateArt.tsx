@@ -1,21 +1,15 @@
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import IframeArt from './Iframe/Iframe';
-import { XContext } from '../../providers/XProvider';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Items from '../../components/Items/Items';
 import { QL_GET_ASSET_ITEMS } from '../../api/queries';
-import { IAsset } from '../../types';
+import { useStore } from '../../store';
 
 const CreateArt = () => {
-  const [assets, setAssets] = useState<IAsset[]>([]); // TODO Set interface
-  const xContext = useContext(XContext);
+  const art = useStore((state) => state.art);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const refContainer = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    xContext.art?.setAssets(assets);
-  }, [assets]);
 
   useEffect(() => {
     if (refContainer.current) {
@@ -42,7 +36,7 @@ const CreateArt = () => {
                 active: true
               },
               {
-                name: assets?.[0]?.name ?? '',
+                name: art.assets?.[0]?.name ?? '',
                 active: false
               }
             ]}
@@ -52,7 +46,7 @@ const CreateArt = () => {
         <div className={'flex-grow text-center'}>
           <button
             onClick={() => {
-              xContext.art?.generate();
+              art.generate();
             }}
             className={'outline-0 hover:opacity-80 text-base cursor-pointer z-30 top-2 px-3 py-1 bg-dart2C rounded-sm'}
           >
@@ -80,7 +74,7 @@ const CreateArt = () => {
       </div>
 
       <div id={'digest'} className={'pt-2 h-3 text-xs font-thin'}>
-        {/*{xContext.art?.digest ?? 'hash'}*/}
+        {art.digest ?? 'hash'}
       </div>
 
       <div>
@@ -94,13 +88,13 @@ const CreateArt = () => {
         <Items
           kind={'asset'}
           mode={'selected'}
-          activeIds={assets.map((a) => a.id)}
+          activeIds={art.assets.map((a) => a.id)}
           onClickItem={(item) => {
             // Now only once
-            if (assets.includes(item)) {
-              setAssets([]);
+            if (art.assets.includes(item)) {
+              art.setAssets([]);
             } else {
-              setAssets([item]);
+              art.setAssets([item]);
             }
           }}
           query={QL_GET_ASSET_ITEMS}

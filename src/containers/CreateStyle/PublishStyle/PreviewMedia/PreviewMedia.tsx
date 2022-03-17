@@ -1,16 +1,16 @@
 import { IFRAME_ALLOW, IFRAME_SANDBOX, IPFS_PREFIX_URL, MESSAGE_GET_CAPTURE_IMG } from '../../../../constants';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { useCapture } from '../../../../hooks/use-capture/useCapture';
 import Loader from '../../../../components/Utils/Loader';
-import { XContext } from '../../../../providers/XProvider';
+import { useStore } from '../../../../store';
 
 interface IPreviewMedia {
   url: string;
 }
 
 const PreviewMedia = ({ url }: IPreviewMedia) => {
-  const xContext = useContext(XContext);
+  const asset = useStore((state) => state.asset);
   const [requestId, setRequestId] = useState<string>('initial');
   const refIframe = useRef<HTMLIFrameElement | null>(null);
   const {
@@ -22,8 +22,7 @@ const PreviewMedia = ({ url }: IPreviewMedia) => {
   // console.log('loading', loading, status, data);
   useEffect(() => {
     if (data) {
-      console.log('xContext', xContext);
-      xContext?.asset?.setPreview([data.cid], data.hash);
+      asset?.setPreview([data.cid], data.hash);
     }
   }, [data]);
 
@@ -51,7 +50,6 @@ const PreviewMedia = ({ url }: IPreviewMedia) => {
         }}
         className={`${data ? 'hidden' : ''} group bg-black flex relative justify-center items-center`}
       >
-        <div></div>
         <div className={`absolute z-10 w-full h-full flex flex-col gap-y-4 justify-center items-center`}>
           {loading ? (
             <div>

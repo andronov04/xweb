@@ -1,11 +1,10 @@
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { XContext } from '../../providers/XProvider';
 import UploadFile from '../../components/UploadFile/UploadFile';
 import { useRouter } from 'next/router';
+import { useStore } from '../../store';
 
 const CreateStyle = () => {
-  const xContext = useContext(XContext);
+  const asset = useStore((state) => state.asset);
   const router = useRouter();
 
   return (
@@ -35,9 +34,9 @@ const CreateStyle = () => {
         <UploadFile
           onSuccess={(data) => {
             if (data.cid && data.requestHash) {
-              xContext.asset?.initAsset(data.cid, data.requestHash);
+              asset.setAsset(data.cid, data.requestHash, 'style');
+              router.replace('/create/asset/style/preview').then().catch();
             }
-            router.replace('/create/asset/style/preview').then().catch();
           }}
         />
       </div>

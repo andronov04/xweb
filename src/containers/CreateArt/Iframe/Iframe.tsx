@@ -1,18 +1,19 @@
 import { EDITOR_URL, IFRAME_ALLOW, IFRAME_SANDBOX } from '../../../constants';
-import { useContext, useEffect, useRef } from 'react';
-import { XContext } from '../../../providers/XProvider';
+import { useEffect, useRef } from 'react';
+import { useStore } from '../../../store';
 
 const IframeArt = () => {
-  const xContext = useContext(XContext);
+  const art = useStore((state) => state.art);
   const refIframe = useRef<HTMLIFrameElement | null>(null);
 
   useEffect(() => {
     setTimeout(() => {
       if (refIframe.current?.contentWindow) {
-        xContext.art?.setProxy(refIframe.current?.contentWindow);
+        art.setProxy(refIframe.current?.contentWindow);
+        art.emit();
       }
     }, 1000);
-    xContext.art?.emit();
+    // TODO Cleanup
   }, []);
 
   return (

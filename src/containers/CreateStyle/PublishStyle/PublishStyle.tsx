@@ -1,15 +1,16 @@
 import { useForm } from 'react-hook-form';
 import Input from '../../../components/Form/Input';
-import { useContext, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import PreviewMedia from './PreviewMedia/PreviewMedia';
-import { XContext } from '../../../providers/XProvider';
 import Loader from '../../../components/Utils/Loader';
 import { useRouter } from 'next/router';
+import { useStore } from '../../../store';
+import { publish } from 'rxjs/operators';
 
 const PublishStyle = () => {
+  const asset = useStore((state) => state.asset);
   const router = useRouter();
-  const xContext = useContext(XContext);
   // TODO Validation https://github.com/ianstormtaylor/superstruct one place for use backend and another
   const refSubmit = useRef<HTMLInputElement | null>(null);
   const {
@@ -19,17 +20,17 @@ const PublishStyle = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    xContext.asset?.publish(data);
+    console.log('publish', data);
+    // xContext.asset?.publish(data);
   };
 
   useEffect(() => {
-    console.log('xContext.asset', xContext.asset);
-    if (!xContext.asset?.cid) {
+    if (!asset?.cid) {
       router.replace('/create/asset/style');
     }
   }, []);
 
-  if (!xContext.asset?.cid) {
+  if (!asset?.cid) {
     return <Loader />;
   }
 
