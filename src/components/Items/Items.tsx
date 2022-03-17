@@ -19,7 +19,8 @@ interface IItems {
 }
 
 const Items = ({ variables, mode, query, kind, onClickItem, activeIds }: IItems) => {
-  const { data, loading, fetchMore, refetch } = useQuery(query, {
+  const { data, loading } = useQuery(query, {
+    //, fetchMore, refetch
     notifyOnNetworkStatusChange: true,
     variables: {
       offset: 0,

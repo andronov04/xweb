@@ -10,6 +10,10 @@ import { useContract } from '../../../hooks/use-contract/useContract';
 import { getWallet } from '../../../api/WalletApi';
 import { MintAssetCallData } from '../../../types/contract';
 import { strToByteStr } from '../../../utils/string';
+import { IAssetMetadata } from '../../../types/metadata';
+import { ipfsToUrl, urlToIpfs } from '../../../utils';
+import { postDataFetch } from '../../../api/RestApi';
+import { API_META_ASSET_URL } from '../../../constants';
 
 const PublishStyle = () => {
   const asset = useStore((state) => state.asset);
@@ -28,8 +32,37 @@ const PublishStyle = () => {
   console.log('useContract:::', loading, status);
 
   // useEffect(())
+  const onSubmit = async (data) => {
+    const previewImage = asset.previews[0];
 
-  const onSubmit = (data) => {
+    // Generate meta
+    const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
+    const metadata: IAssetMetadata = {
+      name: data.name,
+      description: data.description,
+      tags: tags,
+      artifactUri: `${urlToIpfs(asset.cid)}?xhash=${asset.hash}`,
+      displayUri: urlToIpfs(previewImage),
+      thumbnailUri: urlToIpfs(previewImage),
+      symbol: 'AASSET',
+      decimals: 0,
+      version: '0.1'
+    };
+
+    // console.log('metadata', metadata);
+    const response = await postDataFetch(API_META_ASSET_URL, metadata);
+    if (response.status !== 200) {
+      return; // TODO Error
+    }
+    const result = await response.json();
+    const { cid: metadataCid } = result;
+
+    call({
+      enabled: true,
+      metadata: strToByteStr(`ipfs://${metadataCid}`),
+      min_price: 0,
+      royalties: data.royalties
+    });
     console.log('publish', data);
   };
 
@@ -73,7 +106,7 @@ const PublishStyle = () => {
         </div>
         <div className={'w-1/2'}>
           <div className={'p-4'}>
-            <PreviewMedia url={'http://localhost:8001/'} />
+            <PreviewMedia url={ipfsToUrl(urlToIpfs(asset.cid))} />
           </div>
         </div>
       </div>
@@ -81,13 +114,7 @@ const PublishStyle = () => {
         <i className={'font-thin text-sm opacity-90 text-warn'}>warning: edit is not available in beta version</i>
         <CustomButton
           onClick={() => {
-            call({
-              enabled: true,
-              metadata: strToByteStr('ipfs://QmbLPqeBM9Stv7xRb9J8ou4qMmL7TqtPakNMXfK4rmmbg6'),
-              min_price: 156,
-              royalties: 122
-            });
-            // refSubmit.current?.click();
+            refSubmit.current?.click();
           }}
           style={'white'}
           value={'publish'}

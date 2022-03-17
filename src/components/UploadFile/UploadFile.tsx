@@ -27,7 +27,7 @@ const UploadFile = ({ onSuccess, onError, onStart }: IUploadFile) => {
     if (error) {
       onError?.(error);
     }
-  }, [error]);
+  }, [error, onError]);
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -60,7 +60,6 @@ const UploadFile = ({ onSuccess, onError, onStart }: IUploadFile) => {
   const handleFiles = async (files: FileList) => {
     onStart?.();
     // TODO Validation files
-    console.log('handleFiles:::', files);
     if (files.length) {
       const data = new FormData();
       data.append('file', files[0]);

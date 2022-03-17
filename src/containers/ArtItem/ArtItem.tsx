@@ -87,12 +87,12 @@ const ArtItem = ({ item }: { item: IArt }) => {
             <span className={'text-active'}>{item.tags.join(', ')}</span>
           </div>
         )}
-        {item.metadata_uri && (
+        {item.metadataUri && (
           <div className={'flex'}>
             <span className={'pr-1'}>Metadata: </span>
             <span>
               <Link href={'ff'}>
-                <a target={'_blank'} rel={'noreferrer'} href={ipfsToUrl(item.metadata_uri)} className={'text-active hover:text-inactive'}>
+                <a target={'_blank'} rel={'noreferrer'} href={ipfsToUrl(item.metadataUri)} className={'text-active hover:text-inactive'}>
                   view on IPFS
                 </a>
               </Link>

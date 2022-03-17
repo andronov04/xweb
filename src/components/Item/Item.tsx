@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { IItem } from '../../types';
 import { ipfsToUrl } from '../../utils';
-import { useState } from 'react';
 
 const getUrl = (item: IItem) => {
   if (item.__typename === 'scripts') {
@@ -24,7 +23,7 @@ const ItemContent = ({ item }: { item: IItem }) => {
       style={{
         paddingTop: '100%',
         backgroundSize: 'cover',
-        backgroundImage: `url(${ipfsToUrl(item.metadata?.thumbnailUri)})`
+        backgroundImage: `url(${ipfsToUrl(item.metadata?.thumbnailUri ?? '')})`
       }}
       className={'w-full bg-black rounded-sm '}
     />
@@ -33,7 +32,7 @@ const ItemContent = ({ item }: { item: IItem }) => {
 
 const Item = ({ item, price, mode, onClickItem, active }: IItemComp) => {
   const plural_suggest = () => {
-    const count = item.token_assets_aggregate?.aggregate?.count ?? 0;
+    const count = item.assetTokenAssets_aggregate?.aggregate?.count ?? 0;
     return count > 1 ? `${count} arts` : `${count} art`;
   };
   return (
@@ -64,11 +63,11 @@ const Item = ({ item, price, mode, onClickItem, active }: IItemComp) => {
             </a>
           </Link>
           <div className={'flex justify-between'}>
-            {item.token_assets_aggregate?.aggregate?.count && (
+            {item.assetTokenAssets_aggregate?.aggregate?.count ? (
               <p className={'font-light text-xs text-inactive'}>
                 <span className={'text-green opacity-70'}>Style</span> / {plural_suggest()}
               </p>
-            )}
+            ) : null}
           </div>
         </div>
       )}

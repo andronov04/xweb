@@ -25,7 +25,7 @@ export interface IAsset {
   slug?: string;
   created?: string;
   metadata?: any; // TODO Description
-  token_assets_aggregate?: INestedAggregate;
+  assetTokenAssets_aggregate?: INestedAggregate;
 }
 
 export interface IArt {
@@ -41,7 +41,7 @@ export interface IArt {
   buy_editions?: number;
   royalties?: number;
   editions?: number;
-  metadata_uri?: string;
+  metadataUri?: string;
   metadata?: any; // TODO Description
   zhash?: string;
   enabled?: boolean;

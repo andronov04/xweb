@@ -87,7 +87,7 @@ export const QL_GET_ASSET_ITEMS = gql`
       name
       id
       description
-      min_price
+      minPrice
       kind
       flag
       enabled
@@ -95,7 +95,7 @@ export const QL_GET_ASSET_ITEMS = gql`
       royalties
       slug
       created
-      token_assets_aggregate {
+      assetTokenAssets_aggregate {
         aggregate {
           count
         }
@@ -104,7 +104,7 @@ export const QL_GET_ASSET_ITEMS = gql`
         id
         username
       }
-      date_publish
+      datePublish
     }
   }
 `;
