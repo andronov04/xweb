@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { useCapture } from '../../../../hooks/use-capture/useCapture';
 import Loader from '../../../../components/Utils/Loader';
 import { useStore } from '../../../../store';
+import { setMsg } from '../../../../services/snackbar';
 
 interface IPreviewMedia {
   url: string;
@@ -25,6 +26,14 @@ const PreviewMedia = ({ url }: IPreviewMedia) => {
       asset?.setPreview([data.cid], data.hash);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (loading) {
+      setMsg({ title: status, kind: 'info' });
+    } else {
+      setMsg(null);
+    }
+  }, [loading]);
 
   // useEffect(() => {
   //   return () => {};
@@ -53,7 +62,6 @@ const PreviewMedia = ({ url }: IPreviewMedia) => {
         <div className={`absolute z-10 w-full h-full flex flex-col gap-y-4 justify-center items-center`}>
           {loading ? (
             <div>
-              <p className={'font-thin text-center'}>{status}</p>
               <Loader />
             </div>
           ) : (

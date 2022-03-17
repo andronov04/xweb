@@ -7,9 +7,11 @@ import Loader from '../Utils/Loader';
 
 interface IUploadFile {
   onSuccess: (data: UploadAssetFileResponse) => void;
+  onError?: (e: any) => void;
+  onStart?: () => void;
 }
 
-const UploadFile = ({ onSuccess }: IUploadFile) => {
+const UploadFile = ({ onSuccess, onError, onStart }: IUploadFile) => {
   const [active, setActive] = useState(false);
   const refInput = useRef<HTMLInputElement | null>(null);
   const { data, loading, error, post } = useFetch<UploadAssetFileResponse | UploadFileError>(FILE_API_ASSET_STYLE_URL, { cachePolicy: CachePolicies.NO_CACHE });
@@ -20,6 +22,12 @@ const UploadFile = ({ onSuccess }: IUploadFile) => {
       onSuccess(data as UploadAssetFileResponse);
     }
   }, [data, onSuccess]);
+
+  useEffect(() => {
+    if (error) {
+      onError?.(error);
+    }
+  }, [error]);
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -50,6 +58,7 @@ const UploadFile = ({ onSuccess }: IUploadFile) => {
   };
 
   const handleFiles = async (files: FileList) => {
+    onStart?.();
     // TODO Validation files
     console.log('handleFiles:::', files);
     if (files.length) {

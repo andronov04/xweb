@@ -2,6 +2,7 @@ import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import UploadFile from '../../components/UploadFile/UploadFile';
 import { useRouter } from 'next/router';
 import { useStore } from '../../store';
+import { setMsg } from '../../services/snackbar';
 
 const CreateStyle = () => {
   const asset = useStore((state) => state.asset);
@@ -34,9 +35,17 @@ const CreateStyle = () => {
         <UploadFile
           onSuccess={(data) => {
             if (data.cid && data.requestHash) {
+              setMsg({ title: 'Successfully uploaded.', kind: 'success' });
               asset.setAsset(data.cid, data.requestHash, 'style');
               router.replace('/create/asset/style/preview').then().catch();
             }
+          }}
+          onError={(e) => {
+            setMsg({ title: 'Failed to fetch.', kind: 'error' });
+            // console.log('eee', e);
+          }}
+          onStart={() => {
+            setMsg({ title: 'Upload image to ipfs...', kind: 'info' });
           }}
         />
       </div>

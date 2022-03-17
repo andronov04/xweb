@@ -70,10 +70,7 @@ export const useStore = create<IStore>((set, get) => ({
       );
     }
   },
-  message: {
-    title: 'Message',
-    kind: 'success'
-  },
+  message: null,
   setMessage: (message) => set((state) => ({ message }))
 }));
 
