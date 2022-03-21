@@ -1,8 +1,8 @@
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;
 export const RPC_LIST = process.env.NEXT_PUBLIC_RPC_LIST ?? 'https://mainnet.api.tez.ie,https://mainnet.smartpy.io';
 export const TZ_NETWORK = process.env.NEXT_PUBLIC_TZ_NETWORK ?? 'hangzhounet';
-export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https://crxatorz-test.hasura.app/v1/graphql';
-export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://crxatorz-test.hasura.app/v1/graphql';
+export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https://graph.art3s.xyz/console/v1/graphql';
+export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://graph.art3s.xyz/v1/graphql';
 export const GRAPHQL_API_KEY = process.env.NEXT_PUBLIC_GRAPHQL_API_KEY ?? '';
 export const IPFS_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_PREFIX_URL ?? 'https://art3s.mypinata.cloud/ipfs/';
 export const ITEMS_PER_PAGE = process.env.NEXT_PUBLIC_ITEMS_PER_PAGE ?? 10;
@@ -15,9 +15,9 @@ export const MESSAGE_GENERATE_NEW = 'X_GENERATE_NEW';
 export const MESSAGE_GET_ASSET_META = 'X_GET_ASSET_META';
 export const MESSAGE_GET_DIGEST = 'X_GET_GET_DIGEST';
 export const MESSAGE_GET_CAPTURE_IMG = 'X_GET_CAPTURE_IMG';
-export const FILE_API_ASSET_STYLE_URL = process.env.NEXT_PUBLIC_FILE_API_ASSET_STYLE_URL ?? 'https://xapi-fyhqtmmq7q-uc.a.run.app/upload/file/asset/style';
-export const FILE_API_CAPTURE_IMG_URL = process.env.NEXT_PUBLIC_FILE_API_CAPTURE_IMG_URL ?? 'https://xapi-fyhqtmmq7q-uc.a.run.app/upload/file/img';
-export const API_META_ASSET_URL = process.env.NEXT_PUBLIC_API_META_ASSET_URL ?? 'https://xapi-fyhqtmmq7q-uc.a.run.app/upload/asset/metadata';
+export const FILE_API_ASSET_STYLE_URL = process.env.NEXT_PUBLIC_FILE_API_ASSET_STYLE_URL ?? 'https://api.art3s.xyz/upload/file/asset/style';
+export const FILE_API_CAPTURE_IMG_URL = process.env.NEXT_PUBLIC_FILE_API_CAPTURE_IMG_URL ?? 'https://api.art3s.xyz/upload/file/img';
+export const API_META_ASSET_URL = process.env.NEXT_PUBLIC_API_META_ASSET_URL ?? 'https://api.art3s.xyz/upload/asset/metadata';
 export const IFRAME_ALLOW = process.env.NEXT_PUBLIC_IFRAME_ALLOW ?? 'gyroscope; accelerometer; xr-spatial-tracking; microphone; camera;';
 export const IFRAME_SANDBOX = process.env.NEXT_PUBLIC_IFRAME_SANDBOX ?? 'allow-same-origin allow-scripts';
 // Contracts
