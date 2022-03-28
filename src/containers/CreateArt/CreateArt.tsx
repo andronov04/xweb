@@ -44,14 +44,14 @@ const CreateArt = () => {
         </div>
 
         <div className={'flex-grow text-center'}>
-          <button
-            onClick={() => {
-              art.generate();
-            }}
-            className={'outline-0 hover:opacity-80 text-base cursor-pointer z-30 top-2 px-3 py-1 bg-dart2C rounded-sm'}
-          >
-            generate
-          </button>
+          {/*<button*/}
+          {/*  onClick={() => {*/}
+          {/*    art.generate();*/}
+          {/*  }}*/}
+          {/*  className={'outline-0 hover:opacity-80 text-base cursor-pointer z-30 top-2 px-3 py-1 bg-dart2C rounded-sm'}*/}
+          {/*>*/}
+          {/*  generate*/}
+          {/*</button>*/}
         </div>
 
         <div className={'w-1/3 text-right space-x-2'}>

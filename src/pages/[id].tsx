@@ -10,8 +10,8 @@ const Profile = ({ user }: { user: IUser }) => {
   return (
     <Page>
       <Head>
-        <title>@{user?.username ?? user?.id} – xweb</title>
-        <meta key="og:title" property="og:title" content={`@${user?.username ?? user?.id} – xweb`} />
+        <title>@{user?.username ?? user?.id} – Contter</title>
+        <meta key="og:title" property="og:title" content={`@${user?.username ?? user?.id} – Contter`} />
         <meta key="description" name="description" content={user.description} />
         <meta key="og:description" property="og:description" content={user.description} />
         <meta key="og:type" property="og:type" content="website" />
@@ -29,14 +29,26 @@ export default Profile;
 export async function getServerSideProps({ params }) {
   const { id: _id } = params;
   const id = _id.slice(1);
-  const { data } = await GraphqlApi.query({
-    query: QL_GET_USER,
-    variables: { username: id }
-  });
+  let data: any = {};
+  try {
+    const {
+      data: _data,
+      networkStatus,
+      error
+    } = await GraphqlApi.query({
+      query: QL_GET_USER,
+      variables: { username: id },
+      errorPolicy: 'all'
+    });
+    data = _data;
+  } catch (e) {
+    // TODO handle error
+    // console.log('e', e);
+  }
 
   return {
     props: {
-      user: data.users.find((a) => a.username === id) ?? { id }
+      user: data?.users?.find((a) => a.username === id) ?? { id }
     }
   };
 }
