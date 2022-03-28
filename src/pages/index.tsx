@@ -6,8 +6,8 @@ export default function Home() {
   return (
     <Page>
       <Head>
-        <title>art3s: art for everyone</title>
-        <meta key="og:title" property="og:title" content={'art3s: art for everyone'} />
+        <title>Contter</title>
+        <meta key="og:title" property="og:title" content={'Contter'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />
