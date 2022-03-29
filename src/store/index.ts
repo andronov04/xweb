@@ -1,12 +1,12 @@
 import create from 'zustand';
 import produce from 'immer';
 import { IStore } from '../types/store';
-import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_DIGEST } from '../constants';
+import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_DIGEST, USE_ADD_ASSET, USE_REMOVE_ASSET } from '../constants';
 import { nanoid } from 'nanoid';
 import { getWallet } from '../api/WalletApi';
 import { IUser } from '../types';
 
-let artProxy;
+let tokenProxy;
 export const useStore = create<IStore>((set, get) => ({
   asset: {
     cid: '',
@@ -33,16 +33,39 @@ export const useStore = create<IStore>((set, get) => ({
   token: {
     assets: [],
     digest: '',
-    setAssets: (assets) =>
+    addAsset: (asset) =>
       set(
         produce((state) => {
-          state.art.assets = assets;
+          state.token.assets.push(asset);
+          tokenProxy?.postMessage(
+            {
+              type: USE_ADD_ASSET,
+              data: asset
+            },
+            EDITOR_URL
+          );
+        })
+      ),
+    removeAsset: (asset) =>
+      set(
+        produce((state) => {
+          const index = state.token.assets.findIndex((a) => a.id === asset.id);
+          state.token.assets.splice(index, 1);
+          tokenProxy?.postMessage(
+            {
+              type: USE_REMOVE_ASSET,
+              data: {
+                assetId: asset.id
+              }
+            },
+            EDITOR_URL
+          );
         })
       ),
     setProxy: (proxy) =>
       set(
         produce((state) => {
-          artProxy = proxy;
+          tokenProxy = proxy;
         })
       ),
     emit: () => {
@@ -61,7 +84,7 @@ export const useStore = create<IStore>((set, get) => ({
       );
     },
     generate: () => {
-      artProxy?.postMessage(
+      tokenProxy?.postMessage(
         {
           type: MESSAGE_GENERATE_NEW,
           data: {

@@ -1,5 +1,5 @@
 import { IAsset } from '../types';
-import { DEV_ASSET_URL, EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_ASSET_META, MESSAGE_GET_DIGEST, MESSAGE_SEND_ASSET } from '../constants';
+import { DEV_ASSET_URL, EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_ASSET_META, MESSAGE_GET_DIGEST } from '../constants';
 import { ipfsToUrl } from '../utils';
 import { nanoid } from 'nanoid';
 
@@ -29,21 +29,21 @@ export class CreArt {
   sendAssets = () => {
     // TODO Configuration order
     //  asset.asset?.metadata?.artifactUri;
-    this.proxy?.postMessage(
-      {
-        type: MESSAGE_SEND_ASSET,
-        data: this.assets.map((a, i) => {
-          return {
-            // asset: { ...a, metadata: { name: a.name, artifactUri: DEV_ASSET_URL } }, // TODO Remove test
-            asset: a,
-            order: i
-            // url: ipfsToUrl(a.metadata?.displayUri ?? ''),
-            // url: DEV_ASSET_URL ?? 'http://localhost:8001'
-          };
-        })
-      },
-      EDITOR_URL
-    );
+    // this.proxy?.postMessage(
+    //   {
+    //     type: MESSAGE_SEND_ASSET,
+    //     data: this.assets.map((a, i) => {
+    //       return {
+    //         // asset: { ...a, metadata: { name: a.name, artifactUri: DEV_ASSET_URL } }, // TODO Remove test
+    //         asset: a,
+    //         order: i
+    //         // url: ipfsToUrl(a.metadata?.displayUri ?? ''),
+    //         // url: DEV_ASSET_URL ?? 'http://localhost:8001'
+    //       };
+    //     })
+    //   },
+    //   EDITOR_URL
+    // );
   };
 
   emit = () => {

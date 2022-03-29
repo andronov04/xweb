@@ -1,7 +1,7 @@
 import Breadcrumbs from '../../../components/Breadcrumbs/Breadcrumbs';
 import { useEffect, useRef, useState } from 'react';
 import CustomButton from '../../../components/CustomButton/CustomButton';
-import IframeArt from '../../CreateArt/Iframe/Iframe';
+import IframeToken from '../../CreateToken/Iframe/Iframe';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Loader from '../../../components/Utils/Loader';
@@ -17,16 +17,16 @@ const PreviewStyle = () => {
   useEffect(() => {
     const url = 'ipfs://QmVRhsPuMpWDhLUCh87Uwt1kUkuAJ3eYDQYi2oBU4zGYK6';
     setTimeout(() => {
-      art.setAssets([
-        {
-          id: 0,
-          name: 'Style',
-          metadata: {
-            name: 'Style',
-            artifactUri: url
-          }
-        }
-      ]);
+      // art.setAssets([
+      //   {
+      //     id: 0,
+      //     name: 'Style',
+      //     metadata: {
+      //       name: 'Style',
+      //       artifactUri: url
+      //     }
+      //   }
+      // ]);
     }, 1500);
   }, []);
 
@@ -103,7 +103,7 @@ const PreviewStyle = () => {
               height: size.height
             }}
           >
-            <IframeArt />
+            <IframeToken />
           </div>
         )}
       </div>

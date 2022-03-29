@@ -12,7 +12,8 @@ export interface ITempAsset {
 
 export interface ITempToken {
   assets: IAsset[];
-  setAssets: (assets: IAsset[]) => void;
+  addAsset: (asset: IAsset) => void;
+  removeAsset: (asset: IAsset) => void;
   setProxy: (proxy: WindowProxy) => void;
   emit: () => void;
   generate: () => void;

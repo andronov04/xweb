@@ -2,15 +2,15 @@ import { EDITOR_URL, IFRAME_ALLOW, IFRAME_SANDBOX } from '../../../constants';
 import { useEffect, useRef } from 'react';
 import { useStore } from '../../../store';
 
-const IframeArt = () => {
-  const art = useStore((state) => state.token);
+const IframeToken = () => {
+  const token = useStore((state) => state.token);
   const refIframe = useRef<HTMLIFrameElement | null>(null);
 
   useEffect(() => {
     setTimeout(() => {
       if (refIframe.current?.contentWindow) {
-        art.setProxy(refIframe.current?.contentWindow);
-        art.emit();
+        token.setProxy(refIframe.current?.contentWindow);
+        token.emit();
       }
     }, 1000);
     // TODO Cleanup
@@ -23,4 +23,4 @@ const IframeArt = () => {
   );
 };
 
-export default IframeArt;
+export default IframeToken;
