@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useStore } from '../../../store';
 
 const IframeArt = () => {
-  const art = useStore((state) => state.art);
+  const art = useStore((state) => state.token);
   const refIframe = useRef<HTMLIFrameElement | null>(null);
 
   useEffect(() => {

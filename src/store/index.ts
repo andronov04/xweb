@@ -30,7 +30,7 @@ export const useStore = create<IStore>((set, get) => ({
         })
       )
   },
-  art: {
+  token: {
     assets: [],
     digest: '',
     setAssets: (assets) =>

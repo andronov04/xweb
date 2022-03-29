@@ -9,7 +9,7 @@ import { useStore } from '../../../store';
 import shallow from 'zustand/shallow';
 
 const PreviewStyle = () => {
-  const [asset, art] = useStore((state) => [state.asset, state.art], shallow);
+  const [asset, art] = useStore((state) => [state.asset, state.token], shallow);
   const router = useRouter();
   const [size, setSize] = useState({ width: 0, height: 0 });
   const refContainer = useRef<HTMLDivElement | null>(null);

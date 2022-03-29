@@ -10,7 +10,7 @@ export interface ITempAsset {
   setAsset: (cid: string, requestHash: string, kind: 'style') => void;
 }
 
-export interface ITempArt {
+export interface ITempToken {
   assets: IAsset[];
   setAssets: (assets: IAsset[]) => void;
   setProxy: (proxy: WindowProxy) => void;
@@ -27,7 +27,7 @@ export interface IMessageBar {
 
 export interface IStore {
   asset: ITempAsset;
-  art: ITempArt;
+  token: ITempToken;
 
   message: IMessageBar | null;
   setMessage: (message: IMessageBar | null) => void;

@@ -5,9 +5,10 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import Items from '../../components/Items/Items';
 import { QL_GET_ASSET_ITEMS } from '../../api/queries';
 import { useStore } from '../../store';
+import Link from 'next/link';
 
-const CreateArt = () => {
-  const art = useStore((state) => state.art);
+const CreateToken = () => {
+  const token = useStore((state) => state.token);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const refContainer = useRef<HTMLDivElement | null>(null);
 
@@ -32,11 +33,11 @@ const CreateArt = () => {
                 active: false
               },
               {
-                name: 'Your Art',
+                name: 'Your Token',
                 active: true
               },
               {
-                name: art.assets?.[0]?.name ?? '',
+                name: token.assets?.[0]?.name ?? '',
                 active: false
               }
             ]}
@@ -56,7 +57,11 @@ const CreateArt = () => {
 
         <div className={'w-1/3 text-right space-x-2'}>
           <span className={'font-thin text-inactive text-sm'}>details and mint</span>
-          <CustomButton style={'white'} value={'next step'} />
+          <Link href={'/create/token/mint'}>
+            <a href={'/create/token/mint'}>
+              <CustomButton style={'white'} value={'next step'} />
+            </a>
+          </Link>
         </div>
       </div>
 
@@ -74,7 +79,7 @@ const CreateArt = () => {
       </div>
 
       <div id={'digest'} className={'pt-2 h-3 text-xs font-thin'}>
-        {art.digest ?? 'hash'}
+        {token.digest ?? 'hash'}
       </div>
 
       <div>
@@ -88,13 +93,13 @@ const CreateArt = () => {
         <Items
           kind={'asset'}
           mode={'selected'}
-          activeIds={art.assets.map((a) => a.id)}
+          activeIds={token.assets.map((a) => a.id)}
           onClickItem={(item) => {
             // Now only once
-            if (art.assets.includes(item)) {
-              art.setAssets([]);
+            if (token.assets.includes(item)) {
+              token.setAssets([]);
             } else {
-              art.setAssets([item]);
+              token.setAssets([item]);
             }
           }}
           query={QL_GET_ASSET_ITEMS}
@@ -104,4 +109,4 @@ const CreateArt = () => {
   );
 };
 
-export default CreateArt;
+export default CreateToken;
