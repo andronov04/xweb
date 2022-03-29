@@ -6,6 +6,7 @@ import Items from '../../components/Items/Items';
 import { QL_GET_ASSET_ITEMS } from '../../api/queries';
 import { useStore } from '../../store';
 import Link from 'next/link';
+import { setMsg } from '../../services/snackbar';
 
 const CreateToken = () => {
   const token = useStore((state) => state.token);
@@ -58,7 +59,28 @@ const CreateToken = () => {
         <div className={'w-1/3 text-right space-x-2'}>
           <span className={'font-thin text-inactive text-sm'}>details and mint</span>
           <Link href={'/create/token/mint'}>
-            <a href={'/create/token/mint'}>
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!token.assets.length) {
+                  setMsg({ title: 'You need to create a token', kind: 'error' });
+                  return;
+                }
+                // TODO Send now and message
+                setMsg({ title: 'Generate metadata...', kind: 'info' });
+                token
+                  .prepare()
+                  .then(() => {
+                    console.log('return');
+                    setMsg({ title: 'Success...', kind: 'success' });
+                  })
+                  .catch(() => {
+                    setMsg({ title: 'Unknown error', kind: 'error' });
+                  });
+              }}
+              href={'/create/token/mint'}
+            >
               <CustomButton style={'white'} value={'next step'} />
             </a>
           </Link>
@@ -95,7 +117,7 @@ const CreateToken = () => {
           mode={'selected'}
           activeIds={token.assets.map((a) => a.id)}
           onClickItem={(item) => {
-            const testUrl = 'https://art3s.mypinata.cloud/ipfs/QmU3jrjyZFP83itaiuzqD7MuBZ4C8BgAGtR8CRT8J3mAfL';
+            const testUrl = 'http://localhost:8001/'; //'https://art3s.mypinata.cloud/ipfs/QmU3jrjyZFP83itaiuzqD7MuBZ4C8BgAGtR8CRT8J3mAfL';
             // Now only once
             let _item = JSON.parse(JSON.stringify(item));
             _item.metadata.artifactUri = testUrl;

@@ -3,6 +3,7 @@ import Footer from '../../components/Footer/Footer';
 import SnackBar from '../SnackBar/SnackBar';
 import { useStore } from '../../store';
 import { useAsync } from 'react-async-hook';
+import '../../api/ListenerApi';
 
 export default function Page({ children }) {
   const initUser = useStore((state) => state.initUser);

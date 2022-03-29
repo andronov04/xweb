@@ -12,11 +12,13 @@ export interface ITempAsset {
 
 export interface ITempToken {
   assets: IAsset[];
+  state?: any;
   addAsset: (asset: IAsset) => void;
   removeAsset: (asset: IAsset) => void;
   setProxy: (proxy: WindowProxy) => void;
   emit: () => void;
   generate: () => void;
+  prepare: () => Promise<void>;
   digest: string;
 }
 

@@ -1,10 +1,11 @@
 import create from 'zustand';
 import produce from 'immer';
 import { IStore } from '../types/store';
-import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_DIGEST, USE_ADD_ASSET, USE_REMOVE_ASSET } from '../constants';
+import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_DIGEST, RESPONSE_PREPARE, USE_ADD_ASSET, USE_PREPARE, USE_REMOVE_ASSET } from '../constants';
 import { nanoid } from 'nanoid';
 import { getWallet } from '../api/WalletApi';
 import { IUser } from '../types';
+import { eventEmitter, eventOnceWaitFor } from '../api/EventApi';
 
 let tokenProxy;
 export const useStore = create<IStore>((set, get) => ({
@@ -33,6 +34,23 @@ export const useStore = create<IStore>((set, get) => ({
   token: {
     assets: [],
     digest: '',
+    prepare: async () => {
+      // Get store and digest and hashes from assets;
+      const token = get().token;
+      const requestId = nanoid();
+      tokenProxy?.postMessage(
+        {
+          type: USE_PREPARE,
+          requestId,
+          data: {}
+        },
+        EDITOR_URL
+      );
+
+      const result = await eventOnceWaitFor(requestId);
+
+      set({ token: { ...token, digest: result.digest, state: result.state } });
+    },
     addAsset: (asset) =>
       set(
         produce((state) => {

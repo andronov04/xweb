@@ -23,6 +23,9 @@ export interface IAsset {
   description?: string;
   user?: IUser;
   slug?: string;
+  digest?: string;
+  hash?: string;
+  state?: string;
   created?: string;
   metadata?: any; // TODO Description
   assetTokenAssets_aggregate?: INestedAggregate;
