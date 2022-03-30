@@ -52,14 +52,14 @@ const MintToken = () => {
     const { cid: metadataCid } = result;
     console.log('data', data);
     console.log('metadataCid', metadataCid);
-    call({
-      assets: [], // TODO data order -id
-      digest: token.digest,
-      enabled: true,
-      metadata: strToByteStr(`ipfs://${metadataCid}`),
-      price: Math.floor(data.price! * 1000000),
-      royalties: Math.floor(data.royalties! * 10)
-    });
+    // call({
+    //   assets: [], // TODO data ids
+    //   digest: token.digest,
+    //   enabled: true,
+    //   metadata: strToByteStr(`ipfs://${metadataCid}`),
+    //   price: Math.floor(data.price! * 1000000),
+    //   royalties: Math.floor(data.royalties! * 10)
+    // });
     console.log('publish', data);
   };
 
@@ -75,11 +75,12 @@ const MintToken = () => {
             }}
           >
             <div className={'absolute top-0 left-0 w-full h-full'}>
-              <PreviewToken url={ipfsToUrl(urlToIpfs(token.cid))} width={token.state.root.width ?? 1000} height={token.state.root.height ?? 1000} />
+              <PreviewToken url={ipfsToUrl(urlToIpfs(token.cid))} width={token.state?.root?.width ?? 1000} height={token.state?.root?.width ?? 1000} />
             </div>
           </div>
         </div>
         <div className={'w-1/2'}>
+          <i className={'font-thin text-sm opacity-90 text-warn'}>Warning: edit is not available in beta version</i>
           <form className={'flex gap-y-3 flex-col'} onSubmit={handleSubmit(onSubmit)}>
             {errors.name && <p>name is required.</p>}
             {errors.royalties && <p>royalties error.</p>}
@@ -91,37 +92,24 @@ const MintToken = () => {
               register={register('description', { maxLength: 2048, required: true, minLength: 12 })}
             />
             <Input label={'Tags'} placeholder={'Tags (comma separated)'} register={register('tags', { maxLength: 512 })} />
-
-            <div className={'w-full gap-x-3 flex justify-start text-left mt-4'}>
-              <div className={'w-1/2'}>
-                <Input
-                  label={'Royalties'}
-                  type={'number'}
-                  // defaultValue={null}
-                  placeholder={'royalties (0-25%)'}
-                  register={register('royalties', { min: 0, max: 25, required: true, valueAsNumber: true })}
-                />
-              </div>
-              <div className={'w-1/2'}>
-                <Input
-                  label={'Price'}
-                  type={'number'}
-                  // defaultValue={null}
-                  placeholder={'ꜩ Price (0-9999)'}
-                  register={register('price', { min: 0, max: Infinity, required: true, valueAsNumber: true })}
-                />
-              </div>
-            </div>
             <input ref={refSubmit} className={'hidden'} type="submit" />
           </form>
           <div className={'mt-8 flex justify-end items-center space-x-2'}>
-            <i className={'font-thin text-sm opacity-90 text-warn'}>warning: edit is not available in beta version</i>
             <CustomButton
               onClick={() => {
                 refSubmit.current?.click();
               }}
               style={'white'}
-              value={'mint'}
+              value={'Mint'}
+            />
+          </div>
+          <div className={'mt-8 flex justify-end items-center space-x-2'}>
+            <CustomButton
+              onClick={() => {
+                refSubmit.current?.click();
+              }}
+              style={'white'}
+              value={'Extended mint 20 ꜩ'}
             />
           </div>
         </div>

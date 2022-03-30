@@ -1,15 +1,14 @@
 import Head from 'next/head';
-import Page from '../containers/Page/Page';
-import { DESCRIPTION_SEO, IMAGE_SEO } from '../constants';
 import ConditionRender from '../components/Utils/ConditionRender';
-import Marketplace from 'src/containers/Marketplace/Marketplace';
+import { DESCRIPTION_SEO, IMAGE_SEO } from '../constants';
+import Page from '../containers/Page/Page';
 
-export default function MarketplacePage() {
+export default function AssetsPage() {
   return (
     <Page>
       <Head>
-        <title>Marketplace – Contter</title>
-        <meta key="og:title" property="og:title" content={'Marketplace – Contter'} />
+        <title>Assets – Contter</title>
+        <meta key="og:title" property="og:title" content={'Assets – Contter'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />
@@ -18,7 +17,7 @@ export default function MarketplacePage() {
       </Head>
 
       <ConditionRender client>
-        <Marketplace />
+        <div>Assets</div>
       </ConditionRender>
     </Page>
   );

@@ -8,9 +8,10 @@ import ConditionRender from 'src/components/Utils/ConditionRender';
 import UserItems, { IUserItemsVariables } from './UserItems';
 import { QL_GET_TOKENS_BY_USER, QL_GET_TOKEN_OWNED_ITEMS_BY_USER, QL_GET_TOKEN_SALES_ITEMS_BY_USER, QL_GET_SCRIPS_BY_USER } from '../../api/queries';
 import { useStore } from '../../store';
+import shallow from 'zustand/shallow';
 
 const UserProfile = ({ user }: { user: IUser }) => {
-  const stateUser = useStore((state) => state.user);
+  const [stateUser, disconnectUser] = useStore((state) => [state.user, state.disconnectUser], shallow);
   const router = useRouter();
   const isCurrent = user.id === stateUser?.id;
   const url = `/@${user.username ?? user.id}`;
@@ -50,6 +51,11 @@ const UserProfile = ({ user }: { user: IUser }) => {
               styles={{
                 color: 'rgba(255,53,53,0.9)'
               }}
+              onClick={() => {
+                disconnectUser().then(() => {
+                  // router.replace('/').then().catch();
+                });
+              }}
               value={'Log out'}
             />
           </div>
@@ -66,7 +72,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
             } p-2 text-xl text-inactive font-light `}
           >
             <Link href={url}>
-              <a href={url}>arts</a>
+              <a href={url}>tokens</a>
             </Link>
           </li>
           <li
@@ -89,11 +95,11 @@ const UserProfile = ({ user }: { user: IUser }) => {
           </li>
           <li
             className={`hover:text-active ${
-              router.asPath.endsWith('styles') && 'border-b-4 border-b-inactive text-active'
+              router.asPath.endsWith('assets') && 'border-b-4 border-b-inactive text-active'
             } p-2 text-xl text-inactive font-light `}
           >
-            <Link href={`${url}/styles`}>
-              <a href={`${url}/styles`}>styles</a>
+            <Link href={`${url}/assets`}>
+              <a href={`${url}/assets`}>assets</a>
             </Link>
           </li>
           <li

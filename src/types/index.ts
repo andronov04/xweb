@@ -31,7 +31,7 @@ export interface IAsset {
   assetTokenAssets_aggregate?: INestedAggregate;
 }
 
-export interface IArt {
+export interface IToken {
   id: number;
   name: string;
   description?: string;
@@ -53,8 +53,10 @@ export interface IArt {
   asset?: IAsset;
 }
 
-export interface IItem extends IArt, IAsset {
+export interface IItem extends Partial<IToken>, Partial<IAsset> {
   id: number;
+  width: number;
+  height: number;
 }
 
 export interface IActiveArt {

@@ -111,14 +111,15 @@ export const QL_GET_ASSET_ITEMS = gql`
 
 export const QL_GET_TOKEN_ITEMS = gql`
   query MyQuery($limit: Int, $offset: Int) {
-    tokens(order_by: { created: asc }, limit: $limit, offset: $offset) {
+    token(order_by: { created: asc }, limit: $limit, offset: $offset) {
       created
-      is_sale
       description
       id
+      digest
       metadata
       slug
-      price
+      width
+      height
       name
       flag
       user {
@@ -131,29 +132,20 @@ export const QL_GET_TOKEN_ITEMS = gql`
 
 export const QL_GET_SALES_TOKENS = gql`
   query Query($limit: Int, $offset: Int) {
-    tokens(where: { is_sale: { _eq: true } }, order_by: { created: asc }, limit: $limit, offset: $offset) {
+    token(order_by: { created: asc }, limit: $limit, offset: $offset) {
       created
-      is_sale
       description
       id
       metadata
       slug
-      royalties
-      metadata_uri
+      metadataUri
       tags
-      price
       name
       flag
       user {
         id
         username
-        avatar_uri
-      }
-      script {
-        id
-        name
-        metadata
-        slug
+        avatarUri
       }
     }
   }
@@ -161,29 +153,22 @@ export const QL_GET_SALES_TOKENS = gql`
 
 export const QL_GET_TOKEN = gql`
   query Query($slug: String) {
-    tokens(where: { slug: { _eq: $slug } }) {
+    token(where: { slug: { _eq: $slug } }) {
       created
-      is_sale
       description
       id
       metadata
       slug
-      royalties
-      metadata_uri
+      metadataUri
       tags
-      price
+      width
+      height
       name
       flag
       user {
         id
         username
-        avatar_uri
-      }
-      script {
-        id
-        name
-        metadata
-        slug
+        avatarUri
       }
     }
   }

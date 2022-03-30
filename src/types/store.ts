@@ -41,5 +41,6 @@ export interface IStore {
 
   user: IUser | null;
   connectUser: () => Promise<void>;
+  disconnectUser: () => Promise<void>;
   initUser: () => Promise<void>;
 }

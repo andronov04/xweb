@@ -3,10 +3,10 @@ import { IItem } from '../../types';
 import { ipfsToUrl } from '../../utils';
 
 const getUrl = (item: IItem) => {
-  if (item.__typename === 'scripts') {
-    return `/style/${item.slug ?? item.id}`;
+  if (item.__typename === 'asset') {
+    return `/asset/${item.slug ?? item.id}`;
   }
-  return `/art/${item.slug ?? item.id}`;
+  return `/token/${item.slug ?? item.id}`;
 };
 
 interface IItemComp {
@@ -33,7 +33,7 @@ const ItemContent = ({ item }: { item: IItem }) => {
 const Item = ({ item, price, mode, onClickItem, active }: IItemComp) => {
   const plural_suggest = () => {
     const count = item.assetTokenAssets_aggregate?.aggregate?.count ?? 0;
-    return count > 1 ? `${count} arts` : `${count} art`;
+    return count > 1 ? `${count} tokens` : `${count} token`;
   };
   return (
     <>

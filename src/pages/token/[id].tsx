@@ -1,17 +1,17 @@
 import Head from 'next/head';
-import { IArt } from '../../types';
+import { IToken } from '../../types';
 import GraphqlApi from '../../api/GraphqlApi';
 import { QL_GET_TOKEN } from '../../api/queries';
-import ArtItem from '../../containers/ArtItem/ArtItem';
+import TokenItem from '../../containers/TokenItem/TokenItem';
 import { ipfsToUrl } from '../../utils';
 import Page from '../../containers/Page/Page';
 
-const ArtPage = ({ item }: { item: IArt }) => {
+const ArtPage = ({ item }: { item: IToken }) => {
   return (
     <Page>
       <Head>
-        <title>{item.name} – xweb</title>
-        <meta key="og:title" property="og:title" content={`${item.name} – xweb`} />
+        <title>{item.name} – Contter</title>
+        <meta key="og:title" property="og:title" content={`${item.name} – Contter`} />
         <meta key="description" name="description" content={item.description} />
         <meta key="og:description" property="og:description" content={item.description} />
         <meta key="og:type" property="og:type" content="website" />
@@ -19,7 +19,7 @@ const ArtPage = ({ item }: { item: IArt }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ArtItem item={item} />
+      <TokenItem item={item} />
     </Page>
   );
 };
@@ -33,7 +33,7 @@ export async function getServerSideProps({ params }) {
     variables: { slug: id }
   });
   // TODO find by slug and id
-  const item = data.tokens.find((a) => a.slug === id);
+  const item = data.token.find((a) => a.slug === id);
   if (item === undefined) {
     return {
       notFound: true

@@ -136,6 +136,11 @@ export const useStore = create<IStore>((set, get) => ({
     }
     set({ user });
   },
+  disconnectUser: async () => {
+    await getWallet().disconnect();
+
+    set({ user: null });
+  },
   connectUser: async () => {
     const tzId = await getWallet().connect();
     let user: IUser | null = null;

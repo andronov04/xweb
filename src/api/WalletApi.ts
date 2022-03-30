@@ -28,6 +28,15 @@ class WalletApi {
     });
   }
 
+  async disconnect(): Promise<void> {
+    await this.wallet.disconnect();
+    this.tzToolkit.setWalletProvider(this.wallet);
+    this.contracts = {
+      ASSET: null,
+      TOKEN: null
+    };
+  }
+
   async connect(): Promise<string | false> {
     try {
       await this.wallet.requestPermissions({
