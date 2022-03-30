@@ -29,30 +29,13 @@ const CreateToken = () => {
 
   useEffect(() => {
     if (token.digest && token.state) {
-      console.log('token:::', token);
-      const testToken = {
-        token: {
-          width: 500,
-          height: 500,
-          assets: [
-            {
-              asset: {
-                id: 1,
-                name: 'Suprematism',
-                metadata: {
-                  name: 'Suprematism',
-                  artifactUri: 'ipfs://QmZv7s9cvqrDX5cWQbAzmQ4V1p6Pjk3CAvjRZEM8pKNnVS?hash=x01C6f78F75763cBDBeEAE62F0f89E9847461aC4fccB03C4CC8BF9F'
-                }
-              },
-              state: {},
-              order: 1,
-              iframe: null
-            }
-          ]
-        }
-      };
+      const state = token.state;
+      state.assets.map((asset) => {
+        const _asset = token.assets.find((a) => a.id === asset.id);
+        asset.metadata = { ..._asset?.metadata, artifactUri: `${_asset?.metadata.artifactUri}?hash=${asset.data.hash}` };
+      });
       (async function () {
-        await post(testToken);
+        await post(state);
       })();
     }
   }, [token.digest]);
