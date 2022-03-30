@@ -9,24 +9,22 @@ import { useStore } from '../../../store';
 import shallow from 'zustand/shallow';
 
 const PreviewStyle = () => {
-  const [asset, art] = useStore((state) => [state.asset, state.token], shallow);
+  const [asset, token] = useStore((state) => [state.asset, state.token], shallow);
   const router = useRouter();
   const [size, setSize] = useState({ width: 0, height: 0 });
   const refContainer = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const url = 'ipfs://QmVRhsPuMpWDhLUCh87Uwt1kUkuAJ3eYDQYi2oBU4zGYK6';
+    // TODO Remove timeout?
     setTimeout(() => {
-      // art.setAssets([
-      //   {
-      //     id: 0,
-      //     name: 'Style',
-      //     metadata: {
-      //       name: 'Style',
-      //       artifactUri: url
-      //     }
-      //   }
-      // ]);
+      token.addAsset({
+        id: 0,
+        name: 'Style',
+        metadata: {
+          name: 'Style',
+          artifactUri: `ipfs://${asset.cid}`
+        }
+      });
     }, 1500);
   }, []);
 
@@ -95,6 +93,7 @@ const PreviewStyle = () => {
         </div>
       </div>
 
+      <i className={'font-thin text-sm opacity-90 text-warn'}>Warning: This is just a check, no state changes in your asset. </i>
       <div ref={refContainer} className={'w-full h-full pt-4'}>
         {size.width && size.height && (
           <div
@@ -109,7 +108,7 @@ const PreviewStyle = () => {
       </div>
 
       <div id={'digest'} className={'pt-2 h-3 text-xs font-thin'}>
-        {art.digest ?? 'hash'}
+        {token.digest ?? 'hash'}
       </div>
     </section>
   );

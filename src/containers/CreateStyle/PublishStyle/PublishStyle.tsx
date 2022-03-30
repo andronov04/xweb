@@ -15,6 +15,10 @@ import { ipfsToUrl, urlToIpfs } from '../../../utils';
 import { postDataFetch } from '../../../api/RestApi';
 import { API_META_ASSET_URL } from '../../../constants';
 
+const DEFAULT_WIDTH = 1000;
+const DEFAULT_HEIGHT = 1000;
+const DEFAULT_HASH = 'x019Fb5Df875F0FAfEb7FB31FA32cBeDaEA84ADdceAac0EE3e5859e';
+
 const PublishStyle = () => {
   const asset = useStore((state) => state.asset);
   const router = useRouter();
@@ -92,21 +96,32 @@ const PublishStyle = () => {
             />
             <Input label={'Tags'} placeholder={'Tags (comma separated)'} register={register('tags', { maxLength: 512 })} />
 
-            <div className={'w-full flex justify-end text-right mt-8'}>
-              <Input
-                label={'Royalties'}
-                type={'number'}
-                defaultValue={0}
-                placeholder={'royalties (0-25%)'}
-                register={register('royalties', { min: 0, max: 25, valueAsNumber: true })}
-              />
+            <div className={'w-full gap-x-3 flex justify-start text-left mt-4'}>
+              <div className={'w-1/2'}>
+                <Input
+                  label={'Royalties'}
+                  type={'number'}
+                  // defaultValue={null}
+                  placeholder={'royalties (0-25%)'}
+                  register={register('royalties', { min: 0, max: 25, required: true, valueAsNumber: true })}
+                />
+              </div>
+              <div className={'w-1/2'}>
+                <Input
+                  label={'Extended Price'}
+                  type={'number'}
+                  // defaultValue={null}
+                  placeholder={'ꜩ (0-9999)'}
+                  register={register('price', { min: 0, max: Infinity, required: false, valueAsNumber: true })}
+                />
+              </div>
             </div>
             <input ref={refSubmit} className={'hidden'} type="submit" />
           </form>
         </div>
         <div className={'w-1/2'}>
           <div className={'p-4'}>
-            <PreviewMedia url={ipfsToUrl(urlToIpfs(asset.cid))} />
+            <PreviewMedia width={DEFAULT_WIDTH} height={DEFAULT_HEIGHT} url={`${ipfsToUrl(urlToIpfs(asset.cid))}?hash=${DEFAULT_HASH}`} />
           </div>
         </div>
       </div>

@@ -8,8 +8,8 @@ export default function BasePage() {
   return (
     <Page>
       <Head>
-        <title>create a style – art3s</title>
-        <meta key="og:title" property="og:title" content={'create a style – art3s'} />
+        <title>Create a style – Contter</title>
+        <meta key="og:title" property="og:title" content={'Create a style – Contter'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />

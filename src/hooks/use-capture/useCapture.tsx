@@ -1,5 +1,5 @@
 import React, { RefObject, useEffect } from 'react';
-import { FILE_API_CAPTURE_IMG_URL, MESSAGE_GET_CAPTURE_IMG, MESSAGE_GET_DIGEST } from '../../constants';
+import { FILE_API_CAPTURE_IMG_URL, USE_COMPLETE_CAPTURE, USE_RESPONSE_ASSET_CAPTURE, USE_RESPONSE_CAPTURE } from '../../constants';
 import { postFetch } from '../../api/RestApi';
 
 interface ICapture {}
@@ -42,8 +42,9 @@ const createCapture = (props: ICapture, updater: () => void) => {
       window.addEventListener(
         'message',
         (event) => {
-          if (event.data?.type === MESSAGE_GET_CAPTURE_IMG) {
-            console.log('MESSAGE_GET_CAPTURE_IMG', event.data);
+          // TODO Capture for token and asset
+          if (event.data?.type === USE_RESPONSE_ASSET_CAPTURE) {
+            console.log('USE_RESPONSE_CAPTURE', event.data);
             setState({ status: 'Upload image to ipfs...' });
             const formData = new FormData();
             formData.append('file', event.data.data.blob);
@@ -71,6 +72,7 @@ const createCapture = (props: ICapture, updater: () => void) => {
       return;
     }
     // Post message and get blob
+    console.log('postData', postData);
     refIframe?.contentWindow?.postMessage(postData, postData.url);
     // TODO Max wait
   };
