@@ -22,9 +22,17 @@ const MintToken = () => {
   return (
     <section className={'h-full'}>
       <div className={'flex gap-x-3'}>
-        <div className={'w-1/2'}>
-          <div className={'p-4'}>
-            <PreviewToken url={ipfsToUrl(urlToIpfs(token.cid))} />
+        <div style={{ flex: '1 0' }} className={'w-1/2 flex flex-col flex-grow'}>
+          <div
+            style={{
+              width: '100%',
+              paddingTop: '100%',
+              position: 'relative'
+            }}
+          >
+            <div className={'absolute top-0 left-0 w-full h-full'}>
+              <PreviewToken url={ipfsToUrl(urlToIpfs(token.cid))} width={token.state.root.width ?? 1000} height={token.state.root.height ?? 1000} />
+            </div>
           </div>
         </div>
         <div className={'w-1/2'}>
