@@ -87,7 +87,6 @@ export const QL_GET_ASSET_ITEMS = gql`
       name
       id
       description
-      minPrice
       kind
       flag
       enabled
@@ -174,34 +173,28 @@ export const QL_GET_TOKEN = gql`
   }
 `;
 
-export const QL_GET_SCRIPT = gql`
+export const QL_GET_ASSET = gql`
   query Query($slug: String) {
-    scripts(where: { slug: { _eq: $slug } }) {
+    asset(where: { slug: { _eq: $slug } }) {
       id
-      script {
-        id
-        name
-        slug
-      }
       user {
         id
         username
-        avatar_uri
+        avatarUri
       }
       enabled
       flag
       metadata
-      metadata_uri
-      zhash
+      metadataUri
       slug
+      kind
       name
       description
       tags
-      min_price
       royalties
       created
       updated
-      tokens_aggregate {
+      assetTokenAssets_aggregate {
         aggregate {
           count
         }

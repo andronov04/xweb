@@ -23,6 +23,7 @@ export interface IAsset {
   description?: string;
   user?: IUser;
   slug?: string;
+  kind?: number; // Enum
   digest?: string;
   hash?: string;
   state?: string;

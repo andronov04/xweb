@@ -17,7 +17,7 @@ const ScriptItem = ({ item }: { item: IAsset }) => {
             <div>
               <h1 className={'text-active text-2xl'}>{item.name}</h1>
               <p className={'text-inactive text-sm'}>
-                Style by{' '}
+                {item.kind === 1 ? 'Style' : ''} by{' '}
                 <Link href={`/@${user}`}>
                   <a className={'text-active hover:text-inactive'} href={`/@${user}`}>
                     @{user}
@@ -35,7 +35,7 @@ const ScriptItem = ({ item }: { item: IAsset }) => {
               {/*    {item.count_tokens} {(item.count_tokens || 0) <= 1 ? 'art' : 'arts'}*/}
               {/*  </p>*/}
               {/*) : null}*/}
-              <CustomButton classNames={'bg-active text-dark hover:bg-inactive'} value={'Create art'} />
+              <CustomButton style={'white'} classNames={'bg-active text-dark hover:bg-inactive'} value={'Create token'} />
             </div>
           </div>
         </div>
@@ -55,8 +55,8 @@ const ScriptItem = ({ item }: { item: IAsset }) => {
       <div>
         <Navs
           links={[
-            { url: `/style/${item.slug ?? item.id}`, displayName: 'recently created', pathname: '/style/[id]' },
-            { url: `/style/${item.slug ?? item.id}/activity`, displayName: 'activity', startsWith: '/style/[id]/activity' }
+            { url: `/asset/${item.slug ?? item.id}`, displayName: 'recently created', pathname: '/asset/[id]' },
+            { url: `/asset/${item.slug ?? item.id}/activity`, displayName: 'activity', startsWith: '/asset/[id]/activity' }
           ]}
         />
       </div>

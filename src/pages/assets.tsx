@@ -2,6 +2,8 @@ import Head from 'next/head';
 import ConditionRender from '../components/Utils/ConditionRender';
 import { DESCRIPTION_SEO, IMAGE_SEO } from '../constants';
 import Page from '../containers/Page/Page';
+import Items from '../components/Items/Items';
+import { QL_GET_ASSET_ITEMS } from '../api/queries';
 
 export default function AssetsPage() {
   return (
@@ -17,7 +19,9 @@ export default function AssetsPage() {
       </Head>
 
       <ConditionRender client>
-        <div>Assets</div>
+        <main>
+          <Items kind={'asset'} query={QL_GET_ASSET_ITEMS} />
+        </main>
       </ConditionRender>
     </Page>
   );
