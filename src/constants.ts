@@ -21,8 +21,10 @@ export const RESPONSE_PREPARE = 'X_RESPONSE_PREPARE';
 export const FILE_API_ASSET_STYLE_URL = process.env.NEXT_PUBLIC_FILE_API_ASSET_STYLE_URL ?? 'https://api.art3s.xyz/upload/file/asset/style';
 export const FILE_API_CAPTURE_IMG_URL = process.env.NEXT_PUBLIC_FILE_API_CAPTURE_IMG_URL ?? 'https://api.art3s.xyz/upload/file/img';
 export const API_META_ASSET_URL = process.env.NEXT_PUBLIC_API_META_ASSET_URL ?? 'https://api.art3s.xyz/upload/asset/metadata';
-export const API_META_TOKEN_URL = process.env.NEXT_PUBLIC_API_META_TOKEN_URL ?? 'https://api.art3s.xyz/upload/token';
+export const API_META_TOKEN_URL = process.env.NEXT_PUBLIC_API_META_TOKEN_URL ?? 'https://api.art3s.xyz/upload/token/metadata';
+export const API_BUILD_TOKEN_URL = process.env.NEXT_PUBLIC_API_BUILD_TOKEN_URL ?? 'https://api.art3s.xyz/upload/token';
 export const IFRAME_ALLOW = process.env.NEXT_PUBLIC_IFRAME_ALLOW ?? 'gyroscope; accelerometer; xr-spatial-tracking; microphone; camera;';
 export const IFRAME_SANDBOX = process.env.NEXT_PUBLIC_IFRAME_SANDBOX ?? 'allow-same-origin allow-scripts';
 // Contracts
 export const TZ_ADDRESS_ASSET = process.env.NEXT_PUBLIC_TZ_ADDRESS_ASSET ?? '';
+export const TZ_ADDRESS_TOKEN = process.env.NEXT_PUBLIC_TZ_ADDRESS_TOKEN ?? '';

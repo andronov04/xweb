@@ -17,7 +17,8 @@ export type ContractUseCallState<T> = {
 };
 
 export enum EContract {
-  ASSET = 'ASSET'
+  ASSET = 'ASSET',
+  TOKEN = 'TOKEN'
 }
 
 export type ContractUseCallReturn<T> = {
@@ -29,5 +30,14 @@ export interface MintAssetCallData {
   enabled: boolean;
   metadata: string;
   min_price: number;
+  royalties: number;
+}
+
+export interface MintTokenCallData {
+  assets: string[]; // TODO data order -id
+  enabled: boolean;
+  digest: string;
+  metadata: string;
+  price: number;
   royalties: number;
 }

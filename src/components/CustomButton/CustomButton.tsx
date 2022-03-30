@@ -14,7 +14,7 @@ const CustomButton = ({ value, classNames, onClick, style, styles }: IButton) =>
       <button
         style={styles}
         onClick={onClick}
-        className={` ${classNames} ${style === 'white' ? ' bg-white text-black' : 'bg-white10 text-inactive '} font-thin hover:opacity-80 rounded-lg py-2 px-5`}
+        className={` ${classNames} ${style === 'white' ? ' bg-white text-black' : 'bg-white10 text-inactive '} font-thin hover:opacity-80 rounded-sm py-2 px-5`}
       >
         {value}
       </button>

@@ -10,7 +10,7 @@ import { setMsg } from '../../services/snackbar';
 import { CachePolicies, useFetch } from 'use-http';
 import { UploadAssetFileResponse } from '../../types/api';
 import { UploadFileError } from '../../types/error';
-import { API_META_TOKEN_URL } from '../../constants';
+import { API_BUILD_TOKEN_URL } from '../../constants';
 import { useRouter } from 'next/router';
 
 const CreateToken = () => {
@@ -18,7 +18,7 @@ const CreateToken = () => {
   const token = useStore((state) => state.token);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const refContainer = useRef<HTMLDivElement | null>(null);
-  const { data, loading, error, post } = useFetch<UploadAssetFileResponse | UploadFileError>(API_META_TOKEN_URL, { cachePolicy: CachePolicies.NO_CACHE });
+  const { data, loading, error, post } = useFetch<UploadAssetFileResponse | UploadFileError>(API_BUILD_TOKEN_URL, { cachePolicy: CachePolicies.NO_CACHE });
   // TODO Handle errors
   useEffect(() => {
     if (data) {

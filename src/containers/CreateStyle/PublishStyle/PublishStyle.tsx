@@ -60,8 +60,8 @@ const PublishStyle = () => {
     call({
       enabled: true,
       metadata: strToByteStr(`ipfs://${metadataCid}`),
-      min_price: 0,
-      royalties: data.royalties
+      min_price: Math.floor((data.min_price ?? 0) * 1000000),
+      royalties: Math.floor(data.royalties! * 10)
     });
     console.log('publish', data);
   };

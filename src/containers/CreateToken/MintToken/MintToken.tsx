@@ -4,6 +4,15 @@ import Input from '../../../components/Form/Input';
 import { useRef } from 'react';
 import { ipfsToUrl, urlToIpfs } from '../../../utils';
 import PreviewToken from './PreviewToken/PreviewToken';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import { useContract } from '../../../hooks/use-contract/useContract';
+import { MintTokenCallData } from '../../../types/contract';
+import { getWallet } from '../../../api/WalletApi';
+import { ITokenMetadata } from '../../../types/metadata';
+import { postDataFetch } from '../../../api/RestApi';
+import { API_META_TOKEN_URL } from '../../../constants';
+import { strToByteStr } from '../../../utils/string';
+import { setMsg } from '../../../services/snackbar';
 
 const MintToken = () => {
   const token = useStore((state) => state.token);
@@ -13,10 +22,45 @@ const MintToken = () => {
     formState: { errors }
   } = useForm();
   const refSubmit = useRef<HTMLInputElement | null>(null);
-  console.log('token', token);
+  const {
+    call,
+    state: { loading, status, result: hash }
+  } = useContract<MintTokenCallData>(getWallet().mintToken);
+  console.log('useContract:::', loading, status);
 
   const onSubmit = async (data) => {
+    // TODO GENERATE PREVIEW
+    // Generate meta
+    const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
+    const metadata: ITokenMetadata = {
+      name: data.name,
+      description: data.description,
+      tags: tags,
+      artifactUri: `${urlToIpfs(token.cid)}`,
+      displayUri: urlToIpfs('previewImage'),
+      thumbnailUri: urlToIpfs('previewImage'),
+      symbol: 'CNTNT',
+      decimals: 0,
+      version: '0.1'
+    };
+    setMsg({ title: 'Upload ipfs', kind: 'info' });
+    const response = await postDataFetch(API_META_TOKEN_URL, metadata);
+    if (response.status !== 200) {
+      return; // TODO Error
+    }
+    const result = await response.json();
+    const { cid: metadataCid } = result;
     console.log('data', data);
+    console.log('metadataCid', metadataCid);
+    call({
+      assets: [], // TODO data order -id
+      digest: token.digest,
+      enabled: true,
+      metadata: strToByteStr(`ipfs://${metadataCid}`),
+      price: Math.floor(data.price! * 1000000),
+      royalties: Math.floor(data.royalties! * 10)
+    });
+    console.log('publish', data);
   };
 
   return (
@@ -44,18 +88,18 @@ const MintToken = () => {
               type={'textarea'}
               placeholder={'Description (max 2048 characters)'}
               label={'Description'}
-              register={register('description', { maxLength: 2048, required: true, minLength: 80 })}
+              register={register('description', { maxLength: 2048, required: true, minLength: 12 })}
             />
             <Input label={'Tags'} placeholder={'Tags (comma separated)'} register={register('tags', { maxLength: 512 })} />
 
-            <div className={'w-full gap-x-3 flex justify-start text-left mt-8'}>
+            <div className={'w-full gap-x-3 flex justify-start text-left mt-4'}>
               <div className={'w-1/2'}>
                 <Input
                   label={'Royalties'}
                   type={'number'}
                   // defaultValue={null}
                   placeholder={'royalties (0-25%)'}
-                  register={register('royalties', { min: 0, max: 25, valueAsNumber: true })}
+                  register={register('royalties', { min: 0, max: 25, required: true, valueAsNumber: true })}
                 />
               </div>
               <div className={'w-1/2'}>
@@ -64,12 +108,22 @@ const MintToken = () => {
                   type={'number'}
                   // defaultValue={null}
                   placeholder={'ꜩ Price (0-9999)'}
-                  register={register('price', { min: 0, max: 25, valueAsNumber: true })}
+                  register={register('price', { min: 0, max: Infinity, required: true, valueAsNumber: true })}
                 />
               </div>
             </div>
             <input ref={refSubmit} className={'hidden'} type="submit" />
           </form>
+          <div className={'mt-8 flex justify-end items-center space-x-2'}>
+            <i className={'font-thin text-sm opacity-90 text-warn'}>warning: edit is not available in beta version</i>
+            <CustomButton
+              onClick={() => {
+                refSubmit.current?.click();
+              }}
+              style={'white'}
+              value={'mint'}
+            />
+          </div>
         </div>
       </div>
     </section>
