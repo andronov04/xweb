@@ -34,6 +34,14 @@ export const useStore = create<IStore>((set, get) => ({
   token: {
     assets: [],
     digest: '',
+    previews: [],
+    cid: '',
+    setCid: (cid: string) =>
+      set(
+        produce((state) => {
+          state.token.cid = cid;
+        })
+      ),
     prepare: async () => {
       // Get store and digest and hashes from assets;
       const token = get().token;

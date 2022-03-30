@@ -7,11 +7,55 @@ import { QL_GET_ASSET_ITEMS } from '../../api/queries';
 import { useStore } from '../../store';
 import Link from 'next/link';
 import { setMsg } from '../../services/snackbar';
+import { CachePolicies, useFetch } from 'use-http';
+import { UploadAssetFileResponse } from '../../types/api';
+import { UploadFileError } from '../../types/error';
+import { API_META_TOKEN_URL } from '../../constants';
+import { useRouter } from 'next/router';
 
 const CreateToken = () => {
+  const router = useRouter();
   const token = useStore((state) => state.token);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const refContainer = useRef<HTMLDivElement | null>(null);
+  const { data, loading, error, post } = useFetch<UploadAssetFileResponse | UploadFileError>(API_META_TOKEN_URL, { cachePolicy: CachePolicies.NO_CACHE });
+  // TODO Handle errors
+  useEffect(() => {
+    if (data) {
+      token.setCid((data as UploadAssetFileResponse).cid);
+      router.replace('/create/token/mint').then().catch();
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (token.digest && token.state) {
+      console.log('token:::', token);
+      const testToken = {
+        token: {
+          width: 500,
+          height: 500,
+          assets: [
+            {
+              asset: {
+                id: 1,
+                name: 'Suprematism',
+                metadata: {
+                  name: 'Suprematism',
+                  artifactUri: 'ipfs://QmZv7s9cvqrDX5cWQbAzmQ4V1p6Pjk3CAvjRZEM8pKNnVS?hash=x01C6f78F75763cBDBeEAE62F0f89E9847461aC4fccB03C4CC8BF9F'
+                }
+              },
+              state: {},
+              order: 1,
+              iframe: null
+            }
+          ]
+        }
+      };
+      (async function () {
+        await post(testToken);
+      })();
+    }
+  }, [token.digest]);
 
   useEffect(() => {
     if (refContainer.current) {
@@ -72,8 +116,7 @@ const CreateToken = () => {
                 token
                   .prepare()
                   .then(() => {
-                    console.log('return');
-                    setMsg({ title: 'Success...', kind: 'success' });
+                    setMsg({ title: 'Upload to ipfs...', kind: 'info' });
                   })
                   .catch(() => {
                     setMsg({ title: 'Unknown error', kind: 'error' });

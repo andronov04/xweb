@@ -20,6 +20,10 @@ export interface ITempToken {
   generate: () => void;
   prepare: () => Promise<void>;
   digest: string;
+  previews: string[];
+  cid: string;
+
+  setCid: (cid: string) => void;
 }
 
 export interface IMessageBar {

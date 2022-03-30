@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form';
 import { useStore } from '../../../store';
 import Input from '../../../components/Form/Input';
 import { useRef } from 'react';
+import { ipfsToUrl, urlToIpfs } from '../../../utils';
+import PreviewToken from './PreviewToken/PreviewToken';
 
 const MintToken = () => {
   const token = useStore((state) => state.token);
@@ -21,7 +23,9 @@ const MintToken = () => {
     <section className={'h-full'}>
       <div className={'flex gap-x-3'}>
         <div className={'w-1/2'}>
-          <div className={'p-4'}>{/*<PreviewMedia url={ipfsToUrl(urlToIpfs(asset.cid))} />*/}</div>
+          <div className={'p-4'}>
+            <PreviewToken url={ipfsToUrl(urlToIpfs(token.cid))} />
+          </div>
         </div>
         <div className={'w-1/2'}>
           <form className={'flex gap-y-3 flex-col'} onSubmit={handleSubmit(onSubmit)}>
