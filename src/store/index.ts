@@ -15,11 +15,13 @@ export const useStore = create<IStore>((set, get) => ({
     requestHash: '',
     previews: [],
     hash: '',
-    setPreview: (previews, hash) =>
+    addPreview: (cid, hash) =>
       set(
         produce((state) => {
-          state.asset.previews = previews;
+          state.asset.previews.push({ cid, hash });
           state.asset.hash = hash;
+          // state.asset.previews = previews;
+          // state.asset.hash = hash;
         })
       ),
     setAsset: (cid: string, requestHash: string, kind) =>

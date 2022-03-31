@@ -1,12 +1,18 @@
 import { IAsset, IUser } from './index';
 
+export interface IPreviewMedia {
+  cid: string;
+  hash: string;
+  // mimetype
+}
+
 export interface ITempAsset {
   kind: 'style' | null;
   cid: string;
   requestHash: string;
-  previews: string[];
+  previews: IPreviewMedia[];
   hash: string;
-  setPreview: (previews: string[], hash: string) => void;
+  addPreview: (cid: string, hash: string) => void;
   setAsset: (cid: string, requestHash: string, kind: 'style') => void;
 }
 

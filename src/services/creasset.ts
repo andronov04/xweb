@@ -39,7 +39,7 @@ export class CreAsset {
       name: data.name,
       description: data.description,
       tags: tags,
-      artifactUri: `${urlToIpfs(this.cid)}?xhash=${this.hash}`,
+      artifactUri: `${urlToIpfs(this.cid)}?hash=${this.hash}`,
       displayUri: urlToIpfs(previewImage),
       thumbnailUri: urlToIpfs(previewImage),
       symbol: 'AASSET',

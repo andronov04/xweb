@@ -41,7 +41,11 @@ const MintToken = () => {
       thumbnailUri: urlToIpfs('previewImage'),
       symbol: 'CNTNT',
       decimals: 0,
-      version: '0.1'
+      version: '0.1',
+      type: 'Token',
+      date: new Date().toISOString()
+      // TODO formats
+      // State ??? stateUri
     };
     setMsg({ title: 'Upload ipfs', kind: 'info' });
     const response = await postDataFetch(API_META_TOKEN_URL, metadata);

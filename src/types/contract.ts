@@ -29,7 +29,7 @@ export type ContractUseCallReturn<T> = {
 export interface MintAssetCallData {
   enabled: boolean;
   metadata: string;
-  min_price: number;
+  price: number;
   royalties: number;
 }
 

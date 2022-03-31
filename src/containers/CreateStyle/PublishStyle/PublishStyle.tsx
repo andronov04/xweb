@@ -14,10 +14,10 @@ import { IAssetMetadata } from '../../../types/metadata';
 import { ipfsToUrl, urlToIpfs } from '../../../utils';
 import { postDataFetch } from '../../../api/RestApi';
 import { API_META_ASSET_URL } from '../../../constants';
+import { setMsg } from '../../../services/snackbar';
 
 const DEFAULT_WIDTH = 1000;
 const DEFAULT_HEIGHT = 1000;
-const DEFAULT_HASH = 'x019Fb5Df875F0FAfEb7FB31FA32cBeDaEA84ADdceAac0EE3e5859e';
 
 const PublishStyle = () => {
   const asset = useStore((state) => state.asset);
@@ -35,27 +35,52 @@ const PublishStyle = () => {
   } = useContract<MintAssetCallData>(getWallet().mintAsset);
   console.log('useContract:::', loading, status);
 
-  // useEffect(())
   const onSubmit = async (data) => {
     const previewImage = asset.previews[0];
+
+    if (!previewImage) {
+      setMsg({ title: 'You need set preview', kind: 'error' });
+      return;
+    }
 
     // Generate meta
     const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
     const metadata: IAssetMetadata = {
       name: data.name,
+      isTransferable: false,
       description: data.description,
       tags: tags,
-      artifactUri: `${urlToIpfs(asset.cid)}?xhash=${asset.hash}`,
-      displayUri: urlToIpfs(previewImage),
-      thumbnailUri: urlToIpfs(previewImage),
-      symbol: 'AASSET',
+      date: new Date().toISOString(),
+      artifactUri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
+      displayUri: urlToIpfs(previewImage.cid),
+      thumbnailUri: urlToIpfs(previewImage.cid),
+      symbol: 'CNSST',
       decimals: 0,
-      version: '0.1'
+      version: '0.1',
+      type: 'Asset (Style)',
+      formats: [
+        {
+          uri: urlToIpfs(previewImage.cid),
+          hash: asset.hash,
+          mimeType: 'image/png',
+          dimensions: {
+            value: `${DEFAULT_WIDTH}x${DEFAULT_HEIGHT}`,
+            unit: 'px'
+          }
+        },
+        {
+          uri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
+          hash: asset.hash,
+          mimeType: 'text/html'
+        }
+      ]
     };
 
+    setMsg({ title: 'Generate metadata...', kind: 'info' });
     // console.log('metadata', metadata);
     const response = await postDataFetch(API_META_ASSET_URL, metadata);
     if (response.status !== 200) {
+      setMsg({ title: 'Unknown error', kind: 'error' });
       return; // TODO Error
     }
     const result = await response.json();
@@ -64,7 +89,7 @@ const PublishStyle = () => {
     call({
       enabled: true,
       metadata: strToByteStr(`ipfs://${metadataCid}`),
-      min_price: Math.floor((data.min_price ?? 0) * 1000000),
+      price: Math.floor((data.min_price ?? 0) * 1000000),
       royalties: Math.floor(data.royalties! * 10)
     });
     console.log('publish', data);
@@ -92,7 +117,7 @@ const PublishStyle = () => {
               type={'textarea'}
               placeholder={'Description (max 2048 characters)'}
               label={'Description'}
-              register={register('description', { maxLength: 2048, required: true, minLength: 80 })}
+              register={register('description', { maxLength: 2048, required: true, minLength: 12 })}
             />
             <Input label={'Tags'} placeholder={'Tags (comma separated)'} register={register('tags', { maxLength: 512 })} />
 
@@ -121,7 +146,14 @@ const PublishStyle = () => {
         </div>
         <div className={'w-1/2'}>
           <div className={'p-4'}>
-            <PreviewMedia width={DEFAULT_WIDTH} height={DEFAULT_HEIGHT} url={`${ipfsToUrl(urlToIpfs(asset.cid))}?hash=${DEFAULT_HASH}`} />
+            <PreviewMedia
+              width={DEFAULT_WIDTH}
+              height={DEFAULT_HEIGHT}
+              url={`${ipfsToUrl(urlToIpfs(asset.cid))}?hash=`}
+              onPreview={(cid, hash) => {
+                asset.addPreview(cid, hash);
+              }}
+            />
           </div>
         </div>
       </div>

@@ -1,23 +1,23 @@
-import { IFRAME_ALLOW, IFRAME_SANDBOX, IPFS_PREFIX_URL, USE_GET_CAPTURE, USE_REQUEST_ASSET_CAPTURE, USE_RESPONSE_CAPTURE } from '../../../../constants';
+import { IFRAME_ALLOW, IFRAME_SANDBOX, IPFS_PREFIX_URL, USE_REQUEST_ASSET_CAPTURE } from '../../../../constants';
 import { useEffect, useRef, useState } from 'react';
-import { nanoid } from 'nanoid';
 import { useCapture } from '../../../../hooks/use-capture/useCapture';
 import Loader from '../../../../components/Utils/Loader';
-import { useStore } from '../../../../store';
 import { setMsg } from '../../../../services/snackbar';
 import { useWindowSize } from '../../../../hooks/use-resized/useWindowSize';
+import { generateHash } from '../../../../utils';
 
 interface IPreviewMedia {
   url: string;
   width: number;
   height: number;
+  onPreview: (cid, hash) => void;
 }
 
-const PreviewMedia = ({ url, width, height }: IPreviewMedia) => {
+const PreviewMedia = ({ url, width, height, onPreview }: IPreviewMedia) => {
   const size = useWindowSize();
+  const [hash, setHash] = useState<string>(generateHash());
   const [scale, setScale] = useState<number>(0.4);
   const [render, setRender] = useState<boolean>(false);
-  const [requestId, setRequestId] = useState<string>('initial');
   const refIframe = useRef<HTMLIFrameElement | null>(null);
   const refContainer = useRef<HTMLDivElement | null>(null);
   const {
@@ -29,7 +29,7 @@ const PreviewMedia = ({ url, width, height }: IPreviewMedia) => {
   useEffect(() => {
     console.log('data', data);
     if (data) {
-      // asset?.setPreview([data.cid], data.hash);
+      onPreview(data.cid, hash);
     }
   }, [data]);
 
@@ -64,7 +64,7 @@ const PreviewMedia = ({ url, width, height }: IPreviewMedia) => {
     }
   }, [loading]);
 
-  const fullUrl = `${url}?immediately=1&requestId=${requestId}`;
+  const fullUrl = `${url}${hash}`;
 
   // TODO More options
   return (
@@ -85,7 +85,7 @@ const PreviewMedia = ({ url, width, height }: IPreviewMedia) => {
                     </button>
                     <button
                       onClick={() => {
-                        setRequestId(nanoid());
+                        setHash(generateHash());
                       }}
                       className={'block bg-black p-2 opacity-20 hover:opacity-80 rounded-sm'}
                     >
@@ -126,7 +126,7 @@ const PreviewMedia = ({ url, width, height }: IPreviewMedia) => {
                   ref: refIframe,
                   postData: {
                     type: USE_REQUEST_ASSET_CAPTURE,
-                    requestId,
+                    hash,
                     url: fullUrl
                   }
                 })}

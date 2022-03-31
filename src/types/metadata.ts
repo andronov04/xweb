@@ -1,3 +1,10 @@
+export interface IMetaFormat {
+  uri: string;
+  hash: string;
+  mimeType: string;
+  dimensions?: any;
+}
+
 export interface IAssetMetadata {
   name: string;
   description: string;
@@ -8,6 +15,10 @@ export interface IAssetMetadata {
   symbol: string;
   decimals: number;
   version: string;
+  type: string;
+  date: string;
+  isTransferable: boolean;
+  formats: IMetaFormat[];
 }
 
 export interface ITokenMetadata {
@@ -20,4 +31,7 @@ export interface ITokenMetadata {
   symbol: string;
   decimals: number;
   version: string;
+  type: string;
+  date: string;
+  formats?: IMetaFormat[];
 }
