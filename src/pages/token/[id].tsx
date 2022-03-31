@@ -15,7 +15,7 @@ const ArtPage = ({ item }: { item: IToken }) => {
         <meta key="description" name="description" content={item.description} />
         <meta key="og:description" property="og:description" content={item.description} />
         <meta key="og:type" property="og:type" content="website" />
-        <meta key="og:image" property="og:image" content={ipfsToUrl(item.metadata?.displayUri)} />
+        <meta key="og:image" property="og:image" content={ipfsToUrl(item.metadata?.displayUri ?? '')} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -32,6 +32,7 @@ export async function getServerSideProps({ params }) {
     query: QL_GET_TOKEN,
     variables: { slug: id }
   });
+  console.log('aa', data);
   // TODO find by slug and id
   const item = data.token.find((a) => a.slug === id);
   if (item === undefined) {

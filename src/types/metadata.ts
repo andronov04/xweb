@@ -33,5 +33,6 @@ export interface ITokenMetadata {
   version: string;
   type: string;
   date: string;
+  isTransferable: boolean;
   formats?: IMetaFormat[];
 }

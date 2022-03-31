@@ -34,10 +34,8 @@ export interface MintAssetCallData {
 }
 
 export interface MintTokenCallData {
-  assets: string[]; // TODO data order -id
+  assets: number[]; // TODO data order -id
   enabled: boolean;
   digest: string;
   metadata: string;
-  price: number;
-  royalties: number;
 }

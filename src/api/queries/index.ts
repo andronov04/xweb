@@ -110,7 +110,7 @@ export const QL_GET_ASSET_ITEMS = gql`
 
 export const QL_GET_TOKEN_ITEMS = gql`
   query MyQuery($limit: Int, $offset: Int) {
-    token(order_by: { created: asc }, limit: $limit, offset: $offset) {
+    token(order_by: { created: desc }, limit: $limit, offset: $offset) {
       created
       description
       id

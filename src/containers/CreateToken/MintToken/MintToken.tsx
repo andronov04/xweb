@@ -17,11 +17,11 @@ import Subscription from '../../../components/Subscription/Subscription';
 import { SUB_ACTION_OP_HASH } from '../../../api/subscription';
 import { useRouter } from 'next/router';
 
+let extended = false; // for test
 const MintToken = () => {
   const [opHash, setOpHash] = useState<string | null>();
   const router = useRouter();
   const token = useStore((state) => state.token);
-  const [metaCid, setMetaCid] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -44,6 +44,7 @@ const MintToken = () => {
   }, [result]);
 
   const onSubmit = async (data) => {
+    console.log('extended', extended);
     const w = token.state?.root?.width ?? 1000;
     const h = token.state?.root?.height ?? 1000;
     const previewImage = token.previews[0];
@@ -53,71 +54,67 @@ const MintToken = () => {
       return;
     }
     // Generate meta
-    let metadataCid = metaCid;
-
-    if (!metaCid) {
-      const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
-      const metadata: ITokenMetadata = {
-        name: data.name,
-        description: data.description,
-        tags: tags,
-        artifactUri: urlToIpfs(token.cid),
-        displayUri: urlToIpfs(previewImage.cid),
-        thumbnailUri: urlToIpfs(previewImage.cid),
-        symbol: 'CNTNT',
-        decimals: 0,
-        version: '0.1',
-        type: 'Token',
-        date: new Date().toISOString(),
-        formats: [
-          {
-            uri: urlToIpfs(previewImage.cid),
-            hash: token.digest,
-            mimeType: 'image/png',
-            dimensions: {
-              value: `${w}x${h}`,
-              unit: 'px'
-            }
-          },
-          {
-            uri: urlToIpfs(token.cid),
-            hash: token.digest,
-            mimeType: 'text/html'
+    const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
+    const metadata: ITokenMetadata = {
+      name: data.name,
+      description: data.description,
+      tags: tags,
+      isTransferable: !extended,
+      artifactUri: urlToIpfs(token.cid),
+      displayUri: urlToIpfs(previewImage.cid),
+      thumbnailUri: urlToIpfs(previewImage.cid),
+      symbol: 'CNTNT',
+      decimals: 0,
+      version: '0.1',
+      type: 'Token',
+      date: new Date().toISOString(),
+      formats: [
+        {
+          uri: urlToIpfs(previewImage.cid),
+          hash: token.digest,
+          mimeType: 'image/png',
+          dimensions: {
+            value: `${w}x${h}`,
+            unit: 'px'
           }
-        ]
-        // TODO formats
-        // State ??? stateUri
-      };
-      setMsg({ title: 'Upload ipfs', kind: 'info' });
-      const response = await postDataFetch(API_META_TOKEN_URL, metadata);
-      if (response.status !== 200) {
-        return; // TODO Error
-      }
-      const result = await response.json();
-      const { cid } = result;
-      metadataCid = cid;
-      console.log('metadata:::', metadata);
-      setMetaCid(cid);
+        },
+        {
+          uri: urlToIpfs(token.cid),
+          hash: token.digest,
+          mimeType: 'text/html'
+        }
+      ]
+      // TODO formats
+      // State ??? stateUri
+    };
+    setMsg({ title: 'Upload ipfs', kind: 'info' });
+    const response = await postDataFetch(API_META_TOKEN_URL, metadata);
+    if (response.status !== 200) {
+      return; // TODO Error
     }
+    const result = await response.json();
+    const { cid: metadataCid } = result;
     if (!metadataCid) {
       setMsg({ title: 'Error', kind: 'error' });
       return;
     }
 
-    const metadataUri = strToByteStr(urlToIpfs(metadataCid));
     console.log('token', token);
-    // call({
-    //   assets: [], // TODO data ids
-    //   digest: token.digest,
-    //   enabled: true,
-    //   metadata: strToByteStr(`ipfs://${metadataCid}`),
-    //   price: Math.floor(data.price! * 1000000),
-    //   royalties: Math.floor(data.royalties! * 10)
-    // });
+    if (extended) {
+      // TODO Create extended mint
+    } else {
+      call({
+        assets: token.assets.map((a) => a.id), // TODO data ids
+        digest: token.digest,
+        enabled: true,
+        metadata: strToByteStr(urlToIpfs(metadataCid))
+      });
+    }
     console.log('publish', data);
   };
 
-  const submit = () => {
+  const submit = (_extended = false) => {
+    extended = _extended;
     if (Object.keys(errors).length) {
       const desc = Object.values(errors)
         .filter((a) => a.message)
@@ -197,10 +194,22 @@ const MintToken = () => {
             <input ref={refSubmit} className={'hidden'} type="submit" />
           </form>
           <div className={'mt-8 flex justify-end items-center space-x-2'}>
-            <CustomButton onClick={submit} style={'white'} value={'Mint'} />
+            <CustomButton
+              onClick={() => {
+                submit();
+              }}
+              style={'white'}
+              value={'Mint'}
+            />
           </div>
           <div className={'mt-8 flex justify-end items-center space-x-2'}>
-            <CustomButton onClick={submit} style={'white'} value={'Extended mint 20 ꜩ'} />
+            <CustomButton
+              onClick={() => {
+                submit(true);
+              }}
+              style={'white'}
+              value={'Extended mint 20 ꜩ'}
+            />
           </div>
         </div>
       </div>
