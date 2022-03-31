@@ -42,9 +42,6 @@ export interface IStore {
   asset: ITempAsset;
   token: ITempToken;
 
-  message: IMessageBar | null;
-  setMessage: (message: IMessageBar | null) => void;
-
   user: IUser | null;
   connectUser: () => Promise<void>;
   disconnectUser: () => Promise<void>;

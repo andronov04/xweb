@@ -1,11 +1,11 @@
 import create from 'zustand';
 import produce from 'immer';
 import { IStore } from '../types/store';
-import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_DIGEST, RESPONSE_PREPARE, USE_ADD_ASSET, USE_PREPARE, USE_REMOVE_ASSET } from '../constants';
+import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_DIGEST, USE_ADD_ASSET, USE_PREPARE, USE_REMOVE_ASSET } from '../constants';
 import { nanoid } from 'nanoid';
 import { getWallet } from '../api/WalletApi';
 import { IUser } from '../types';
-import { eventEmitter, eventOnceWaitFor } from '../api/EventApi';
+import { eventOnceWaitFor } from '../api/EventApi';
 
 let tokenProxy;
 export const useStore = create<IStore>((set, get) => ({
@@ -123,9 +123,6 @@ export const useStore = create<IStore>((set, get) => ({
       );
     }
   },
-
-  message: null,
-  setMessage: (message) => set((state) => ({ message })),
 
   user: null,
   initUser: async () => {
