@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { IItem } from '../../types';
 import { ipfsToUrl } from '../../utils';
+import { IMAGE_MIMETYPES } from '../../constants';
+import { useMemo } from 'react';
 
 const getUrl = (item: IItem) => {
   if (item.__typename === 'asset') {
@@ -18,23 +20,60 @@ interface IItemComp {
 }
 
 const ItemContent = ({ item }: { item: IItem }) => {
+  // TODO different size video,html,png and etc
+  const formats = item.metadata?.formats;
+  const withDim = formats?.filter((a) => a.dimensions);
+  let size = { width: 1000, height: 1000 };
+  if (withDim) {
+    // TODO Use width and height in db
+    const dim = withDim[0].dimensions.value;
+    size.width = parseInt(dim.split('x')[0]);
+    size.height = parseInt(dim.split('x')[1]);
+  }
   return (
-    <div
-      style={{
-        paddingTop: '100%',
-        backgroundSize: 'cover',
-        backgroundImage: `url(${ipfsToUrl(item.metadata?.thumbnailUri ?? '')})`
-      }}
-      className={'w-full bg-black rounded-sm '}
-    />
+    <div className={'item relative'}>
+      <div
+        style={{
+          display: 'block',
+          width: '1px',
+          height: '0px',
+          paddingBottom: `calc(100% / ${size.width / size.height})` //`calc(100% / ${item.width / item.height})`,
+        }}
+      />
+      {item.metadata?.formats?.map((format) => {
+        // console.log('format', format);
+        return (
+          <div>
+            {IMAGE_MIMETYPES.includes(format.mimeType) ? (
+              <img className={'absolute top-0 left-0 w-full h-auto'} src={ipfsToUrl(item.metadata?.thumbnailUri ?? '')} alt={item.name} />
+            ) : null}
+            {/*<div*/}
+            {/*  style={{*/}
+            {/*    // paddingTop: '100%',*/}
+            {/*    backgroundSize: 'cover',*/}
+            {/*    backgroundImage: `url(${ipfsToUrl(item.metadata?.thumbnailUri ?? '')})`*/}
+            {/*  }}*/}
+            {/*  className={'w-full bg-black rounded-sm '}*/}
+            {/*/>*/}
+          </div>
+        );
+      })}
+    </div>
   );
 };
+//.c-jrLCru img {
+//     position: absolute;
+//     top: 0px;
+//     left: 0px;
+//     width: 100%;
+//     height: auto;
+// }
 
 const Item = ({ item, price, mode, onClickItem, active }: IItemComp) => {
-  const plural_suggest = () => {
-    const count = item.assetTokenAssets_aggregate?.aggregate?.count ?? 0;
-    return count > 1 ? `${count} tokens` : `${count} token`;
-  };
+  // const plural_suggest = () => {
+  //   const count = item.assetTokenAssets_aggregate?.aggregate?.count ?? 0;
+  //   return count > 1 ? `${count} tokens` : `${count} token`;
+  // };
   return (
     <>
       {mode === 'selected' && (
@@ -63,26 +102,40 @@ const Item = ({ item, price, mode, onClickItem, active }: IItemComp) => {
             </a>
           </Link>
           <div className={'flex justify-between'}>
-            {item.assetTokenAssets_aggregate?.aggregate?.count ? (
-              <p className={'font-light text-xs text-inactive'}>
-                <span className={'text-green opacity-70'}>Style</span> / {plural_suggest()}
-              </p>
-            ) : null}
+            {/*{item.assetTokenAssets_aggregate?.aggregate?.count ? (*/}
+            {/*  <p className={'font-light text-xs text-inactive'}>*/}
+            {/*    <span className={'text-green opacity-70'}>Style</span> / {plural_suggest()}*/}
+            {/*  </p>*/}
+            {/*) : null}*/}
           </div>
         </div>
       )}
       {mode === 'normal' && (
-        <Link href={getUrl(item)}>
-          <a href={getUrl(item)}>
-            <ItemContent item={item} />
-            <h2 className={'pt-2 font-light text-active'}>{item.name}</h2>
-            <div className={'flex justify-between'}>
-              <p className={'font-light text-xs text-inactive'}>@{item.user?.username ?? item.user?.id}</p>
-              {price ? <p className={'text-green'}>{item.__typename === 'tokens' ? `${item.price} ꜩ` : ''}</p> : null}
-            </div>
-          </a>
-        </Link>
+        <div className={'overflow-hidden'}>
+          <Link href={getUrl(item)}>
+            <a href={getUrl(item)}>
+              <ItemContent item={item} />
+            </a>
+          </Link>
+          <h2 className={'pt-2 font-light text-active'}>{item.name}</h2>
+          <div className={'flex justify-between'}>
+            <p className={'font-light text-xs text-inactive'}>@{item.user?.username ?? item.user?.id}</p>
+            {price ? <p className={'text-green'}>{item.__typename === 'tokens' ? `${item.price} ꜩ` : ''}</p> : null}
+          </div>
+        </div>
       )}
+      {/*{mode === 'normal' && (*/}
+      {/*  <Link href={getUrl(item)}>*/}
+      {/*    <a href={getUrl(item)}>*/}
+      {/*      <ItemContent item={item} />*/}
+      {/*      <h2 className={'pt-2 font-light text-active'}>{item.name}</h2>*/}
+      {/*      <div className={'flex justify-between'}>*/}
+      {/*        <p className={'font-light text-xs text-inactive'}>@{item.user?.username ?? item.user?.id}</p>*/}
+      {/*        {price ? <p className={'text-green'}>{item.__typename === 'tokens' ? `${item.price} ꜩ` : ''}</p> : null}*/}
+      {/*      </div>*/}
+      {/*    </a>*/}
+      {/*  </Link>*/}
+      {/*)}*/}
     </>
   );
 };

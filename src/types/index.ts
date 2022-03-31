@@ -1,3 +1,5 @@
+import { IAssetMetadata, ITokenMetadata } from './metadata';
+
 export interface IUser {
   id: string;
   username?: string;
@@ -28,7 +30,7 @@ export interface IAsset {
   hash?: string;
   state?: string;
   created?: string;
-  metadata?: any; // TODO Description
+  metadata?: IAssetMetadata;
   assetTokenAssets_aggregate?: INestedAggregate;
 }
 
@@ -46,7 +48,7 @@ export interface IToken {
   royalties?: number;
   editions?: number;
   metadataUri?: string;
-  metadata?: any; // TODO Description
+  metadata?: ITokenMetadata;
   zhash?: string;
   enabled?: boolean;
   tags?: string[];
@@ -54,10 +56,22 @@ export interface IToken {
   asset?: IAsset;
 }
 
-export interface IItem extends Partial<IToken>, Partial<IAsset> {
+export interface IItem {
   id: number;
+  name: string;
+  description?: string;
+  user?: IUser;
+  slug?: string;
+  created?: string;
+  updated?: string;
+  price?: number;
   width: number;
+  tags?: string[];
   height: number;
+  __typename?: string;
+  royalties?: number;
+  metadataUri?: string;
+  metadata: ITokenMetadata | IAssetMetadata;
 }
 
 export interface IActiveArt {

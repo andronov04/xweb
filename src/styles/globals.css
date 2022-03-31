@@ -21,3 +21,11 @@ body {
   background: #101010;
   color: #fff;
 }
+
+/*.item::before {*/
+/*  content: "";*/
+/*  display: block;*/
+/*  width: 1px;*/
+/*  height: 0px;*/
+/*  padding-bottom: calc(100% / 0.612245);*/
+/*}*/
