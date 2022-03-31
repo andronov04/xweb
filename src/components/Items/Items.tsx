@@ -6,7 +6,7 @@ import Loader from '../Utils/Loader';
 import { IItem } from '../../types';
 
 interface IVariable {
-  (key: string): string | number;
+  [key: string]: string | number;
 }
 
 interface IItems {

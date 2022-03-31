@@ -3,7 +3,7 @@ import { waitUntil } from 'async-wait-until';
 
 export const eventEmitter = new EventEmitter();
 
-export const eventOnceWaitFor = async (eventName: string) => {
+export const eventOnceWaitFor = async (eventName: string, options?: any) => {
   let dt;
   eventEmitter.once(eventName, (data) => {
     dt = data;
@@ -14,6 +14,6 @@ export const eventOnceWaitFor = async (eventName: string) => {
     () => dt,
     // Here, we can specify a timeout in milliseconds. Once it passes,
     // we'll stop waiting and throw an exception
-    { timeout: 10000 }
+    { timeout: options?.timeout ?? 10000 }
   );
 };

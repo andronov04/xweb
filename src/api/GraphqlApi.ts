@@ -28,7 +28,7 @@ const createWSLink = (headers) => {
 };
 
 const initClient = () => {
-  const ssrMode = true; //typeof window === 'undefined';
+  const ssrMode = typeof window === 'undefined';
   let link;
   if (ssrMode) {
     link = createHttpLink({ 'x-hasura-admin-secret': GRAPHQL_API_KEY });

@@ -15,11 +15,15 @@ import { ipfsToUrl, urlToIpfs } from '../../../utils';
 import { postDataFetch } from '../../../api/RestApi';
 import { API_META_ASSET_URL } from '../../../constants';
 import { setMsg } from '../../../services/snackbar';
+import { useSubscription } from '@apollo/client';
+import Subscription from '../../../components/Subscription/Subscription';
+import { SUB_ACTION_OP_HASH } from 'src/api/subscription';
 
 const DEFAULT_WIDTH = 1000;
 const DEFAULT_HEIGHT = 1000;
 
 const PublishStyle = () => {
+  const [opHash, setOpHash] = useState<string | null>();
   const asset = useStore((state) => state.asset);
   const router = useRouter();
   // TODO Validation https://github.com/ianstormtaylor/superstruct one place for use backend and another
@@ -32,9 +36,23 @@ const PublishStyle = () => {
   } = useForm();
   const {
     call,
-    state: { loading, status, result: hash }
+    state: { loading, status, result }
   } = useContract<MintAssetCallData>(getWallet().mintAsset);
   console.log('useContract:::', loading, status);
+
+  // useEffect(() => {
+  //   // wait subscript in db
+  //   console.log('!data:::', data);
+  // }, [data]);
+
+  useEffect(() => {
+    console.log('result', result);
+    if (result) {
+      setMsg({ title: 'Waiting confirmation...', kind: 'info' });
+      // wait subscript in db
+      setOpHash(result);
+    }
+  }, [result]);
 
   const onSubmit = async (data) => {
     console.log('data:::', data);
@@ -115,6 +133,20 @@ const PublishStyle = () => {
 
   return (
     <section className={'h-full'}>
+      {opHash ? (
+        <Subscription
+          query={SUB_ACTION_OP_HASH}
+          variables={{ opHash: opHash }}
+          onComplete={(data) => {
+            console.log('onComplete:::', data);
+            // TODO Timeout
+            const action = data?.action?.[0];
+            if (action) {
+              router.replace(`/asset/${action.asset.slug}`).then();
+            }
+          }}
+        />
+      ) : null}
       <div className={'flex gap-x-3'}>
         <div className={'w-1/2'}>
           <form className={'flex gap-y-3 flex-col'} onSubmit={handleSubmit(onSubmit)}>

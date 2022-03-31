@@ -82,7 +82,8 @@ class WalletApi {
 
     console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
-    // await isOperationApplied(opSend.opHash)
+    console.log('opSend.opHash:::', opSend.opHash);
+    // await wait(opSend.opHash)
 
     // OK, injected
     requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
@@ -95,7 +96,6 @@ class WalletApi {
 
     console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
-    // await isOperationApplied(opSend.opHash)
 
     // OK, injected
     requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
