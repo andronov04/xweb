@@ -16,17 +16,19 @@ const PreviewStyle = () => {
 
   useEffect(() => {
     // TODO Remove timeout?
-    setTimeout(() => {
-      token.addAsset({
-        id: 0,
-        name: 'Style',
-        metadata: {
+    if (size.width && size.height) {
+      setTimeout(() => {
+        token.addAsset({
+          id: 0,
           name: 'Style',
-          artifactUri: `ipfs://${asset.cid}`
-        }
-      });
-    }, 1500);
-  }, []);
+          metadata: {
+            name: 'Style',
+            artifactUri: `ipfs://${asset.cid}`
+          }
+        });
+      }, 500);
+    }
+  }, [size.width, size.height]);
 
   useEffect(() => {
     if (!asset?.cid) {

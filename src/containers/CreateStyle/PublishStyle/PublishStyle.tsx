@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import Input from '../../../components/Form/Input';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import PreviewMedia from './PreviewMedia/PreviewMedia';
 import Loader from '../../../components/Utils/Loader';
@@ -24,6 +24,7 @@ const PublishStyle = () => {
   const router = useRouter();
   // TODO Validation https://github.com/ianstormtaylor/superstruct one place for use backend and another
   const refSubmit = useRef<HTMLInputElement | null>(null);
+  const [metaCid, setMetaCid] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -36,6 +37,7 @@ const PublishStyle = () => {
   console.log('useContract:::', loading, status);
 
   const onSubmit = async (data) => {
+    console.log('data:::', data);
     const previewImage = asset.previews[0];
 
     if (!previewImage) {
@@ -44,55 +46,61 @@ const PublishStyle = () => {
     }
 
     // Generate meta
-    const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
-    const metadata: IAssetMetadata = {
-      name: data.name,
-      isTransferable: false,
-      description: data.description,
-      tags: tags,
-      date: new Date().toISOString(),
-      artifactUri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
-      displayUri: urlToIpfs(previewImage.cid),
-      thumbnailUri: urlToIpfs(previewImage.cid),
-      symbol: 'CNSST',
-      decimals: 0,
-      version: '0.1',
-      type: 'Asset (Style)',
-      formats: [
-        {
-          uri: urlToIpfs(previewImage.cid),
-          hash: asset.hash,
-          mimeType: 'image/png',
-          dimensions: {
-            value: `${DEFAULT_WIDTH}x${DEFAULT_HEIGHT}`,
-            unit: 'px'
+    let metadataCid = metaCid;
+    // TODO Get state preview
+    if (!metaCid) {
+      const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
+      const metadata: IAssetMetadata = {
+        name: data.name,
+        isTransferable: false,
+        description: data.description,
+        tags: tags,
+        date: new Date().toISOString(),
+        artifactUri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
+        displayUri: urlToIpfs(previewImage.cid),
+        thumbnailUri: urlToIpfs(previewImage.cid),
+        symbol: 'CNSST',
+        decimals: 0,
+        version: '0.1',
+        type: 'Asset (Style)',
+        formats: [
+          {
+            uri: urlToIpfs(previewImage.cid),
+            hash: asset.hash,
+            mimeType: 'image/png',
+            dimensions: {
+              value: `${DEFAULT_WIDTH}x${DEFAULT_HEIGHT}`,
+              unit: 'px'
+            }
+          },
+          {
+            uri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
+            hash: asset.hash,
+            mimeType: 'text/html'
           }
-        },
-        {
-          uri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
-          hash: asset.hash,
-          mimeType: 'text/html'
-        }
-      ]
-    };
+        ]
+      };
 
-    setMsg({ title: 'Generate metadata...', kind: 'info' });
-    // console.log('metadata', metadata);
-    const response = await postDataFetch(API_META_ASSET_URL, metadata);
-    if (response.status !== 200) {
-      setMsg({ title: 'Unknown error', kind: 'error' });
-      return; // TODO Error
+      setMsg({ title: 'Generate metadata...', kind: 'info' });
+      // console.log('metadata', metadata);
+      const response = await postDataFetch(API_META_ASSET_URL, metadata);
+      if (response.status !== 200) {
+        setMsg({ title: 'Unknown error', kind: 'error' });
+        return; // TODO Error
+      }
+      const result = await response.json();
+      const { cid } = result;
+      metadataCid = cid;
+      console.log('metadata:::', metadata);
+      setMetaCid(cid);
     }
-    const result = await response.json();
-    const { cid: metadataCid } = result;
 
     call({
       enabled: true,
       metadata: strToByteStr(`ipfs://${metadataCid}`),
-      price: Math.floor((data.min_price ?? 0) * 1000000),
+      price: Math.floor((data.price ?? 0) * 1000000),
       royalties: Math.floor(data.royalties! * 10)
     });
-    console.log('publish', data);
   };
 
   useEffect(() => {
@@ -110,34 +118,60 @@ const PublishStyle = () => {
       <div className={'flex gap-x-3'}>
         <div className={'w-1/2'}>
           <form className={'flex gap-y-3 flex-col'} onSubmit={handleSubmit(onSubmit)}>
-            {errors.name && <p>name is required.</p>}
-            {errors.royalties && <p>royalties error.</p>}
-            <Input label={'Name'} placeholder={'Name (max 280 characters)'} register={register('name', { required: true, minLength: 3, maxLength: 280 })} />
+            <Input
+              label={'Name'}
+              placeholder={'Name (max 280 characters)'}
+              register={register('name', {
+                required: { message: 'Required name', value: true },
+                minLength: { message: 'Name min length 3', value: 3 },
+                maxLength: { message: 'Name max length 280', value: 280 }
+              })}
+            />
             <Input
               type={'textarea'}
               placeholder={'Description (max 2048 characters)'}
               label={'Description'}
-              register={register('description', { maxLength: 2048, required: true, minLength: 12 })}
+              register={register('description', {
+                maxLength: { message: 'Description max length 2048', value: 2048 },
+                required: { message: 'Required description', value: true },
+                minLength: { message: 'Description min length 12', value: 12 }
+              })}
             />
-            <Input label={'Tags'} placeholder={'Tags (comma separated)'} register={register('tags', { maxLength: 512 })} />
+            <Input
+              label={'Tags'}
+              placeholder={'Tags (comma separated)'}
+              register={register('tags', {
+                maxLength: { message: 'Tags max length 512', value: 512 }
+              })}
+            />
 
             <div className={'w-full gap-x-3 flex justify-start text-left mt-4'}>
               <div className={'w-1/2'}>
                 <Input
                   label={'Royalties'}
                   type={'number'}
-                  // defaultValue={null}
+                  defaultValue={0}
                   placeholder={'royalties (0-25%)'}
-                  register={register('royalties', { min: 0, max: 25, required: true, valueAsNumber: true })}
+                  register={register('royalties', {
+                    min: 0,
+                    max: 25,
+                    required: { message: 'Required royalties', value: true },
+                    valueAsNumber: true
+                  })}
                 />
               </div>
               <div className={'w-1/2'}>
                 <Input
                   label={'Extended Price'}
                   type={'number'}
-                  // defaultValue={null}
+                  defaultValue={0}
                   placeholder={'ꜩ (0-9999)'}
-                  register={register('price', { min: 0, max: Infinity, required: false, valueAsNumber: true })}
+                  register={register('price', {
+                    min: 0,
+                    max: Infinity,
+                    required: { message: 'Required extended price', value: true },
+                    valueAsNumber: true
+                  })}
                 />
               </div>
             </div>
@@ -161,6 +195,13 @@ const PublishStyle = () => {
         <i className={'font-thin text-sm opacity-90 text-warn'}>warning: edit is not available in beta version</i>
         <CustomButton
           onClick={() => {
+            if (Object.keys(errors).length) {
+              const desc = Object.values(errors)
+                .filter((a) => a.message)
+                .map((a) => a.message)
+                .join('. ');
+              setMsg({ title: 'Form error', description: desc, kind: 'error' });
+            }
             refSubmit.current?.click();
           }}
           style={'white'}
