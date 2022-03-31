@@ -12,7 +12,7 @@ interface IPreviewMedia {
   height: number;
   onPreview: (cid, hash) => void;
 }
-
+// TODO Almost duplicate PreviewToken, two-one
 const PreviewMedia = ({ url, width, height, onPreview }: IPreviewMedia) => {
   const size = useWindowSize();
   const [hash, setHash] = useState<string>(generateHash());
@@ -25,7 +25,7 @@ const PreviewMedia = ({ url, width, height, onPreview }: IPreviewMedia) => {
     capture,
     captureState: { loading, status, data }
   } = useCapture();
-  // TODO Generate capture
+
   useEffect(() => {
     console.log('data', data);
     if (data) {

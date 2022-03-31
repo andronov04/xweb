@@ -1,5 +1,5 @@
 import React, { RefObject, useEffect } from 'react';
-import { FILE_API_CAPTURE_IMG_URL, USE_COMPLETE_CAPTURE, USE_RESPONSE_ASSET_CAPTURE, USE_RESPONSE_CAPTURE } from '../../constants';
+import { FILE_API_CAPTURE_IMG_URL, USE_COMPLETE_CAPTURE, USE_RESPONSE_ASSET_CAPTURE, USE_RESPONSE_CAPTURE, USE_RESPONSE_TOKEN_CAPTURE } from '../../constants';
 import { postFetch } from '../../api/RestApi';
 
 interface ICapture {}
@@ -43,7 +43,7 @@ const createCapture = (props: ICapture, updater: () => void) => {
         'message',
         (event) => {
           // TODO Capture for token and asset
-          if (event.data?.type === USE_RESPONSE_ASSET_CAPTURE) {
+          if (event.data?.type === USE_RESPONSE_ASSET_CAPTURE || event.data?.type === USE_RESPONSE_TOKEN_CAPTURE) {
             console.log('USE_RESPONSE_CAPTURE', event.data);
             setState({ status: 'Upload image to ipfs...' });
             const formData = new FormData();

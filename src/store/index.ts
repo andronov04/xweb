@@ -38,6 +38,12 @@ export const useStore = create<IStore>((set, get) => ({
     digest: '',
     previews: [],
     cid: '',
+    addPreview: (cid, hash) =>
+      set(
+        produce((state) => {
+          state.token.previews.push({ cid, hash });
+        })
+      ),
     setCid: (cid: string) =>
       set(
         produce((state) => {

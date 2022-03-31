@@ -19,7 +19,6 @@ const getToast = (kind: 'error' | 'warn' | 'info' | 'success') => {
   return t;
 };
 export const setMsg = (msg: IMessageBar | null = null) => {
-  console.log('aa', getToast(msg?.kind ?? 'info'));
   getToast(msg?.kind ?? 'info')(msg?.title, {
     position: 'bottom-right',
     autoClose: 5000,
