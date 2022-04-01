@@ -15,7 +15,7 @@ module.exports = {
         destination: '/:id'
       },
       {
-        source: '/:id/styles',
+        source: '/:id/assets',
         destination: '/:id'
       }
     ];

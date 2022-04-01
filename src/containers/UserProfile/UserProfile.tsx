@@ -5,34 +5,15 @@ import Spacing from '../../components/Spacing/Spacing';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import ConditionRender from 'src/components/Utils/ConditionRender';
-import UserItems, { IUserItemsVariables } from './UserItems';
-import { QL_GET_TOKENS_BY_USER, QL_GET_TOKEN_OWNED_ITEMS_BY_USER, QL_GET_TOKEN_SALES_ITEMS_BY_USER, QL_GET_SCRIPS_BY_USER } from '../../api/queries';
 import { useStore } from '../../store';
 import shallow from 'zustand/shallow';
+import UserItems from './UserItems';
 
 const UserProfile = ({ user }: { user: IUser }) => {
   const [stateUser, disconnectUser] = useStore((state) => [state.user, state.disconnectUser], shallow);
   const router = useRouter();
   const isCurrent = user.id === stateUser?.id;
   const url = `/@${user.username ?? user.id}`;
-  let query = QL_GET_TOKENS_BY_USER;
-  let variables: IUserItemsVariables = { user_id: user.id };
-  let price = false;
-  if (router.asPath.endsWith('owned')) {
-    query = QL_GET_TOKEN_OWNED_ITEMS_BY_USER;
-    variables = { owner_id: user.id };
-  }
-  if (router.asPath.endsWith('sales')) {
-    query = QL_GET_TOKEN_SALES_ITEMS_BY_USER;
-    variables = { user_id: user.id };
-    price = true;
-  }
-  if (router.asPath.endsWith('styles')) {
-    query = QL_GET_SCRIPS_BY_USER;
-  }
-  if (router.asPath.endsWith('activity')) {
-    //
-  }
 
   return (
     <>
@@ -117,7 +98,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
       <Spacing size={1.2} />
 
       <ConditionRender client>
-        <UserItems user={user} price={price} variables={variables} query={query} />
+        <UserItems user={user} />
       </ConditionRender>
     </>
   );

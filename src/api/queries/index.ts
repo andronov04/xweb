@@ -39,15 +39,16 @@ export const QL_GET_SCRIPTS = gql`
 `;
 
 export const QL_GET_TOKENS_BY_USER = gql`
-  query MyQuery($user_id: String!, $limit: Int, $offset: Int) {
-    tokens(where: { user_id: { _eq: $user_id } }, order_by: { created: asc }, limit: $limit, offset: $offset) {
+  query MyQuery($userId: String!, $limit: Int, $offset: Int) {
+    token(where: { userId: { _eq: $userId } }, order_by: { created: asc }, limit: $limit, offset: $offset) {
       created
-      is_sale
       description
       id
+      digest
       metadata
       slug
-      price
+      width
+      height
       name
       flag
       user {
@@ -58,25 +59,28 @@ export const QL_GET_TOKENS_BY_USER = gql`
   }
 `;
 
-export const QL_GET_SCRIPS_BY_USER = gql`
-  query MyQuery($user_id: String!, $limit: Int, $offset: Int) {
-    scripts(where: { user_id: { _eq: $user_id } }, order_by: { created: asc }, limit: $limit, offset: $offset) {
+export const QL_GET_ASSETS_BY_USER = gql`
+  query MyQuery($userId: String!, $limit: Int, $offset: Int) {
+    asset(where: { userId: { _eq: $userId } }, order_by: { created: asc }, limit: $limit, offset: $offset) {
       name
       id
       description
-      min_price
+      kind
       flag
       enabled
       metadata
       royalties
       slug
-      zhash
       created
+      assetTokenAssets_aggregate {
+        aggregate {
+          count
+        }
+      }
       user {
         id
         username
       }
-      date_publish
     }
   }
 `;
@@ -268,20 +272,16 @@ export const QL_GET_TOKEN_ITEMS_BY_SCRIPT = gql`
   }
 `;
 export const QL_GET_TOKEN_OWNED_ITEMS_BY_USER = gql`
-  query MyQuery($owner_id: String, $limit: Int, $offset: Int) {
-    tokens(
-      where: { owner_id: { _eq: $owner_id }, user_id: { _neq: $owner_id }, is_sale: { _eq: false } }
-      order_by: { created: asc }
-      limit: $limit
-      offset: $offset
-    ) {
+  query MyQuery($ownerId: String, $limit: Int, $offset: Int) {
+    token(where: { ownerId: { _eq: $ownerId }, userId: { _neq: $ownerId } }, order_by: { created: asc }, limit: $limit, offset: $offset) {
       created
-      is_sale
       description
       id
+      digest
       metadata
       slug
-      price
+      width
+      height
       name
       flag
       user {
@@ -297,30 +297,27 @@ export const QL_GET_TOKEN_OWNED_ITEMS_BY_USER = gql`
 `;
 
 export const QL_GET_TOKEN_SALES_ITEMS_BY_USER = gql`
-  query MyQuery($user_id: String, $limit: Int, $offset: Int) {
-    tokens(
-      where: { _or: [{ owner_id: { _eq: $user_id } }, { user_id: { _eq: $user_id } }], is_sale: { _eq: true } }
-      order_by: { created: asc }
-      limit: $limit
-      offset: $offset
-    ) {
-      created
-      is_sale
-      description
+  query MyQuery($userId: String, $limit: Int, $offset: Int) {
+    offer(where: { token: { userId: { _eq: $userId } } }, order_by: { created: asc }, limit: $limit, offset: $offset) {
       id
-      metadata
-      slug
+      token {
+        id
+        slug
+        name
+        metadata
+        user {
+          id
+          username
+          avatarUri
+        }
+        owner {
+          id
+          username
+          avatarUri
+        }
+        royalties
+      }
       price
-      name
-      flag
-      user {
-        id
-        username
-      }
-      owner {
-        id
-        username
-      }
     }
   }
 `;
