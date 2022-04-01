@@ -32,7 +32,6 @@ export async function getServerSideProps({ params }) {
     query: QL_GET_TOKEN,
     variables: { slug: id }
   });
-  console.log('aa', data);
   // TODO find by slug and id
   const item = data.token.find((a) => a.slug === id);
   if (item === undefined) {

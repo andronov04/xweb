@@ -7,10 +7,12 @@ import Navs from 'src/components/Navs/Navs';
 import ConditionRender from '../../components/Utils/ConditionRender';
 import TradeAction from '../TradeAction/TradeAction';
 import { useStore } from '../../store';
+import PurchaseAction from '../PurchaseAction/PurchaseAction';
 
 const TokenItem = ({ item }: { item: IToken }) => {
   const currentUser = useStore((state) => state.user);
   const user = item.user?.username ?? item.user?.id;
+  console.log('item-item', item);
   return (
     <section>
       <div className={'flex w-full items-start md:flex-row flex-col gap-x-8'}>
@@ -57,10 +59,12 @@ const TokenItem = ({ item }: { item: IToken }) => {
           {/*    </a>*/}
           {/*  </Link>*/}
           {/*</div>*/}
-          <div className={'mt-10'}>
-            <ConditionRender client>{currentUser?.id === item.user?.id ? <TradeAction item={item} /> : <></>}</ConditionRender>
-          </div>
-          <div className={'mt-10'}>{/*<CustomButton classNames={'bg-active text-dark hover:bg-inactive'} value={`purchase ${item.price} tez`} />*/}</div>
+
+          {item.metadata?.isTransferable && (
+            <div className={'mt-10'}>
+              <ConditionRender client>{currentUser?.id === item.user?.id ? <TradeAction item={item} /> : <PurchaseAction item={item} />}</ConditionRender>
+            </div>
+          )}
         </div>
       </div>
 
