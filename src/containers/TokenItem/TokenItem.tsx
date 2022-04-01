@@ -4,8 +4,12 @@ import { ipfsToUrl } from '../../utils';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Spacing from '../../components/Spacing/Spacing';
 import Navs from 'src/components/Navs/Navs';
+import ConditionRender from '../../components/Utils/ConditionRender';
+import TradeAction from '../TradeAction/TradeAction';
+import { useStore } from '../../store';
 
 const TokenItem = ({ item }: { item: IToken }) => {
+  const currentUser = useStore((state) => state.user);
   const user = item.user?.username ?? item.user?.id;
   return (
     <section>
@@ -53,6 +57,9 @@ const TokenItem = ({ item }: { item: IToken }) => {
           {/*    </a>*/}
           {/*  </Link>*/}
           {/*</div>*/}
+          <div className={'mt-10'}>
+            <ConditionRender client>{currentUser?.id === item.user?.id ? <TradeAction item={item} /> : <></>}</ConditionRender>
+          </div>
           <div className={'mt-10'}>{/*<CustomButton classNames={'bg-active text-dark hover:bg-inactive'} value={`purchase ${item.price} tez`} />*/}</div>
         </div>
       </div>

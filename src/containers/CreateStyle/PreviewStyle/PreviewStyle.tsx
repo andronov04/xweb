@@ -21,6 +21,7 @@ const PreviewStyle = () => {
         token.addAsset({
           id: 0,
           name: 'Style',
+          // @ts-ignore
           metadata: {
             name: 'Style',
             artifactUri: `ipfs://${asset.cid}`

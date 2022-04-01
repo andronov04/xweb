@@ -17,7 +17,7 @@ const Subscription = ({ variables, query, onComplete }: IItems) => {
 
   useEffect(() => {
     onComplete(data);
-  }, [data]);
+  }, [data, onComplete]);
 
   return <></>;
 };

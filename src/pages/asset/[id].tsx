@@ -15,7 +15,7 @@ const MainPage = ({ item }: { item: IAsset }) => {
         <meta key="description" name="description" content={item.description} />
         <meta key="og:description" property="og:description" content={item.description} />
         <meta key="og:type" property="og:type" content="website" />
-        <meta key="og:image" property="og:image" content={ipfsToUrl(item.metadata?.displayUri)} />
+        <meta key="og:image" property="og:image" content={ipfsToUrl(item.metadata?.displayUri ?? '')} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

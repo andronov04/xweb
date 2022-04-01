@@ -32,7 +32,7 @@ const CreateToken = () => {
       const state = token.state;
       state.assets.map((asset) => {
         const _asset = token.assets.find((a) => a.id === asset.id);
-        asset.metadata = { ..._asset?.metadata, artifactUri: `${_asset?.metadata.artifactUri}?hash=${asset.data.hash}` };
+        asset.metadata = { ..._asset?.metadata, artifactUri: `${_asset?.metadata?.artifactUri}?hash=${asset.data.hash}` };
       });
       (async function () {
         await post(state);

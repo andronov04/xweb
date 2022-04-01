@@ -23,7 +23,7 @@ const ItemContent = ({ item }: { item: IItem }) => {
   // TODO different size video,html,png and etc
   const formats = item.metadata?.formats;
   const withDim = formats?.filter((a) => a.dimensions);
-  let size = { width: 1000, height: 1000 };
+  const size = { width: 1000, height: 1000 };
   if (withDim) {
     // TODO Use width and height in db
     const dim = withDim[0].dimensions.value;
@@ -43,7 +43,7 @@ const ItemContent = ({ item }: { item: IItem }) => {
       {item.metadata?.formats?.map((format) => {
         // console.log('format', format);
         return (
-          <div>
+          <div key={format.hash}>
             {IMAGE_MIMETYPES.includes(format.mimeType) ? (
               <img className={'absolute top-0 left-0 w-full h-auto'} src={ipfsToUrl(item.metadata?.thumbnailUri ?? '')} alt={item.name} />
             ) : null}

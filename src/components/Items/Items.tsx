@@ -36,7 +36,7 @@ const Items = ({ variables, mode, query, kind, onClickItem, activeIds }: IItems)
   //   const _items = data?.[kind] ?? [];  // (data?.scripts ?? []).concat(data?.tokens ?? []);
   //   return items.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
   // }, [data]);
-  const items = data?.[kind] ?? [];
+  const items = useMemo(() => data?.[kind] ?? [], [data, kind]);
   // console.log('items:::', items);
 
   const column = useMemo(() => {
@@ -44,7 +44,7 @@ const Items = ({ variables, mode, query, kind, onClickItem, activeIds }: IItems)
     if ((size.width ?? 0) >= 1280) {
       count = 5;
     }
-    if ((size.width ?? 0) <= 768) {
+    if ((size.width ?? 0) <= 868) {
       count = 2;
     }
     if ((size.width ?? 0) <= 640) {
@@ -70,8 +70,9 @@ const Items = ({ variables, mode, query, kind, onClickItem, activeIds }: IItems)
     <main>
       {loading && <Loader className={'mt-32'} />}
       <section className={`flex columns-${column} w-full justify-between`}>
-        {structure.map((items) => (
+        {structure.map((items, i) => (
           <div
+            key={i}
             style={{
               width: `calc((100% - (20px * (${column} - 1))) / ${column})`
             }}
