@@ -35,5 +35,6 @@ export const IFRAME_SANDBOX = process.env.NEXT_PUBLIC_IFRAME_SANDBOX ?? 'allow-s
 // Contracts
 export const TZ_ADDRESS_ASSET = process.env.NEXT_PUBLIC_TZ_ADDRESS_ASSET ?? '';
 export const TZ_ADDRESS_TOKEN = process.env.NEXT_PUBLIC_TZ_ADDRESS_TOKEN ?? '';
+export const TZ_ADDRESS_MARKETPLACE = process.env.NEXT_PUBLIC_TZ_ADDRESS_MARKETPLACE ?? '';
 // Mitypes
 export const IMAGE_MIMETYPES = ['image/png'];
