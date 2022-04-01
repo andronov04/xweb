@@ -129,23 +129,28 @@ export const QL_GET_TOKEN_ITEMS = gql`
   }
 `;
 
-export const QL_GET_SALES_TOKENS = gql`
+export const QL_GET_OFFER_TOKENS = gql`
   query Query($limit: Int, $offset: Int) {
-    token(order_by: { created: asc }, limit: $limit, offset: $offset) {
-      created
-      description
+    offer(order_by: { created: desc }, limit: $limit, offset: $offset) {
       id
-      metadata
-      slug
-      metadataUri
-      tags
-      name
-      flag
-      user {
+      token {
         id
-        username
-        avatarUri
+        slug
+        name
+        metadata
+        user {
+          id
+          username
+          avatarUri
+        }
+        owner {
+          id
+          username
+          avatarUri
+        }
+        royalties
       }
+      price
     }
   }
 `;
@@ -164,6 +169,10 @@ export const QL_GET_TOKEN = gql`
       height
       name
       flag
+      offer {
+        id
+        price
+      }
       user {
         id
         username

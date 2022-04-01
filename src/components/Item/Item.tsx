@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { IItem } from '../../types';
-import { ipfsToUrl } from '../../utils';
+import { displayPrice, ipfsToUrl } from '../../utils';
 import { IMAGE_MIMETYPES } from '../../constants';
 import { useMemo } from 'react';
 
@@ -14,7 +14,7 @@ const getUrl = (item: IItem) => {
 interface IItemComp {
   item: IItem;
   price?: boolean;
-  mode: 'normal' | 'selected';
+  mode: 'normal' | 'selected' | 'offer';
   onClickItem?: (item: IItem) => void;
   active?: boolean;
 }
@@ -120,22 +120,44 @@ const Item = ({ item, price, mode, onClickItem, active }: IItemComp) => {
           <h2 className={'pt-2 font-light text-active'}>{item.name}</h2>
           <div className={'flex justify-between'}>
             <p className={'font-light text-xs text-inactive'}>@{item.user?.username ?? item.user?.id}</p>
-            {price ? <p className={'text-green'}>{item.__typename === 'tokens' ? `${item.price} ꜩ` : ''}</p> : null}
           </div>
         </div>
       )}
-      {/*{mode === 'normal' && (*/}
-      {/*  <Link href={getUrl(item)}>*/}
-      {/*    <a href={getUrl(item)}>*/}
-      {/*      <ItemContent item={item} />*/}
-      {/*      <h2 className={'pt-2 font-light text-active'}>{item.name}</h2>*/}
-      {/*      <div className={'flex justify-between'}>*/}
-      {/*        <p className={'font-light text-xs text-inactive'}>@{item.user?.username ?? item.user?.id}</p>*/}
-      {/*        {price ? <p className={'text-green'}>{item.__typename === 'tokens' ? `${item.price} ꜩ` : ''}</p> : null}*/}
-      {/*      </div>*/}
-      {/*    </a>*/}
-      {/*  </Link>*/}
-      {/*)}*/}
+      {mode === 'offer' && (
+        <div className={'overflow-hidden'}>
+          <Link href={getUrl(item)}>
+            <a href={getUrl(item)}>
+              <ItemContent item={item} />
+            </a>
+          </Link>
+          <h2 className={'pt-2 font-light text-active'}>
+            <Link href={getUrl(item)}>
+              <a href={getUrl(item)}>{item.name}</a>
+            </Link>
+          </h2>
+          <div className={'flex justify-between items-center'}>
+            <div>
+              <p className={'font-light text-xs text-inactive'}>
+                by
+                <Link href={`/@${item.user?.username ?? item.user?.id}`}>
+                  <a className={'pl-0.5'} href={`/@${item.user?.username ?? item.user?.id}`}>
+                    @{item.user?.username ?? item.user?.id}
+                  </a>
+                </Link>
+              </p>
+              <p className={'font-light text-xs text-inactive'}>
+                owner
+                <Link href={`/@${item.owner?.username ?? item.owner?.id}`}>
+                  <a className={'pl-0.5'} href={`/@${item.owner?.username ?? item.owner?.id}`}>
+                    @{item.owner?.username ?? item.owner?.id}
+                  </a>
+                </Link>
+              </p>
+            </div>
+            <p className={'text-green'}>{`${displayPrice(item.price ?? 0)} ꜩ`}</p>
+          </div>
+        </div>
+      )}
     </>
   );
 };

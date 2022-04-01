@@ -9,6 +9,21 @@ export const urlToIpfs = (ipfs: string): string => {
   return `ipfs://${ipfs}`;
 };
 
+export const getNumDecimals = (x: number): number => {
+  const mt = Math.floor(Math.abs(x));
+  const st = (mt / 1000000).toString();
+  const splits = st.split('.');
+  return splits.length > 1 ? splits.pop()?.length || 0 : 0;
+};
+
+export const displayPrice = (num: number, maxDec?: number): number | string => {
+  let decimals = getNumDecimals(num);
+  decimals = maxDec != null ? Math.min(maxDec, decimals) : decimals;
+  const mutez = num / 1000000;
+  const decim = mutez - Math.floor(mutez);
+  return ((decim * 10 ** decimals) | 0) > 0 ? mutez.toFixed(decimals) : Math.floor(mutez);
+};
+
 // TODO FROM SDK
 export const generateHash = () => {
   const chars = 'abcdefABCDEF0123456789';

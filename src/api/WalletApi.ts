@@ -147,7 +147,7 @@ class WalletApi {
           prim: 'Pair',
           args: [
             {
-              int: '1000'
+              int: '2000000'
             },
             [
               {
@@ -186,7 +186,7 @@ class WalletApi {
               prim: 'Pair',
               args: [
                 {
-                  int: '0'
+                  int: '3'
                 },
                 {
                   string: 'tz1iChpqVTi68JTcbpmmVnD9yfXxe2UxTkZL'

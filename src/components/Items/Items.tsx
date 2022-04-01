@@ -15,7 +15,7 @@ interface IItems {
   variables?: IVariable;
   query: DocumentNode;
   kind: string;
-  mode?: 'normal' | 'selected';
+  mode?: 'normal' | 'selected' | 'offer';
   onClickItem?: (item: IItem) => void;
   activeIds?: number[];
 }
@@ -36,7 +36,20 @@ const Items = ({ variables, mode, query, kind, onClickItem, activeIds }: IItems)
   //   const _items = data?.[kind] ?? [];  // (data?.scripts ?? []).concat(data?.tokens ?? []);
   //   return items.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
   // }, [data]);
-  const items = useMemo(() => data?.[kind] ?? [], [data, kind]);
+  const items = useMemo(() => {
+    let array = data?.[kind] ?? [];
+    if (kind === 'offer') {
+      // map offer to item format
+      array = array.map((a) => {
+        return {
+          ...a.token,
+          offerId: a.id,
+          price: a.price
+        };
+      });
+    }
+    return array;
+  }, [data, kind]);
   // console.log('items:::', items);
 
   const column = useMemo(() => {

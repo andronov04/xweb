@@ -19,6 +19,11 @@ interface INestedAggregate {
   aggregate: INestedAggregateCount;
 }
 
+export interface IOffer {
+  id: number;
+  price: number;
+}
+
 export interface IAsset {
   id: number;
   name: string;
@@ -39,6 +44,7 @@ export interface IToken {
   name: string;
   description?: string;
   user?: IUser;
+  offer?: IOffer;
   slug?: string;
   created?: string;
   updated?: string;
@@ -58,9 +64,11 @@ export interface IToken {
 
 export interface IItem {
   id: number;
+  offerId?: number;
   name: string;
   description?: string;
   user?: IUser;
+  owner?: IUser;
   slug?: string;
   created?: string;
   updated?: string;
