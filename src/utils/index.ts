@@ -24,6 +24,10 @@ export const displayPrice = (num: number, maxDec?: number): number | string => {
   return ((decim * 10 ** decimals) | 0) > 0 ? mutez.toFixed(decimals) : Math.floor(mutez);
 };
 
+export const RN = (min: number, max: number): number => {
+  return Math.random() * (max - min) + min;
+};
+
 // TODO FROM SDK
 export const generateHash = () => {
   const chars = 'abcdefABCDEF0123456789';

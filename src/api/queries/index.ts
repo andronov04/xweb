@@ -182,6 +182,42 @@ export const QL_GET_TOKEN = gql`
   }
 `;
 
+export const QL_GET_COUNT_TOKENS = gql`
+  query MyQuery {
+    tokenAggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
+export const QL_GET_TOKEN_BY_ID = gql`
+  query Query($id: bigint) {
+    token(where: { id: { _eq: $id } }) {
+      created
+      description
+      id
+      metadata
+      slug
+      metadataUri
+      tags
+      width
+      height
+      name
+      flag
+      offer {
+        id
+        price
+      }
+      user {
+        id
+        username
+        avatarUri
+      }
+    }
+  }
+`;
+
 export const QL_GET_ASSET = gql`
   query Query($slug: String) {
     asset(where: { slug: { _eq: $slug } }) {

@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import Page from '../containers/Page/Page';
 import { DESCRIPTION_SEO, IMAGE_SEO } from '../constants';
+import ConditionRender from '../components/Utils/ConditionRender';
+import RandomItem from '../containers/RandomItem/RandomItem';
 
 export default function Home() {
   return (
@@ -15,7 +17,30 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main></main>
+      <main>
+        <section style={{ height: '50vh' }} className={'flex-col flex md:flex-row gap-x-10 justify-between items-center'}>
+          <div className={'w-1/2'}>
+            <div className={'text-3xl'}>
+              <p>
+                A place where <span style={{ color: '#1EA2ED' }}>everyone</span> can
+              </p>
+              <p>
+                create <span style={{ color: '#E8D315' }}>art</span>, <span style={{ color: '#FF47CC' }}>design</span>
+                <span style={{ color: 'rgba(255,255,255,0.3)' }}>, and more</span>
+              </p>
+            </div>
+            <div className={'text-inactive mt-10 font-thin'}>
+              <p>The web3 design platform and marketplace</p>
+              <p>on the Tezos blockchain</p>
+            </div>
+          </div>
+          <div className={'w-1/2 h-full'}>
+            <ConditionRender client>
+              <RandomItem />
+            </ConditionRender>
+          </div>
+        </section>
+      </main>
     </Page>
   );
 }
