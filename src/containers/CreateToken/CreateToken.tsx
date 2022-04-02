@@ -120,7 +120,22 @@ const CreateToken = () => {
               width: size.width,
               height: size.height
             }}
+            className={'relative'}
           >
+            {!token.assets.length ? (
+              <div
+                style={{
+                  backgroundColor: 'rgba(0,0,0,0.6)'
+                }}
+                className={'w-full absolute h-full text-center flex items-center justify-center'}
+              >
+                <h2>
+                  To get started, select
+                  <br />
+                  any of the asset below
+                </h2>
+              </div>
+            ) : null}
             <IframeToken />
           </div>
         )}
@@ -147,11 +162,21 @@ const CreateToken = () => {
             // Now only once
             let _item = JSON.parse(JSON.stringify(item));
             _item.metadata.artifactUri = testUrl;
-            if (token.assets.map((a) => a.id).includes(_item.id)) {
-              token.removeAsset(_item);
-            } else {
+            // Now delete all
+            const isRemove = token.assets.map((a) => a.id).includes(_item.id);
+            if (token.assets.length) {
+              token.assets.forEach((ast) => {
+                token.removeAsset(ast);
+              });
+            }
+            if (!isRemove) {
               token.addAsset(_item);
             }
+            // else if (token.assets.map((a) => a.id).includes(_item.id)) {
+            //   token.removeAsset(_item);
+            // } else {
+            //   token.addAsset(_item);
+            // }
           }}
           query={QL_GET_ASSET_ITEMS}
         />

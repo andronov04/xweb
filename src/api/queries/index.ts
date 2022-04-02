@@ -87,7 +87,7 @@ export const QL_GET_ASSETS_BY_USER = gql`
 
 export const QL_GET_ASSET_ITEMS = gql`
   query MyQuery($limit: Int, $offset: Int) {
-    asset(order_by: { created: asc }, limit: $limit, offset: $offset) {
+    asset(order_by: { created: desc }, limit: $limit, offset: $offset) {
       name
       id
       description

@@ -17,7 +17,7 @@ const IframeToken = () => {
   }, []);
 
   return (
-    <div className={'border-2 border-solid border-dark21 w-full h-full'}>
+    <div className={'border border-solid border-dark4A w-full h-full'}>
       <iframe ref={refIframe} width={'100%'} height={'100%'} src={EDITOR_URL} className={'iframe'} sandbox={IFRAME_SANDBOX} allow={IFRAME_ALLOW} />
     </div>
   );

@@ -1,7 +1,7 @@
 import create from 'zustand';
 import produce from 'immer';
 import { IStore } from '../types/store';
-import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_DIGEST, USE_ADD_ASSET, USE_PREPARE, USE_REMOVE_ASSET } from '../constants';
+import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_DIGEST, USE_ADD_ASSET, USE_PREPARE, USE_REMOVE_ASSET, USE_SET_THEME } from '../constants';
 import { nanoid } from 'nanoid';
 import { getWallet } from '../api/WalletApi';
 import { IUser } from '../types';
@@ -113,6 +113,9 @@ export const useStore = create<IStore>((set, get) => ({
               })
             );
           }
+          // if (event.data?.type === USE_SET_THEME) {
+          //   console.log('USE_SET_THEME', event.data)
+          // }
         },
         false
       );

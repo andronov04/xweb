@@ -84,7 +84,7 @@ const Item = ({ item, price, mode, onClickItem, active }: IItemComp) => {
             }}
             className={'relative cursor-pointer hover:opacity-80'}
           >
-            <div className={'bg-white20 absolute w-full h-full flex justify-center items-center'}>
+            <div className={'bg-white20 z-20 absolute w-full h-full flex justify-center items-center'}>
               <p
                 style={{
                   visibility: active ? 'visible' : 'hidden'
