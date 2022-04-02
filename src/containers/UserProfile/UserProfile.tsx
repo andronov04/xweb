@@ -78,15 +78,15 @@ const UserProfile = ({ user }: { user: IUser }) => {
               <a href={`${url}/sales`}>On sale</a>
             </Link>
           </li>
-          <li
-            className={`hover:text-active ${
-              router.asPath.endsWith('assets') && 'border-b-4 border-b-inactive text-active'
-            } p-2 text-xl text-inactive font-light `}
-          >
-            <Link href={`${url}/assets`}>
-              <a href={`${url}/assets`}>Assets</a>
-            </Link>
-          </li>
+          {/*<li*/}
+          {/*  className={`hover:text-active ${*/}
+          {/*    router.asPath.endsWith('assets') && 'border-b-4 border-b-inactive text-active'*/}
+          {/*  } p-2 text-xl text-inactive font-light `}*/}
+          {/*>*/}
+          {/*  <Link href={`${url}/assets`}>*/}
+          {/*    <a href={`${url}/assets`}>Assets</a>*/}
+          {/*  </Link>*/}
+          {/*</li>*/}
           <li
             className={`hover:text-active ${
               router.asPath.endsWith('activity') && 'border-b-4 border-b-inactive text-active'

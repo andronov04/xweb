@@ -13,11 +13,11 @@ module.exports = {
       {
         source: '/:id/activity',
         destination: '/:id'
-      },
-      {
-        source: '/:id/assets',
-        destination: '/:id'
       }
+      // {
+      //   source: '/:id/assets',
+      //   destination: '/:id'
+      // }
     ];
   }
 };
