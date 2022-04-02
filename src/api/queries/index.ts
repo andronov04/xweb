@@ -40,7 +40,7 @@ export const QL_GET_SCRIPTS = gql`
 
 export const QL_GET_TOKENS_BY_USER = gql`
   query MyQuery($userId: String!, $limit: Int, $offset: Int) {
-    token(where: { userId: { _eq: $userId } }, order_by: { created: asc }, limit: $limit, offset: $offset) {
+    token(where: { userId: { _eq: $userId } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       created
       description
       id
@@ -61,7 +61,7 @@ export const QL_GET_TOKENS_BY_USER = gql`
 
 export const QL_GET_ASSETS_BY_USER = gql`
   query MyQuery($userId: String!, $limit: Int, $offset: Int) {
-    asset(where: { userId: { _eq: $userId } }, order_by: { created: asc }, limit: $limit, offset: $offset) {
+    asset(where: { userId: { _eq: $userId } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       name
       id
       description
@@ -273,7 +273,7 @@ export const QL_GET_TOKEN_ITEMS_BY_SCRIPT = gql`
 `;
 export const QL_GET_TOKEN_OWNED_ITEMS_BY_USER = gql`
   query MyQuery($ownerId: String, $limit: Int, $offset: Int) {
-    token(where: { ownerId: { _eq: $ownerId }, userId: { _neq: $ownerId } }, order_by: { created: asc }, limit: $limit, offset: $offset) {
+    token(where: { ownerId: { _eq: $ownerId }, userId: { _neq: $ownerId } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       created
       description
       id
@@ -298,7 +298,7 @@ export const QL_GET_TOKEN_OWNED_ITEMS_BY_USER = gql`
 
 export const QL_GET_TOKEN_SALES_ITEMS_BY_USER = gql`
   query MyQuery($userId: String, $limit: Int, $offset: Int) {
-    offer(where: { token: { userId: { _eq: $userId } } }, order_by: { created: asc }, limit: $limit, offset: $offset) {
+    offer(where: { token: { userId: { _eq: $userId } } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       id
       token {
         id
@@ -318,6 +318,44 @@ export const QL_GET_TOKEN_SALES_ITEMS_BY_USER = gql`
         royalties
       }
       price
+    }
+  }
+`;
+
+export const QL_GET_ACTION_BY_USER = gql`
+  query MyQuery($userId: String!, $limit: Int, $offset: Int) {
+    action(where: { _or: [{ issuerId: { _eq: $userId } }, { targetId: { _eq: $userId } }] }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      id
+      kind
+      opHash
+      issuer {
+        id
+        username
+      }
+      target {
+        id
+        username
+      }
+      asset {
+        id
+        name
+        slug
+      }
+      token {
+        id
+        name
+        slug
+      }
+      offer {
+        id
+        price
+        token {
+          id
+          name
+          slug
+        }
+      }
+      created
     }
   }
 `;

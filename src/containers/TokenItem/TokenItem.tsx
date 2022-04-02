@@ -71,10 +71,11 @@ const TokenItem = ({ item }: { item: IToken }) => {
       <Spacing size={3} />
 
       <div>
-        <Navs
+        <Navs //
           links={[
-            { url: `/token/${item.slug ?? item.id}`, displayName: 'details', pathname: '/token/[id]' },
-            { url: `/token/${item.slug ?? item.id}/activity`, displayName: 'activity', startsWith: '/token/[id]/activity' }
+            { url: `/token/${item.slug ?? item.id}`, displayName: 'Created with', pathname: '/token/[id]' },
+            { url: `/token/${item.slug ?? item.id}/details`, displayName: 'Details', pathname: '/token/[id]/details' },
+            { url: `/token/${item.slug ?? item.id}/activity`, displayName: 'Activity', startsWith: '/token/[id]/activity' }
           ]}
         />
       </div>

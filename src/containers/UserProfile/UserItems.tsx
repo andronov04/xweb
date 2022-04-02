@@ -23,9 +23,6 @@ const UserItems = ({ user }: { user: IUser }) => {
     query = QL_GET_ASSETS_BY_USER;
     kind = 'asset';
   }
-  if (router.asPath.endsWith('activity')) {
-    //
-  }
 
   return (
     <>
