@@ -29,10 +29,16 @@ const CreateToken = () => {
 
   useEffect(() => {
     if (token.digest && token.state) {
-      const state = token.state;
-      state.assets.map((asset) => {
-        const _asset = token.assets.find((a) => a.id === asset.id);
-        asset.metadata = { ..._asset?.metadata, artifactUri: `${_asset?.metadata?.artifactUri}?hash=${asset.data.hash}` };
+      const state: any = token.state;
+      state.assets = state.assets.map((a) => {
+        const _asset = token.assets.find((asset) => asset.id === a.id);
+        return {
+          id: a.id,
+          order: a.order,
+          hash: a.data.hash,
+          state: a.data.state,
+          artifactUri: _asset?.metadata?.artifactUri
+        };
       });
       (async function () {
         await post(state);
@@ -141,9 +147,9 @@ const CreateToken = () => {
         )}
       </div>
 
-      <div id={'digest'} className={'pt-2 h-3 text-xs font-thin'}>
-        {token.digest ?? 'hash'}
-      </div>
+      {/*<div id={'digest'} className={'pt-2 h-3 text-xs font-thin'}>*/}
+      {/*  {token.digest ?? 'hash'}*/}
+      {/*</div>*/}
 
       <div>
         <div className={'flex my-5 font-thin gap-x-4'}>
@@ -162,6 +168,7 @@ const CreateToken = () => {
             // Now only once
             let _item = JSON.parse(JSON.stringify(item));
             _item.metadata.artifactUri = testUrl;
+            // const _item = item;
             // Now delete all
             const isRemove = token.assets.map((a) => a.id).includes(_item.id);
             if (token.assets.length) {
@@ -170,7 +177,7 @@ const CreateToken = () => {
               });
             }
             if (!isRemove) {
-              token.addAsset(_item);
+              token.addAsset(_item as any);
             }
             // else if (token.assets.map((a) => a.id).includes(_item.id)) {
             //   token.removeAsset(_item);

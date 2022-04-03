@@ -109,7 +109,7 @@ export const useStore = create<IStore>((set, get) => ({
           if (event.data?.type === MESSAGE_GET_DIGEST) {
             set(
               produce((state) => {
-                state.art.digest = event.data.data.digest;
+                state.token.digest = event.data.data.digest;
               })
             );
           }
