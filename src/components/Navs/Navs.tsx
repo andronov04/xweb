@@ -5,6 +5,7 @@ interface INavLink {
   displayName: string;
   url: string;
   startsWith?: string;
+  active?: boolean;
   pathname?: string;
 }
 
@@ -21,7 +22,8 @@ const Navs = ({ links }: INav) => {
           <li
             key={link.url}
             className={`hover:text-active ${
-              (link.startsWith ? router.pathname.startsWith(link.startsWith) : router.pathname === link.pathname) && 'text-active'
+              (link.active !== undefined ? link.active : link.startsWith ? router.pathname.startsWith(link.startsWith) : router.pathname === link.pathname) &&
+              'text-active'
             }`}
           >
             <Link href={link.url}>

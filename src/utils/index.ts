@@ -24,6 +24,8 @@ export const displayPrice = (num: number, maxDec?: number): number | string => {
   return ((decim * 10 ** decimals) | 0) > 0 ? mutez.toFixed(decimals) : Math.floor(mutez);
 };
 
+export const displayRoyalty = (royalty: number): string => `${(royalty / 10).toFixed(1)}%`;
+
 export const RN = (min: number, max: number): number => {
   return Math.random() * (max - min) + min;
 };

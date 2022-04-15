@@ -167,7 +167,7 @@ const CreateToken = () => {
             const testUrl = 'http://localhost:3000/'; //'https://art3s.mypinata.cloud/ipfs/QmU3jrjyZFP83itaiuzqD7MuBZ4C8BgAGtR8CRT8J3mAfL';
             // Now only once
             let _item = JSON.parse(JSON.stringify(item));
-            _item.metadata.artifactUri = testUrl;
+            // _item.metadata.artifactUri = testUrl;
             // const _item = item;
             // Now delete all
             const isRemove = token.assets.map((a) => a.id).includes(_item.id);

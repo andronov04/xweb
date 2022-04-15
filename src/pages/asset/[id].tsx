@@ -3,8 +3,8 @@ import { IAsset } from '../../types';
 import GraphqlApi from '../../api/GraphqlApi';
 import { QL_GET_ASSET } from '../../api/queries';
 import { ipfsToUrl } from '../../utils';
-import ScriptItem from '../../containers/ScriptItem/ScriptItem';
 import Page from '../../containers/Page/Page';
+import AssetItem from '../../containers/AssetItem/AssetItem';
 
 const MainPage = ({ item }: { item: IAsset }) => {
   return (
@@ -19,7 +19,7 @@ const MainPage = ({ item }: { item: IAsset }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ScriptItem item={item} />
+      <AssetItem item={item} />
     </Page>
   );
 };

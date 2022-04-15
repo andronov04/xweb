@@ -30,6 +30,9 @@ export interface IAsset {
   description?: string;
   user?: IUser;
   slug?: string;
+  tags?: string[];
+  royalties?: number;
+  metadataUri?: string;
   kind?: number; // Enum
   digest?: string;
   hash?: string;

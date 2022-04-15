@@ -112,6 +112,54 @@ export const QL_GET_ASSET_ITEMS = gql`
   }
 `;
 
+export const QL_GET_ASSET_ITEMS_BY_TOKEN = gql`
+  query MyQuery($tokenId: bigint!, $limit: Int, $offset: Int) {
+    asset(where: { assetTokenAssets: { tokenId: { _eq: $tokenId } } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      name
+      id
+      description
+      kind
+      flag
+      enabled
+      metadata
+      royalties
+      slug
+      created
+      assetTokenAssets_aggregate {
+        aggregate {
+          count
+        }
+      }
+      user {
+        id
+        username
+      }
+      datePublish
+    }
+  }
+`;
+
+export const QL_GET_TOKEN_ITEMS_BY_ASSET = gql`
+  query MyQuery($assetId: bigint!, $limit: Int, $offset: Int) {
+    token(where: { tokenAssets: { assetId: { _eq: $assetId } } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      created
+      description
+      id
+      digest
+      metadata
+      slug
+      width
+      height
+      name
+      flag
+      user {
+        id
+        username
+      }
+    }
+  }
+`;
+
 export const QL_GET_TOKEN_ITEMS = gql`
   query MyQuery($limit: Int, $offset: Int) {
     token(order_by: { created: desc }, limit: $limit, offset: $offset) {
@@ -325,6 +373,82 @@ export const QL_GET_TOKEN_SALES_ITEMS_BY_USER = gql`
 export const QL_GET_ACTION_BY_USER = gql`
   query MyQuery($userId: String!, $limit: Int, $offset: Int) {
     action(where: { _or: [{ issuerId: { _eq: $userId } }, { targetId: { _eq: $userId } }] }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      id
+      kind
+      opHash
+      issuer {
+        id
+        username
+      }
+      target {
+        id
+        username
+      }
+      asset {
+        id
+        name
+        slug
+      }
+      token {
+        id
+        name
+        slug
+      }
+      offer {
+        id
+        price
+        token {
+          id
+          name
+          slug
+        }
+      }
+      created
+    }
+  }
+`;
+
+export const QL_GET_ACTION_BY_TOKEN = gql`
+  query MyQuery($tokenId: bigint!, $limit: Int, $offset: Int) {
+    action(where: { tokenId: { _eq: $tokenId } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      id
+      kind
+      opHash
+      issuer {
+        id
+        username
+      }
+      target {
+        id
+        username
+      }
+      asset {
+        id
+        name
+        slug
+      }
+      token {
+        id
+        name
+        slug
+      }
+      offer {
+        id
+        price
+        token {
+          id
+          name
+          slug
+        }
+      }
+      created
+    }
+  }
+`;
+
+export const QL_GET_ACTION_BY_ASSET = gql`
+  query MyQuery($assetId: bigint!, $limit: Int, $offset: Int) {
+    action(where: { assetId: { _eq: $assetId } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       id
       kind
       opHash
