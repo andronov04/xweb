@@ -17,7 +17,6 @@ import Subscription from '../../../components/Subscription/Subscription';
 import { SUB_ACTION_OP_HASH } from '../../../api/subscription';
 import { useRouter } from 'next/router';
 
-let extended = false; // for test
 const MintToken = () => {
   const [opHash, setOpHash] = useState<string | null>();
   const router = useRouter();
@@ -44,7 +43,6 @@ const MintToken = () => {
   }, [result]);
 
   const onSubmit = async (data) => {
-    console.log('extended', extended);
     const w = token.state?.root?.width ?? 1000;
     const h = token.state?.root?.height ?? 1000;
     const previewImage = token.previews[0];
@@ -59,7 +57,7 @@ const MintToken = () => {
       name: data.name,
       description: data.description,
       tags: tags,
-      isTransferable: !extended,
+      isTransferable: true,
       artifactUri: urlToIpfs(token.cid),
       displayUri: urlToIpfs(previewImage.cid),
       thumbnailUri: urlToIpfs(previewImage.cid),
@@ -100,21 +98,16 @@ const MintToken = () => {
     }
 
     console.log('token', token);
-    if (extended) {
-      // TODO Create extended mint
-    } else {
-      call({
-        assets: token.assets.map((a) => a.id), // TODO data ids
-        digest: token.digest,
-        enabled: true,
-        metadata: strToByteStr(urlToIpfs(metadataCid))
-      });
-    }
+    call({
+      assets: token.assets.map((a) => a.id), // TODO data ids
+      digest: token.digest,
+      enabled: true,
+      metadata: strToByteStr(urlToIpfs(metadataCid))
+    });
     console.log('publish', data);
   };
 
-  const submit = (_extended = false) => {
-    extended = _extended;
+  const submit = () => {
     if (Object.keys(errors).length) {
       const desc = Object.values(errors)
         .filter((a) => a.message)
@@ -156,7 +149,7 @@ const MintToken = () => {
                 width={token.state?.root?.width ?? 1000}
                 height={token.state?.root?.height ?? 1000}
                 onPreview={(cid, hash) => {
-                  token.addPreview(cid, hash);
+                  // token.addPreview(cid, hash);
                 }}
               />
             </div>
@@ -200,15 +193,6 @@ const MintToken = () => {
               }}
               style={'white'}
               value={'Mint'}
-            />
-          </div>
-          <div className={'mt-8 flex justify-end items-center space-x-2'}>
-            <CustomButton
-              onClick={() => {
-                submit(true);
-              }}
-              style={'white'}
-              value={'Extended mint 20 ꜩ'}
             />
           </div>
         </div>

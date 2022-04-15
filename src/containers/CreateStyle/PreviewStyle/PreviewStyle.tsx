@@ -17,17 +17,17 @@ const PreviewStyle = () => {
   useEffect(() => {
     // TODO Remove timeout?
     if (size.width && size.height) {
-      setTimeout(() => {
-        token.addAsset({
-          id: 0,
-          name: 'Style',
-          // @ts-ignore
-          metadata: {
-            name: 'Style',
-            artifactUri: `ipfs://${asset.cid}`
-          }
-        });
-      }, 500);
+      // setTimeout(() => {
+      //   token.addAsset({
+      //     id: 0,
+      //     name: 'Style',
+      //     // @ts-ignore
+      //     metadata: {
+      //       name: 'Style',
+      //       artifactUri: `ipfs://${asset.cid}`
+      //     }
+      //   });
+      // }, 500);
     }
   }, [size.width, size.height]);
 
@@ -105,7 +105,19 @@ const PreviewStyle = () => {
               height: size.height
             }}
           >
-            <IframeToken />
+            <IframeToken
+              onLoad={(e) => {
+                token.addAsset({
+                  id: 0,
+                  name: 'Style',
+                  // @ts-ignore
+                  metadata: {
+                    name: 'Style',
+                    artifactUri: `ipfs://${asset.cid}`
+                  }
+                });
+              }}
+            />
           </div>
         )}
       </div>

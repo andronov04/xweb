@@ -1,11 +1,22 @@
 import create from 'zustand';
 import produce from 'immer';
 import { IStore } from '../types/store';
-import { EDITOR_URL, MESSAGE_GENERATE_NEW, MESSAGE_GET_DIGEST, USE_ADD_ASSET, USE_PREPARE, USE_REMOVE_ASSET, USE_SET_THEME } from '../constants';
+import {
+  EDITOR_URL,
+  FILE_API_CAPTURE_IMG_URL,
+  MESSAGE_GENERATE_NEW,
+  MESSAGE_GET_DIGEST,
+  USE_ADD_ASSET,
+  USE_PREPARE,
+  USE_REMOVE_ASSET,
+  USE_REQUEST_CAPTURE,
+  USE_SET_THEME
+} from '../constants';
 import { nanoid } from 'nanoid';
 import { getWallet } from '../api/WalletApi';
 import { IUser } from '../types';
 import { eventOnceWaitFor } from '../api/EventApi';
+import { postFetch } from '../api/RestApi';
 
 let tokenProxy;
 export const useStore = create<IStore>((set, get) => ({
@@ -53,7 +64,7 @@ export const useStore = create<IStore>((set, get) => ({
     prepare: async () => {
       // Get store and digest and hashes from assets;
       const token = get().token;
-      const requestId = nanoid();
+      let requestId = nanoid();
       tokenProxy?.postMessage(
         {
           type: USE_PREPARE,
@@ -65,12 +76,39 @@ export const useStore = create<IStore>((set, get) => ({
 
       const result = await eventOnceWaitFor(requestId);
 
-      set({ token: { ...token, digest: result.digest, state: result.state } });
+      // Get preview/capture
+      requestId = nanoid();
+      tokenProxy?.postMessage(
+        {
+          type: USE_REQUEST_CAPTURE,
+          requestId,
+          data: {}
+        },
+        EDITOR_URL
+      );
+
+      const data = await eventOnceWaitFor(requestId);
+
+      // TODO Upload blob to server and set previews;
+      const formData = new FormData();
+      formData.append('file', data.blob);
+      const response = await postFetch(FILE_API_CAPTURE_IMG_URL, formData);
+      const resp = await response.json();
+
+      set({
+        token: {
+          ...token,
+          digest: result.digest,
+          state: result.state,
+          previews: [{ cid: resp.cid, hash: data.hash }]
+        }
+      });
     },
     addAsset: (asset) =>
       set(
         produce((state) => {
           state.token.assets.push(asset);
+          console.log('tokenProxy', tokenProxy);
           tokenProxy?.postMessage(
             {
               type: USE_ADD_ASSET,

@@ -1,4 +1,4 @@
-import { IFRAME_ALLOW, IFRAME_SANDBOX, IPFS_PREFIX_URL, USE_REQUEST_ASSET_CAPTURE } from '../../../../constants';
+import { IFRAME_ALLOW, IFRAME_SANDBOX, IPFS_PREFIX_URL, USE_REQUEST_ASSET_CAPTURE, USE_REQUEST_CAPTURE } from '../../../../constants';
 import { useEffect, useRef, useState } from 'react';
 import { useCapture } from '../../../../hooks/use-capture/useCapture';
 import Loader from '../../../../components/Utils/Loader';
@@ -125,7 +125,7 @@ const PreviewMedia = ({ url, width, height, onPreview }: IPreviewMedia) => {
                 {...setup({
                   ref: refIframe,
                   postData: {
-                    type: USE_REQUEST_ASSET_CAPTURE,
+                    type: USE_REQUEST_CAPTURE,
                     hash,
                     url: fullUrl
                   }

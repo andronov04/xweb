@@ -15,7 +15,7 @@ export default function Page({ children }) {
     <div className={'p-10 w-full'}>
       <Header />
 
-      <main id={'main'} className={'my-20 flex-grow w-full h-auto'}>
+      <main id={'main'} className={'my-10 flex-grow w-full h-auto'}>
         {children}
       </main>
 

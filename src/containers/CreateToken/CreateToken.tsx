@@ -164,7 +164,7 @@ const CreateToken = () => {
           mode={'selected'}
           activeIds={token.assets.map((a) => a.id)}
           onClickItem={(item) => {
-            const testUrl = 'http://localhost:8001/'; //'https://art3s.mypinata.cloud/ipfs/QmU3jrjyZFP83itaiuzqD7MuBZ4C8BgAGtR8CRT8J3mAfL';
+            const testUrl = 'http://localhost:3000/'; //'https://art3s.mypinata.cloud/ipfs/QmU3jrjyZFP83itaiuzqD7MuBZ4C8BgAGtR8CRT8J3mAfL';
             // Now only once
             let _item = JSON.parse(JSON.stringify(item));
             _item.metadata.artifactUri = testUrl;

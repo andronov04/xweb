@@ -4,6 +4,7 @@ import {
   IPFS_PREFIX_URL,
   MESSAGE_GET_CAPTURE_IMG,
   USE_REQUEST_ASSET_CAPTURE,
+  USE_REQUEST_CAPTURE,
   USE_REQUEST_TOKEN_CAPTURE
 } from '../../../../constants';
 import { useEffect, useRef, useState } from 'react';
@@ -126,7 +127,7 @@ const PreviewToken = ({ url, width, height, onPreview }: IPreviewMedia) => {
                 {...setup({
                   ref: refIframe,
                   postData: {
-                    type: USE_REQUEST_TOKEN_CAPTURE,
+                    type: USE_REQUEST_CAPTURE,
                     hash: '',
                     url
                   }
@@ -137,9 +138,9 @@ const PreviewToken = ({ url, width, height, onPreview }: IPreviewMedia) => {
                 src={url}
                 onLoad={() => {
                   // TODO SEND TO READY CAPTURE
-                  setTimeout(() => {
-                    capture();
-                  }, 500);
+                  // setTimeout(() => {
+                  //   capture();
+                  // }, 500);
                 }}
                 className={'iframe select-none'}
                 sandbox={IFRAME_SANDBOX}

@@ -1700,11 +1700,6 @@
   "resolved" "https://registry.npmjs.org/husky/-/husky-7.0.4.tgz"
   "version" "7.0.4"
 
-"hyperapp@^2.0.22":
-  "integrity" "sha512-3uf9HjnjrhbfykowFNEObZewBEo4DXJIM+9FnGkiR9E4H2eh2f921SzMCMS69X5nN3A7KFfmZc9KCKh/7TQBFA=="
-  "resolved" "https://registry.npmjs.org/hyperapp/-/hyperapp-2.0.22.tgz"
-  "version" "2.0.22"
-
 "ieee754@^1.2.1":
   "integrity" "sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA=="
   "resolved" "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz"

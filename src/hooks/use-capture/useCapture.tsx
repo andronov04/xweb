@@ -43,7 +43,7 @@ const createCapture = (props: ICapture, updater: () => void) => {
         'message',
         (event) => {
           // TODO Capture for token and asset
-          if (event.data?.type === USE_RESPONSE_ASSET_CAPTURE || event.data?.type === USE_RESPONSE_TOKEN_CAPTURE) {
+          if (event.data?.type === USE_RESPONSE_ASSET_CAPTURE || event.data?.type === USE_RESPONSE_TOKEN_CAPTURE || event.data?.type === USE_RESPONSE_CAPTURE) {
             console.log('USE_RESPONSE_CAPTURE', event.data);
             setState({ status: 'Upload image to ipfs...' });
             const formData = new FormData();

@@ -192,20 +192,20 @@ const PublishStyle = () => {
                   })}
                 />
               </div>
-              <div className={'w-1/2'}>
-                <Input
-                  label={'Extended Price'}
-                  type={'number'}
-                  defaultValue={0}
-                  placeholder={'ꜩ (0-9999)'}
-                  register={register('price', {
-                    min: 0,
-                    max: Infinity,
-                    required: { message: 'Required extended price', value: true },
-                    valueAsNumber: true
-                  })}
-                />
-              </div>
+              {/*<div className={'w-1/2'}>*/}
+              {/*  <Input*/}
+              {/*    label={'Extended Price'}*/}
+              {/*    type={'number'}*/}
+              {/*    defaultValue={0}*/}
+              {/*    placeholder={'ꜩ (0-9999)'}*/}
+              {/*    register={register('price', {*/}
+              {/*      min: 0,*/}
+              {/*      max: Infinity,*/}
+              {/*      required: { message: 'Required extended price', value: true },*/}
+              {/*      valueAsNumber: true*/}
+              {/*    })}*/}
+              {/*  />*/}
+              {/*</div>*/}
             </div>
             <input ref={refSubmit} className={'hidden'} type="submit" />
           </form>
