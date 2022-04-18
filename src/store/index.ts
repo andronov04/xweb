@@ -9,8 +9,7 @@ import {
   USE_ADD_ASSET,
   USE_PREPARE,
   USE_REMOVE_ASSET,
-  USE_REQUEST_CAPTURE,
-  USE_SET_THEME
+  USE_REQUEST_CAPTURE
 } from '../constants';
 import { nanoid } from 'nanoid';
 import { getWallet } from '../api/WalletApi';
@@ -22,7 +21,6 @@ let tokenProxy;
 export const useStore = create<IStore>((set, get) => ({
   asset: {
     cid: '',
-    kind: null,
     requestHash: '',
     previews: [],
     hash: '',
@@ -35,12 +33,11 @@ export const useStore = create<IStore>((set, get) => ({
           // state.asset.hash = hash;
         })
       ),
-    setAsset: (cid: string, requestHash: string, kind) =>
+    setAsset: (cid: string, requestHash: string) =>
       set(
         produce((state) => {
           state.asset.cid = cid;
           state.asset.requestHash = requestHash;
-          state.asset.kind = kind;
         })
       )
   },
@@ -108,7 +105,6 @@ export const useStore = create<IStore>((set, get) => ({
       set(
         produce((state) => {
           state.token.assets.push(asset);
-          console.log('tokenProxy', tokenProxy);
           tokenProxy?.postMessage(
             {
               type: USE_ADD_ASSET,

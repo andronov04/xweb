@@ -45,7 +45,7 @@ const createCapture = (props: ICapture, updater: () => void) => {
           // TODO Capture for token and asset
           if (event.data?.type === USE_RESPONSE_ASSET_CAPTURE || event.data?.type === USE_RESPONSE_TOKEN_CAPTURE || event.data?.type === USE_RESPONSE_CAPTURE) {
             console.log('USE_RESPONSE_CAPTURE', event.data);
-            setState({ status: 'Upload image to ipfs...' });
+            setState({ status: 'Uploading...' });
             const formData = new FormData();
             formData.append('file', event.data.data.blob);
             postFetch(FILE_API_CAPTURE_IMG_URL, formData)

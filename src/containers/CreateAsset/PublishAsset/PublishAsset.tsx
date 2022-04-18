@@ -22,7 +22,7 @@ import { SUB_ACTION_OP_HASH } from 'src/api/subscription';
 const DEFAULT_WIDTH = 1000;
 const DEFAULT_HEIGHT = 1000;
 
-const PublishStyle = () => {
+const PublishAsset = () => {
   const [opHash, setOpHash] = useState<string | null>();
   const asset = useStore((state) => state.asset);
   const router = useRouter();
@@ -48,7 +48,7 @@ const PublishStyle = () => {
   useEffect(() => {
     console.log('result', result);
     if (result) {
-      setMsg({ title: 'Waiting confirmation...', kind: 'info' });
+      setMsg({ clear: true, block: true, autoClose: false, title: 'Waiting confirmation. It may take up to two minutes, please be patient', kind: 'info' });
       // wait subscript in db
       setOpHash(result);
     }
@@ -59,7 +59,7 @@ const PublishStyle = () => {
     const previewImage = asset.previews[0];
 
     if (!previewImage) {
-      setMsg({ title: 'You need set preview', kind: 'error' });
+      setMsg({ clear: true, title: 'You need set preview', kind: 'error' });
       return;
     }
 
@@ -80,7 +80,7 @@ const PublishStyle = () => {
         symbol: 'CNSST',
         decimals: 0,
         version: '0.1',
-        type: 'Asset (Style)',
+        type: 'Asset',
         formats: [
           {
             uri: urlToIpfs(previewImage.cid),
@@ -99,12 +99,14 @@ const PublishStyle = () => {
         ]
       };
 
-      setMsg({ title: 'Generate metadata...', kind: 'info' });
+      setMsg({ autoClose: false, title: 'Generate metadata...', kind: 'info' });
       // console.log('metadata', metadata);
       const response = await postDataFetch(API_META_ASSET_URL, metadata);
       if (response.status !== 200) {
-        setMsg({ title: 'Unknown error', kind: 'error' });
+        setMsg({ clear: true, title: 'Unknown error', kind: 'error' });
         return; // TODO Error
+      } else {
+        setMsg({ clear: true, autoClose: 1000, title: 'Uploaded', kind: 'success' });
       }
       const result = await response.json();
       const { cid } = result;
@@ -183,10 +185,10 @@ const PublishStyle = () => {
                   label={'Royalties'}
                   type={'number'}
                   defaultValue={0}
-                  placeholder={'royalties (0-25%)'}
+                  placeholder={'royalties (0-20%)'}
                   register={register('royalties', {
                     min: 0,
-                    max: 25,
+                    max: 20,
                     required: { message: 'Required royalties', value: true },
                     valueAsNumber: true
                   })}
@@ -224,7 +226,7 @@ const PublishStyle = () => {
         </div>
       </div>
       <div className={'flex justify-end items-center space-x-2'}>
-        <i className={'font-thin text-sm opacity-90 text-warn'}>warning: edit is not available in beta version</i>
+        {/*<i className={'font-thin text-sm opacity-90 text-warn'}>warning: edit is not available in beta version</i>*/}
         <CustomButton
           onClick={() => {
             if (Object.keys(errors).length) {
@@ -232,7 +234,7 @@ const PublishStyle = () => {
                 .filter((a) => a.message)
                 .map((a) => a.message)
                 .join('. ');
-              setMsg({ title: 'Form error', description: desc, kind: 'error' });
+              setMsg({ autoClose: 3000, clear: true, title: 'Form error', description: desc, kind: 'error' });
             }
             refSubmit.current?.click();
           }}
@@ -244,4 +246,4 @@ const PublishStyle = () => {
   );
 };
 
-export default PublishStyle;
+export default PublishAsset;

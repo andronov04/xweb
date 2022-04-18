@@ -36,8 +36,6 @@ export interface MintAssetCallData {
 
 export interface TradeTokenCallData {
   price: number;
-  royalty: number;
-  royalties: any;
   ownerId: string; // owner current
   tokenId: number;
   userId: string; // creator

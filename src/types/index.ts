@@ -47,6 +47,7 @@ export interface IToken {
   name: string;
   description?: string;
   user?: IUser;
+  owner?: IUser;
   offer?: IOffer;
   slug?: string;
   created?: string;

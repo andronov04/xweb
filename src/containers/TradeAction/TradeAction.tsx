@@ -20,21 +20,20 @@ const TradeAction = ({ item }: { item: IToken }) => {
     call,
     state: { loading, status, result }
   } = useContract<TradeTokenCallData>(getWallet().tradeToken);
+  const { call: callCancel, state: stateCancel } = useContract<number>(getWallet().cancelOffer);
   const refSubmit = useRef<HTMLInputElement | null>(null);
 
   const onSubmit = (data) => {
     console.log('onSubmit:::', data);
-    // const price = Math.floor(parseFloat('0') * 1000000); // Math.floor(parseFloat(price) * 1000000)
-    // call({
-    //   ownerId: 'tz1iChpqVTi68JTcbpmmVnD9yfXxe2UxTkZL', // owner current
-    //   tokenId: 3,
-    //   userId: 'tz1iChpqVTi68JTcbpmmVnD9yfXxe2UxTkZL', // creator
-    //   price: price,
-    //   royalty: Math.floor(0 * 10), // from assets map address:royalty
-    //   royalties: {
-    //     tz1iChpqVTi68JTcbpmmVnD9yfXxe2UxTkZL: Math.floor(0 * 10)
-    //   } // from assets map address:royalty
-    // });
+    const price = Math.floor(data.price * 1000000); // Math.floor(parseFloat(price) * 1000000)
+    if (item.user && item.owner) {
+      call({
+        ownerId: item.owner.id, // owner current
+        tokenId: item.id,
+        userId: item.user.id, // creator
+        price: price
+      });
+    }
   };
   // console.log('user', item);
   return (
@@ -43,18 +42,9 @@ const TradeAction = ({ item }: { item: IToken }) => {
         <CustomButton
           onClick={() => {
             console.log('Cancel Trade');
-            // TODO Cancel trade
-            // const price = Math.floor(parseFloat('0') * 1000000); // Math.floor(parseFloat(price) * 1000000)
-            // call({
-            //   ownerId: 'tz1iChpqVTi68JTcbpmmVnD9yfXxe2UxTkZL', // owner current
-            //   tokenId: 3,
-            //   userId: 'tz1iChpqVTi68JTcbpmmVnD9yfXxe2UxTkZL', // creator
-            //   price: price,
-            //   royalty: Math.floor(0 * 10), // from assets map address:royalty
-            //   royalties: {
-            //     tz1iChpqVTi68JTcbpmmVnD9yfXxe2UxTkZL: Math.floor(0 * 10)
-            //   } // from assets map address:royalty
-            // });
+            if (item.offer) {
+              callCancel(item.offer.id);
+            }
           }}
           style={'white'}
           styles={{

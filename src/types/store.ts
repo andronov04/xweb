@@ -7,13 +7,12 @@ export interface IPreviewMedia {
 }
 
 export interface ITempAsset {
-  kind: 'style' | null;
   cid: string;
   requestHash: string;
   previews: IPreviewMedia[];
   hash: string;
   addPreview: (cid: string, hash: string) => void;
-  setAsset: (cid: string, requestHash: string, kind: 'style') => void;
+  setAsset: (cid: string, requestHash: string) => void;
 }
 
 export interface ITempToken {
@@ -34,9 +33,12 @@ export interface ITempToken {
 }
 
 export interface IMessageBar {
-  kind: 'error' | 'warn' | 'info' | 'success';
-  title: string;
+  kind?: 'error' | 'warn' | 'info' | 'success';
+  title?: string;
   description?: string;
+  autoClose?: number | boolean;
+  block?: boolean;
+  clear?: boolean;
 }
 
 export interface IStore {

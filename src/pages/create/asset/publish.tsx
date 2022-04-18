@@ -2,14 +2,14 @@ import Head from 'next/head';
 import Page from '../../../containers/Page/Page';
 import ConditionRender from '../../../components/Utils/ConditionRender';
 import { DESCRIPTION_SEO, IMAGE_SEO } from '../../../constants';
-import CreateStyle from '../../../containers/CreateStyle/CreateStyle';
+import PublishAsset from '../../../containers/CreateAsset/PublishAsset/PublishAsset';
 
-export default function CreateAssetStylePage() {
+export default function BasePage() {
   return (
     <Page>
       <Head>
-        <title>Create a style – Contter</title>
-        <meta key="og:title" property="og:title" content={'Create a style– Contter'} />
+        <title>Create an asset – Contter</title>
+        <meta key="og:title" property="og:title" content={'Create an asset – Contter'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />
@@ -18,7 +18,7 @@ export default function CreateAssetStylePage() {
       </Head>
 
       <ConditionRender client>
-        <CreateStyle />
+        <PublishAsset />
       </ConditionRender>
     </Page>
   );

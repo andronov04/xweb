@@ -82,7 +82,7 @@ class WalletApi {
     const contract = await this.getContract(EContract.ASSET);
 
     requestCallback(ContractRequestStatus.CALLING);
-    const opSend = await contract.methodsObject.mint(tzData).send();
+    const opSend = await contract.methodsObject.mint_asset(tzData).send();
 
     console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
@@ -97,6 +97,20 @@ class WalletApi {
 
     requestCallback(ContractRequestStatus.CALLING);
     const opSend = await contract.methodsObject.mint(tzData).send();
+
+    console.log('opSend', opSend);
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+
+    // OK, injected
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
+  };
+
+  // To cancel token to marketplace
+  cancelOffer: ContractCall<number> = async (offerId, requestCallback) => {
+    const contract = await this.getContract(EContract.MARKETPLACE);
+
+    requestCallback(ContractRequestStatus.CALLING);
+    const opSend = await contract.methodsObject.cancel_offer(offerId).send();
 
     console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
@@ -144,56 +158,10 @@ class WalletApi {
       prim: 'Pair',
       args: [
         {
-          prim: 'Pair',
-          args: [
-            {
-              int: '2000000'
-            },
-            [
-              {
-                // TODO Sort by key string (address)
-                prim: 'Elt',
-                args: [
-                  {
-                    string: 'tz1dVwCaa2bamxcQ3UxoLLeqKEs7s87Q55xm'
-                  },
-                  {
-                    int: '5'
-                  }
-                ]
-              },
-              {
-                prim: 'Elt',
-                args: [
-                  {
-                    string: 'tz1iChpqVTi68JTcbpmmVnD9yfXxe2UxTkZL'
-                  },
-                  {
-                    int: '1'
-                  }
-                ]
-              }
-            ]
-          ]
+          int: '' + tzData.price
         },
         {
-          prim: 'Pair',
-          args: [
-            {
-              int: '145'
-            },
-            {
-              prim: 'Pair',
-              args: [
-                {
-                  int: '3'
-                },
-                {
-                  string: 'tz1iChpqVTi68JTcbpmmVnD9yfXxe2UxTkZL'
-                }
-              ]
-            }
-          ]
+          int: '' + tzData.tokenId
         }
       ]
     };

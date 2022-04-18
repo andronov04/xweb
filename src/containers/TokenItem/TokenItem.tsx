@@ -51,7 +51,9 @@ const TokenItem = ({ item }: { item: IToken }) => {
 
           {item.metadata?.isTransferable && (
             <div className={'mt-10'}>
-              <ConditionRender client>{currentUser?.id === item.user?.id ? <TradeAction item={item} /> : <PurchaseAction item={item} />}</ConditionRender>
+              <ConditionRender client>
+                {currentUser?.id === item.user?.id ? <TradeAction item={item} /> : item.offer && <PurchaseAction item={item} />}
+              </ConditionRender>
             </div>
           )}
         </div>

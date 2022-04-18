@@ -1,5 +1,10 @@
 module.exports = {
-  content: ['./src/containers/**/*.{js,ts,jsx,tsx}', './src/pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './src/containers/**/*.{js,ts,jsx,tsx}',
+    './src/services/**/*.{js,ts,jsx,tsx}',
+    './src/pages/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}'
+  ],
   variants: {
     extend: {
       margin: ['last', 'first'],

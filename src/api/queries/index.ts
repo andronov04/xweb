@@ -168,6 +168,7 @@ export const QL_GET_TOKEN_ITEMS = gql`
       id
       digest
       metadata
+      metadataUri
       slug
       width
       height
@@ -226,6 +227,11 @@ export const QL_GET_TOKEN = gql`
         price
       }
       user {
+        id
+        username
+        avatarUri
+      }
+      owner {
         id
         username
         avatarUri
