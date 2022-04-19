@@ -26,7 +26,7 @@ const Activity = ({ variables, query }: IItems) => {
   });
 
   const items = data?.action ?? [];
-  console.log('items:::', items);
+  // console.log('items:::', items);
 
   return (
     <main>

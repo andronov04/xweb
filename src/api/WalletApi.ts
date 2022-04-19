@@ -2,7 +2,15 @@ import { ContractAbstraction, MichelsonMap, OpKind, TezosToolkit, Wallet } from 
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { RPC_LIST, TZ_ADDRESS_ASSET, TZ_ADDRESS_MARKETPLACE, TZ_ADDRESS_TOKEN, TZ_NETWORK } from '../constants';
 import { NetworkType } from '@airgap/beacon-sdk/dist/cjs/types/beacon/NetworkType';
-import { ContractCall, ContractRequestStatus, EContract, MintAssetCallData, MintTokenCallData, TradeTokenCallData } from '../types/contract';
+import {
+  ContractCall,
+  ContractRequestStatus,
+  EContract,
+  MintAssetCallData,
+  MintStatusCallData,
+  MintTokenCallData,
+  TradeTokenCallData
+} from '../types/contract';
 import { MichelsonV1Expression } from '@taquito/rpc';
 
 const addresses: Record<EContract, string> = {
@@ -204,6 +212,21 @@ class WalletApi {
 
     // OK, injected
     requestCallback(ContractRequestStatus.INJECTED, { hash: batchOp.opHash });
+  };
+
+  statusAsset: ContractCall<MintStatusCallData> = async (tzData, requestCallback) => {
+    const contract = await this.getContract(EContract.ASSET);
+
+    requestCallback(ContractRequestStatus.CALLING);
+    const opSend = await contract.methodsObject.status_asset(tzData).send();
+
+    console.log('opSend', opSend);
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+    console.log('opSend.opHash:::', opSend.opHash);
+    // await wait(opSend.opHash)
+
+    // OK, injected
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
   };
 }
 let wallet;

@@ -1,17 +1,20 @@
 import { displayRoyalty, ipfsToUrl } from '../../utils';
 import Spacing from '../../components/Spacing/Spacing';
-import { IAsset } from '../../types';
+import { IAsset, IAssetFlag, IUserRole } from '../../types';
 import Link from 'next/link';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Navs from '../../components/Navs/Navs';
 import ConditionRender from 'src/components/Utils/ConditionRender';
 import { useRouter } from 'next/router';
 import Activity from '../../components/Activity/Activity';
-import { QL_GET_ACTION_BY_ASSET, QL_GET_TOKEN_ITEMS, QL_GET_TOKEN_ITEMS_BY_ASSET } from '../../api/queries';
+import { QL_GET_ACTION_BY_ASSET, QL_GET_TOKEN_ITEMS_BY_ASSET } from '../../api/queries';
 import Items from '../../components/Items/Items';
+import { useStore } from '../../store';
+import AssetItemApprove from './AssetItemApprove';
 
 const AssetItem = ({ item }: { item: IAsset }) => {
   const router = useRouter();
+  const currentUser = useStore((state) => state.user);
   const user = item.user?.username ?? item.user?.id;
 
   const isActivity = router.asPath.endsWith('activity');
@@ -19,9 +22,16 @@ const AssetItem = ({ item }: { item: IAsset }) => {
   const isCurrent = !isActivity && !isDetails;
 
   console.log('item:::', item);
+  console.log('currentUser:::', currentUser);
 
+  // TODO All flags
   return (
     <section>
+      {item.flag !== IAssetFlag.NONE && (
+        <div className={'bg-amber-300 p-1 text-xs rounded-sm mb-4 font-light text-black'}>
+          {item.flag === IAssetFlag.REVIEW && <p>In Review. We’re reviewing your asset.</p>}
+        </div>
+      )}
       <div className={'flex w-full items-center md:flex-row flex-col gap-x-8'}>
         <div className={'flex-grow flex h-96 flex-col justify-between'}>
           <div>
@@ -39,14 +49,27 @@ const AssetItem = ({ item }: { item: IAsset }) => {
               {/*<span className={'font-light text-sm text-white30 mt-3'}>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>*/}
             </div>
           </div>
-          <div className={'flex justify-end text-right'}>
+          <div className={'flex gap-x-3 justify-end text-right'}>
+            <ConditionRender client={true}>
+              <div>
+                {(currentUser?.role === IUserRole.ADMIN || currentUser?.role === IUserRole.MODERATOR) && item.flag === IAssetFlag.REVIEW && (
+                  <AssetItemApprove item={item} />
+                )}
+              </div>
+            </ConditionRender>
+
             <div>
               {/*{item.count_tokens ? (*/}
               {/*  <p className={'font-light pb-1 text-inactive text-sm'}>*/}
               {/*    {item.count_tokens} {(item.count_tokens || 0) <= 1 ? 'art' : 'arts'}*/}
               {/*  </p>*/}
               {/*) : null}*/}
-              <CustomButton style={'white'} classNames={'bg-active text-dark hover:bg-inactive'} value={'Create token'} />
+              <CustomButton
+                disabled={item.flag !== IAssetFlag.NONE}
+                style={'white'}
+                classNames={'bg-active text-dark hover:bg-inactive'}
+                value={'Create token'}
+              />
             </div>
           </div>
         </div>

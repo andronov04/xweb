@@ -1,10 +1,25 @@
 import { IAssetMetadata, ITokenMetadata } from './metadata';
 
+export enum IAssetFlag {
+  NONE = 0,
+  REVIEW = 1,
+  BANNED = 2,
+  REPORTED = 3,
+  HIDDEN = 4
+}
+
+export enum IUserRole {
+  USER = 0,
+  MODERATOR = 1,
+  ADMIN = 2
+}
+
 export interface IUser {
   id: string;
   username?: string;
   description?: string;
   avatar_uri?: string;
+  role?: IUserRole;
   metadata_uri?: string;
   metadata?: any; // TODO Description
   created?: string;
@@ -36,6 +51,7 @@ export interface IAsset {
   kind?: number; // Enum
   digest?: string;
   hash?: string;
+  flag?: IAssetFlag;
   state?: string;
   created?: string;
   metadata?: IAssetMetadata;

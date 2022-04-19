@@ -6,8 +6,25 @@ export const QL_GET_USER = gql`
       id
       username
       description
+      role
       avatar_uri
       metadata_uri
+      metadata
+      created
+      updated
+    }
+  }
+`;
+
+export const QL_GET_USER_BY_ID = gql`
+  query Query($id: String) {
+    user(where: { id: { _eq: $id } }) {
+      id
+      username
+      description
+      role
+      avatarUri
+      metadataUri
       metadata
       created
       updated

@@ -16,6 +16,17 @@ import { getWallet } from '../api/WalletApi';
 import { IUser } from '../types';
 import { eventOnceWaitFor } from '../api/EventApi';
 import { postFetch } from '../api/RestApi';
+import GraphqlApi from '../api/GraphqlApi';
+import { QL_GET_USER_BY_ID } from '../api/queries';
+
+const getUser = async (id: string) => {
+  const { data } = await GraphqlApi.query({
+    query: QL_GET_USER_BY_ID,
+    variables: { id: id },
+    errorPolicy: 'all'
+  });
+  return data?.user?.[0];
+};
 
 let tokenProxy;
 export const useStore = create<IStore>((set, get) => ({
@@ -172,8 +183,10 @@ export const useStore = create<IStore>((set, get) => ({
     const tzId = await getWallet().connectLocalStorage();
     let user: IUser | null = null;
     if (tzId) {
+      const _item = await getUser(tzId);
       user = {
-        id: tzId
+        id: tzId,
+        ...(_item ?? {})
       };
     }
     set({ user });
@@ -187,8 +200,10 @@ export const useStore = create<IStore>((set, get) => ({
     const tzId = await getWallet().connect();
     let user: IUser | null = null;
     if (tzId) {
+      const _item = await getUser(tzId);
       user = {
-        id: tzId
+        id: tzId,
+        ...(_item ?? {})
       };
     }
     set({ user });
@@ -198,4 +213,5 @@ export const useStore = create<IStore>((set, get) => ({
 if (typeof window !== 'undefined') {
   // @ts-ignore
   window.state = useStore.getState();
+  useStore.getState().initUser().then();
 }
