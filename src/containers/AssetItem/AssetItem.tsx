@@ -18,8 +18,8 @@ const AssetItem = ({ item }: { item: IAsset }) => {
   const user = item.user?.username ?? item.user?.id;
 
   const isActivity = router.asPath.endsWith('activity');
-  const isDetails = router.asPath.endsWith('details');
-  const isCurrent = !isActivity && !isDetails;
+  const isTokens = router.asPath.endsWith('tokens');
+  const isCurrent = !isActivity && !isTokens;
 
   // console.log('item:::', item);
   // console.log('currentUser:::', currentUser);
@@ -94,8 +94,8 @@ const AssetItem = ({ item }: { item: IAsset }) => {
       <div>
         <Navs
           links={[
-            { url: `/asset/${item.slug ?? item.id}`, active: isCurrent, displayName: 'Recently created', pathname: '/asset/[id]' },
-            { url: `/asset/${item.slug ?? item.id}/details`, active: isDetails, displayName: 'Details', pathname: '/asset/[id]/details' },
+            { url: `/asset/${item.slug ?? item.id}/tokens`, active: isTokens, displayName: 'Recently created', pathname: '/asset/[id]/tokens' },
+            { url: `/asset/${item.slug ?? item.id}`, active: isCurrent, displayName: 'Details', pathname: '/asset/[id]' },
             { url: `/asset/${item.slug ?? item.id}/activity`, active: isActivity, displayName: 'Activity', startsWith: '/asset/[id]/activity' }
           ]}
         />
@@ -111,7 +111,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
         </div>
       ) : null}
 
-      {isDetails ? (
+      {isCurrent ? (
         <div className={'flex gap-y-1 flex-col font-light text-inactive'}>
           <div className={'flex'}>
             <span className={'pr-1'}>Minted: </span>
@@ -144,7 +144,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
         </div>
       ) : null}
 
-      {isCurrent ? (
+      {isTokens ? (
         <div>
           <Items kind={'token'} query={QL_GET_TOKEN_ITEMS_BY_ASSET} variables={{ assetId: item.id }} />
         </div>

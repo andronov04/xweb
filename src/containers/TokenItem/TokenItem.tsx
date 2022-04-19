@@ -18,8 +18,8 @@ const TokenItem = ({ item }: { item: IToken }) => {
   const user = item.user?.username ?? item.user?.id;
 
   const isActivity = router.asPath.endsWith('activity');
-  const isDetails = router.asPath.endsWith('details');
-  const isCurrent = !isActivity && !isDetails;
+  const isAssets = router.asPath.endsWith('assets');
+  const isCurrent = !isActivity && !isAssets;
 
   console.log('item:::', item);
 
@@ -68,8 +68,8 @@ const TokenItem = ({ item }: { item: IToken }) => {
       <div>
         <Navs
           links={[
-            { url: `/token/${item.slug ?? item.id}`, active: isCurrent, displayName: 'Created with', pathname: '/token/[id]' },
-            { url: `/token/${item.slug ?? item.id}/details`, active: isDetails, displayName: 'Details', pathname: '/token/[id]/details' },
+            { url: `/token/${item.slug ?? item.id}/assets`, active: isAssets, displayName: 'Created with', pathname: '/token/[id]/assets' },
+            { url: `/token/${item.slug ?? item.id}`, active: isCurrent, displayName: 'Details', pathname: '/token/[id]' },
             { url: `/token/${item.slug ?? item.id}/activity`, active: isActivity, displayName: 'Activity', startsWith: '/token/[id]/activity' }
           ]}
         />
@@ -77,7 +77,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
 
       <Spacing size={1.2} />
 
-      {isCurrent ? (
+      {isAssets ? (
         <div>
           <Items kind={'asset'} query={QL_GET_ASSET_ITEMS_BY_TOKEN} variables={{ tokenId: item.id }} />
         </div>
@@ -91,7 +91,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
         </div>
       ) : null}
 
-      {isDetails ? (
+      {isCurrent ? (
         <div className={'flex gap-y-1 flex-col font-light text-inactive'}>
           <div className={'flex'}>
             <span className={'pr-1'}>Minted: </span>

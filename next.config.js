@@ -19,7 +19,7 @@ module.exports = {
       //   destination: '/:id'
       // }
       {
-        source: '/token/:id/details',
+        source: '/token/:id/assets',
         destination: '/token/:id'
       },
       {
@@ -27,7 +27,7 @@ module.exports = {
         destination: '/token/:id'
       },
       {
-        source: '/asset/:id/details',
+        source: '/asset/:id/tokens',
         destination: '/asset/:id'
       },
       {
