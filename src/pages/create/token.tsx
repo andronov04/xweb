@@ -8,8 +8,8 @@ export default function CreateTokenPage() {
   return (
     <Page>
       <Head>
-        <title>create token – contter</title>
-        <meta key="og:title" property="og:title" content={'create token – contter'} />
+        <title>Create a token – Contter</title>
+        <meta key="og:title" property="og:title" content={'Create a token – Contter'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />

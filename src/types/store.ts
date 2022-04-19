@@ -27,6 +27,7 @@ export interface ITempToken {
   generate: () => void;
   prepare: () => Promise<void>;
   digest: string;
+  isProxy: boolean;
   cid: string;
 
   setCid: (cid: string) => void;

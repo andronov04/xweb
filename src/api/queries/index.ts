@@ -129,6 +129,60 @@ export const QL_GET_ASSET_ITEMS = gql`
   }
 `;
 
+export const QL_GET_ASSET_ITEMS_BY_IDS = gql`
+  query MyQuery($ids: [bigint], $limit: Int, $offset: Int) {
+    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _in: $ids } }) {
+      name
+      id
+      description
+      kind
+      flag
+      enabled
+      metadata
+      royalties
+      slug
+      created
+      assetTokenAssets_aggregate {
+        aggregate {
+          count
+        }
+      }
+      user {
+        id
+        username
+      }
+      datePublish
+    }
+  }
+`;
+
+export const QL_GET_ASSET_ITEMS_BY_NOT_IDS = gql`
+  query MyQuery($ids: [bigint], $limit: Int, $offset: Int) {
+    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _nin: $ids } }) {
+      name
+      id
+      description
+      kind
+      flag
+      enabled
+      metadata
+      royalties
+      slug
+      created
+      assetTokenAssets_aggregate {
+        aggregate {
+          count
+        }
+      }
+      user {
+        id
+        username
+      }
+      datePublish
+    }
+  }
+`;
+
 export const QL_GET_ASSET_ITEMS_BY_TOKEN = gql`
   query MyQuery($tokenId: bigint!, $limit: Int, $offset: Int) {
     asset(where: { assetTokenAssets: { tokenId: { _eq: $tokenId } } }, order_by: { created: desc }, limit: $limit, offset: $offset) {

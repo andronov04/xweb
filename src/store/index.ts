@@ -57,6 +57,7 @@ export const useStore = create<IStore>((set, get) => ({
     digest: '',
     previews: [],
     cid: '',
+    isProxy: false,
     addPreview: (cid, hash) =>
       set(
         produce((state) => {
@@ -145,6 +146,7 @@ export const useStore = create<IStore>((set, get) => ({
       set(
         produce((state) => {
           tokenProxy = proxy;
+          state.token.isProxy = true;
         })
       ),
     emit: () => {

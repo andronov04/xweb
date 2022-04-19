@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { IItem } from '../../types';
 import { displayPrice, ipfsToUrl } from '../../utils';
 import { IMAGE_MIMETYPES } from '../../constants';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 const getUrl = (item: IItem) => {
   if (item.__typename === 'asset') {
@@ -16,6 +16,7 @@ interface IItemComp {
   price?: boolean;
   mode: 'normal' | 'selected' | 'offer';
   onClickItem?: (item: IItem) => void;
+  onMountItem?: (item: IItem) => void;
   active?: boolean;
 }
 
@@ -69,11 +70,16 @@ const ItemContent = ({ item }: { item: IItem }) => {
 //     height: auto;
 // }
 
-const Item = ({ item, price, mode, onClickItem, active }: IItemComp) => {
+const Item = ({ item, price, onMountItem, mode, onClickItem, active }: IItemComp) => {
   // const plural_suggest = () => {
   //   const count = item.assetTokenAssets_aggregate?.aggregate?.count ?? 0;
   //   return count > 1 ? `${count} tokens` : `${count} token`;
   // };
+
+  useEffect(() => {
+    onMountItem?.(item);
+  }, [onMountItem, item]);
+
   return (
     <>
       {mode === 'selected' && (
@@ -94,7 +100,7 @@ const Item = ({ item, price, mode, onClickItem, active }: IItemComp) => {
                 Selected
               </p>
             </div>
-            <ItemContent item={item} />
+            <ItemContent key={item.id} item={item} />
           </div>
           <Link href={getUrl(item)}>
             <a target={'_blank'} rel={'noreferrer'} href={getUrl(item)}>

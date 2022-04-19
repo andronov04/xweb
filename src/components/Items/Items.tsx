@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { useWindowSize } from '../../hooks/use-resized/useWindowSize';
 
 interface IVariable {
-  [key: string]: string | number;
+  [key: string]: any;
 }
 
 interface IItems {
@@ -17,10 +17,11 @@ interface IItems {
   kind: string;
   mode?: 'normal' | 'selected' | 'offer';
   onClickItem?: (item: IItem) => void;
+  onMountItem?: (item: IItem) => void;
   activeIds?: number[];
 }
 
-const Items = ({ variables, mode, query, kind, onClickItem, activeIds }: IItems) => {
+const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeIds }: IItems) => {
   const size = useWindowSize();
   const { data, loading } = useQuery(query, {
     //, fetchMore, refetch
@@ -92,7 +93,14 @@ const Items = ({ variables, mode, query, kind, onClickItem, activeIds }: IItems)
             className={'flex-col flex gap-y-4'}
           >
             {items.map((item) => (
-              <Item onClickItem={onClickItem} mode={mode ?? 'normal'} active={activeIds?.includes(item.id)} key={`${item.id}_${item.slug}`} item={item} />
+              <Item
+                onClickItem={onClickItem}
+                onMountItem={onMountItem}
+                mode={mode ?? 'normal'}
+                active={activeIds?.includes(item.id)}
+                key={`${item.id}_${i}_${item.slug}`}
+                item={item}
+              />
             ))}
           </div>
         ))}

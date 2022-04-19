@@ -1,9 +1,8 @@
-import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import { useEffect, useRef, useState } from 'react';
 import IframeToken from './Iframe/Iframe';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Items from '../../components/Items/Items';
-import { QL_GET_ASSET_ITEMS } from '../../api/queries';
+import { QL_GET_ASSET_ITEMS, QL_GET_ASSET_ITEMS_BY_IDS, QL_GET_ASSET_ITEMS_BY_NOT_IDS } from '../../api/queries';
 import { useStore } from '../../store';
 import Link from 'next/link';
 import { setMsg } from '../../services/snackbar';
@@ -16,6 +15,7 @@ import { useRouter } from 'next/router';
 const CreateToken = () => {
   const router = useRouter();
   const token = useStore((state) => state.token);
+  const [assetIds, setAssetIds] = useState<number[]>([]);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const refContainer = useRef<HTMLDivElement | null>(null);
   const { data, loading, error, post } = useFetch<UploadAssetFileResponse | UploadFileError>(API_BUILD_TOKEN_URL, { cachePolicy: CachePolicies.NO_CACHE });
@@ -26,6 +26,15 @@ const CreateToken = () => {
       router.replace('/create/token/mint').then().catch();
     }
   }, [data]);
+
+  // if from asset
+  useEffect(() => {
+    if (router.query?.a && size.width && size.height && token.isProxy) {
+      const assets = (router.query?.a as string).split(',');
+      router.replace('/create/token', undefined, { shallow: true }).then();
+      setAssetIds(assets.map((a) => parseInt(a)));
+    }
+  }, [router, size, token]);
 
   useEffect(() => {
     if (token.digest && token.state) {
@@ -58,26 +67,7 @@ const CreateToken = () => {
 
   return (
     <section className={'h-full'}>
-      <div className={'flex w-full justify-between items-center'}>
-        <div className={'w-1/3'}>
-          <Breadcrumbs
-            navs={[
-              {
-                name: 'Editor',
-                active: false
-              },
-              {
-                name: 'Your Token',
-                active: true
-              },
-              {
-                name: token.assets?.[0]?.name ?? '',
-                active: false
-              }
-            ]}
-          />
-        </div>
-
+      <div className={'flex w-full justify-end items-center'}>
         <div className={'flex-grow text-center'}>
           {/*<button*/}
           {/*  onClick={() => {*/}
@@ -159,6 +149,33 @@ const CreateToken = () => {
             in beta version, you can select only one style, <b className={'hover:opacity-80 cursor-pointer text-inactive'}>learn more</b>
           </p>
         </div>
+        {assetIds.length && (
+          <Items
+            kind={'asset'}
+            mode={'selected'}
+            // activeIds={assetIds}
+            activeIds={token.assets.map((a) => a.id)}
+            onMountItem={(item) => {
+              token.addAsset(JSON.parse(JSON.stringify(item)) as any);
+            }}
+            onClickItem={(item) => {
+              let _item = JSON.parse(JSON.stringify(item));
+              const isRemove = token.assets.map((a) => a.id).includes(_item.id);
+              if (token.assets.length) {
+                token.assets.forEach((ast) => {
+                  token.removeAsset(ast);
+                });
+              }
+              if (!isRemove) {
+                token.addAsset(_item as any);
+              }
+            }}
+            variables={{
+              ids: assetIds
+            }}
+            query={QL_GET_ASSET_ITEMS_BY_IDS}
+          />
+        )}
         <Items
           kind={'asset'}
           mode={'selected'}
@@ -179,13 +196,11 @@ const CreateToken = () => {
             if (!isRemove) {
               token.addAsset(_item as any);
             }
-            // else if (token.assets.map((a) => a.id).includes(_item.id)) {
-            //   token.removeAsset(_item);
-            // } else {
-            //   token.addAsset(_item);
-            // }
           }}
-          query={QL_GET_ASSET_ITEMS}
+          variables={{
+            ids: assetIds
+          }}
+          query={QL_GET_ASSET_ITEMS_BY_NOT_IDS}
         />
       </div>
     </section>

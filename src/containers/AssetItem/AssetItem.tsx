@@ -21,8 +21,8 @@ const AssetItem = ({ item }: { item: IAsset }) => {
   const isDetails = router.asPath.endsWith('details');
   const isCurrent = !isActivity && !isDetails;
 
-  console.log('item:::', item);
-  console.log('currentUser:::', currentUser);
+  // console.log('item:::', item);
+  // console.log('currentUser:::', currentUser);
 
   // TODO All flags
   return (
@@ -67,6 +67,11 @@ const AssetItem = ({ item }: { item: IAsset }) => {
               <CustomButton
                 disabled={item.flag !== IAssetFlag.NONE}
                 style={'white'}
+                onClick={() => {
+                  if (item.flag === IAssetFlag.NONE) {
+                    router.push(`/create/token?a=${item.id}`).then();
+                  }
+                }}
                 classNames={'bg-active text-dark hover:bg-inactive'}
                 value={'Create token'}
               />
