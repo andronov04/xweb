@@ -38,7 +38,15 @@ const initClient = () => {
   return new ApolloClient({
     ssrMode,
     link,
-    cache: new InMemoryCache().restore({})
+    cache: new InMemoryCache().restore({}),
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: 'no-cache'
+      },
+      query: {
+        fetchPolicy: 'no-cache'
+      }
+    }
   });
 };
 

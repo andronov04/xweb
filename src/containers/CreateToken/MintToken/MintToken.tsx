@@ -16,6 +16,8 @@ import { setMsg } from '../../../services/snackbar';
 import Subscription from '../../../components/Subscription/Subscription';
 import { SUB_ACTION_OP_HASH } from '../../../api/subscription';
 import { useRouter } from 'next/router';
+import { MichelsonMap } from '@taquito/taquito';
+import BigNumber from 'bignumber.js';
 
 const MintToken = () => {
   const [opHash, setOpHash] = useState<string | null>();
@@ -34,9 +36,8 @@ const MintToken = () => {
   console.log('useContract:::', loading, status);
 
   useEffect(() => {
-    console.log('result', result);
     if (result) {
-      setMsg({ title: 'Waiting confirmation...', kind: 'info' });
+      setMsg({ block: true, autoClose: false, clear: true, title: 'Waiting confirmation. It may take up to two minutes, please be patient', kind: 'info' });
       // wait subscript in db
       setOpHash(result);
     }
@@ -48,7 +49,7 @@ const MintToken = () => {
     const previewImage = token.previews[0];
 
     if (!previewImage) {
-      setMsg({ title: 'You need set preview', kind: 'error' });
+      setMsg({ clear: true, title: 'You should set preview', kind: 'error' });
       return;
     }
     // Generate meta
@@ -85,7 +86,7 @@ const MintToken = () => {
       // TODO formats
       // State ??? stateUri
     };
-    setMsg({ title: 'Upload ipfs', kind: 'info' });
+    setMsg({ block: true, autoClose: false, clear: true, title: 'Uploading...', kind: 'info' });
     const response = await postDataFetch(API_META_TOKEN_URL, metadata);
     if (response.status !== 200) {
       return; // TODO Error
@@ -98,10 +99,11 @@ const MintToken = () => {
     }
 
     console.log('token', token);
+    const _assets = Object.fromEntries(token.state.assets.map((a) => [a.order, new BigNumber(a.id)]));
     call({
-      assets: token.assets.map((a) => a.id), // TODO data ids
+      assets: MichelsonMap.fromLiteral(_assets) as any,
       digest: token.digest,
-      enabled: true,
+      royalties: Math.floor(data.royalties! * 10),
       metadata: strToByteStr(urlToIpfs(metadataCid))
     });
     console.log('publish', data);
@@ -113,7 +115,7 @@ const MintToken = () => {
         .filter((a) => a.message)
         .map((a) => a.message)
         .join('. ');
-      setMsg({ title: 'Form error', description: desc, kind: 'error' });
+      setMsg({ clear: true, title: 'Form error', description: desc, kind: 'error' });
     }
     refSubmit.current?.click();
   };
@@ -129,6 +131,7 @@ const MintToken = () => {
             // TODO Timeout
             const action = data?.action?.[0];
             if (action) {
+              setMsg({ clear: true, autoClose: 1000, title: 'Minted', kind: 'success' });
               router.replace(`/token/${action.token.slug}`).then();
             }
           }}
@@ -156,7 +159,6 @@ const MintToken = () => {
           </div>
         </div>
         <div className={'w-1/2'}>
-          <i className={'font-thin text-sm opacity-90 text-warn'}>Warning: edit is not available in beta version</i>
           <form className={'flex gap-y-3 flex-col'} onSubmit={handleSubmit(onSubmit)}>
             <Input
               label={'Name'}
@@ -184,6 +186,20 @@ const MintToken = () => {
                 maxLength: { message: 'Tags max length 512', value: 512 }
               })}
             />
+            <div className={'w-1/2'}>
+              <Input
+                label={'Royalties'}
+                type={'number'}
+                defaultValue={0}
+                placeholder={'royalties (0-20%)'}
+                register={register('royalties', {
+                  min: 0,
+                  max: 20,
+                  required: { message: 'Required royalties', value: true },
+                  valueAsNumber: true
+                })}
+              />
+            </div>
             <input ref={refSubmit} className={'hidden'} type="submit" />
           </form>
           <div className={'mt-8 flex justify-end items-center space-x-2'}>

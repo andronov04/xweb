@@ -3,6 +3,7 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { RPC_LIST, TZ_ADDRESS_ASSET, TZ_ADDRESS_MARKETPLACE, TZ_ADDRESS_TOKEN, TZ_NETWORK } from '../constants';
 import { NetworkType } from '@airgap/beacon-sdk/dist/cjs/types/beacon/NetworkType';
 import {
+  CollectCallData,
   ContractCall,
   ContractRequestStatus,
   EContract,
@@ -219,6 +220,25 @@ class WalletApi {
 
     requestCallback(ContractRequestStatus.CALLING);
     const opSend = await contract.methodsObject.status_asset(tzData).send();
+
+    console.log('opSend', opSend);
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+    console.log('opSend.opHash:::', opSend.opHash);
+    // await wait(opSend.opHash)
+
+    // OK, injected
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
+  };
+
+  collect: ContractCall<CollectCallData> = async (tzData, requestCallback) => {
+    const contract = await this.getContract(EContract.MARKETPLACE);
+
+    requestCallback(ContractRequestStatus.CALLING);
+    const opSend = await contract.methodsObject.collect(tzData.id).send({
+      mutez: true,
+      amount: tzData.price,
+      storageLimit: 150
+    });
 
     console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);

@@ -38,7 +38,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
             <div>
               <h1 className={'text-active text-2xl'}>{item.name}</h1>
               <p className={'text-inactive text-sm'}>
-                {item.kind === 1 ? 'Style' : ''} by{' '}
+                Asset by{' '}
                 <Link href={`/@${user}`}>
                   <a className={'text-active hover:text-inactive'} href={`/@${user}`}>
                     @{user}

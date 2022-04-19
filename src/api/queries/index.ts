@@ -495,6 +495,7 @@ export const QL_GET_ACTION_BY_TOKEN = gql`
         id
         username
       }
+      data
       target {
         id
         username

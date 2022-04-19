@@ -144,6 +144,7 @@ const PublishAsset = () => {
             // TODO Timeout
             const action = data?.action?.[0];
             if (action) {
+              setMsg({ clear: true, autoClose: 1000, title: 'Created', kind: 'success' });
               router.replace(`/asset/${action.asset.slug}`).then();
             }
           }}

@@ -4,11 +4,17 @@ import { useContract } from '../../hooks/use-contract/useContract';
 import { TradeTokenCallData } from '../../types/contract';
 import { getWallet } from '../../api/WalletApi';
 import { displayPrice } from '../../utils';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Input from '../../components/Form/Input';
+import Subscription from '../../components/Subscription/Subscription';
+import { SUB_ACTION_OP_HASH } from '../../api/subscription';
+import { setMsg } from '../../services/snackbar';
+import { useRouter } from 'next/router';
 
 const TradeAction = ({ item }: { item: IToken }) => {
+  const router = useRouter();
+  const [opHash, setOpHash] = useState<string | null>();
   const [trade, setTrade] = useState(false);
   const {
     register,
@@ -35,9 +41,34 @@ const TradeAction = ({ item }: { item: IToken }) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (result) {
+      setMsg({ block: true, autoClose: false, clear: true, title: 'Waiting confirmation...', kind: 'info' });
+      // wait subscript in db
+      setOpHash(result);
+    }
+  }, [result]);
+
   // console.log('user', item);
   return (
     <div>
+      {opHash ? (
+        <Subscription
+          query={SUB_ACTION_OP_HASH}
+          variables={{ opHash: opHash }}
+          onComplete={(data) => {
+            console.log('onComplete:::', data);
+            // TODO Timeout
+            const action = data?.action?.[0];
+            if (action) {
+              setMsg({ clear: true, autoClose: 1000, title: 'Finished', kind: 'success' });
+              router.reload();
+            }
+          }}
+        />
+      ) : null}
+
       {item.offer ? (
         <CustomButton
           onClick={() => {
@@ -80,7 +111,7 @@ const TradeAction = ({ item }: { item: IToken }) => {
               refSubmit.current?.click();
             }}
             style={'white'}
-            value={trade ? 'List' : 'List fo trade'}
+            value={trade ? 'List' : 'List for trade'}
           />
           {trade && (
             <CustomButton

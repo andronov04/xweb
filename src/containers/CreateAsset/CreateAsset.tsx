@@ -24,7 +24,7 @@ const CreateAsset = () => {
               // console.log('eee', e);
             }}
             onStart={() => {
-              setMsg({ autoClose: false, title: 'Uploading...', kind: 'info' });
+              setMsg({ autoClose: false, block: true, title: 'Uploading...', kind: 'info' });
             }}
           />
         )}

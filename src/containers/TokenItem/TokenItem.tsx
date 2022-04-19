@@ -39,10 +39,10 @@ const TokenItem = ({ item }: { item: IToken }) => {
           <div>
             <h1 className={'text-active text-2xl'}>{item.name}</h1>
             <p className={'text-inactive text-sm'}>
-              Token by{' '}
-              <Link href={`/@${user}`}>
-                <a className={'text-active hover:text-inactive'} href={`/@${user}`}>
-                  @{user}
+              Owned by{' '}
+              <Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
+                <a className={'text-active hover:text-inactive'} href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
+                  @{item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}
                 </a>
               </Link>
             </p>
@@ -52,7 +52,11 @@ const TokenItem = ({ item }: { item: IToken }) => {
           {item.metadata?.isTransferable && (
             <div className={'mt-10'}>
               <ConditionRender client>
-                {currentUser?.id === item.user?.id ? <TradeAction item={item} /> : item.offer && <PurchaseAction item={item} />}
+                {(currentUser?.id === item.user?.id && item?.owner?.id === undefined) || currentUser?.id === item.owner?.id ? (
+                  <TradeAction item={item} />
+                ) : (
+                  item.offer && <PurchaseAction item={item} />
+                )}
               </ConditionRender>
             </div>
           )}
@@ -109,7 +113,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
             <div className={'flex'}>
               <span className={'pr-1'}>Metadata: </span>
               <span>
-                <Link href={'ff'}>
+                <Link href={ipfsToUrl(item.metadataUri)}>
                   <a target={'_blank'} rel={'noreferrer'} href={ipfsToUrl(item.metadataUri)} className={'text-active hover:text-inactive'}>
                     view on IPFS
                   </a>
@@ -117,6 +121,16 @@ const TokenItem = ({ item }: { item: IToken }) => {
               </span>
             </div>
           )}
+          <div className={'flex'}>
+            <span className={'pr-1'}>Creator: </span>
+            <span>
+              <Link href={`/@${item.user?.username || item.user?.id}`}>
+                <a href={`/@${item.user?.username || item.user?.id}`} className={'text-active hover:text-inactive'}>
+                  @{item.user?.username || item.user?.id}
+                </a>
+              </Link>
+            </span>
+          </div>
         </div>
       ) : null}
     </section>

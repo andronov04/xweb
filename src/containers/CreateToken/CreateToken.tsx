@@ -22,6 +22,7 @@ const CreateToken = () => {
   // TODO Handle errors
   useEffect(() => {
     if (data) {
+      setMsg({ clear: true, autoClose: 1000, title: 'Uploaded', kind: 'success' });
       token.setCid((data as UploadAssetFileResponse).cid);
       router.replace('/create/token/mint').then().catch();
     }
@@ -30,9 +31,10 @@ const CreateToken = () => {
   // if from asset
   useEffect(() => {
     if (router.query?.a && size.width && size.height && token.isProxy) {
-      const assets = (router.query?.a as string).split(',');
-      router.replace('/create/token', undefined, { shallow: true }).then();
-      setAssetIds(assets.map((a) => parseInt(a)));
+      // TODO BUG
+      // const assets = (router.query?.a as string).split(',');
+      // router.replace('/create/token', undefined, { shallow: true }).then();
+      // setAssetIds(assets.map((a) => parseInt(a)));
     }
   }, [router, size, token]);
 
@@ -91,14 +93,14 @@ const CreateToken = () => {
                   return;
                 }
                 // TODO Send now and message
-                setMsg({ title: 'Generate metadata...', kind: 'info' });
+                setMsg({ autoClose: false, clear: true, block: true, title: 'Generate metadata...', kind: 'info' });
                 token
                   .prepare()
                   .then(() => {
-                    setMsg({ title: 'Upload to ipfs...', kind: 'info' });
+                    setMsg({ autoClose: false, clear: true, block: true, title: 'Uploading...', kind: 'info' });
                   })
                   .catch(() => {
-                    setMsg({ title: 'Unknown error', kind: 'error' });
+                    setMsg({ clear: true, title: 'Unknown error', kind: 'error' });
                   });
               }}
               href={'/create/token/mint'}
@@ -149,7 +151,7 @@ const CreateToken = () => {
             in beta version, you can select only one style, <b className={'hover:opacity-80 cursor-pointer text-inactive'}>learn more</b>
           </p>
         </div>
-        {assetIds.length && (
+        {assetIds.length ? (
           <Items
             kind={'asset'}
             mode={'selected'}
@@ -175,7 +177,7 @@ const CreateToken = () => {
             }}
             query={QL_GET_ASSET_ITEMS_BY_IDS}
           />
-        )}
+        ) : null}
         <Items
           kind={'asset'}
           mode={'selected'}

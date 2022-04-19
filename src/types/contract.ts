@@ -1,3 +1,6 @@
+import type { MichelsonMap } from '@taquito/taquito';
+import BigNumber from 'bignumber.js';
+
 export enum ContractRequestStatus {
   NONE = 'NONE',
   CALLING = 'CALLING',
@@ -39,6 +42,11 @@ export interface MintStatusCallData {
   status: number;
 }
 
+export interface CollectCallData {
+  price: number;
+  id: number;
+}
+
 export interface TradeTokenCallData {
   price: number;
   ownerId: string; // owner current
@@ -47,8 +55,8 @@ export interface TradeTokenCallData {
 }
 
 export interface MintTokenCallData {
-  assets: number[]; // TODO data order -id
-  enabled: boolean;
+  assets: MichelsonMap<number, BigNumber>; // TODO data order -id
+  royalties: number;
   digest: string;
   metadata: string;
 }
