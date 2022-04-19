@@ -17,6 +17,9 @@ module.exports = {
   },
   darkMode: 'class',
   theme: {
+    container: {
+      center: true
+    },
     fontFamily: {
       sans: ['Mohave', 'sans-serif'],
       display: ['Mohave'],
@@ -89,17 +92,17 @@ module.exports = {
         '6xl': '2.75rem',
         '7xl': '4.5rem',
         '8xl': '6.25rem'
-      },
-      screens: {
-        tablet: '640px',
-        // => @media (min-width: 640px) { ... }
-
-        laptop: '1024px',
-        // => @media (min-width: 1024px) { ... }
-
-        desktop: '1280px'
-        // => @media (min-width: 1280px) { ... }
       }
+      // screens: {
+      //   tablet: '640px',
+      //   // => @media (min-width: 640px) { ... }
+      //
+      //   laptop: '1024px',
+      //   // => @media (min-width: 1024px) { ... }
+      //
+      //   desktop: '1280px'
+      //   // => @media (min-width: 1280px) { ... }
+      // }
     }
   }
 };

@@ -11,8 +11,9 @@ export default function Page({ children }) {
     await initUser();
   }, []);
 
+  //  sm:mx-auto
   return (
-    <div className={'p-10 w-full'}>
+    <div className={'p-10 max-w-6xl mx-auto'}>
       <Header />
 
       <main id={'main'} className={'my-10 flex-grow w-full h-auto'}>
