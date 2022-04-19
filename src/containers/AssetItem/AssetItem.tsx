@@ -23,6 +23,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
 
   // console.log('item:::', item);
   // console.log('currentUser:::', currentUser);
+  const tokens = item.assetTokenAssets_aggregate?.aggregate.count ?? 0;
 
   // TODO All flags
   return (
@@ -38,12 +39,11 @@ const AssetItem = ({ item }: { item: IAsset }) => {
             <div>
               <h1 className={'text-active text-2xl'}>{item.name}</h1>
               <p className={'text-inactive text-sm'}>
-                Asset by{' '}
-                <Link href={`/@${user}`}>
-                  <a className={'text-active hover:text-inactive'} href={`/@${user}`}>
-                    @{user}
-                  </a>
-                </Link>
+                {tokens ? (
+                  <span>
+                    {tokens} {tokens > 1 ? 'tokens' : 'token'}
+                  </span>
+                ) : null}
               </p>
               <p className={'text-inactive pt-8 font-light'}>{item.description}</p>
               {/*<span className={'font-light text-sm text-white30 mt-3'}>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>*/}
@@ -141,6 +141,16 @@ const AssetItem = ({ item }: { item: IAsset }) => {
               </span>
             </div>
           )}
+          <div className={'flex'}>
+            <span className={'pr-1'}>Creator: </span>
+            <span>
+              <Link href={`/@${item.user?.username || item.user?.id}`}>
+                <a href={`/@${item.user?.username || item.user?.id}`} className={'text-active hover:text-inactive'}>
+                  @{item.user?.username || item.user?.id}
+                </a>
+              </Link>
+            </span>
+          </div>
         </div>
       ) : null}
 

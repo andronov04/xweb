@@ -9,9 +9,11 @@ import Subscription from '../../components/Subscription/Subscription';
 import { SUB_ACTION_OP_HASH } from '../../api/subscription';
 import { useRouter } from 'next/router';
 import { CollectCallData } from '../../types/contract';
+import { useStore } from '../../store';
 
 const PurchaseAction = ({ item }: { item: IToken }) => {
   const router = useRouter();
+  const currentUser = useStore((state) => state.user);
   const [opHash, setOpHash] = useState<string | null>();
   const {
     call,
@@ -45,6 +47,10 @@ const PurchaseAction = ({ item }: { item: IToken }) => {
       ) : null}
       <CustomButton
         onClick={() => {
+          if (!currentUser) {
+            setMsg({ clear: true, title: 'You are not logged in. Please log in and try again', kind: 'error' });
+            return;
+          }
           if (item.offer) {
             call({
               id: item.offer.id,

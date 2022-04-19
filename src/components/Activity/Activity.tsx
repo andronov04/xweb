@@ -42,13 +42,13 @@ const Activity = ({ variables, query }: IItems) => {
                     @{item.issuer.username ?? item.issuer.id}
                   </a>
                 </Link>{' '}
-                collect{' '}
+                purchased{' '}
                 <Link href={`/token/${item.token.name}`}>
                   <a href={`/token/${item.token.name}`} className={'text-active hover:opacity-80'}>
                     {item.token.name}
                   </a>
                 </Link>{' '}
-                for {displayPrice(item.data.price)} ꜩ
+                for {displayPrice(item.data?.price ?? 0)} ꜩ
               </p>
             )}
             {item.kind === IActivityKind.CREATE_ASSET && (
@@ -94,7 +94,7 @@ const Activity = ({ variables, query }: IItems) => {
                     {item.token.name}
                   </a>
                 </Link>{' '}
-                for {displayPrice(item.data.price)} ꜩ
+                for {displayPrice(item.data?.price ?? 0)} ꜩ
               </p>
             )}
             {item.kind === IActivityKind.CANCEL_LISTED_TOKEN && (

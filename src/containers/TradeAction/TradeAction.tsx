@@ -11,9 +11,11 @@ import Subscription from '../../components/Subscription/Subscription';
 import { SUB_ACTION_OP_HASH } from '../../api/subscription';
 import { setMsg } from '../../services/snackbar';
 import { useRouter } from 'next/router';
+import { useStore } from '../../store';
 
 const TradeAction = ({ item }: { item: IToken }) => {
   const router = useRouter();
+  const currentUser = useStore((state) => state.user);
   const [opHash, setOpHash] = useState<string | null>();
   const [trade, setTrade] = useState(false);
   const {
@@ -30,6 +32,10 @@ const TradeAction = ({ item }: { item: IToken }) => {
   const refSubmit = useRef<HTMLInputElement | null>(null);
 
   const onSubmit = (data) => {
+    if (!currentUser) {
+      setMsg({ clear: true, title: 'You are not logged in. Please log in and try again', kind: 'error' });
+      return;
+    }
     console.log('onSubmit:::', data);
     const price = Math.floor(data.price * 1000000); // Math.floor(parseFloat(price) * 1000000)
     if (item.user && item.owner) {
@@ -73,6 +79,10 @@ const TradeAction = ({ item }: { item: IToken }) => {
         <CustomButton
           onClick={() => {
             console.log('Cancel Trade');
+            if (!currentUser) {
+              setMsg({ clear: true, title: 'You are not logged in. Please log in and try again', kind: 'error' });
+              return;
+            }
             if (item.offer) {
               callCancel(item.offer.id);
             }

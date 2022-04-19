@@ -2,13 +2,13 @@ import { gql } from '@apollo/client';
 
 export const QL_GET_USER = gql`
   query Query($username: String) {
-    users(where: { username: { _eq: $username } }) {
+    user(where: { username: { _eq: $username } }) {
       id
       username
       description
       role
-      avatar_uri
-      metadata_uri
+      avatarUri
+      metadataUri
       metadata
       created
       updated

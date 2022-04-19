@@ -144,18 +144,9 @@ const Item = ({ item, price, onMountItem, mode, onClickItem, active }: IItemComp
           <div className={'flex justify-between items-center'}>
             <div>
               <p className={'font-light text-xs text-inactive'}>
-                by
-                <Link href={`/@${item.user?.username ?? item.user?.id}`}>
-                  <a className={'pl-0.5'} href={`/@${item.user?.username ?? item.user?.id}`}>
-                    @{item.user?.username ?? item.user?.id}
-                  </a>
-                </Link>
-              </p>
-              <p className={'font-light text-xs text-inactive'}>
-                owner
-                <Link href={`/@${item.owner?.username ?? item.owner?.id}`}>
-                  <a className={'pl-0.5'} href={`/@${item.owner?.username ?? item.owner?.id}`}>
-                    @{item.owner?.username ?? item.owner?.id}
+                <Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
+                  <a className={'pl-0.5'} href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
+                    @{item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}
                   </a>
                 </Link>
               </p>

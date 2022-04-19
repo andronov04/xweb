@@ -44,11 +44,30 @@ export async function getServerSideProps({ params }) {
   } catch (e) {
     // TODO handle error
     // console.log('e', e);
+    return {
+      props: {},
+      notFound: true,
+      redirect: {
+        destination: '/',
+        permanent: 410
+      }
+    };
+  }
+  const user = data?.user?.find((a) => a.username === id);
+  if (!user) {
+    return {
+      props: {},
+      notFound: true,
+      redirect: {
+        destination: '/',
+        permanent: 410
+      }
+    };
   }
 
   return {
     props: {
-      user: data?.users?.find((a) => a.username === id) ?? { id }
+      user: user
     }
   };
 }

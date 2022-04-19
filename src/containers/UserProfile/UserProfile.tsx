@@ -27,7 +27,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
         </div>
         <div className={'flex-grow flex items-start'}>
           {/*<p className={'text-whitegrey text-sm'}>{user.id}</p>*/}
-          {(user.id ?? user.username) && <h2 className={'text-2xl text-active mt-3'}>@{user.username ?? user.id}</h2>}
+          {(user.id ?? user.username) && <h2 className={'text-2xl text-active'}>@{user.username ?? user.id}</h2>}
           {user.description && <p className={'text-inactive'}>{user.description}</p>}
         </div>
         {isCurrent && (

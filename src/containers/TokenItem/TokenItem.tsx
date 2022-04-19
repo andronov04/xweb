@@ -54,9 +54,9 @@ const TokenItem = ({ item }: { item: IToken }) => {
               <ConditionRender client>
                 {(currentUser?.id === item.user?.id && item?.owner?.id === undefined) || currentUser?.id === item.owner?.id ? (
                   <TradeAction item={item} />
-                ) : (
-                  item.offer && <PurchaseAction item={item} />
-                )}
+                ) : item.offer ? (
+                  <PurchaseAction item={item} />
+                ) : null}
               </ConditionRender>
             </div>
           )}
