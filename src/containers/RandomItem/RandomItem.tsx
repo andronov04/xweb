@@ -21,7 +21,7 @@ const RandomItem = () => {
 
   const { data, loading } = useQuery(QL_GET_TOKEN_BY_ID, {
     // notifyOnNetworkStatusChange: true,
-    skip: !id,
+    skip: id === undefined,
     variables: {
       id: id
     }
@@ -32,7 +32,6 @@ const RandomItem = () => {
   // });
   // - get count tokens
   // random token between 0- max count
-  // get random token by id
 
   return (
     <div ref={refContainer} className={'w-full h-full  flex justify-end items-center'}>

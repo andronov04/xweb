@@ -35,7 +35,7 @@ class WalletApi {
     this.tzToolkit = new TezosToolkit(this.rpcl[0]);
     // Init wallet
     this.wallet = new BeaconWallet({
-      name: 'art3s',
+      name: 'Contter',
       preferredNetwork: TZ_NETWORK as NetworkType
     });
   }

@@ -6,7 +6,7 @@ function Header() {
       <div>
         <a href={'/'} className={'flex items-center'}>
           <span>
-            <svg width="83" height="44" viewBox="0 0 83 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="84" height="44" viewBox="0 0 84 44" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clipPath="url(#clip0_4398_235)">
                 <path
                   fillRule="evenodd"
@@ -48,7 +48,7 @@ function Header() {
               </g>
               <defs>
                 <clipPath id="clip0_4398_235">
-                  <rect width="83" height="44" fill="white" />
+                  <rect width="84" height="44" fill="white" />
                 </clipPath>
               </defs>
             </svg>

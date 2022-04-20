@@ -3,6 +3,7 @@ import Page from '../containers/Page/Page';
 import { DESCRIPTION_SEO, IMAGE_SEO } from '../constants';
 import ConditionRender from '../components/Utils/ConditionRender';
 import RandomItem from '../containers/RandomItem/RandomItem';
+import FAQ from '../components/FAQ/FAQ';
 
 export default function Home() {
   return (
@@ -40,6 +41,12 @@ export default function Home() {
             </ConditionRender>
           </div>
         </section>
+
+        <div className={'mt-20 h-0.5 bg-whitegrey w-full rounded-sm'} />
+
+        <div className={'mt-20'}>
+          <FAQ />
+        </div>
       </main>
     </Page>
   );
