@@ -10,7 +10,7 @@ const Menu = () => {
   return (
     <div>
       <nav>
-        <ol className={'flex items-center text-inactive gap-x-5 text-2xl'}>
+        <ol style={{ fontSize: '1.3rem', fontWeight: 400 }} className={'flex items-center text-inactive gap-x-5 font-medium text-xl'}>
           <li className={`hover:text-active ${router.pathname.startsWith('/explore') && 'text-active'}`}>
             <Link href={'/explore'}>
               <a href={'/explore'}>Explore</a>
@@ -37,7 +37,7 @@ const Menu = () => {
                 <a href={`/@${user.username ?? user.id}`}>Profile</a>
               </Link>
             ) : (
-              <div className={'py-1 px-2  rounded-lg border border-white border-solid cursor-pointer'} onClick={connectUser}>
+              <div className={'py-1 px-2  rounded-lg border-2 border-white border-solid cursor-pointer'} onClick={connectUser}>
                 Connect Wallet
               </div>
             )}
