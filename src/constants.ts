@@ -24,6 +24,7 @@ export const USE_REQUEST_TOKEN_CAPTURE = 'X_REQUEST_TOKEN_CAPTURE';
 export const USE_RESPONSE_TOKEN_CAPTURE = 'X_RESPONSE_TOKEN_CAPTURE';
 export const USE_REQUEST_ASSET_CAPTURE = 'X_REQUEST_ASSET_CAPTURE';
 export const USE_RESPONSE_ASSET_CAPTURE = 'X_RESPONSE_ASSET_CAPTURE';
+export const USE_SET_CONF = 'X_USE_SET_CONF';
 export const USE_SET_THEME = 'X_USE_SET_THEME';
 export const FILE_API_ASSET_STYLE_URL = process.env.NEXT_PUBLIC_FILE_API_ASSET_STYLE_URL ?? 'https://api.art3s.xyz/upload/file/asset/style';
 export const FILE_API_CAPTURE_IMG_URL = process.env.NEXT_PUBLIC_FILE_API_CAPTURE_IMG_URL ?? 'https://api.art3s.xyz/upload/file/img';

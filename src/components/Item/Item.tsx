@@ -14,7 +14,7 @@ const getUrl = (item: IItem) => {
 interface IItemComp {
   item: IItem;
   price?: boolean;
-  mode: 'normal' | 'selected' | 'offer';
+  mode: 'normal' | 'selected' | 'offer' | 'all';
   onClickItem?: (item: IItem) => void;
   onMountItem?: (item: IItem) => void;
   active?: boolean;
@@ -44,7 +44,7 @@ const ItemContent = ({ item }: { item: IItem }) => {
       {item.metadata?.formats?.map((format) => {
         // console.log('format', format);
         return (
-          <div key={format.hash}>
+          <div key={format.mimeType}>
             {IMAGE_MIMETYPES.includes(format.mimeType) ? (
               <img className={'absolute top-0 left-0 w-full h-auto'} src={ipfsToUrl(item.metadata?.thumbnailUri ?? '')} alt={item.name} />
             ) : null}
@@ -80,8 +80,10 @@ const Item = ({ item, price, onMountItem, mode, onClickItem, active }: IItemComp
     onMountItem?.(item);
   }, [onMountItem, item]);
 
+  const tokens = item.assetTokenAssets_aggregate?.aggregate.count ?? 0;
+
   return (
-    <>
+    <div>
       {mode === 'selected' && (
         <div>
           <div
@@ -100,7 +102,7 @@ const Item = ({ item, price, onMountItem, mode, onClickItem, active }: IItemComp
                 Selected
               </p>
             </div>
-            <ItemContent key={item.id} item={item} />
+            <ItemContent item={item} />
           </div>
           <Link href={getUrl(item)}>
             <a target={'_blank'} rel={'noreferrer'} href={getUrl(item)}>
@@ -125,7 +127,13 @@ const Item = ({ item, price, onMountItem, mode, onClickItem, active }: IItemComp
           </Link>
           <h2 className={'pt-2 font-light text-active'}>{item.name}</h2>
           <div className={'flex justify-between'}>
-            <p className={'font-light text-xs text-inactive'}>@{item.user?.username ?? item.user?.id}</p>
+            <p className={'font-light text-xs text-inactive'}>
+              <Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
+                <a className={'pl-0.5'} href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
+                  @{item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}
+                </a>
+              </Link>
+            </p>
           </div>
         </div>
       )}
@@ -151,11 +159,41 @@ const Item = ({ item, price, onMountItem, mode, onClickItem, active }: IItemComp
                 </Link>
               </p>
             </div>
-            <p className={'text-green'}>{`${displayPrice(item.price ?? 0)} ꜩ`}</p>
+            <p className={'text-white'}>{`${displayPrice(item.price ?? 0)} ꜩ`}</p>
           </div>
         </div>
       )}
-    </>
+      {mode === 'all' && (
+        <div className={'overflow-hidden'}>
+          <Link href={getUrl(item)}>
+            <a href={getUrl(item)}>
+              <ItemContent item={item} />
+            </a>
+          </Link>
+          <h2 className={'pt-2 font-light text-active'}>{item.name}</h2>
+          <div className={'flex justify-between items-center'}>
+            <p className={'font-light text-xs text-inactive'}>
+              <span>{item['__typename'] === 'token' ? 'Token' : 'Asset'}</span>
+              {tokens ? (
+                <>
+                  {' '}
+                  /{' '}
+                  <span>
+                    {tokens} {tokens > 1 ? 'tokens' : 'token'}
+                  </span>
+                </>
+              ) : null}
+              {/*<Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>*/}
+              {/*  <a className={'pl-0.5'} href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>*/}
+              {/*    @{item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}*/}
+              {/*  </a>*/}
+              {/*</Link>*/}
+            </p>
+            {item.offer && <p className={'text-white'}>{`${displayPrice(item.offer.price ?? 0)} ꜩ`}</p>}
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

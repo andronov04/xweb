@@ -30,7 +30,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
     <section>
       {item.flag !== IAssetFlag.NONE && (
         <div className={'bg-amber-300 p-1 text-xs rounded-sm mb-4 font-light text-black'}>
-          {item.flag === IAssetFlag.REVIEW && <p>In Review. We’re reviewing your asset.</p>}
+          {item.flag === IAssetFlag.REVIEW && <p>In Review. We’re reviewing this asset.</p>}
         </div>
       )}
       <div className={'flex w-full items-center md:flex-row flex-col gap-x-8'}>

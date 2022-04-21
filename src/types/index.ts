@@ -18,7 +18,7 @@ export interface IUser {
   id: string;
   username?: string;
   description?: string;
-  avatar_uri?: string;
+  avatarUri?: string;
   role?: IUserRole;
   metadata_uri?: string;
   metadata?: any; // TODO Description
@@ -89,6 +89,7 @@ export interface IItem {
   description?: string;
   user?: IUser;
   owner?: IUser;
+  offer?: IOffer;
   slug?: string;
   created?: string;
   updated?: string;
@@ -99,6 +100,7 @@ export interface IItem {
   __typename?: string;
   royalties?: number;
   metadataUri?: string;
+  assetTokenAssets_aggregate?: INestedAggregate;
   metadata: ITokenMetadata | IAssetMetadata;
 }
 

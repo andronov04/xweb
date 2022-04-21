@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import IframeToken from './Iframe/Iframe';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Items from '../../components/Items/Items';
-import { QL_GET_ASSET_ITEMS, QL_GET_ASSET_ITEMS_BY_IDS, QL_GET_ASSET_ITEMS_BY_NOT_IDS } from '../../api/queries';
+import { QL_GET_ASSET_ITEMS_BY_IDS, QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG } from '../../api/queries';
 import { useStore } from '../../store';
 import Link from 'next/link';
 import { setMsg } from '../../services/snackbar';
@@ -11,6 +11,7 @@ import { UploadAssetFileResponse } from '../../types/api';
 import { UploadFileError } from '../../types/error';
 import { API_BUILD_TOKEN_URL } from '../../constants';
 import { useRouter } from 'next/router';
+import { IAssetFlag } from '../../types';
 
 const CreateToken = () => {
   const router = useRouter();
@@ -145,11 +146,7 @@ const CreateToken = () => {
 
       <div>
         <div className={'flex my-5 font-thin gap-x-4'}>
-          <p className={'text-whitegrey'}>all assets*</p>
-          <p className={'text-active'}>styles</p>
-          <p className={'text-whitegrey'}>
-            in beta version, you can select only one style, <b className={'hover:opacity-80 cursor-pointer text-inactive'}>learn more</b>
-          </p>
+          <p className={'text-inactive'}>Assets</p>
         </div>
         {assetIds.length ? (
           <Items
@@ -200,9 +197,10 @@ const CreateToken = () => {
             }
           }}
           variables={{
-            ids: assetIds
+            ids: assetIds,
+            flag: IAssetFlag.NONE
           }}
-          query={QL_GET_ASSET_ITEMS_BY_NOT_IDS}
+          query={QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG}
         />
       </div>
     </section>

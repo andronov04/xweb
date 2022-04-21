@@ -4,6 +4,7 @@ import { DESCRIPTION_SEO, IMAGE_SEO } from '../constants';
 import Page from '../containers/Page/Page';
 import Items from '../components/Items/Items';
 import { QL_GET_ASSET_ITEMS } from '../api/queries';
+import { IAssetFlag } from '../types';
 
 export default function AssetsPage() {
   return (
@@ -20,7 +21,12 @@ export default function AssetsPage() {
 
       <ConditionRender client>
         <main>
-          <Items kind={'asset'} query={QL_GET_ASSET_ITEMS} />
+          <div className={'flex font-light justify-end mb-5'}>
+            <div>
+              <p className={'italic text-whitegrey'}>Recently published</p>
+            </div>
+          </div>
+          <Items kind={'asset'} variables={{ flag: IAssetFlag.NONE }} query={QL_GET_ASSET_ITEMS} />
         </main>
       </ConditionRender>
     </Page>

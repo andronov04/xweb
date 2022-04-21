@@ -15,7 +15,7 @@ const Profile = ({ user }: { user: IUser }) => {
         <meta key="description" name="description" content={user.description} />
         <meta key="og:description" property="og:description" content={user.description} />
         <meta key="og:type" property="og:type" content="website" />
-        <meta key="og:image" property="og:image" content={ipfsToUrl(user.avatar_uri || '')} />
+        <meta key="og:image" property="og:image" content={ipfsToUrl(user.avatarUri || '')} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

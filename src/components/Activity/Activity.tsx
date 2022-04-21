@@ -3,6 +3,7 @@ import { ITEMS_PER_PAGE } from '../../constants';
 import { DocumentNode } from '@apollo/client/core';
 import Loader from '../Utils/Loader';
 import { IActivityKind } from '../../types/activity';
+import ReactTimeAgo from 'react-time-ago';
 import Link from 'next/link';
 import { displayPrice } from '../../utils';
 
@@ -14,6 +15,20 @@ interface IItems {
   variables?: IVariable;
   query: DocumentNode;
 }
+
+const TZKT_URL = 'https://tzkt.io/';
+
+const TimeActivity = ({ item }: { item: any }) => {
+  return (
+    <div>
+      <Link href={`${TZKT_URL}${item.opHash}`}>
+        <a target={'_blank'} rel={'noreferrer'} href={`${TZKT_URL}${item.opHash}`} className={'text-active hover:opacity-80'}>
+          <ReactTimeAgo date={new Date(item.created)} locale="en-US" />
+        </a>
+      </Link>
+    </div>
+  );
+};
 
 const Activity = ({ variables, query }: IItems) => {
   const { data, loading } = useQuery(query, {
@@ -104,7 +119,7 @@ const Activity = ({ variables, query }: IItems) => {
                     @{item.issuer.username ?? item.issuer.id}
                   </a>
                 </Link>{' '}
-                cancel listed{' '}
+                cancelled listing{' '}
                 <Link href={`/token/${item.token.name}`}>
                   <a href={`/token/${item.token.name}`} className={'text-active hover:opacity-80'}>
                     {item.token.name}
@@ -112,7 +127,7 @@ const Activity = ({ variables, query }: IItems) => {
                 </Link>
               </p>
             )}
-            <p className={'text-sm'}>{item.created}</p>
+            <TimeActivity item={item} />
           </div>
         ))}
       </section>

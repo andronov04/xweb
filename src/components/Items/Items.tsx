@@ -14,8 +14,8 @@ interface IVariable {
 interface IItems {
   variables?: IVariable;
   query: DocumentNode;
-  kind: string;
-  mode?: 'normal' | 'selected' | 'offer';
+  kind: string | string[];
+  mode?: 'normal' | 'selected' | 'offer' | 'all';
   onClickItem?: (item: IItem) => void;
   onMountItem?: (item: IItem) => void;
   activeIds?: number[];
@@ -38,7 +38,16 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
   //   return items.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
   // }, [data]);
   const items = useMemo(() => {
-    let array = data?.[kind] ?? [];
+    let array: any[] = [];
+    if (typeof kind === 'string') {
+      array = data?.[kind] ?? [];
+    } else {
+      kind.forEach((knd) => {
+        array.push(data?.[knd] ?? []);
+      });
+      array = array.flat();
+    }
+
     if (kind === 'offer') {
       // map offer to item format
       array = array.map((a) => {
@@ -54,10 +63,10 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
   // console.log('items:::', items);
 
   const column = useMemo(() => {
-    let count = 3;
-    if ((size.width ?? 0) >= 1280) {
-      count = 5;
-    }
+    let count = 4;
+    // if ((size.width ?? 0) >= 1280) {
+    //   count = 5;
+    // }
     if ((size.width ?? 0) <= 868) {
       count = 2;
     }
@@ -70,13 +79,15 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
   const structure = useMemo(() => {
     const blocks: IItem[][] = new Array(column).fill(Boolean).map((_) => []);
     let idx = 0;
-    items.forEach((item) => {
-      if (idx === column) {
-        idx = 0;
-      }
-      blocks[idx].push(item);
-      idx += 1;
-    });
+    items
+      .sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
+      .forEach((item) => {
+        if (idx === column) {
+          idx = 0;
+        }
+        blocks[idx].push(item);
+        idx += 1;
+      });
     return blocks;
   }, [items, column]);
 
@@ -98,7 +109,7 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
                 onMountItem={onMountItem}
                 mode={mode ?? 'normal'}
                 active={activeIds?.includes(item.id)}
-                key={`${item.id}_${i}_${item.slug}`}
+                key={`${item.id}_${item.slug}`}
                 item={item}
               />
             ))}

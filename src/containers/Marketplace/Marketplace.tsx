@@ -4,6 +4,11 @@ import Items from '../../components/Items/Items';
 const Marketplace = () => {
   return (
     <main>
+      <div className={'flex font-light justify-end mb-5'}>
+        <div>
+          <p className={'italic text-whitegrey'}>Recently listed</p>
+        </div>
+      </div>
       <Items kind={'offer'} mode={'offer'} query={QL_GET_OFFER_TOKENS} />
     </main>
   );

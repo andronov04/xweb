@@ -10,6 +10,7 @@ import shallow from 'zustand/shallow';
 import UserItems from './UserItems';
 import Activity from '../../components/Activity/Activity';
 import { QL_GET_ACTION_BY_USER } from '../../api/queries';
+import Navs from '../../components/Navs/Navs';
 
 const UserProfile = ({ user }: { user: IUser }) => {
   const [stateUser, disconnectUser] = useStore((state) => [state.user, state.disconnectUser], shallow);
@@ -18,12 +19,14 @@ const UserProfile = ({ user }: { user: IUser }) => {
   const url = `/@${user.username ?? user.id}`;
 
   const isActivity = router.asPath.endsWith('activity');
+  const isOwned = router.asPath.endsWith('owned');
+  const isSales = router.asPath.endsWith('sales');
 
   return (
     <>
       <div className={'flex w-full items-center justify-start gap-x-10'}>
         <div>
-          <Avatar avatar_uri={user.avatar_uri ?? ''} />
+          <Avatar avatarUri={user.avatarUri ?? ''} />
         </div>
         <div className={'flex-grow flex items-start'}>
           {/*<p className={'text-whitegrey text-sm'}>{user.id}</p>*/}
@@ -49,55 +52,14 @@ const UserProfile = ({ user }: { user: IUser }) => {
 
       <Spacing size={5} />
 
-      <nav className={'w-full flex justify-start border-b-2 border-b-white10'}>
-        <ol className={'flex gap-x-5'}>
-          <li
-            className={`hover:text-active ${
-              router.pathname === '/[id]' && router.asPath.split('/').length === 2 && 'border-b-4 border-b-inactive text-active'
-            } p-2 text-xl text-inactive font-light `}
-          >
-            <Link href={url}>
-              <a href={url}>Created</a>
-            </Link>
-          </li>
-          <li
-            className={`hover:text-active ${
-              router.asPath.endsWith('owned') && 'border-b-4 border-b-inactive text-active'
-            } p-2 text-xl text-inactive font-light `}
-          >
-            <Link href={`${url}/owned`}>
-              <a href={`${url}/owned`}>Owned</a>
-            </Link>
-          </li>
-          <li
-            className={`hover:text-active ${
-              router.asPath.endsWith('sales') && 'border-b-4 border-b-inactive text-active'
-            } p-2 text-xl text-inactive font-light `}
-          >
-            <Link href={`${url}/sales`}>
-              <a href={`${url}/sales`}>On sale</a>
-            </Link>
-          </li>
-          {/*<li*/}
-          {/*  className={`hover:text-active ${*/}
-          {/*    router.asPath.endsWith('assets') && 'border-b-4 border-b-inactive text-active'*/}
-          {/*  } p-2 text-xl text-inactive font-light `}*/}
-          {/*>*/}
-          {/*  <Link href={`${url}/assets`}>*/}
-          {/*    <a href={`${url}/assets`}>Assets</a>*/}
-          {/*  </Link>*/}
-          {/*</li>*/}
-          <li
-            className={`hover:text-active ${
-              router.asPath.endsWith('activity') && 'border-b-4 border-b-inactive text-active'
-            } p-2 text-xl text-inactive font-light `}
-          >
-            <Link href={`${url}/activity`}>
-              <a href={`${url}/activity`}>Activity</a>
-            </Link>
-          </li>
-        </ol>
-      </nav>
+      <Navs
+        links={[
+          { url: url, active: isCurrent, displayName: 'Created', pathname: '/token/[id]/assets' },
+          { url: `${url}/owned`, active: isOwned, displayName: 'Owned', pathname: '/[id]/owned' },
+          { url: `${url}/sales`, active: isSales, displayName: 'On sale', pathname: '/[id]/sales' },
+          { url: `${url}/activity`, active: isActivity, displayName: 'Activity', pathname: '/[id]/activity' }
+        ]}
+      />
 
       <Spacing size={1.2} />
 

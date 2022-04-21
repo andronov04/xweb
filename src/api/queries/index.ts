@@ -68,6 +68,56 @@ export const QL_GET_TOKENS_BY_USER = gql`
       height
       name
       flag
+      offer {
+        id
+        price
+      }
+      user {
+        id
+        username
+      }
+    }
+  }
+`;
+
+export const QL_GET_CREATED_BY_USER = gql`
+  query MyQuery($userId: String!, $limit: Int, $offset: Int) {
+    token(where: { userId: { _eq: $userId } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      created
+      description
+      id
+      digest
+      metadata
+      slug
+      width
+      height
+      name
+      flag
+      offer {
+        id
+        price
+      }
+      user {
+        id
+        username
+      }
+    }
+    asset(where: { userId: { _eq: $userId } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      name
+      id
+      description
+      kind
+      flag
+      enabled
+      metadata
+      royalties
+      slug
+      created
+      assetTokenAssets_aggregate {
+        aggregate {
+          count
+        }
+      }
       user {
         id
         username
@@ -103,8 +153,8 @@ export const QL_GET_ASSETS_BY_USER = gql`
 `;
 
 export const QL_GET_ASSET_ITEMS = gql`
-  query MyQuery($limit: Int, $offset: Int) {
-    asset(order_by: { created: desc }, limit: $limit, offset: $offset) {
+  query MyQuery($flag: smallint, $limit: Int, $offset: Int) {
+    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { flag: { _eq: $flag } }) {
       name
       id
       description
@@ -159,6 +209,33 @@ export const QL_GET_ASSET_ITEMS_BY_IDS = gql`
 export const QL_GET_ASSET_ITEMS_BY_NOT_IDS = gql`
   query MyQuery($ids: [bigint], $limit: Int, $offset: Int) {
     asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _nin: $ids } }) {
+      name
+      id
+      description
+      kind
+      flag
+      enabled
+      metadata
+      royalties
+      slug
+      created
+      assetTokenAssets_aggregate {
+        aggregate {
+          count
+        }
+      }
+      user {
+        id
+        username
+      }
+      datePublish
+    }
+  }
+`;
+
+export const QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG = gql`
+  query MyQuery($ids: [bigint], $flag: smallint, $limit: Int, $offset: Int) {
+    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _nin: $ids }, _and: { flag: { _eq: $flag } } }) {
       name
       id
       description

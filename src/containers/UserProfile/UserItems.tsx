@@ -1,14 +1,14 @@
 import { IUser } from '../../types';
 import { useRouter } from 'next/router';
-import { QL_GET_TOKENS_BY_USER, QL_GET_TOKEN_OWNED_ITEMS_BY_USER, QL_GET_TOKEN_SALES_ITEMS_BY_USER, QL_GET_ASSETS_BY_USER } from '../../api/queries';
+import { QL_GET_TOKEN_OWNED_ITEMS_BY_USER, QL_GET_TOKEN_SALES_ITEMS_BY_USER, QL_GET_CREATED_BY_USER } from '../../api/queries';
 import Items from '../../components/Items/Items';
 
 const UserItems = ({ user }: { user: IUser }) => {
   const router = useRouter();
-  let query = QL_GET_TOKENS_BY_USER;
+  let query = QL_GET_CREATED_BY_USER;
   let variables: any = { userId: user.id };
-  let kind = 'token';
-  let mode: any = 'normal';
+  let kind: string | string[] = ['token', 'asset'];
+  let mode: any = 'all';
   if (router.asPath.endsWith('owned')) {
     query = QL_GET_TOKEN_OWNED_ITEMS_BY_USER;
     variables = { ownerId: user.id };
@@ -18,10 +18,6 @@ const UserItems = ({ user }: { user: IUser }) => {
     variables = { userId: user.id };
     kind = 'offer';
     mode = 'offer';
-  }
-  if (router.asPath.endsWith('assets')) {
-    query = QL_GET_ASSETS_BY_USER;
-    kind = 'asset';
   }
 
   return (

@@ -1,13 +1,13 @@
 import { ipfsToUrl } from '../../utils';
 
-const Avatar = ({ avatar_uri }: { avatar_uri: string }) => {
+const Avatar = ({ avatarUri }: { avatarUri: string }) => {
   return (
     <>
       <div
         style={{
           backgroundSize: 'cover',
           borderRadius: '21px',
-          backgroundImage: `url(${ipfsToUrl(avatar_uri)})`
+          backgroundImage: avatarUri ? `url(${ipfsToUrl(avatarUri)})` : ''
         }}
         className={'w-32 h-32 bg-black'}
       />

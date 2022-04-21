@@ -1,15 +1,21 @@
 import create from 'zustand';
 import produce from 'immer';
+
+import en from 'javascript-time-ago/locale/en.json';
+import TimeAgo from 'javascript-time-ago';
+
 import { IStore } from '../types/store';
 import {
   EDITOR_URL,
   FILE_API_CAPTURE_IMG_URL,
+  IPFS_PREFIX_URL,
   MESSAGE_GENERATE_NEW,
   MESSAGE_GET_DIGEST,
   USE_ADD_ASSET,
   USE_PREPARE,
   USE_REMOVE_ASSET,
-  USE_REQUEST_CAPTURE
+  USE_REQUEST_CAPTURE,
+  USE_SET_CONF
 } from '../constants';
 import { nanoid } from 'nanoid';
 import { getWallet } from '../api/WalletApi';
@@ -117,6 +123,7 @@ export const useStore = create<IStore>((set, get) => ({
       set(
         produce((state) => {
           state.token.assets.push(asset);
+          console.log('asset', asset);
           tokenProxy?.postMessage(
             {
               type: USE_ADD_ASSET,
@@ -147,6 +154,19 @@ export const useStore = create<IStore>((set, get) => ({
         produce((state) => {
           tokenProxy = proxy;
           state.token.isProxy = true;
+
+          // Set configuration
+          tokenProxy?.postMessage(
+            {
+              type: USE_SET_CONF,
+              data: {
+                conf: {
+                  ipfsPrefix: IPFS_PREFIX_URL
+                }
+              }
+            },
+            EDITOR_URL
+          );
         })
       ),
     emit: () => {
@@ -216,4 +236,6 @@ if (typeof window !== 'undefined') {
   // @ts-ignore
   window.state = useStore.getState();
   useStore.getState().initUser().then();
+
+  TimeAgo.addDefaultLocale(en);
 }
