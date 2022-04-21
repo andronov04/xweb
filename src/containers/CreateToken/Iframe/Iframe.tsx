@@ -1,7 +1,7 @@
 import { EDITOR_URL, IFRAME_ALLOW, IFRAME_SANDBOX } from '../../../constants';
 import { useStore } from '../../../store';
 
-const IframeToken = ({ onLoad }: { onLoad?: (e: any) => void }) => {
+const IframeToken = ({ onLoad, check }: { onLoad?: (e: any) => void; check?: boolean }) => {
   const token = useStore((state) => state.token);
 
   return (
@@ -16,7 +16,7 @@ const IframeToken = ({ onLoad }: { onLoad?: (e: any) => void }) => {
         }}
         width={'100%'}
         height={'100%'}
-        src={EDITOR_URL}
+        src={check ? `${EDITOR_URL}&check=1` : EDITOR_URL}
         className={'iframe'}
         sandbox={IFRAME_SANDBOX}
         allow={IFRAME_ALLOW}

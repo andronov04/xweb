@@ -74,6 +74,7 @@ const PreviewAsset = () => {
             }}
           >
             <IframeToken
+              check={true}
               onLoad={(e) => {
                 token.addAsset({
                   id: 0,
