@@ -4,7 +4,12 @@ const FAQ = () => {
       title: 'What is Contter?',
       key: 'contter',
       desc: () => {
-        return <div>TA collaborative platform, где каждый может создать, продать и купить NFT творения.</div>;
+        // return <div>TA collaborative platform, где каждый может создать, продать и купить NFT творения.</div>;
+        return (
+          <div>
+            <p>The web3 design platform and NFT marketplace on the Tezos blockchain</p>
+          </div>
+        );
       }
     },
     {
@@ -116,35 +121,14 @@ const FAQ = () => {
   ];
 
   return (
-    <div className={'flex gap-x-5 font-light'}>
-      <div className={'w-2/6'}>
-        <nav>
-          <ol className={'space-y-2 text-inactive'}>
-            {navs.map((a) => (
-              <li
-                onClick={() => {
-                  const elem = document.querySelector(`#${a.key}`);
-                  if (elem) {
-                    elem.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-                className={'cursor-pointer select-none hover:opacity-80'}
-                key={a.key}
-              >
-                {a.title}
-              </li>
-            ))}
-          </ol>
-        </nav>
-      </div>
-      <div className={'w-4/6 space-y-6'}>
-        {navs.map((a) => (
-          <div id={a.key} key={a.key}>
-            <h2>{a.title}</h2>
-            <div className={' text-inactive'}>{a.desc()}</div>
-          </div>
-        ))}
-      </div>
+    <div className={'space-y-6 font-light'}>
+      <h2 className={'text-2xl font-normal mb-10'}>Frequently asked questions</h2>
+      {navs.map((a) => (
+        <div id={a.key} key={a.key}>
+          <h2 className={'text-lg'}>{a.title}</h2>
+          <div className={' text-inactive'}>{a.desc()}</div>
+        </div>
+      ))}
     </div>
   );
 };

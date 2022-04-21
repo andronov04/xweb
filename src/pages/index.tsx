@@ -4,6 +4,7 @@ import { DESCRIPTION_SEO, IMAGE_SEO } from '../constants';
 import ConditionRender from '../components/Utils/ConditionRender';
 import RandomItem from '../containers/RandomItem/RandomItem';
 import FAQ from '../components/FAQ/FAQ';
+import Spacing from '../components/Spacing/Spacing';
 
 export default function Home() {
   return (
@@ -30,10 +31,6 @@ export default function Home() {
                 <span style={{ color: 'rgba(255,255,255,0.3)' }}>, and more</span>
               </p>
             </div>
-            <div className={'text-inactive mt-10 font-thin'}>
-              <p>The web3 design platform and NFT marketplace</p>
-              <p>on the Tezos blockchain</p>
-            </div>
           </div>
           <div className={'w-1/2 h-full'}>
             <ConditionRender client>
@@ -42,7 +39,8 @@ export default function Home() {
           </div>
         </section>
 
-        <div className={'mt-20 h-0.5 bg-whitegrey w-full rounded-sm'} />
+        {/*<div className={'mt-20 h-0.5 bg-whitegrey w-full rounded-sm'} />*/}
+        <Spacing size={4} />
 
         <div className={'mt-20'}>
           <FAQ />
