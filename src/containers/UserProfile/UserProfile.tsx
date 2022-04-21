@@ -21,6 +21,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
   const isActivity = router.asPath.endsWith('activity');
   const isOwned = router.asPath.endsWith('owned');
   const isSales = router.asPath.endsWith('sales');
+  const isCreated = !isActivity && !isOwned && !isSales;
 
   return (
     <>
@@ -54,7 +55,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
 
       <Navs
         links={[
-          { url: url, active: isCurrent, displayName: 'Created', pathname: '/token/[id]/assets' },
+          { url: url, active: isCreated, displayName: 'Created', pathname: '[id]' },
           { url: `${url}/owned`, active: isOwned, displayName: 'Owned', pathname: '/[id]/owned' },
           { url: `${url}/sales`, active: isSales, displayName: 'On sale', pathname: '/[id]/sales' },
           { url: `${url}/activity`, active: isActivity, displayName: 'Activity', pathname: '/[id]/activity' }

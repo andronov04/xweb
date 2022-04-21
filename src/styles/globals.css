@@ -29,3 +29,7 @@ body {
 /*  height: 0px;*/
 /*  padding-bottom: calc(100% / 0.612245);*/
 /*}*/
+.infinite-scroll-component,
+.infinite-scroll-component__outer {
+  overflow: hidden !important;
+}
