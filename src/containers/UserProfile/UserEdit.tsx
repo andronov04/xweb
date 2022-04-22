@@ -16,7 +16,7 @@ import { urlToIpfs } from '../../utils';
 import { IProfileMetadata } from '../../types/metadata';
 import { strToByteStr } from '../../utils/string';
 
-const UserEdit = ({ user }: { user: IUser }) => {
+const UserEdit = ({ user, onCancel }: { user: IUser; onCancel: () => void }) => {
   const router = useRouter();
   const [opHash, setOpHash] = useState<string | null>();
   const [fileAvatar, setFileAvatar] = useState<File | null>();
@@ -170,7 +170,7 @@ const UserEdit = ({ user }: { user: IUser }) => {
             background: 'transparent'
           }}
           onClick={() => {
-            //  Callback cancel
+            onCancel();
           }}
           value={'Cancel'}
         />

@@ -30,7 +30,12 @@ const UserProfile = ({ user }: { user: IUser }) => {
   return (
     <>
       {editUser ? (
-        <UserEdit user={user} />
+        <UserEdit
+          onCancel={() => {
+            setEditUser(false);
+          }}
+          user={user}
+        />
       ) : (
         <div className={'flex w-full items-center justify-start gap-x-10'}>
           <div>
