@@ -69,7 +69,7 @@ const CreateToken = () => {
   }, []);
 
   return (
-    <section className={'h-full'}>
+    <section>
       <div className={'flex w-full justify-end items-center'}>
         <div className={'flex-grow text-center'}>
           {/*<button*/}

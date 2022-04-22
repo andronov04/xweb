@@ -13,10 +13,17 @@ export default function Page({ children }) {
 
   //  sm:mx-auto
   return (
-    <div className={'p-10 max-w-6xl mx-auto'}>
+    <div className={'p-10 pb-0 max-w-6xl mx-auto flex flex-col h-full'}>
       <Header />
 
-      <main id={'main'} className={'my-10 flex-grow w-full h-auto'}>
+      <main
+        style={{
+          minHeight: 'fit-content',
+          height: 'auto'
+        }}
+        id={'main'}
+        className={'my-10 flex-grow w-full h-full'}
+      >
         {children}
       </main>
 

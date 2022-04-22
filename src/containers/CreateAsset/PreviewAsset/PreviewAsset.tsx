@@ -49,7 +49,7 @@ const PreviewAsset = () => {
   }
 
   return (
-    <section className={'h-full'}>
+    <section>
       <div className={'flex w-full justify-between items-center'}>
         <div className={'text-right'}>
           <i className={'font-thin text-sm opacity-90 text-warn'}>Warning: This is just a check, no state changes in your asset. </i>

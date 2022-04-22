@@ -37,7 +37,7 @@ const Menu = () => {
                 <a href={`/@${user.username ?? user.id}`}>Profile</a>
               </Link>
             ) : (
-              <div className={'py-1 px-2  rounded-lg border-2 border-white border-solid cursor-pointer'} onClick={connectUser}>
+              <div className={'py-1 px-2 italic cursor-pointer'} onClick={connectUser}>
                 Connect Wallet
               </div>
             )}

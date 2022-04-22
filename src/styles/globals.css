@@ -22,6 +22,12 @@ body {
   color: #fff;
 }
 
+html,
+body,
+#__next {
+  height: 100%;
+}
+
 /*.item::before {*/
 /*  content: "";*/
 /*  display: block;*/
