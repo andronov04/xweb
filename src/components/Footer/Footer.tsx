@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 function Footer() {
   return (
-    <footer className={'flex pb-10 justify-between items-center'}>
-      <div className={'flex  text-xs gap-x-2 items-center'}>
+    <footer className={'flex pb-5 justify-between items-center'}>
+      <div className={'flex  text-base gap-x-2 items-center'}>
         <div className={'flex items-center gap-x-3'}>
           <svg style={{ marginTop: '-4px' }} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path

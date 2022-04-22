@@ -30,7 +30,6 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
         query={query ?? SUB_ACTION_OP_HASH}
         variables={{ opHash: opHash }}
         onComplete={(data) => {
-          console.log('onComplete:::', data);
           const action = data?.action?.[0];
           if (action) {
             onSuccess(action);
@@ -38,7 +37,7 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
         }}
       />
 
-      <div className={'w-full h-full bg-black absolute z-10 opacity-80'} />
+      <div className={'w-full h-full bg-black absolute z-10 opacity-60'} />
       <div className={'absolute z-20 w-full h-full flex justify-center items-center'}>
         <div className={'bg-blackopacity gap-y-10 text-center flex justify-center items-center flex-col rounded-2xl p-10 w-96 h-96'}>
           {error ? (

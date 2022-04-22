@@ -8,8 +8,8 @@ export default function MainPage() {
   return (
     <Page>
       <Head>
-        <title>mint token – Contter</title>
-        <meta key="og:title" property="og:title" content={'mint token – Contter'} />
+        <title>Mint a token – Contter</title>
+        <meta key="og:title" property="og:title" content={'Mint a token – Contter'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />

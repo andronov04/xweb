@@ -25,6 +25,9 @@ module.exports = {
       display: ['Mohave'],
       body: ['Mohave']
     },
+    fontWeight: {
+      normal: 400
+    },
     fontSize: {
       point: '.4rem',
       mini: '.5rem',
@@ -34,7 +37,7 @@ module.exports = {
       tiny: '.875rem',
       base: '1rem',
       lg: '1.125rem',
-      xl: '1.25rem',
+      xl: '1.3rem',
       '2xl': '1.5rem',
       '3xl': '1.875rem',
       '4xl': '2.25rem',
@@ -65,6 +68,9 @@ module.exports = {
         w24: '24px',
         w130: '130px'
       },
+      gap: {
+        8: '2rem'
+      },
       height: {
         h28: '28px',
         h24: '24px',
@@ -78,7 +84,7 @@ module.exports = {
         white10: 'rgba(255, 255, 255, 0.1)',
         white20: 'rgba(255, 255, 255, 0.2)',
         white30: 'rgba(255, 255, 255, 0.3)',
-        blackopacity: 'rgba(0, 0, 0, 0.8)',
+        blackopacity: 'rgba(0, 0, 0, 0.65)',
         warn: '#FF6D03',
         red: '#E73131',
         green: '#5AFB1E',

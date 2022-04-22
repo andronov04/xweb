@@ -7,11 +7,10 @@ import { displayPrice } from '../../utils';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Input from '../../components/Form/Input';
-import Subscription from '../../components/Subscription/Subscription';
-import { SUB_ACTION_OP_HASH } from '../../api/subscription';
 import { setMsg } from '../../services/snackbar';
 import { useRouter } from 'next/router';
 import { useStore } from '../../store';
+import Waiting from '../../components/Waiting/Waiting';
 
 const TradeAction = ({ item }: { item: IToken }) => {
   const router = useRouter();
@@ -28,7 +27,10 @@ const TradeAction = ({ item }: { item: IToken }) => {
     call,
     state: { loading, status, result }
   } = useContract<TradeTokenCallData>(getWallet().tradeToken);
-  const { call: callCancel, state: stateCancel } = useContract<number>(getWallet().cancelOffer);
+  const {
+    call: callCancel,
+    state: { result: result2 }
+  } = useContract<number>(getWallet().cancelOffer);
   const refSubmit = useRef<HTMLInputElement | null>(null);
 
   const onSubmit = (data) => {
@@ -49,28 +51,22 @@ const TradeAction = ({ item }: { item: IToken }) => {
   };
 
   useEffect(() => {
-    if (result) {
-      setMsg({ block: true, autoClose: false, clear: true, title: 'Waiting confirmation...', kind: 'info' });
-      // wait subscript in db
-      setOpHash(result);
+    if (result || result2) {
+      setOpHash(result || result2);
     }
-  }, [result]);
+  }, [result, result2]);
 
   // console.log('user', item);
   return (
     <div>
       {opHash ? (
-        <Subscription
-          query={SUB_ACTION_OP_HASH}
-          variables={{ opHash: opHash }}
-          onComplete={(data) => {
-            console.log('onComplete:::', data);
-            // TODO Timeout
-            const action = data?.action?.[0];
-            if (action) {
-              setMsg({ clear: true, autoClose: 1000, title: 'Finished', kind: 'success' });
-              router.reload();
-            }
+        <Waiting
+          opHash={opHash}
+          onSuccess={(action) => {
+            router.reload();
+          }}
+          onError={(e) => {
+            alert(e);
           }}
         />
       ) : null}

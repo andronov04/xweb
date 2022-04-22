@@ -10,7 +10,7 @@ const Menu = () => {
   return (
     <div>
       <nav>
-        <ol style={{ fontSize: '1.3rem', fontWeight: 400 }} className={'flex items-center text-inactive gap-x-5 font-medium text-xl'}>
+        <ol className={'flex items-center text-inactive gap-x-5 font-medium text-xl'}>
           <li className={`hover:text-active ${router.pathname.startsWith('/explore') && 'text-active'}`}>
             <Link href={'/explore'}>
               <a href={'/explore'}>Explore</a>
@@ -31,13 +31,13 @@ const Menu = () => {
               <a href={'/create'}>Create</a>
             </Link>
           </li>
-          <li className={`hover:text-active ${router.pathname.startsWith('/[id]') && 'text-active'}`}>
+          <li className={`text-active hover:text-active ${router.pathname.startsWith('/[id]') && 'text-active'}`}>
             {user ? (
               <Link href={`/@${user.username ?? user.id}`}>
                 <a href={`/@${user.username ?? user.id}`}>Profile</a>
               </Link>
             ) : (
-              <div className={'py-1 px-2 italic cursor-pointer'} onClick={connectUser}>
+              <div className={'italic cursor-pointer'} onClick={connectUser}>
                 Connect Wallet
               </div>
             )}

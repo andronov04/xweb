@@ -20,6 +20,7 @@ const Input = ({ register, label, type, placeholder, defaultValue, min }: IInput
         type={type}
         {...register}
         min={min}
+        step={'any'}
         placeholder={placeholder}
         className={'rounded-sm border border-solid font-thin bg-black p-2'}
       />

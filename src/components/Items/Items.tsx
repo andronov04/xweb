@@ -112,6 +112,9 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
     // if ((size.width ?? 0) >= 1280) {
     //   count = 5;
     // }
+    if (kind === 'asset') {
+      count = 3;
+    }
     if ((size.width ?? 0) <= 868) {
       count = 2;
     }
@@ -119,7 +122,7 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
       count = 1;
     }
     return count;
-  }, [size]);
+  }, [size, kind]);
 
   const structure = useMemo(() => {
     const blocks: IItem[][] = new Array(column).fill(Boolean).map((_) => []);

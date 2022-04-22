@@ -13,7 +13,7 @@ export default function Page({ children }) {
 
   //  sm:mx-auto
   return (
-    <div className={'p-10 pb-0 max-w-6xl mx-auto flex flex-col h-full'}>
+    <div className={'p-5 pb-0 max-w-4xl mx-auto flex flex-col h-full'}>
       <Header />
 
       <main

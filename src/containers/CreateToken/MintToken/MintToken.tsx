@@ -12,12 +12,11 @@ import { ITokenMetadata } from '../../../types/metadata';
 import { postDataFetch } from '../../../api/RestApi';
 import { API_META_TOKEN_URL } from '../../../constants';
 import { strToByteStr } from '../../../utils/string';
-import { setMsg } from '../../../services/snackbar';
-import Subscription from '../../../components/Subscription/Subscription';
-import { SUB_ACTION_OP_HASH } from '../../../api/subscription';
+import { clearMsg, setMsg } from '../../../services/snackbar';
 import { useRouter } from 'next/router';
 import { MichelsonMap } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
+import Waiting from '../../../components/Waiting/Waiting';
 
 const MintToken = () => {
   const [opHash, setOpHash] = useState<string | null>();
@@ -37,7 +36,6 @@ const MintToken = () => {
 
   useEffect(() => {
     if (result) {
-      setMsg({ block: true, autoClose: false, clear: true, title: 'Waiting confirmation. It may take up to two minutes, please be patient', kind: 'info' });
       // wait subscript in db
       setOpHash(result);
     }
@@ -56,7 +54,7 @@ const MintToken = () => {
     const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
     const metadata: ITokenMetadata = {
       name: data.name,
-      description: data.description,
+      description: data.description ?? '',
       tags: tags,
       isTransferable: true,
       artifactUri: urlToIpfs(token.cid),
@@ -97,7 +95,7 @@ const MintToken = () => {
       setMsg({ title: 'Error', kind: 'error' });
       return;
     }
-
+    clearMsg();
     console.log('token', token);
     const _assets = Object.fromEntries(token.state.assets.map((a) => [a.order, new BigNumber(a.id)]));
     call({
@@ -123,17 +121,13 @@ const MintToken = () => {
   return (
     <section className={'h-full'}>
       {opHash ? (
-        <Subscription
-          query={SUB_ACTION_OP_HASH}
-          variables={{ opHash: opHash }}
-          onComplete={(data) => {
-            console.log('onComplete:::', data);
-            // TODO Timeout
-            const action = data?.action?.[0];
-            if (action) {
-              setMsg({ clear: true, autoClose: 1000, title: 'Minted', kind: 'success' });
-              router.replace(`/token/${action.token.slug}`).then();
-            }
+        <Waiting
+          opHash={opHash}
+          onSuccess={(action) => {
+            router.replace(`/token/${action.token.slug}`).then();
+          }}
+          onError={(e) => {
+            alert(e);
           }}
         />
       ) : null}
@@ -175,8 +169,8 @@ const MintToken = () => {
               label={'Description'}
               register={register('description', {
                 maxLength: { message: 'Description max length 2048', value: 2048 },
-                required: { message: 'Required description', value: true },
-                minLength: { message: 'Description min length 12', value: 12 }
+                required: false,
+                minLength: { message: 'Description min length 12', value: 0 }
               })}
             />
             <Input

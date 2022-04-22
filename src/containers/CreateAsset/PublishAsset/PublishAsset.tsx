@@ -3,7 +3,6 @@ import Input from '../../../components/Form/Input';
 import { useEffect, useRef, useState } from 'react';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import PreviewMedia from './PreviewMedia/PreviewMedia';
-import Loader from '../../../components/Utils/Loader';
 import { useRouter } from 'next/router';
 import { useStore } from '../../../store';
 import { useContract } from '../../../hooks/use-contract/useContract';
@@ -14,10 +13,8 @@ import { IAssetMetadata } from '../../../types/metadata';
 import { ipfsToUrl, urlToIpfs } from '../../../utils';
 import { postDataFetch } from '../../../api/RestApi';
 import { API_META_ASSET_URL } from '../../../constants';
-import { setMsg } from '../../../services/snackbar';
-import { useSubscription } from '@apollo/client';
-import Subscription from '../../../components/Subscription/Subscription';
-import { SUB_ACTION_OP_HASH } from 'src/api/subscription';
+import { clearMsg, setMsg } from '../../../services/snackbar';
+import Waiting from '../../../components/Waiting/Waiting';
 
 const DEFAULT_WIDTH = 1000;
 const DEFAULT_HEIGHT = 1000;
@@ -48,7 +45,6 @@ const PublishAsset = () => {
   useEffect(() => {
     console.log('result', result);
     if (result) {
-      setMsg({ clear: true, block: true, autoClose: false, title: 'Waiting confirmation. It may take up to two minutes, please be patient', kind: 'info' });
       // wait subscript in db
       setOpHash(result);
     }
@@ -114,6 +110,7 @@ const PublishAsset = () => {
       console.log('metadata:::', metadata);
       setMetaCid(cid);
     }
+    clearMsg();
 
     call({
       enabled: true,
@@ -136,17 +133,13 @@ const PublishAsset = () => {
   return (
     <section className={'h-full'}>
       {opHash ? (
-        <Subscription
-          query={SUB_ACTION_OP_HASH}
-          variables={{ opHash: opHash }}
-          onComplete={(data) => {
-            console.log('onComplete:::', data);
-            // TODO Timeout
-            const action = data?.action?.[0];
-            if (action) {
-              setMsg({ clear: true, autoClose: 1000, title: 'Created', kind: 'success' });
-              router.replace(`/asset/${action.asset.slug}`).then();
-            }
+        <Waiting
+          opHash={opHash}
+          onSuccess={(action) => {
+            router.replace(`/asset/${action.asset.slug}`).then();
+          }}
+          onError={(e) => {
+            alert(e);
           }}
         />
       ) : null}
@@ -168,8 +161,8 @@ const PublishAsset = () => {
               label={'Description'}
               register={register('description', {
                 maxLength: { message: 'Description max length 2048', value: 2048 },
-                required: { message: 'Required description', value: true },
-                minLength: { message: 'Description min length 12', value: 12 }
+                required: false,
+                minLength: { message: 'Description min length 0', value: 0 }
               })}
             />
             <Input
@@ -195,20 +188,6 @@ const PublishAsset = () => {
                   })}
                 />
               </div>
-              {/*<div className={'w-1/2'}>*/}
-              {/*  <Input*/}
-              {/*    label={'Extended Price'}*/}
-              {/*    type={'number'}*/}
-              {/*    defaultValue={0}*/}
-              {/*    placeholder={'ꜩ (0-9999)'}*/}
-              {/*    register={register('price', {*/}
-              {/*      min: 0,*/}
-              {/*      max: Infinity,*/}
-              {/*      required: { message: 'Required extended price', value: true },*/}
-              {/*      valueAsNumber: true*/}
-              {/*    })}*/}
-              {/*  />*/}
-              {/*</div>*/}
             </div>
             <input ref={refSubmit} className={'hidden'} type="submit" />
           </form>
@@ -227,7 +206,6 @@ const PublishAsset = () => {
         </div>
       </div>
       <div className={'flex justify-end items-center space-x-2'}>
-        {/*<i className={'font-thin text-sm opacity-90 text-warn'}>warning: edit is not available in beta version</i>*/}
         <CustomButton
           onClick={() => {
             if (Object.keys(errors).length) {

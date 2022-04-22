@@ -5,11 +5,10 @@ import { getWallet } from '../../api/WalletApi';
 import { displayPrice } from '../../utils';
 import { useEffect, useState } from 'react';
 import { setMsg } from '../../services/snackbar';
-import Subscription from '../../components/Subscription/Subscription';
-import { SUB_ACTION_OP_HASH } from '../../api/subscription';
 import { useRouter } from 'next/router';
 import { CollectCallData } from '../../types/contract';
 import { useStore } from '../../store';
+import Waiting from '../../components/Waiting/Waiting';
 
 const PurchaseAction = ({ item }: { item: IToken }) => {
   const router = useRouter();
@@ -22,7 +21,6 @@ const PurchaseAction = ({ item }: { item: IToken }) => {
 
   useEffect(() => {
     if (result) {
-      setMsg({ block: true, autoClose: false, clear: true, title: 'Waiting confirmation...', kind: 'info' });
       // wait subscript in db
       setOpHash(result);
     }
@@ -31,17 +29,13 @@ const PurchaseAction = ({ item }: { item: IToken }) => {
   return (
     <div>
       {opHash ? (
-        <Subscription
-          query={SUB_ACTION_OP_HASH}
-          variables={{ opHash: opHash }}
-          onComplete={(data) => {
-            console.log('onComplete:::', data);
-            // TODO Timeout
-            const action = data?.action?.[0];
-            if (action) {
-              setMsg({ clear: true, autoClose: 1000, title: 'Purchased', kind: 'success' });
-              router.reload();
-            }
+        <Waiting
+          opHash={opHash}
+          onSuccess={(action) => {
+            router.reload();
+          }}
+          onError={(e) => {
+            alert(e);
           }}
         />
       ) : null}

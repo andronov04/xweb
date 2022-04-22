@@ -8,8 +8,8 @@ export default function BasePage() {
   return (
     <Page>
       <Head>
-        <title>Create an asset – Contter</title>
-        <meta key="og:title" property="og:title" content={'Create an asset – Contter'} />
+        <title>Publish an asset – Contter</title>
+        <meta key="og:title" property="og:title" content={'Publish an asset – Contter'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />
