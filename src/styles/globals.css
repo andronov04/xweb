@@ -39,3 +39,48 @@ body,
 .infinite-scroll-component__outer {
   overflow: hidden !important;
 }
+
+/* animate */
+.lr-dots div {
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lr-dots div:nth-child(1) {
+  left: 16px;
+  animation: lr-dots1 0.6s infinite;
+}
+.lr-dots div:nth-child(2) {
+  left: 16px;
+  animation: lr-dots2 0.6s infinite;
+}
+.lr-dots div:nth-child(3) {
+  left: 64px;
+  animation: lr-dots2 0.6s infinite;
+}
+.lr-dots div:nth-child(4) {
+  left: 112px;
+  animation: lr-dots3 0.6s infinite;
+}
+@keyframes lr-dots1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lr-dots3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lr-dots2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(48px, 0);
+  }
+}

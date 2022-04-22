@@ -11,8 +11,11 @@ import UserItems from './UserItems';
 import Activity from '../../components/Activity/Activity';
 import { QL_GET_ACTION_BY_USER } from '../../api/queries';
 import Navs from '../../components/Navs/Navs';
+import { useState } from 'react';
+import UserEdit from './UserEdit';
 
 const UserProfile = ({ user }: { user: IUser }) => {
+  const [editUser, setEditUser] = useState(false);
   const [stateUser, disconnectUser] = useStore((state) => [state.user, state.disconnectUser], shallow);
   const router = useRouter();
   const isCurrent = user.id === stateUser?.id;
@@ -25,31 +28,43 @@ const UserProfile = ({ user }: { user: IUser }) => {
 
   return (
     <>
-      <div className={'flex w-full items-center justify-start gap-x-10'}>
-        <div>
-          <Avatar avatarUri={user.avatarUri ?? ''} />
-        </div>
-        <div className={'flex-grow flex items-start'}>
-          {/*<p className={'text-whitegrey text-sm'}>{user.id}</p>*/}
-          {(user.id ?? user.username) && <h2 className={'text-2xl text-active'}>@{user.username ?? user.id}</h2>}
-          {user.description && <p className={'text-inactive'}>{user.description}</p>}
-        </div>
-        {isCurrent && (
+      {editUser ? (
+        <UserEdit user={user} />
+      ) : (
+        <div className={'flex w-full items-center justify-start gap-x-10'}>
           <div>
-            <CustomButton
-              styles={{
-                color: 'rgba(255,53,53,0.9)'
-              }}
-              onClick={() => {
-                disconnectUser().then(() => {
-                  // router.replace('/').then().catch();
-                });
-              }}
-              value={'Log out'}
-            />
+            <Avatar avatarUri={user.avatarUri ?? ''} />
           </div>
-        )}
-      </div>
+          <div className={'flex-grow flex items-start'}>
+            {/*<p className={'text-whitegrey text-sm'}>{user.id}</p>*/}
+            {(user.id ?? user.username) && <h2 className={'text-2xl text-active'}>@{user.username ?? user.id}</h2>}
+            {user.description && <p className={'text-inactive'}>{user.description}</p>}
+          </div>
+          {isCurrent && (
+            <div className={'flex flex-col gap-y-2'}>
+              <CustomButton
+                value={'Edit Profile'}
+                onClick={() => {
+                  setEditUser(true);
+                }}
+              />
+              <CustomButton
+                styles={{
+                  color: 'rgba(255,53,53,0.9)',
+                  background: 'transparent'
+                }}
+                onClick={() => {
+                  disconnectUser().then(() => {
+                    router.reload();
+                    // router.replace('/').then().catch();
+                  });
+                }}
+                value={'Log out'}
+              />
+            </div>
+          )}
+        </div>
+      )}
 
       <Spacing size={5} />
 

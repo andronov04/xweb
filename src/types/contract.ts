@@ -22,7 +22,8 @@ export type ContractUseCallState<T> = {
 export enum EContract {
   ASSET = 'ASSET',
   TOKEN = 'TOKEN',
-  MARKETPLACE = 'MARKETPLACE'
+  MARKETPLACE = 'MARKETPLACE',
+  PROFILE = 'PROFILE'
 }
 
 export type ContractUseCallReturn<T> = {
@@ -35,6 +36,11 @@ export interface MintAssetCallData {
   metadata: string;
   price: number;
   royalties: number;
+}
+
+export interface MintUpdProfileCallData {
+  username: string;
+  metadata: string;
 }
 
 export interface MintStatusCallData {

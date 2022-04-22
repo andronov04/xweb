@@ -7,7 +7,8 @@ const Avatar = ({ avatarUri }: { avatarUri: string }) => {
         style={{
           backgroundSize: 'cover',
           borderRadius: '21px',
-          backgroundImage: avatarUri ? `url(${ipfsToUrl(avatarUri)})` : ''
+          backgroundImage: avatarUri ? `url(${ipfsToUrl(avatarUri)})` : '',
+          backgroundColor: '#E7E7E7'
         }}
         className={'w-32 h-32 bg-black'}
       />

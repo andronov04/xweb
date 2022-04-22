@@ -5,7 +5,9 @@ export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https
 export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://graph.art3s.xyz/v1/graphql';
 export const GRAPHQL_API_KEY = process.env.NEXT_PUBLIC_GRAPHQL_API_KEY ?? '';
 export const IPFS_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_PREFIX_URL ?? 'https://contter.mypinata.cloud/ipfs/';
+export const TZKT_URL = process.env.NEXT_PUBLIC_TZKT_URL ?? 'https://tzkt.io/';
 export const ITEMS_PER_PAGE: number = parseInt(process.env.NEXT_PUBLIC_ITEMS_PER_PAGE ?? '25') ?? 25;
+export const MAX_TZ_WAITING_TIMEOUT: number = parseInt(process.env.NEXT_PUBLIC_MAX_TZ_WAITING_TIMEOUT ?? '180') ?? 180;
 export const IMAGE_SEO = process.env.NEXT_PUBLIC_IMAGE_SEO ?? 'https://contter.mypinata.cloud/ipfs/QmP6B8MUcV5sBsZ2ie9DhLfzYKeDkYfExuYaGRuBhf8Nn1';
 export const DESCRIPTION_SEO = process.env.NEXT_PUBLIC_DESCRIPTION_SEO ?? 'The web3 design platform and NFT marketplace on the Tezos blockchain';
 export const EDITOR_URL = process.env.NEXT_PUBLIC_EDITOR_URL ?? 'https://xeditor-dun.vercel.app/';
@@ -37,5 +39,6 @@ export const IFRAME_SANDBOX = process.env.NEXT_PUBLIC_IFRAME_SANDBOX ?? 'allow-s
 export const TZ_ADDRESS_ASSET = process.env.NEXT_PUBLIC_TZ_ADDRESS_ASSET ?? '';
 export const TZ_ADDRESS_TOKEN = process.env.NEXT_PUBLIC_TZ_ADDRESS_TOKEN ?? '';
 export const TZ_ADDRESS_MARKETPLACE = process.env.NEXT_PUBLIC_TZ_ADDRESS_MARKETPLACE ?? '';
+export const TZ_ADDRESS_PROFILE = process.env.NEXT_PUBLIC_TZ_ADDRESS_PROFILE ?? '';
 // Mimetypes
 export const IMAGE_MIMETYPES = ['image/png'];

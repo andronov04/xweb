@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { ITEMS_PER_PAGE } from '../../constants';
+import { ITEMS_PER_PAGE, TZKT_URL } from '../../constants';
 import { DocumentNode } from '@apollo/client/core';
 import Loader from '../Utils/Loader';
 import { IActivityKind } from '../../types/activity';
@@ -15,8 +15,6 @@ interface IItems {
   variables?: IVariable;
   query: DocumentNode;
 }
-
-const TZKT_URL = 'https://tzkt.io/';
 
 const TimeActivity = ({ item }: { item: any }) => {
   return (

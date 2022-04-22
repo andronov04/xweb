@@ -1,6 +1,6 @@
 import { ContractAbstraction, MichelsonMap, OpKind, TezosToolkit, Wallet } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
-import { RPC_LIST, TZ_ADDRESS_ASSET, TZ_ADDRESS_MARKETPLACE, TZ_ADDRESS_TOKEN, TZ_NETWORK } from '../constants';
+import { RPC_LIST, TZ_ADDRESS_ASSET, TZ_ADDRESS_MARKETPLACE, TZ_ADDRESS_PROFILE, TZ_ADDRESS_TOKEN, TZ_NETWORK } from '../constants';
 import { NetworkType } from '@airgap/beacon-sdk/dist/cjs/types/beacon/NetworkType';
 import {
   CollectCallData,
@@ -10,6 +10,7 @@ import {
   MintAssetCallData,
   MintStatusCallData,
   MintTokenCallData,
+  MintUpdProfileCallData,
   TradeTokenCallData
 } from '../types/contract';
 import { MichelsonV1Expression } from '@taquito/rpc';
@@ -17,7 +18,8 @@ import { MichelsonV1Expression } from '@taquito/rpc';
 const addresses: Record<EContract, string> = {
   ASSET: TZ_ADDRESS_ASSET,
   TOKEN: TZ_ADDRESS_TOKEN,
-  MARKETPLACE: TZ_ADDRESS_MARKETPLACE
+  MARKETPLACE: TZ_ADDRESS_MARKETPLACE,
+  PROFILE: TZ_ADDRESS_PROFILE
 };
 
 class WalletApi {
@@ -27,7 +29,8 @@ class WalletApi {
   contracts: Record<EContract, ContractAbstraction<Wallet> | null> = {
     ASSET: null,
     TOKEN: null,
-    MARKETPLACE: null
+    MARKETPLACE: null,
+    PROFILE: null
   };
 
   constructor() {
@@ -46,7 +49,8 @@ class WalletApi {
     this.contracts = {
       ASSET: null,
       TOKEN: null,
-      MARKETPLACE: null
+      MARKETPLACE: null,
+      PROFILE: null
     };
   }
 
@@ -87,6 +91,7 @@ class WalletApi {
       return false;
     }
   }
+
   mintAsset: ContractCall<MintAssetCallData> = async (tzData, requestCallback) => {
     const contract = await this.getContract(EContract.ASSET);
 
@@ -101,6 +106,7 @@ class WalletApi {
     // OK, injected
     requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
   };
+
   mintToken: ContractCall<MintTokenCallData> = async (tzData, requestCallback) => {
     const contract = await this.getContract(EContract.TOKEN);
 
@@ -239,6 +245,21 @@ class WalletApi {
       amount: tzData.price,
       storageLimit: 150
     });
+
+    console.log('opSend', opSend);
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+    console.log('opSend.opHash:::', opSend.opHash);
+    // await wait(opSend.opHash)
+
+    // OK, injected
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
+  };
+
+  updateProfile: ContractCall<MintUpdProfileCallData> = async (tzData, requestCallback) => {
+    const contract = await this.getContract(EContract.PROFILE);
+
+    requestCallback(ContractRequestStatus.CALLING);
+    const opSend = await contract.methodsObject.updateProfile(tzData).send();
 
     console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
