@@ -13,6 +13,7 @@ import { QL_GET_ACTION_BY_USER } from '../../api/queries';
 import Navs from '../../components/Navs/Navs';
 import { useState } from 'react';
 import UserEdit from './UserEdit';
+import { setMsg } from '../../services/snackbar';
 
 const UserProfile = ({ user }: { user: IUser }) => {
   const [editUser, setEditUser] = useState(false);
@@ -35,9 +36,28 @@ const UserProfile = ({ user }: { user: IUser }) => {
           <div>
             <Avatar avatarUri={user.avatarUri ?? ''} />
           </div>
-          <div className={'flex-grow flex items-start'}>
+          <div className={'flex-grow flex flex-col items-start'}>
             {/*<p className={'text-whitegrey text-sm'}>{user.id}</p>*/}
-            {(user.id ?? user.username) && <h2 className={'text-2xl text-active'}>@{user.username ?? user.id}</h2>}
+            {(user.id ?? user.username) && (
+              <h2 className={'text-2xl text-active'}>
+                @{user.username ?? user.id}
+                <span
+                  onClick={() => {
+                    navigator.clipboard.writeText(user.id).then(
+                      () => {
+                        setMsg({ autoClose: 1000, title: 'TZ address copied to clipboard', kind: 'info' });
+                      },
+                      (err) => {
+                        setMsg({ autoClose: 1000, title: 'Error to copy TZ address to clipboard', kind: 'error' });
+                      }
+                    );
+                  }}
+                  className={'cursor-pointer text-xs text-white30 ml-1.5 hover:opacity-80'}
+                >
+                  {user.id.slice(0, 4)}...{user.id.slice(-4)}
+                </span>
+              </h2>
+            )}
             {user.description && <p className={'text-inactive'}>{user.description}</p>}
           </div>
           {isCurrent && (

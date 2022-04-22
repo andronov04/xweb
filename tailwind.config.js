@@ -78,7 +78,7 @@ module.exports = {
         white10: 'rgba(255, 255, 255, 0.1)',
         white20: 'rgba(255, 255, 255, 0.2)',
         white30: 'rgba(255, 255, 255, 0.3)',
-        blackopacity: 'rgba(0, 0, 0, 0.9)',
+        blackopacity: 'rgba(0, 0, 0, 0.8)',
         warn: '#FF6D03',
         red: '#E73131',
         green: '#5AFB1E',

@@ -48,6 +48,16 @@ const Activity = ({ variables, query }: IItems) => {
       <section className={`w-full flex flex-col gap-y-1 text-inactive font-thin`}>
         {items.map((item) => (
           <div key={item.id} className={'flex w-full justify-between'}>
+            {item.kind === IActivityKind.UPDATE_PROFILE && (
+              <p>
+                <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                  <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                    @{item.issuer.username ?? item.issuer.id}
+                  </a>
+                </Link>{' '}
+                updated profile
+              </p>
+            )}
             {item.kind === IActivityKind.COLLECT_TOKEN && (
               <p>
                 <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>

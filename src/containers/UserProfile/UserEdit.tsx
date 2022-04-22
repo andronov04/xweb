@@ -3,14 +3,25 @@ import Avatar from '../../components/Avatar/Avatar';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Input from '../../components/Form/Input';
 import { useForm } from 'react-hook-form';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useContract } from '../../hooks/use-contract/useContract';
 import { MintUpdProfileCallData } from '../../types/contract';
 import { getWallet } from '../../api/WalletApi';
 import Waiting from '../../components/Waiting/Waiting';
+import { useRouter } from 'next/router';
+import { postDataFetch, postFetch } from '../../api/RestApi';
+import { API_META_PROFILE_URL, FILE_API_PROFILE_IMG_URL } from '../../constants';
+import { clearMsg, setMsg } from '../../services/snackbar';
+import { urlToIpfs } from '../../utils';
+import { IProfileMetadata } from '../../types/metadata';
+import { strToByteStr } from '../../utils/string';
 
 const UserEdit = ({ user }: { user: IUser }) => {
+  const router = useRouter();
   const [opHash, setOpHash] = useState<string | null>();
+  const [fileAvatar, setFileAvatar] = useState<File | null>();
+  const [avatarUri, setAvatarUri] = useState<string>(user.avatarUri ?? '');
+  const [username, setUsername] = useState<string>('');
   const refSubmit = useRef<HTMLInputElement | null>(null);
   const {
     register,
@@ -23,16 +34,69 @@ const UserEdit = ({ user }: { user: IUser }) => {
     state: { loading, status, result }
   } = useContract<MintUpdProfileCallData>(getWallet().updateProfile);
 
-  const onSubmit = async (data) => {
-    console.log('data:::', data);
+  useEffect(() => {
+    if (result) {
+      setOpHash(result);
+    }
+  }, [result]);
 
-    // TEST
-    setOpHash('test');
-    /*
-    1 - Upload file
-    2 - Upload metadata
-    3 - Call contract
-     */
+  const onSubmit = async (data) => {
+    setMsg({ autoClose: false, clear: true, block: true, title: 'Generate metadata...', kind: 'info' });
+    setUsername(data.username);
+
+    let tempAvatarUri: string | null = null;
+    if (fileAvatar) {
+      const formData = new FormData();
+      formData.append('file', fileAvatar);
+      const response = await postFetch(FILE_API_PROFILE_IMG_URL, formData);
+      if (response.status !== 200) {
+        setMsg({ clear: true, title: 'Error loading the file', kind: 'error' });
+        return;
+      }
+      const resp = await response.json();
+      tempAvatarUri = urlToIpfs(resp.cid);
+    }
+
+    const metadata: IProfileMetadata = {
+      username: data.username,
+      description: data.description,
+      avatarUri: tempAvatarUri ?? avatarUri
+    };
+
+    setMsg({ autoClose: false, clear: true, block: true, title: 'Uploading...', kind: 'info' });
+    const response = await postDataFetch(API_META_PROFILE_URL, metadata);
+    if (response.status !== 200) {
+      return; // TODO Error
+    }
+    const result = await response.json();
+    const { cid: metadataCid } = result;
+    if (!metadataCid) {
+      setMsg({ title: 'Error', kind: 'error' });
+      return;
+    }
+    clearMsg();
+
+    call({
+      metadata: strToByteStr(urlToIpfs(metadataCid)),
+      username: data.username
+    });
+  };
+
+  const onFileChange = (e) => {
+    const files = e.currentTarget.files;
+    if (files && files.length > 0) {
+      const reader = new FileReader();
+      setFileAvatar(files[0]);
+      reader.readAsDataURL(files[0]);
+      reader.onload = function () {
+        if (typeof reader.result === 'string') {
+          setAvatarUri(reader.result);
+        }
+      };
+      reader.onerror = function (error) {
+        // console.log('Error: ', error);
+      };
+    }
   };
 
   return (
@@ -41,16 +105,17 @@ const UserEdit = ({ user }: { user: IUser }) => {
         <Waiting
           opHash={opHash}
           onSuccess={(action) => {
-            console.log('onSuccess:::', action);
-            setOpHash('');
+            router.replace('/').then(() => {
+              router.replace(`/@${username}`).then();
+            });
           }}
           onError={(e) => {
-            console.log('onError:::', e);
+            alert(e);
           }}
         />
       ) : null}
       <div className={'text-center'}>
-        <Avatar avatarUri={user.avatarUri ?? ''} />
+        <Avatar avatarUri={avatarUri} pure={!avatarUri.startsWith('ipfs')} />
         <p
           onClick={() => {
             const el = document.querySelector('#file');
@@ -65,20 +130,22 @@ const UserEdit = ({ user }: { user: IUser }) => {
       </div>
       <div className={'flex-grow flex items-start'}>
         <form className={'flex gap-y-3 flex-col w-full'} onSubmit={handleSubmit(onSubmit)}>
-          <input {...register('file')} type="file" multiple={false} className={'hidden'} id={'file'} accept="image/*" />
+          <input {...register('file')} type="file" onChange={onFileChange} multiple={false} className={'hidden'} id={'file'} accept="image/*" />
           <Input
             label={'Username'}
+            defaultValue={user.username}
             placeholder={'max 36 characters'}
-            register={register('name', {
+            register={register('username', {
               required: { message: 'Required name', value: true },
               minLength: { message: 'Name min length 3', value: 3 },
-              maxLength: { message: 'Name max length 280', value: 36 }
+              maxLength: { message: 'Name max length 36', value: 36 }
             })}
           />
           <Input
             type={'textarea'}
             placeholder={'max 512 characters'}
             label={'Description'}
+            defaultValue={user.description}
             register={register('description', {
               maxLength: { message: 'Description max length 2048', value: 512 },
               required: false,

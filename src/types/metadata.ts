@@ -36,3 +36,9 @@ export interface ITokenMetadata {
   isTransferable: boolean;
   formats?: IMetaFormat[];
 }
+
+export interface IProfileMetadata {
+  username: string;
+  description: string;
+  avatarUri: string;
+}

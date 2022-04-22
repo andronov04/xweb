@@ -22,7 +22,7 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
       onError?.(msg);
     }, MAX_TZ_WAITING_TIMEOUT * 1000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [onError]);
 
   return (
     <div style={{ zIndex: 100 }} className={'w-full h-full fixed top-0 left-0'}>
@@ -104,7 +104,7 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
               </p>
               <p className={'text-inactive mt-3 font-light text-sm'}>
                 iI successful, you will be redirected to the result page. <br />
-                Don't close the page. In case of failure, rule 21 (Terms of Service) comes into effect.
+                Don `&apos;`t close the page. In case of failure, rule 21 (Terms of Service) comes into effect.
               </p>
             </div>
           )}

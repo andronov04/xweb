@@ -259,7 +259,7 @@ class WalletApi {
     const contract = await this.getContract(EContract.PROFILE);
 
     requestCallback(ContractRequestStatus.CALLING);
-    const opSend = await contract.methodsObject.updateProfile(tzData).send();
+    const opSend = await contract.methodsObject.update(tzData).send();
 
     console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);

@@ -8,5 +8,6 @@ export enum IActivityKind {
   LISTED_TOKEN = 6,
   CANCEL_LISTED_TOKEN = 7,
   TRANSFER_TOKEN = 8,
-  COLLECT_TOKEN = 9
+  COLLECT_TOKEN = 9,
+  UPDATE_PROFILE = 10
 }
