@@ -27,7 +27,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
   return (
     <section>
       <div className={'flex w-full items-start md:flex-row flex-col gap-x-8'}>
-        <div>
+        <div className={'w-1/2'}>
           <ItemToken item={item as IItem} />
         </div>
         <div className={'flex-grow'}>

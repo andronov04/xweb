@@ -40,10 +40,10 @@ const MintToken = () => {
       setOpHash(result);
     }
   }, [result]);
+  const w = token.state?.root?.width ?? 1000;
+  const h = token.state?.root?.height ?? 1000;
 
   const getMetadata = (data: any = {}): ITokenMetadata => {
-    const w = token.state?.root?.width ?? 1000;
-    const h = token.state?.root?.height ?? 1000;
     const previewImage = token.previews[0];
     const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
 
@@ -150,6 +150,8 @@ const MintToken = () => {
                   item={{
                     id: -1,
                     name: '',
+                    width: w,
+                    height: h,
                     metadata: getMetadata()
                   }}
                 />

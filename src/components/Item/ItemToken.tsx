@@ -46,54 +46,67 @@ const ItemToken = ({ item, align }: IItemComp) => {
 
   const iframeUrl = ipfsToUrl(item.metadata?.artifactUri);
 
+  //  ${align === 'right' ? 'items-end' : 'items-start'}
   return (
-    <div className={'w-full overflow-hidden h-full'}>
-      <div ref={refContainer} className={`relative flex flex-col justify-center ${align === 'right' ? 'items-end' : 'items-start'}`}>
-        <div className={'overflow-hidden'} style={{ width: width * scale, height: height * scale }}>
-          {render && (
-            <div
-              style={{
-                width: `${width}px`,
-                height: `${height}px`,
-                transform: `scale(${scale})`,
-                transformOrigin: 'top left'
-              }}
-              className={`relative select-none`}
-            >
-              {formats
-                .filter((frmt) => frmt.mimeType === mime)
-                .map((frmt) => (
-                  <div key={frmt.mimeType} className={'w-full h-full relative'}>
-                    {frmt.mimeType === MimeType.html ? <IframeToken url={iframeUrl} width={width} height={height} /> : null}
-                    {[MimeType.png, MimeType.jpeg].includes(frmt.mimeType as any) ? (
-                      <div
-                        style={{
-                          backgroundSize: 'cover',
-                          backgroundImage: `url(${ipfsToUrl(item.metadata?.displayUri ?? '')})`
-                        }}
-                        className={'w-full h-full'}
-                      />
-                    ) : null}
+    <div style={{ flex: '1 0' }} className={'w-full flex flex-col flex-grow'}>
+      <div
+        style={{
+          width: '100%',
+          paddingTop: '100%',
+          position: 'relative'
+        }}
+      >
+        <div className={'absolute top-0 left-0 w-full h-full'}>
+          <div className={'w-full overflow-hidden h-full'}>
+            <div ref={refContainer} className={`relative h-full flex flex-col justify-center items-center`}>
+              <div className={'overflow-hidden'} style={{ width: width * scale, height: height * scale }}>
+                {render && (
+                  <div
+                    style={{
+                      width: `${width}px`,
+                      height: `${height}px`,
+                      transform: `scale(${scale})`,
+                      transformOrigin: 'top left'
+                    }}
+                    className={`relative select-none`}
+                  >
+                    {formats
+                      .filter((frmt) => frmt.mimeType === mime)
+                      .map((frmt) => (
+                        <div key={frmt.mimeType} className={'w-full h-full relative'}>
+                          {frmt.mimeType === MimeType.html ? <IframeToken url={iframeUrl} width={width} height={height} /> : null}
+                          {[MimeType.png, MimeType.jpeg].includes(frmt.mimeType as any) ? (
+                            <div
+                              style={{
+                                backgroundSize: 'cover',
+                                backgroundImage: `url(${ipfsToUrl(item.metadata?.displayUri ?? '')})`
+                              }}
+                              className={'w-full h-full'}
+                            />
+                          ) : null}
+                        </div>
+                      ))}
                   </div>
-                ))}
+                )}
+              </div>
+              <nav className={'mt-2'}>
+                <ol className={'flex text-sm gap-x-3'}>
+                  {formats.map((frmt) => (
+                    <li
+                      key={frmt.mimeType}
+                      onClick={() => {
+                        setMime(frmt.mimeType);
+                      }}
+                      className={`${frmt.mimeType === mime ? 'text-active' : 'text-inactive'} text-thin hover:opacity-80 cursor-pointer`}
+                    >
+                      {mimeMap[frmt.mimeType] ?? 'UNKNOWN'}
+                    </li>
+                  ))}
+                </ol>
+              </nav>
             </div>
-          )}
+          </div>
         </div>
-        <nav className={'mt-2'}>
-          <ol className={'flex text-sm gap-x-3'}>
-            {formats.map((frmt) => (
-              <li
-                key={frmt.mimeType}
-                onClick={() => {
-                  setMime(frmt.mimeType);
-                }}
-                className={`${frmt.mimeType === mime ? 'text-active' : 'text-inactive'} text-thin hover:opacity-80 cursor-pointer`}
-              >
-                {mimeMap[frmt.mimeType] ?? 'UNKNOWN'}
-              </li>
-            ))}
-          </ol>
-        </nav>
       </div>
     </div>
   );
