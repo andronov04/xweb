@@ -368,6 +368,7 @@ export const QL_GET_TOKEN = gql`
       tags
       width
       height
+      royalties
       name
       flag
       offer {

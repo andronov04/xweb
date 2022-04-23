@@ -24,6 +24,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
 
   console.log('item:::', item);
 
+  // TODO Format download
   return (
     <section>
       <div className={'flex w-full items-start md:flex-row flex-col gap-x-8'}>
@@ -101,7 +102,35 @@ const TokenItem = ({ item }: { item: IToken }) => {
           {item.tags?.length ? (
             <div className={'flex'}>
               <span className={'pr-1'}>Tags: </span>
-              <span className={'text-active'}>{item.tags.join(', ')}</span>
+              <span className={'text-inactive'}>{item.tags.join(', ')}</span>
+            </div>
+          ) : null}
+          {item.metadata?.formats?.length ? (
+            <div className={'flex'}>
+              <div className={'pr-1'}>Formats: </div>
+              <div className={'text-inactive flex gap-x-1'}>
+                {item.metadata?.formats.map((frmt, i) => (
+                  <div key={frmt.mimeType}>
+                    {mimeMap[frmt.mimeType] ?? 'UNKNOWN'}{' '}
+                    <span>
+                      (
+                      <Link href={ipfsToUrl(frmt.uri)}>
+                        <a className={'text-active cursor-pointer: hover:opacity-80'} href={ipfsToUrl(frmt.uri)} target={'_blank'} rel={'noreferrer'}>
+                          Open original
+                        </a>
+                      </Link>{' '}
+                      /{' '}
+                      <Link href={'.'}>
+                        <a className={'text-active cursor-pointer: hover:opacity-80'} href={'.'} target={'_blank'} rel={'noreferrer'}>
+                          Download
+                        </a>
+                      </Link>
+                      )
+                    </span>
+                    {(item.metadata?.formats?.length ?? 0) - 1 !== i ? ',' : ''}
+                  </div>
+                ))}
+              </div>
             </div>
           ) : null}
           {item.metadataUri && (
