@@ -71,17 +71,6 @@ const CreateToken = () => {
   return (
     <section>
       <div className={'flex w-full justify-end items-center'}>
-        <div className={'flex-grow text-center'}>
-          {/*<button*/}
-          {/*  onClick={() => {*/}
-          {/*    art.generate();*/}
-          {/*  }}*/}
-          {/*  className={'outline-0 hover:opacity-80 text-base cursor-pointer z-30 top-2 px-3 py-1 bg-dart2C rounded-sm'}*/}
-          {/*>*/}
-          {/*  generate*/}
-          {/*</button>*/}
-        </div>
-
         <div className={'w-1/3 text-right space-x-2'}>
           <span className={'font-thin text-inactive text-sm'}>details and mint</span>
           <Link href={'/create/token/mint'}>
@@ -126,7 +115,7 @@ const CreateToken = () => {
                 style={{
                   backgroundColor: 'rgba(0,0,0,0.6)'
                 }}
-                className={'w-full absolute h-full text-center flex items-center justify-center'}
+                className={'w-full z-30 absolute h-full text-center flex items-center justify-center'}
               >
                 <h2>
                   To get started, select
@@ -139,10 +128,6 @@ const CreateToken = () => {
           </div>
         )}
       </div>
-
-      {/*<div id={'digest'} className={'pt-2 h-3 text-xs font-thin'}>*/}
-      {/*  {token.digest ?? 'hash'}*/}
-      {/*</div>*/}
 
       <div>
         <div className={'flex my-5 font-thin gap-x-4'}>
