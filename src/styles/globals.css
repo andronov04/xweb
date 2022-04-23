@@ -8,6 +8,12 @@ body {
   font-family: Mohave, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+@layer base {
+  html {
+    @apply font-body;
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;
