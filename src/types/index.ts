@@ -110,3 +110,10 @@ export interface IActiveArt {
   assets: any[];
   proxy: WindowProxy;
 }
+
+export enum IActivityFlag {
+  NONE = 0,
+  REVIEW = 1,
+  REPORTED = 2,
+  HIDDEN = 3
+}

@@ -34,9 +34,6 @@ const PurchaseAction = ({ item }: { item: IToken }) => {
           onSuccess={(action) => {
             router.reload();
           }}
-          onError={(e) => {
-            alert(e);
-          }}
         />
       ) : null}
       <CustomButton

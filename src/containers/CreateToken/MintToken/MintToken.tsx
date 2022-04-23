@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import { MichelsonMap } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
 import Waiting from '../../../components/Waiting/Waiting';
-import IframeToken from '../../../components/Iframe/IframeToken';
+import ItemToken from '../../../components/Item/ItemToken';
 
 const MintToken = () => {
   const [opHash, setOpHash] = useState<string | null>();
@@ -41,18 +41,13 @@ const MintToken = () => {
     }
   }, [result]);
 
-  const onSubmit = async (data) => {
+  const getMetadata = (data: any = {}): ITokenMetadata => {
     const w = token.state?.root?.width ?? 1000;
     const h = token.state?.root?.height ?? 1000;
     const previewImage = token.previews[0];
-
-    if (!previewImage) {
-      setMsg({ clear: true, title: 'You should set preview', kind: 'error' });
-      return;
-    }
-    // Generate meta
     const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
-    const metadata: ITokenMetadata = {
+
+    return {
       name: data.name,
       description: data.description ?? '',
       tags: tags,
@@ -84,6 +79,18 @@ const MintToken = () => {
       // TODO formats
       // State ??? stateUri
     };
+  };
+
+  const onSubmit = async (data) => {
+    const previewImage = token.previews[0];
+
+    if (!previewImage) {
+      setMsg({ clear: true, title: 'You should set preview', kind: 'error' });
+      return;
+    }
+
+    // Generate meta
+    const metadata = getMetadata(data);
     setMsg({ block: true, autoClose: false, clear: true, title: 'Uploading...', kind: 'info' });
     const response = await postDataFetch(API_META_TOKEN_URL, metadata);
     if (response.status !== 200) {
@@ -126,9 +133,6 @@ const MintToken = () => {
           onSuccess={(action) => {
             router.replace(`/token/${action.token.slug}`).then();
           }}
-          onError={(e) => {
-            alert(e);
-          }}
         />
       ) : null}
       <div className={'flex gap-x-3'}>
@@ -141,7 +145,15 @@ const MintToken = () => {
             }}
           >
             <div className={'absolute top-0 left-0 w-full h-full'}>
-              <IframeToken url={ipfsToUrl(urlToIpfs(token.cid))} width={token.state?.root?.width ?? 1000} height={token.state?.root?.height ?? 1000} />
+              <div>
+                <ItemToken
+                  item={{
+                    id: -1,
+                    name: '',
+                    metadata: getMetadata()
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -109,9 +109,6 @@ const UserEdit = ({ user, onCancel }: { user: IUser; onCancel: () => void }) => 
               router.replace(`/@${username}`).then();
             });
           }}
-          onError={(e) => {
-            alert(e);
-          }}
         />
       ) : null}
       <div className={'text-center'}>

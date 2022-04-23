@@ -44,8 +44,6 @@ const ItemToken = ({ item, align }: IItemComp) => {
     scaling();
   }, [size, scaling]);
 
-  console.log('formats', formats);
-
   const iframeUrl = ipfsToUrl(item.metadata?.artifactUri);
 
   return (

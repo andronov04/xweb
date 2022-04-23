@@ -3,25 +3,36 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import { useContract } from '../../hooks/use-contract/useContract';
 import { MintStatusCallData } from '../../types/contract';
 import { getWallet } from '../../api/WalletApi';
-import { useEffect } from 'react';
-import { setMsg } from '../../services/snackbar';
+import { useEffect, useState } from 'react';
+import Waiting from '../../components/Waiting/Waiting';
+import { useRouter } from 'next/router';
 
 const AssetItemApprove = ({ item }: { item: IAsset }) => {
   const {
     call,
     state: { loading, status, result }
   } = useContract<MintStatusCallData>(getWallet().statusAsset);
+  const router = useRouter();
+  const [opHash, setOpHash] = useState<string | null>();
   // console.log('useContract:::', loading, status, result);
 
   useEffect(() => {
     if (result) {
-      setMsg({ clear: true, title: 'Success in blockchain. Update page after 1-2 minutes.' });
+      setOpHash(result);
     }
   }, [result]);
 
   // TODO All flags
   return (
     <div className={'flex justify-end text-right'}>
+      {opHash ? (
+        <Waiting
+          opHash={opHash}
+          onSuccess={(action) => {
+            router.reload();
+          }}
+        />
+      ) : null}
       <CustomButton
         onClick={() => {
           call({

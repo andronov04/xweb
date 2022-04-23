@@ -607,6 +607,7 @@ export const QL_GET_ACTION_BY_ASSET = gql`
       id
       kind
       opHash
+      data
       issuer {
         id
         username

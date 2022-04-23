@@ -50,6 +50,41 @@ const PublishAsset = () => {
     }
   }, [result]);
 
+  const getMetadata = (data: any = {}): IAssetMetadata => {
+    const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
+    const previewImage = asset.previews[0];
+    return {
+      name: data.name,
+      isTransferable: false,
+      description: data.description,
+      tags: tags,
+      date: new Date().toISOString(),
+      artifactUri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
+      displayUri: urlToIpfs(previewImage.cid),
+      thumbnailUri: urlToIpfs(previewImage.cid),
+      symbol: 'CNSST',
+      decimals: 0,
+      version: '0.1',
+      type: 'Asset',
+      formats: [
+        {
+          uri: urlToIpfs(previewImage.cid),
+          hash: asset.hash,
+          mimeType: 'image/png',
+          dimensions: {
+            value: `${DEFAULT_WIDTH}x${DEFAULT_HEIGHT}`,
+            unit: 'px'
+          }
+        },
+        {
+          uri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
+          hash: asset.hash,
+          mimeType: 'text/html'
+        }
+      ]
+    };
+  };
+
   const onSubmit = async (data) => {
     console.log('data:::', data);
     const previewImage = asset.previews[0];
@@ -63,37 +98,7 @@ const PublishAsset = () => {
     let metadataCid = metaCid;
     // TODO Get state preview
     if (!metaCid) {
-      const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
-      const metadata: IAssetMetadata = {
-        name: data.name,
-        isTransferable: false,
-        description: data.description,
-        tags: tags,
-        date: new Date().toISOString(),
-        artifactUri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
-        displayUri: urlToIpfs(previewImage.cid),
-        thumbnailUri: urlToIpfs(previewImage.cid),
-        symbol: 'CNSST',
-        decimals: 0,
-        version: '0.1',
-        type: 'Asset',
-        formats: [
-          {
-            uri: urlToIpfs(previewImage.cid),
-            hash: asset.hash,
-            mimeType: 'image/png',
-            dimensions: {
-              value: `${DEFAULT_WIDTH}x${DEFAULT_HEIGHT}`,
-              unit: 'px'
-            }
-          },
-          {
-            uri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
-            hash: asset.hash,
-            mimeType: 'text/html'
-          }
-        ]
-      };
+      const metadata: IAssetMetadata = getMetadata(data);
 
       setMsg({ autoClose: false, title: 'Generate metadata...', kind: 'info' });
       // console.log('metadata', metadata);
@@ -137,9 +142,6 @@ const PublishAsset = () => {
           opHash={opHash}
           onSuccess={(action) => {
             router.replace(`/asset/${action.asset.slug}`).then();
-          }}
-          onError={(e) => {
-            alert(e);
           }}
         />
       ) : null}

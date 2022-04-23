@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { displayPrice } from '../../utils';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useState } from 'react';
+import { IActivityFlag } from '../../types';
 
 interface IVariable {
   [key: string]: string | number;
@@ -85,6 +86,16 @@ const Activity = ({ variables, query }: IItems) => {
         >
           {items.map((item) => (
             <div key={item.id} className={'flex w-full justify-between'}>
+              {item.kind === IActivityKind.CHANGE_STATUS_ASSET && (
+                <p>
+                  <span className={'text-active'}>System</span> {item.data?.status === IActivityFlag.NONE ? 'accepted' : 'set new status to'}{' '}
+                  <Link href={`/asset/${item.asset.name}`}>
+                    <a href={`/asset/${item.asset.name}`} className={'text-active hover:opacity-80'}>
+                      {item.asset.name}
+                    </a>
+                  </Link>
+                </p>
+              )}
               {item.kind === IActivityKind.UPDATE_PROFILE && (
                 <p>
                   <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
