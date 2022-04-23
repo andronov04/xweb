@@ -73,46 +73,6 @@ const PreviewToken = ({ url, width, height, onPreview }: IPreviewMedia) => {
     <div className={'w-full overflow-hidden h-full'}>
       <div ref={refContainer} className={`relative flex justify-center items-center`}>
         <div style={{ width: width * scale, height: height * scale }}>
-          {/*{!data ? (*/}
-          {/*  <div style={{ width: width * scale, height: height * scale }} className={'absolute z-10'}>*/}
-          {/*    <div className={`z-10 w-full h-full flex flex-col gap-y-4 justify-center items-center`}>*/}
-          {/*      {loading ? (*/}
-          {/*        <div>*/}
-          {/*          <Loader />*/}
-          {/*        </div>*/}
-          {/*      ) : (*/}
-          {/*        <div className={'flex flex-col gap-y-4 justify-center items-center'}>*/}
-          {/*          <button onClick={capture} className={'block bg-black p-2 opacity-20 hover:opacity-80 rounded-sm'}>*/}
-          {/*            set as preview*/}
-          {/*          </button>*/}
-          {/*          <button*/}
-          {/*            onClick={() => {*/}
-          {/*              setHash(generateHash());*/}
-          {/*            }}*/}
-          {/*            className={'block bg-black p-2 opacity-20 hover:opacity-80 rounded-sm'}*/}
-          {/*          >*/}
-          {/*            show another*/}
-          {/*          </button>*/}
-          {/*        </div>*/}
-          {/*      )}*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*) : null}*/}
-
-          {/*{data && (*/}
-          {/*  <div*/}
-          {/*    style={{*/}
-          {/*      width: `${width}px`,*/}
-          {/*      height: `${height}px`,*/}
-          {/*      transform: `scale(${scale})`,*/}
-          {/*      transformOrigin: 'top left'*/}
-          {/*    }}*/}
-          {/*    className={`relative select-none`}*/}
-          {/*  >*/}
-          {/*    <img alt={'Name'} className={'w-full h-full'} src={`${IPFS_PREFIX_URL}${data.cid}`} />*/}
-          {/*  </div>*/}
-          {/*)}*/}
-
           {render && (
             <div
               style={{

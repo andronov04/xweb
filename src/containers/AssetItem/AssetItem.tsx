@@ -1,6 +1,6 @@
 import { displayRoyalty, ipfsToUrl } from '../../utils';
 import Spacing from '../../components/Spacing/Spacing';
-import { IAsset, IAssetFlag, IUserRole } from '../../types';
+import { IAsset, IAssetFlag, IItem, IUserRole } from '../../types';
 import Link from 'next/link';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Navs from '../../components/Navs/Navs';
@@ -11,6 +11,7 @@ import { QL_GET_ACTION_BY_ASSET, QL_GET_TOKEN_ITEMS_BY_ASSET } from '../../api/q
 import Items from '../../components/Items/Items';
 import { useStore } from '../../store';
 import AssetItemApprove from './AssetItemApprove';
+import ItemToken from '../../components/Item/ItemToken';
 
 const AssetItem = ({ item }: { item: IAsset }) => {
   const router = useRouter();
@@ -79,14 +80,17 @@ const AssetItem = ({ item }: { item: IAsset }) => {
           </div>
         </div>
         <div>
-          <div
-            style={{
-              backgroundSize: 'cover',
-              backgroundImage: `url(${ipfsToUrl(item.metadata?.displayUri ?? '')})`
-            }}
-            className={'w-96 h-96 rounded-sm'}
-          />
+          <ItemToken align={'right'} item={item as IItem} />
         </div>
+        {/*<div>*/}
+        {/*  <div*/}
+        {/*    style={{*/}
+        {/*      backgroundSize: 'cover',*/}
+        {/*      backgroundImage: `url(${ipfsToUrl(item.metadata?.displayUri ?? '')})`*/}
+        {/*    }}*/}
+        {/*    className={'w-96 h-96 rounded-sm'}*/}
+        {/*  />*/}
+        {/*</div>*/}
       </div>
 
       <Spacing size={3} />

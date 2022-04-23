@@ -38,7 +38,8 @@ export async function getServerSideProps({ params }) {
     } = await GraphqlApi.query({
       query: QL_GET_USER,
       variables: { username: id },
-      errorPolicy: 'all'
+      errorPolicy: 'all',
+      fetchPolicy: 'no-cache'
     });
     data = _data;
   } catch (e) {

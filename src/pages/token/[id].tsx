@@ -30,6 +30,7 @@ export async function getServerSideProps({ params }) {
   const { id } = params;
   const { data } = await GraphqlApi.query({
     query: QL_GET_TOKEN,
+    fetchPolicy: 'no-cache',
     variables: { slug: id }
   });
   // TODO find by slug and id

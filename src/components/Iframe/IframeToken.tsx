@@ -1,13 +1,18 @@
-import { EDITOR_URL, IFRAME_ALLOW, IFRAME_SANDBOX } from '../../../constants';
-import { useStore } from '../../../store';
+import { IFRAME_ALLOW, IFRAME_SANDBOX } from '../../constants';
 import { useEffect, useState } from 'react';
-import Loader from '../../../components/Utils/Loader';
-import CustomButton from '../../../components/CustomButton/CustomButton';
+import Loader from '../../components/Utils/Loader';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
-const IframeToken = ({ onLoad, check }: { onLoad?: (e: any) => void; check?: boolean }) => {
+interface IIframeToken {
+  onLoad?: (e: any) => void;
+  url: string;
+  width: number;
+  height: number;
+}
+
+const IframeToken = ({ url, onLoad }: IIframeToken) => {
   const [status, setStatus] = useState<'loading' | 'error' | 'success'>('loading');
   const [rnd, setRnd] = useState('');
-  const token = useStore((state) => state.token);
 
   useEffect(() => {
     if (rnd) {
@@ -15,7 +20,8 @@ const IframeToken = ({ onLoad, check }: { onLoad?: (e: any) => void; check?: boo
     }
   }, [rnd, setStatus]);
 
-  const url = check ? `${EDITOR_URL}&check=1` : EDITOR_URL;
+  const isParams = Object.keys(new URLSearchParams(url)).length > 0;
+
   return (
     <div className={'border relative border-solid border-dark4A w-full h-full'}>
       {status === 'loading' ? (
@@ -44,19 +50,17 @@ const IframeToken = ({ onLoad, check }: { onLoad?: (e: any) => void; check?: boo
         onLoad={(e) => {
           if (e.currentTarget) {
             setStatus('success');
-            token.setProxy((e.currentTarget as any).contentWindow);
-            token.emit();
             onLoad?.(e);
           }
         }}
         onError={(e) => {
           setStatus('error');
-          console.log('e', e);
         }}
         width={'100%'}
         height={'100%'}
-        src={`${url}&rnd=${rnd}`}
-        className={'iframe'}
+        frameBorder="0"
+        src={`${url}${isParams ? '&' : '?'}rnd=${rnd}`}
+        className={'iframe overflow-hidden'}
         sandbox={IFRAME_SANDBOX}
         allow={IFRAME_ALLOW}
       />

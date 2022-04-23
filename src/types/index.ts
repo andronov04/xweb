@@ -78,6 +78,8 @@ export interface IToken {
   zhash?: string;
   enabled?: boolean;
   tags?: string[];
+  height?: number;
+  width?: number;
   __typename?: string;
   asset?: IAsset;
 }
@@ -94,9 +96,9 @@ export interface IItem {
   created?: string;
   updated?: string;
   price?: number;
-  width: number;
+  width?: number;
   tags?: string[];
-  height: number;
+  height?: number;
   __typename?: string;
   royalties?: number;
   metadataUri?: string;

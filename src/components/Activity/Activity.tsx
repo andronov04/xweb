@@ -34,6 +34,7 @@ const Activity = ({ variables, query }: IItems) => {
   const [hasMore, setHasMore] = useState(true);
   const { data, loading, fetchMore } = useQuery(query, {
     notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'no-cache', // TODO Good check with cache pagination
     variables: {
       offset: 0,
       limit: ITEMS_PER_PAGE,

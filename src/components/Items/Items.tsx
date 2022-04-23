@@ -28,7 +28,7 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
   const { data, loading, fetchMore } = useQuery(query, {
     //, fetchMore, refetch
     notifyOnNetworkStatusChange: true,
-    // fetchPolicy: 'no-cache',
+    fetchPolicy: 'no-cache', // TODO Good check with cache pagination
     variables: {
       offset: 0,
       limit: ITEMS_PER_PAGE,

@@ -13,7 +13,6 @@ const getUrl = (item: IItem) => {
 
 interface IItemComp {
   item: IItem;
-  price?: boolean;
   mode: 'normal' | 'selected' | 'offer' | 'all';
   onClickItem?: (item: IItem) => void;
   onMountItem?: (item: IItem) => void;
@@ -62,20 +61,8 @@ const ItemContent = ({ item }: { item: IItem }) => {
     </div>
   );
 };
-//.c-jrLCru img {
-//     position: absolute;
-//     top: 0px;
-//     left: 0px;
-//     width: 100%;
-//     height: auto;
-// }
 
-const Item = ({ item, price, onMountItem, mode, onClickItem, active }: IItemComp) => {
-  // const plural_suggest = () => {
-  //   const count = item.assetTokenAssets_aggregate?.aggregate?.count ?? 0;
-  //   return count > 1 ? `${count} tokens` : `${count} token`;
-  // };
-
+const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
   useEffect(() => {
     onMountItem?.(item);
   }, [onMountItem, item]);

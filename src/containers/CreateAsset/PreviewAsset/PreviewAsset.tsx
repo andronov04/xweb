@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import CustomButton from '../../../components/CustomButton/CustomButton';
-import IframeToken from '../../CreateToken/Iframe/Iframe';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Loader from '../../../components/Utils/Loader';
 import { useStore } from '../../../store';
 import shallow from 'zustand/shallow';
+import IframeEditor from '../../../components/Iframe/IframeEditor';
 
 const PreviewAsset = () => {
   const [asset, token] = useStore((state) => [state.asset, state.token], shallow);
@@ -73,7 +73,7 @@ const PreviewAsset = () => {
               height: size.height
             }}
           >
-            <IframeToken
+            <IframeEditor
               check={true}
               onLoad={(e) => {
                 token.addAsset({

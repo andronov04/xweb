@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { IToken } from '../../types';
+import { IItem, IToken } from '../../types';
 import { displayRoyalty, ipfsToUrl } from '../../utils';
 import Spacing from '../../components/Spacing/Spacing';
 import Navs from 'src/components/Navs/Navs';
@@ -11,11 +11,12 @@ import { useRouter } from 'next/router';
 import Activity from '../../components/Activity/Activity';
 import { QL_GET_ACTION_BY_TOKEN, QL_GET_ASSET_ITEMS_BY_TOKEN } from '../../api/queries';
 import Items from '../../components/Items/Items';
+import ItemToken from '../../components/Item/ItemToken';
+import { mimeMap } from '../../utils/mime';
 
 const TokenItem = ({ item }: { item: IToken }) => {
   const router = useRouter();
   const currentUser = useStore((state) => state.user);
-  const user = item.user?.username ?? item.user?.id;
 
   const isActivity = router.asPath.endsWith('activity');
   const isAssets = router.asPath.endsWith('assets');
@@ -27,13 +28,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
     <section>
       <div className={'flex w-full items-start md:flex-row flex-col gap-x-8'}>
         <div>
-          <div
-            style={{
-              backgroundSize: 'cover',
-              backgroundImage: `url(${ipfsToUrl(item.metadata?.displayUri ?? '')})`
-            }}
-            className={'w-96 h-96 rounded-sm'}
-          />
+          <ItemToken item={item as IItem} />
         </div>
         <div className={'flex-grow'}>
           <div>

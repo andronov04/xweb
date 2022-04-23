@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import IframeToken from './Iframe/Iframe';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Items from '../../components/Items/Items';
 import { QL_GET_ASSET_ITEMS_BY_IDS, QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG } from '../../api/queries';
@@ -12,6 +11,7 @@ import { UploadFileError } from '../../types/error';
 import { API_BUILD_TOKEN_URL } from '../../constants';
 import { useRouter } from 'next/router';
 import { IAssetFlag } from '../../types';
+import IframeEditor from '../../components/Iframe/IframeEditor';
 
 const CreateToken = () => {
   const router = useRouter();
@@ -124,7 +124,7 @@ const CreateToken = () => {
                 </h2>
               </div>
             ) : null}
-            <IframeToken />
+            <IframeEditor />
           </div>
         )}
       </div>

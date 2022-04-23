@@ -8,7 +8,9 @@ import Item from '../../components/Item/Item';
 const RandomItem = () => {
   const refContainer = useRef<HTMLDivElement | null>(null);
   // TODO Filter is active not reviewed and banned
-  const { data: dt, loading: ld } = useQuery(QL_GET_COUNT_TOKENS);
+  const { data: dt, loading: ld } = useQuery(QL_GET_COUNT_TOKENS, {
+    fetchPolicy: 'no-cache'
+  });
   // const count = dt?.tokenAggregate?.aggregate?.count;
   // console.log('data1', dt, count);
   // const id = 4;//Math.floor(RN(0, count-1));
@@ -21,6 +23,7 @@ const RandomItem = () => {
 
   const { data, loading } = useQuery(QL_GET_TOKEN_BY_ID, {
     // notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'no-cache',
     skip: id === undefined,
     variables: {
       id: id

@@ -3,7 +3,6 @@ import { useStore } from '../../../store';
 import Input from '../../../components/Form/Input';
 import { useEffect, useRef, useState } from 'react';
 import { ipfsToUrl, urlToIpfs } from '../../../utils';
-import PreviewToken from './PreviewToken/PreviewToken';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import { useContract } from '../../../hooks/use-contract/useContract';
 import { MintTokenCallData } from '../../../types/contract';
@@ -17,6 +16,7 @@ import { useRouter } from 'next/router';
 import { MichelsonMap } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
 import Waiting from '../../../components/Waiting/Waiting';
+import IframeToken from '../../../components/Iframe/IframeToken';
 
 const MintToken = () => {
   const [opHash, setOpHash] = useState<string | null>();
@@ -141,14 +141,7 @@ const MintToken = () => {
             }}
           >
             <div className={'absolute top-0 left-0 w-full h-full'}>
-              <PreviewToken
-                url={ipfsToUrl(urlToIpfs(token.cid))}
-                width={token.state?.root?.width ?? 1000}
-                height={token.state?.root?.height ?? 1000}
-                onPreview={(cid, hash) => {
-                  // token.addPreview(cid, hash);
-                }}
-              />
+              <IframeToken url={ipfsToUrl(urlToIpfs(token.cid))} width={token.state?.root?.width ?? 1000} height={token.state?.root?.height ?? 1000} />
             </div>
           </div>
         </div>
