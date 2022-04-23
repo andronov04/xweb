@@ -101,7 +101,7 @@ const Activity = ({ variables, query }: IItems) => {
                       @{item.issuer.username ?? item.issuer.id}
                     </a>
                   </Link>{' '}
-                  transferred{' '}
+                  transferred {' '}
                   <Link href={`/token/${item.token.name}`}>
                     <a href={`/token/${item.token.name}`} className={'text-active hover:opacity-80'}>
                       {item.token.name}
