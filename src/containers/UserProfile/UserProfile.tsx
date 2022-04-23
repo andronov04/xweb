@@ -14,6 +14,7 @@ import Navs from '../../components/Navs/Navs';
 import { useState } from 'react';
 import UserEdit from './UserEdit';
 import { setMsg } from '../../services/snackbar';
+import Popup from 'reactjs-popup';
 
 const UserProfile = ({ user }: { user: IUser }) => {
   const [editUser, setEditUser] = useState(false);
@@ -59,7 +60,18 @@ const UserProfile = ({ user }: { user: IUser }) => {
                   }}
                   className={'cursor-pointer text-xs text-white30 ml-1.5 hover:opacity-80'}
                 >
-                  {user.id.slice(0, 4)}...{user.id.slice(-4)}
+                  <Popup
+                    trigger={() => (
+                      <span className={'cursor-pointer'}>
+                        {user.id.slice(0, 4)}...{user.id.slice(-4)}
+                      </span>
+                    )}
+                    on={['hover', 'focus']}
+                    position={'bottom center'}
+                    closeOnDocumentClick
+                  >
+                    <p className={'bg-black20 rounded-md px-4 py-1.5 text-whitegrey '}>Copy TZ address</p>
+                  </Popup>
                 </span>
               </h2>
             )}

@@ -32,13 +32,8 @@ function Footer() {
         <nav>
           <ol className={'text-inactive flex gap-x-5'}>
             <li>
-              <Link href={'/terms'}>
-                <a href={'/terms'}>Terms</a>
-              </Link>
-            </li>
-            <li>
-              <Link href={'/privacy'}>
-                <a href={'/privacy'}>Privacy</a>
+              <Link href={'/code-of-conduct'}>
+                <a href={'/code-of-conduct'}>Code of Conduct</a>
               </Link>
             </li>
             <li>

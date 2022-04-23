@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useStore } from '../../store';
 import shallow from 'zustand/shallow';
+import Popup from 'reactjs-popup';
 
 const Menu = () => {
   const [user, connectUser] = useStore((state) => [state.user, state.connectUser], shallow);
@@ -37,9 +38,26 @@ const Menu = () => {
                 <a href={`/@${user.username ?? user.id}`}>Profile</a>
               </Link>
             ) : (
-              <div className={'italic cursor-pointer'} onClick={connectUser}>
-                Connect Wallet
-              </div>
+              <Popup
+                trigger={() => (
+                  <div className={'italic cursor-pointer'} onClick={connectUser}>
+                    Connect Wallet
+                  </div>
+                )}
+                on={['hover', 'focus']}
+                position="bottom right"
+                closeOnDocumentClick
+              >
+                <p className={'bg-black20 rounded-md px-4 py-3 text-whitegrey '}>
+                  By connecting your wallet, you <br />
+                  agree to our{' '}
+                  <Link href={'/code-of-conduct'}>
+                    <a href={'/code-of-conduct'} className={'text-inactive outline-none select-none cursor-pointer hover:opacity-80'}>
+                      Code of Conduct
+                    </a>
+                  </Link>
+                </p>
+              </Popup>
             )}
           </li>
         </ol>

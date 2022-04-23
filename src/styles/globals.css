@@ -99,3 +99,7 @@ body,
     transform: translate(48px, 0);
   }
 }
+
+.popup-content > div {
+  color: #202020 !important;
+}
