@@ -94,6 +94,27 @@ const Activity = ({ variables, query }: IItems) => {
                   updated profile
                 </p>
               )}
+              {item.kind === IActivityKind.TRANSFER_TOKEN && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  transferred{' '}
+                  <Link href={`/token/${item.token.name}`}>
+                    <a href={`/token/${item.token.name}`} className={'text-active hover:opacity-80'}>
+                      {item.token.name}
+                    </a>
+                  </Link>{' '}
+                  to{' '}
+                  <Link href={`/@${item.target.username ?? item.target.id}`}>
+                    <a href={`/@${item.target.username ?? item.target.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.target.username ?? item.target.id}
+                    </a>
+                  </Link>
+                </p>
+              )}
               {item.kind === IActivityKind.COLLECT_TOKEN && (
                 <p>
                   <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
