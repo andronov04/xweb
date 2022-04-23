@@ -16,7 +16,7 @@ const CreateAsset = () => {
               if (data.cid && data.requestHash) {
                 setMsg({ autoClose: 1000, clear: true, title: 'Successfully uploaded.', kind: 'success' });
                 asset.setAsset(data.cid, data.requestHash);
-                router.replace('/create/asset/preview').then().catch();
+                router.replace('/upload/asset/preview').then().catch();
               }
             }}
             onError={(e) => {

@@ -1,15 +1,15 @@
 import Head from 'next/head';
-import Page from '../../../containers/Page/Page';
-import ConditionRender from '../../../components/Utils/ConditionRender';
-import { DESCRIPTION_SEO, IMAGE_SEO } from '../../../constants';
-import PreviewAsset from '../../../containers/CreateAsset/PreviewAsset/PreviewAsset';
+import { DESCRIPTION_SEO, IMAGE_SEO } from '../../constants';
+import Page from '../../containers/Page/Page';
+import ConditionRender from '../../components/Utils/ConditionRender';
+import CreateAsset from '../../containers/CreateAsset/CreateAsset';
 
 export default function BasePage() {
   return (
     <Page>
       <Head>
-        <title>Create an asset – Contter</title>
-        <meta key="og:title" property="og:title" content={'Create an asset – Contter'} />
+        <title>Upload asset – Contter</title>
+        <meta key="og:title" property="og:title" content={'Upload asset – Contter'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />
@@ -18,7 +18,7 @@ export default function BasePage() {
       </Head>
 
       <ConditionRender client>
-        <PreviewAsset />
+        <CreateAsset />
       </ConditionRender>
     </Page>
   );

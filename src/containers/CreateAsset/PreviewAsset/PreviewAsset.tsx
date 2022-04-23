@@ -32,7 +32,7 @@ const PreviewAsset = () => {
 
   useEffect(() => {
     if (!asset?.cid) {
-      router.replace('/create/asset');
+      router.replace('/upload/asset');
     }
 
     if (refContainer.current) {
@@ -57,8 +57,8 @@ const PreviewAsset = () => {
 
         <div className={'w-1/3 text-right space-x-2'}>
           <span className={'font-thin text-inactive text-sm'}>details and publish</span>
-          <Link href={'/create/asset/publish'}>
-            <a href={'/create/asset/publish'}>
+          <Link href={'/upload/asset/publish'}>
+            <a href={'/upload/asset/publish'}>
               <CustomButton style={'white'} value={'next step'} />
             </a>
           </Link>
