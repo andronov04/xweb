@@ -4,7 +4,7 @@ import Items from '../../components/Items/Items';
 const Marketplace = () => {
   return (
     <main>
-      <div className={'flex font-light justify-end mb-5'}>
+      <div className={'flex justify-end mb-5'}>
         <div>
           <p className={'italic text-whitegrey'}>Recently listed</p>
         </div>

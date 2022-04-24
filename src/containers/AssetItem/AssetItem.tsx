@@ -30,7 +30,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
   return (
     <section>
       {item.flag !== IAssetFlag.NONE && (
-        <div className={'bg-amber-300 p-1 text-xs rounded-sm mb-4 font-light text-black'}>
+        <div className={'bg-amber-300 p-1 text-xs rounded-sm mb-4 text-black'}>
           {item.flag === IAssetFlag.REVIEW && <p>In Review. We’re reviewing this asset.</p>}
         </div>
       )}
@@ -46,8 +46,8 @@ const AssetItem = ({ item }: { item: IAsset }) => {
                   </span>
                 ) : null}
               </p>
-              <p className={'text-inactive pt-8 font-light'}>{item.description}</p>
-              {/*<span className={'font-light text-sm text-white30 mt-3'}>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>*/}
+              <p className={'text-inactive pt-8'}>{item.description}</p>
+              {/*<span className={'text-sm text-white30 mt-3'}>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>*/}
             </div>
           </div>
           <div className={'flex gap-x-3 justify-end text-right'}>
@@ -61,7 +61,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
 
             <div>
               {/*{item.count_tokens ? (*/}
-              {/*  <p className={'font-light pb-1 text-inactive text-sm'}>*/}
+              {/*  <p className={'pb-1 text-inactive text-sm'}>*/}
               {/*    {item.count_tokens} {(item.count_tokens || 0) <= 1 ? 'art' : 'arts'}*/}
               {/*  </p>*/}
               {/*) : null}*/}
@@ -116,7 +116,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
       ) : null}
 
       {isCurrent ? (
-        <div className={'flex gap-y-1 flex-col font-light text-inactive'}>
+        <div className={'flex gap-y-1 flex-col text-inactive'}>
           <div className={'flex'}>
             <span className={'pr-1'}>Minted: </span>
             <span>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>

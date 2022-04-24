@@ -14,15 +14,15 @@ function Footer() {
               fillOpacity="0.5"
             />
           </svg>
-          <p className={'text-whitegrey font-light'}>beta v0.0.2</p>
+          <p className={'text-whitegrey '}>beta v0.0.2</p>
         </div>
-        <div className={'text-whitegrey font-light'}>
+        <div className={'text-whitegrey'}>
           powered by{' '}
-          <a className={'text-inactive'} href="https://tzkt.io/" target="_blank" rel="noreferrer">
+          <a className={'text-inactive hover:opacity-90 cursor-pointer'} href="https://tzkt.io/" target="_blank" rel="noreferrer">
             tzkt
           </a>{' '}
           &{' '}
-          <a className={'text-inactive'} href="https://smartpy.io/" target="_blank" rel="noreferrer">
+          <a className={'text-inactive hover:opacity-90 cursor-pointer'} href="https://smartpy.io/" target="_blank" rel="noreferrer">
             SmartPy
           </a>
         </div>
@@ -33,24 +33,28 @@ function Footer() {
           <ol className={'text-inactive flex gap-x-6'}>
             <li>
               <Link href={'/code-of-conduct'}>
-                <a href={'/code-of-conduct'}>Code of Conduct</a>
+                <a href={'/code-of-conduct'} className={'hover:opacity-90 cursor-pointer'}>
+                  Code of Conduct
+                </a>
               </Link>
             </li>
             <li>
               <Link href={'mailto:support@contter.com'}>
-                <a href={'mailto:support@contter.com'}>Support</a>
+                <a href={'mailto:support@contter.com'} className={'hover:opacity-90 cursor-pointer'}>
+                  Support
+                </a>
               </Link>
             </li>
             <li>
               <Link href={'https://twitter.com/contter'}>
-                <a target={'_blank'} rel={'noreferrer'} href={'https://twitter.com/contter'}>
+                <a target={'_blank'} rel={'noreferrer'} className={'hover:opacity-90 cursor-pointer'} href={'https://twitter.com/contter'}>
                   Twitter
                 </a>
               </Link>
             </li>
             <li>
               <Link href={'https://discord.gg/jAdcbHAbQE'}>
-                <a target={'_blank'} rel={'noreferrer'} href={'https://discord.gg/jAdcbHAbQE'}>
+                <a target={'_blank'} rel={'noreferrer'} className={'hover:opacity-90 cursor-pointer'} href={'https://discord.gg/jAdcbHAbQE'}>
                   Discord
                 </a>
               </Link>

@@ -94,7 +94,7 @@ const UploadFile = ({ onSuccess, onError, onStart }: IUploadFile) => {
             type={'file'}
             autoComplete={'off'}
           />
-          <p className={'text-inactive font-thin text-sm'}>Drag and Drop your ZIP file here or click to upload</p>
+          <p className={'text-inactive font-normal text-lg'}>Drag and Drop your ZIP file here or click to upload</p>
         </div>
       )}
     </div>

@@ -21,7 +21,7 @@ export default function AssetsPage() {
 
       <ConditionRender client>
         <main>
-          <div className={'flex font-light justify-end mb-5'}>
+          <div className={'flex justify-end mb-5'}>
             <div>
               <p className={'italic text-whitegrey'}>Recently published</p>
             </div>

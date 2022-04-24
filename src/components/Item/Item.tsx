@@ -70,14 +70,14 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
   const tokens = item.assetTokenAssets_aggregate?.aggregate.count ?? 0;
 
   return (
-    <div>
+    <div className={'font-normal text-lg '}>
       {mode === 'selected' && (
         <div>
           <div
             onClick={() => {
               onClickItem?.(item);
             }}
-            className={'relative cursor-pointer hover:opacity-80'}
+            className={'relative cursor-pointer hover:opacity-90'}
           >
             <div className={'bg-white20 z-20 absolute w-full h-full flex justify-center items-center'}>
               <p
@@ -92,13 +92,13 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
             <ItemContent item={item} />
           </div>
           <Link href={getUrl(item)}>
-            <a target={'_blank'} rel={'noreferrer'} href={getUrl(item)}>
-              <h2 className={'pt-2 text-lg font-light text-active'}>{item.name}</h2>
+            <a className={'hover:opacity-90 cursor-pointer'} target={'_blank'} rel={'noreferrer'} href={getUrl(item)}>
+              <h2 className={'pt-2 text-active'}>{item.name}</h2>
             </a>
           </Link>
-          <div className={'flex text-base justify-between'}>
+          <div className={'flex justify-between'}>
             {/*{item.assetTokenAssets_aggregate?.aggregate?.count ? (*/}
-            {/*  <p className={'font-light text-xs text-inactive'}>*/}
+            {/*  <p className={'text-xs text-inactive'}>*/}
             {/*    <span className={'text-green opacity-70'}>Style</span> / {plural_suggest()}*/}
             {/*  </p>*/}
             {/*) : null}*/}
@@ -112,11 +112,11 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
               <ItemContent item={item} />
             </a>
           </Link>
-          <h2 className={'pt-2 text-lg font-light text-active'}>{item.name}</h2>
-          <div className={'flex text-base justify-between'}>
-            <p className={'font-light text-inactive'}>
+          <h2 className={'pt-2 text-active'}>{item.name}</h2>
+          <div className={'flex justify-between'}>
+            <p className={'text-inactive'}>
               <Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
-                <a href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
+                <a className={'hover:opacity-90 cursor-pointer'} href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
                   @{item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}
                 </a>
               </Link>
@@ -131,16 +131,16 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
               <ItemContent item={item} />
             </a>
           </Link>
-          <h2 className={'pt-2 text-lg font-light text-active'}>
+          <h2 className={'pt-2 text-active'}>
             <Link href={getUrl(item)}>
               <a href={getUrl(item)}>{item.name}</a>
             </Link>
           </h2>
-          <div className={'flex text-base justify-between items-center'}>
+          <div className={'flex justify-between items-center'}>
             <div>
-              <p className={'font-light text-inactive'}>
+              <p className={'text-inactive'}>
                 <Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
-                  <a className={'pl-0.5'} href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
+                  <a className={'hover:opacity-90 cursor-pointer'} href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
                     @{item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}
                   </a>
                 </Link>
@@ -157,9 +157,9 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
               <ItemContent item={item} />
             </a>
           </Link>
-          <h2 className={'pt-2 text-lg font-light text-active'}>{item.name}</h2>
+          <h2 className={'pt-2 text-active'}>{item.name}</h2>
           <div className={'flex justify-between items-center'}>
-            <p className={'font-light text-base text-inactive'}>
+            <p className={'text-inactive'}>
               <span>{item['__typename'] === 'token' ? 'Token' : 'Asset'}</span>
               {tokens ? (
                 <>

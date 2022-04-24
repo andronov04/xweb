@@ -17,7 +17,7 @@ export default function BasePage() {
       </Head>
 
       <div className={'flex justify-center'}>
-        <div className={'max-w-md w-full text-inactive font-thin'}>
+        <div className={'max-w-md w-full text-inactive font-normal'}>
           <Link href={'/create/token'}>
             <a href={'/create/token'}>
               <div className={'cursor-pointer  text-center bg-dart2C p-4 rounded-md hover:opacity-80'}>
@@ -28,7 +28,7 @@ export default function BasePage() {
           <div className={'text-center mt-4'}>
             <Link href={'/upload/asset'}>
               <a href={'/upload/asset'} className={'hover:opacity-80'}>
-                upload asset
+                Upload asset
               </a>
             </Link>
           </div>

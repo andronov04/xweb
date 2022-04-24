@@ -17,7 +17,7 @@ const Navs = ({ links }: INav) => {
   const router = useRouter();
   return (
     <nav>
-      <ol className={'text-xl flex gap-x-8 font-medium text-xl text-inactive'}>
+      <ol className={'text-xl flex gap-x-8 font-normal text-xl text-inactive'}>
         {links.map((link) => (
           <li
             key={link.url}

@@ -42,7 +42,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
                 </a>
               </Link>
             </p>
-            <p className={'text-inactive pt-8 font-light'}>{item.description}</p>
+            <p className={'text-inactive pt-8'}>{item.description}</p>
           </div>
 
           {item.metadata?.isTransferable && (
@@ -88,7 +88,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
       ) : null}
 
       {isCurrent ? (
-        <div className={'flex gap-y-1 flex-col font-light text-inactive'}>
+        <div className={'flex gap-y-1 flex-col text-inactive'}>
           <div className={'flex'}>
             <span className={'pr-1'}>Minted: </span>
             <span>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>

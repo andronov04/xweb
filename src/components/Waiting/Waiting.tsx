@@ -60,7 +60,7 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
           )}
 
           {error ? (
-            <div className={'font-light'}>
+            <div>
               <p className={'text-red'}>
                 Could not find the{' '}
                 <Link href={`${TZKT_URL}${opHash}`}>
@@ -70,7 +70,7 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
                 </Link>{' '}
                 after {MAX_TZ_WAITING_TIMEOUT}s of search.
               </p>
-              <p className={'text-inactive mt-3 font-light text-sm'}>
+              <p className={'text-inactive mt-3 text-sm'}>
                 Contact us at{' '}
                 <Link href={'mailto:support@contter.com'}>
                   <a className={'text-active hover:opacity-80'} href={'mailto:support@contter.com'}>
@@ -101,7 +101,7 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
                 <br />
                 This can sometimes take up to two-minutes
               </p>
-              <p className={'text-inactive mt-3 font-light text-sm'}>
+              <p className={'text-inactive mt-3 text-sm'}>
                 iI successful, you will be redirected to the result page. <br />
                 Don `&apos;`t close the page. In case of failure, rule 21 (Terms of Service) comes into effect.
               </p>
