@@ -56,7 +56,7 @@ const PreviewAsset = () => {
         </div>
 
         <div className={'w-1/3 text-right space-x-2'}>
-          <span className={'font-thin text-inactive text-sm'}>details and publish</span>
+          <span className={'font-normal text-inactive text-sm'}>details and publish</span>
           <Link href={'/upload/asset/publish'}>
             <a href={'/upload/asset/publish'}>
               <CustomButton style={'white'} value={'next step'} />

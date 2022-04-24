@@ -220,7 +220,7 @@ const PublishAsset = () => {
             refSubmit.current?.click();
           }}
           style={'white'}
-          value={'publish'}
+          value={'Publish'}
         />
       </div>
     </section>

@@ -96,7 +96,7 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
               <h2 className={'pt-2 text-active'}>{item.name}</h2>
             </a>
           </Link>
-          <div className={'flex justify-between'}>
+          <div className={'flex justify-between text-base'}>
             {/*{item.assetTokenAssets_aggregate?.aggregate?.count ? (*/}
             {/*  <p className={'text-xs text-inactive'}>*/}
             {/*    <span className={'text-green opacity-70'}>Style</span> / {plural_suggest()}*/}
@@ -113,7 +113,7 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
             </a>
           </Link>
           <h2 className={'pt-2 text-active'}>{item.name}</h2>
-          <div className={'flex justify-between'}>
+          <div className={'flex justify-between text-base'}>
             <p className={'text-inactive'}>
               <Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
                 <a className={'hover:opacity-90 cursor-pointer'} href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
@@ -136,7 +136,7 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
               <a href={getUrl(item)}>{item.name}</a>
             </Link>
           </h2>
-          <div className={'flex justify-between items-center'}>
+          <div className={'flex justify-between text-base items-center'}>
             <div>
               <p className={'text-inactive'}>
                 <Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
@@ -158,7 +158,7 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
             </a>
           </Link>
           <h2 className={'pt-2 text-active'}>{item.name}</h2>
-          <div className={'flex justify-between items-center'}>
+          <div className={'flex text-base justify-between items-center'}>
             <p className={'text-inactive'}>
               <span>{item['__typename'] === 'token' ? 'Token' : 'Asset'}</span>
               {tokens ? (

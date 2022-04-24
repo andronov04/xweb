@@ -72,7 +72,7 @@ const CreateToken = () => {
     <section>
       <div className={'flex w-full justify-end items-center'}>
         <div className={'w-1/3 text-right space-x-2'}>
-          <span className={'font-thin text-inactive text-sm'}>details and mint</span>
+          <span className={'font-normal text-inactive text-sm'}>details and mint</span>
           <Link href={'/create/token/mint'}>
             <a
               onClick={(e) => {
@@ -130,8 +130,8 @@ const CreateToken = () => {
       </div>
 
       <div>
-        <div className={'flex my-5 font-thin gap-x-4'}>
-          <p className={'text-inactive'}>Assets</p>
+        <div className={'flex my-5 gap-x-4'}>
+          <p className={'text-active text-lg'}>Assets</p>
         </div>
         {assetIds.length ? (
           <Items

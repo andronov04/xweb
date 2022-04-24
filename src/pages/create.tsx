@@ -25,7 +25,7 @@ export default function BasePage() {
               </div>
             </a>
           </Link>
-          <div className={'text-center mt-4'}>
+          <div className={'text-lg text-center mt-4'}>
             <Link href={'/upload/asset'}>
               <a href={'/upload/asset'} className={'hover:opacity-80'}>
                 Upload asset
