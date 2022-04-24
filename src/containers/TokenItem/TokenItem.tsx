@@ -34,7 +34,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
         <div className={'flex-grow'}>
           <div>
             <h1 className={'text-active text-2xl'}>{item.name}</h1>
-            <p className={'text-inactive text-sm'}>
+            <p className={'text-inactive text-base'}>
               Owned by{' '}
               <Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
                 <a className={'text-active hover:text-inactive'} href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
@@ -42,7 +42,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
                 </a>
               </Link>
             </p>
-            <p className={'text-inactive pt-8'}>{item.description}</p>
+            <p className={'text-inactive text-lg pt-8'}>{item.description}</p>
           </div>
 
           {item.metadata?.isTransferable && (

@@ -39,14 +39,14 @@ const AssetItem = ({ item }: { item: IAsset }) => {
           <div>
             <div>
               <h1 className={'text-active text-2xl'}>{item.name}</h1>
-              <p className={'text-inactive text-sm'}>
+              <p className={'text-inactive text-base'}>
                 {tokens ? (
                   <span>
                     {tokens} {tokens > 1 ? 'tokens' : 'token'}
                   </span>
                 ) : null}
               </p>
-              <p className={'text-inactive pt-8'}>{item.description}</p>
+              <p className={'text-inactive text-lg pt-8'}>{item.description}</p>
               {/*<span className={'text-sm text-white30 mt-3'}>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>*/}
             </div>
           </div>
@@ -79,7 +79,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
             </div>
           </div>
         </div>
-        <div className={'w-1/2'}>
+        <div className={'w-1/2 h-96'}>
           <ItemToken align={'right'} item={item as IItem} />
         </div>
         {/*<div>*/}

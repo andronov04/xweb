@@ -25,7 +25,7 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
   }, [onError]);
 
   return (
-    <div style={{ zIndex: 100 }} className={'w-full h-full fixed top-0 left-0'}>
+    <div style={{ zIndex: 100 }} className={'font-normal w-full h-full fixed top-0 left-0'}>
       <Subscription
         query={query ?? SUB_ACTION_OP_HASH}
         variables={{ opHash: opHash }}
@@ -37,9 +37,9 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
         }}
       />
 
-      <div className={'w-full h-full bg-black absolute z-10 opacity-60'} />
+      <div className={'w-full h-full bg-black absolute z-10 opacity-90'} />
       <div className={'absolute z-20 w-full h-full flex justify-center items-center'}>
-        <div className={'bg-blackopacity gap-y-10 text-center flex justify-center items-center flex-col rounded-2xl p-10 w-96 h-96'}>
+        <div className={'bg-transparent gap-y-10 text-center flex justify-center items-center flex-col rounded-2xl p-10 w-full h-96'}>
           {error ? (
             <div className={'relative w-ful flex justify-center'}>
               <div style={{ width: '170px' }} className=" block relative w-72 h-16">
@@ -61,24 +61,22 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
 
           {error ? (
             <div>
-              <p className={'text-red'}>
-                Could not find the{' '}
+              <p className={'text-red text-2xl'}>
+                Error // Could not find the confirmation <br />
                 <Link href={`${TZKT_URL}${opHash}`}>
                   <a target={'_blank'} rel={'noreferrer'} href={`${TZKT_URL}${opHash}`} className={'font-normal hover:opacity-80'}>
-                    confirmation
+                    {opHash}
                   </a>
-                </Link>{' '}
-                after {MAX_TZ_WAITING_TIMEOUT}s of search.
+                </Link>
               </p>
-              <p className={'text-inactive mt-3 text-sm'}>
+              <p className={'text-inactive mt-6 text-lg'}>
                 Contact us at{' '}
                 <Link href={'mailto:support@contter.com'}>
                   <a className={'text-active hover:opacity-80'} href={'mailto:support@contter.com'}>
                     support@contter.com
                   </a>
                 </Link>{' '}
-                or <br />
-                go to our{' '}
+                or go to our{' '}
                 <Link href={'https://discord.gg/jAdcbHAbQE'}>
                   <a className={'text-active hover:opacity-80'} target={'_blank'} rel={'noreferrer'} href={'https://discord.gg/jAdcbHAbQE'}>
                     discord server
@@ -86,7 +84,7 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
                 </Link>
                 .
               </p>
-              <p className={'mt-5'}>
+              <p className={'mt-8 text-lg'}>
                 <Link href={'/'}>
                   <a href={'/'} className={'text-active hover:opacity-80'}>
                     Back to home
@@ -96,14 +94,14 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
             </div>
           ) : (
             <div>
-              <p className={'text-active'}>
+              <p className={'text-active text-2xl'}>
                 Waiting for blockchain confirmation
                 <br />
                 This can sometimes take up to two-minutes
               </p>
-              <p className={'text-inactive mt-3 text-sm'}>
+              <p className={'text-inactive mt-3 text-lg'}>
                 iI successful, you will be redirected to the result page. <br />
-                Don `&apos;`t close the page. In case of failure, rule 21 (Terms of Service) comes into effect.
+                Don &apos;t close the page. In case of failure, rule 21 (Terms of Service) comes into effect.
               </p>
             </div>
           )}
