@@ -80,7 +80,7 @@ const UploadFile = ({ onSuccess, onError, onStart }: IUploadFile) => {
           onClick={() => {
             refInput.current?.click();
           }}
-          className={`${active ? 'opacity-80' : ''} my-10 z-20 bg-white10 cursor-pointer hover:opacity-80 h-32 rounded-sm flex justify-center items-center`}
+          className={`${active ? 'opacity-80' : ''} my-10 z-20 bg-white10 cursor-pointer hover:opacity-80 h-32 rounded-md flex justify-center items-center`}
         >
           <input
             ref={refInput}

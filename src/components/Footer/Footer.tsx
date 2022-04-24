@@ -3,9 +3,9 @@ import Link from 'next/link';
 function Footer() {
   return (
     <footer className={'flex pb-5 justify-between items-center'}>
-      <div className={'flex  text-base gap-x-2 items-center'}>
-        <div className={'flex items-center gap-x-3'}>
-          <svg style={{ marginTop: '-4px' }} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <div className={'flex  text-base gap-x-6 items-center'}>
+        <div className={'flex items-center gap-x-2.5'}>
+          <svg style={{ marginTop: '-2px' }} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -30,7 +30,7 @@ function Footer() {
 
       <div className={'w-auto'}>
         <nav>
-          <ol className={'text-inactive flex gap-x-5'}>
+          <ol className={'text-inactive flex gap-x-6'}>
             <li>
               <Link href={'/code-of-conduct'}>
                 <a href={'/code-of-conduct'}>Code of Conduct</a>

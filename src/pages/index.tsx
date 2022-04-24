@@ -22,7 +22,7 @@ export default function Home() {
       <main>
         <section style={{ height: '50vh' }} className={'flex-col flex md:flex-row gap-x-10 justify-between items-center'}>
           <div className={'w-1/2'}>
-            <div className={'text-3xl'}>
+            <div className={'text-3xl font-medium'}>
               <p>
                 A place where <span style={{ color: '#1EA2ED' }}>everyone</span> can
               </p>

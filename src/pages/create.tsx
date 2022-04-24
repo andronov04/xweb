@@ -20,8 +20,8 @@ export default function BasePage() {
         <div className={'max-w-md w-full text-inactive font-thin'}>
           <Link href={'/create/token'}>
             <a href={'/create/token'}>
-              <div className={'cursor-pointer  text-center bg-dart2C p-4 rounded-sm hover:opacity-80'}>
-                <h2 className={'text-xl'}>Create and mint your own NFT</h2>
+              <div className={'cursor-pointer  text-center bg-dart2C p-4 rounded-md hover:opacity-80'}>
+                <h2 className={'text-lg'}>Create and mint your own NFT</h2>
               </div>
             </a>
           </Link>

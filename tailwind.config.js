@@ -26,7 +26,16 @@ module.exports = {
       body: ['Mohave']
     },
     fontWeight: {
-      normal: 400
+      'extra-light': 100,
+      thin: 200,
+      light: 300,
+      normal: 400,
+      medium: 500,
+      semibold: 600,
+      bold: 700,
+      extrabold: 800,
+      'extra-bold': 800,
+      black: 900
     },
     fontSize: {
       point: '.4rem',

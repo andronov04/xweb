@@ -45,7 +45,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
           <div className={'flex-grow flex flex-col items-start'}>
             {/*<p className={'text-whitegrey text-sm'}>{user.id}</p>*/}
             {(user.id ?? user.username) && (
-              <h2 className={'text-2xl text-active'}>
+              <h2 className={'text-4xl font-medium text-active'}>
                 @{user.username ?? user.id}
                 <span
                   onClick={() => {
@@ -62,7 +62,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
                 >
                   <Popup
                     trigger={() => (
-                      <span className={'cursor-pointer'}>
+                      <span className={'text-base cursor-pointer'}>
                         {user.id.slice(0, 4)}...{user.id.slice(-4)}
                       </span>
                     )}
@@ -75,7 +75,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
                 </span>
               </h2>
             )}
-            {user.description && <p className={'text-inactive'}>{user.description}</p>}
+            {user.description && <p className={'text-inactive text-lg'}>{user.description}</p>}
           </div>
           {isCurrent && (
             <div className={'flex flex-col gap-y-2'}>
