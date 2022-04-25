@@ -3,7 +3,6 @@ export const RPC_LIST = process.env.NEXT_PUBLIC_RPC_LIST ?? 'https://mainnet.api
 export const TZ_NETWORK = process.env.NEXT_PUBLIC_TZ_NETWORK ?? 'hangzhounet';
 export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https://graph.art3s.xyz/v1/graphql';
 export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://graph.art3s.xyz/v1/graphql';
-export const GRAPHQL_API_KEY = process.env.NEXT_PUBLIC_GRAPHQL_API_KEY ?? '';
 export const IPFS_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_PREFIX_URL ?? 'https://contter.mypinata.cloud/ipfs/';
 export const TZKT_URL = process.env.NEXT_PUBLIC_TZKT_URL ?? 'https://tzkt.io/';
 export const ITEMS_PER_PAGE: number = parseInt(process.env.NEXT_PUBLIC_ITEMS_PER_PAGE ?? '25') ?? 25;
