@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 function Footer() {
   return (
-    <footer className={'flex pb-5 justify-between items-center'}>
+    <footer className={'md:flex md:flex-row flex-col pb-5 justify-between items-center'}>
       <div className={'flex  text-base gap-x-6 items-center'}>
         <div className={'flex items-center gap-x-2.5'}>
           <svg style={{ marginTop: '-2px' }} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +28,7 @@ function Footer() {
         </div>
       </div>
 
-      <div className={'w-auto'}>
+      <div className={'md:mt-0 mt-4 w-auto'}>
         <nav>
           <ol className={'text-inactive flex gap-x-6'}>
             <li>

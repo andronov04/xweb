@@ -48,14 +48,14 @@ const UserProfile = ({ user }: { user: IUser }) => {
           user={user}
         />
       ) : (
-        <div className={'flex w-full items-center justify-start gap-x-10'}>
+        <div className={'flex md:flex-row flex-col w-full items-center justify-start gap-x-10'}>
           <div>
             <Avatar avatarUri={user.avatarUri ?? ''} />
           </div>
-          <div className={'flex-grow flex flex-col items-start'}>
+          <div className={'flex-grow md:mt-0 mt-5 flex flex-col items-start'}>
             {/*<p className={'text-whitegrey text-sm'}>{user.id}</p>*/}
             {(user.id ?? user.username) && (
-              <h2 className={'text-4xl font-medium text-active'}>
+              <h2 className={'md:text-2xl text-base font-medium text-active'}>
                 @{user.username ?? user.id}
                 <span
                   onClick={() => {
@@ -72,7 +72,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
                 >
                   <Popup
                     trigger={() => (
-                      <span className={'text-base cursor-pointer'}>
+                      <span className={'md:text-base text-xs cursor-pointer'}>
                         {user.id.slice(0, 4)}...{user.id.slice(-4)}
                       </span>
                     )}

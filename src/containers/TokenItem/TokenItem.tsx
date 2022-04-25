@@ -35,7 +35,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
         </Footnote>
       )}
       <div className={'flex w-full items-start md:flex-row flex-col gap-x-8'}>
-        <div className={'w-1/2'}>
+        <div className={'md:w-1/2 w-full'}>
           <ItemToken item={item as IItem} />
         </div>
         <div className={'flex-grow'}>
@@ -95,7 +95,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
       ) : null}
 
       {isCurrent ? (
-        <div className={'flex gap-y-1 flex-col text-inactive'}>
+        <div className={'flex md:text-base text-sm gap-y-1 flex-col text-inactive'}>
           <div className={'flex'}>
             <span className={'pr-1'}>Minted: </span>
             <span>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>

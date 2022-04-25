@@ -37,8 +37,8 @@ const AssetItem = ({ item }: { item: IAsset }) => {
           {item.flag === IAssetFlag.HIDDEN && <p>Hidden</p>}
         </Footnote>
       )}
-      <div className={'flex w-full items-center md:flex-row flex-col gap-x-8'}>
-        <div className={'flex-grow flex h-96 flex-col justify-between'}>
+      <div className={'flex w-full items-center md:flex-row flex-col-reverse gap-x-8'}>
+        <div className={'flex-grow flex md:h-96 h-auto md:w-auto w-full flex-col justify-between'}>
           <div>
             <div>
               <h1 className={'text-active text-2xl'}>{item.name}</h1>
@@ -82,7 +82,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
             </div>
           </div>
         </div>
-        <div className={'w-1/2 h-96'}>
+        <div className={'md:w-1/2 w-full md:h-96 h-auto'}>
           <ItemToken align={'right'} item={item as IItem} />
         </div>
         {/*<div>*/}
@@ -119,7 +119,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
       ) : null}
 
       {isCurrent ? (
-        <div className={'flex gap-y-1 flex-col text-inactive'}>
+        <div className={'flex md:text-base text-sm gap-y-1 flex-col text-inactive'}>
           <div className={'flex'}>
             <span className={'pr-1'}>Minted: </span>
             <span>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>
@@ -133,7 +133,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
           {item.tags?.length ? (
             <div className={'flex'}>
               <span className={'pr-1'}>Tags: </span>
-              <span className={'text-active'}>{item.tags.join(', ')}</span>
+              <span className={'text-inactive'}>{item.tags.join(', ')}</span>
             </div>
           ) : null}
           {item.metadataUri && (

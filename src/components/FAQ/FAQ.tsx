@@ -122,9 +122,9 @@ const FAQ = () => {
 
   return (
     <div className={'space-y-6 font-normal'}>
-      <h2 className={'text-2xl mb-10'}>Frequently asked questions</h2>
+      <h2 className={'md:text-2xl text-xl md:mt-0 mt-10 md:mb-10 mb-5'}>Frequently asked questions</h2>
       {navs.map((a) => (
-        <div className={'text-xl'} id={a.key} key={a.key}>
+        <div className={'md:text-xl text-base'} id={a.key} key={a.key}>
           <h2>{a.title}</h2>
           <div className={' text-inactive'}>{a.desc()}</div>
         </div>

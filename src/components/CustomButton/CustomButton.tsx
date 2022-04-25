@@ -15,13 +15,15 @@ const CustomButton = ({ value, classNames, disabled, onClick, style, styles }: I
       <button
         style={{
           cursor: disabled ? 'not-allowed' : 'pointer',
+          paddingTop: '0.6rem',
+          paddingBottom: '0.5rem',
           ...styles
         }}
         onClick={onClick}
         disabled={disabled}
         className={`${classNames} ${
           style === 'white' ? ' bg-white text-black' : 'bg-white10 text-inactive '
-        } font-normal hover:opacity-80 rounded-lg py-2 px-5`}
+        } font-normal text-lg hover:opacity-80 rounded-lg py-2.5 px-4`}
       >
         {value}
       </button>

@@ -11,7 +11,7 @@ const Menu = () => {
   return (
     <div>
       <nav style={{ marginTop: '0.2rem' }}>
-        <ol className={'flex items-center text-inactive gap-x-8 font-normal text-xl'}>
+        <ol className={'flex md:flex-row flex-col items-center text-inactive gap-x-8 font-normal text-xl'}>
           <li className={`hover:text-active ${router.pathname.startsWith('/explore') && 'text-active'}`}>
             <Link href={'/explore'}>
               <a href={'/explore'}>Explore</a>

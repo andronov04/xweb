@@ -37,7 +37,7 @@ const RandomItem = () => {
   // random token between 0- max count
 
   return (
-    <div ref={refContainer} className={'w-full h-full  flex justify-end items-center'}>
+    <div ref={refContainer} className={'w-full h-full mt-5 md:mt-0  flex md:justify-end justify-center items-center'}>
       {loading && <Loader />}
       {!loading && data?.token?.length ? (
         <div

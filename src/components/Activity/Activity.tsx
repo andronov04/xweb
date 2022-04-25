@@ -74,7 +74,7 @@ const Activity = ({ variables, query }: IItems) => {
 
   return (
     <main>
-      <section className={`w-full flex flex-col gap-y-1 text-inactive font-normal`}>
+      <section className={`w-full md:text-base text-xs flex flex-col gap-y-1 text-inactive font-normal`}>
         <InfiniteScroll
           dataLength={items.length}
           next={async () => {
