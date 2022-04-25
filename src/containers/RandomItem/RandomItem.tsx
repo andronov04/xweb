@@ -39,7 +39,7 @@ const RandomItem = () => {
   return (
     <div ref={refContainer} className={'w-full h-full  flex justify-end items-center'}>
       {loading && <Loader />}
-      {!loading && data?.token?.length && (
+      {!loading && data?.token?.length ? (
         <div
           style={{
             width: Math.min(refContainer.current?.offsetWidth ?? 500, refContainer.current?.offsetHeight ?? 500),
@@ -48,7 +48,7 @@ const RandomItem = () => {
         >
           <Item key={`${data.token[0].id}_${data.token[0].slug}`} item={data.token[0]} mode={'normal'} />
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

@@ -7,6 +7,7 @@ export const QL_GET_USER = gql`
       username
       description
       role
+      flag
       avatarUri
       metadataUri
       metadata
@@ -106,7 +107,6 @@ export const QL_GET_CREATED_BY_USER = gql`
       name
       id
       description
-      kind
       flag
       enabled
       metadata
@@ -132,7 +132,6 @@ export const QL_GET_ASSETS_BY_USER = gql`
       name
       id
       description
-      kind
       flag
       enabled
       metadata
@@ -158,7 +157,6 @@ export const QL_GET_ASSET_ITEMS = gql`
       name
       id
       description
-      kind
       flag
       enabled
       metadata
@@ -185,7 +183,6 @@ export const QL_GET_ASSET_ITEMS_BY_IDS = gql`
       name
       id
       description
-      kind
       flag
       enabled
       metadata
@@ -212,7 +209,6 @@ export const QL_GET_ASSET_ITEMS_BY_NOT_IDS = gql`
       name
       id
       description
-      kind
       flag
       enabled
       metadata
@@ -239,7 +235,6 @@ export const QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG = gql`
       name
       id
       description
-      kind
       flag
       enabled
       metadata
@@ -266,7 +261,6 @@ export const QL_GET_ASSET_ITEMS_BY_TOKEN = gql`
       name
       id
       description
-      kind
       flag
       enabled
       metadata
@@ -439,7 +433,6 @@ export const QL_GET_ASSET = gql`
       metadata
       metadataUri
       slug
-      kind
       name
       description
       tags
@@ -567,7 +560,6 @@ export const QL_GET_ACTION_BY_TOKEN = gql`
   query MyQuery($tokenId: bigint!, $limit: Int, $offset: Int) {
     action(where: { tokenId: { _eq: $tokenId } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       id
-      kind
       opHash
       issuer {
         id

@@ -1,4 +1,4 @@
-import { IUser } from '../../types';
+import { IUser, IUserFlag } from '../../types';
 import Avatar from '../../components/Avatar/Avatar';
 import CustomButton from 'src/components/CustomButton/CustomButton';
 import Spacing from '../../components/Spacing/Spacing';
@@ -15,6 +15,7 @@ import { useState } from 'react';
 import UserEdit from './UserEdit';
 import { setMsg } from '../../services/snackbar';
 import Popup from 'reactjs-popup';
+import Footnote from '../../components/Library/Footnote/Footnote';
 
 const UserProfile = ({ user }: { user: IUser }) => {
   const [editUser, setEditUser] = useState(false);
@@ -30,6 +31,15 @@ const UserProfile = ({ user }: { user: IUser }) => {
 
   return (
     <>
+      <>
+        {user.flag !== IUserFlag.NONE && (
+          <Footnote type={user.flag === IUserFlag.REVIEW ? 'info' : user.flag === IUserFlag.LIMIT ? 'warning' : 'error'}>
+            {user.flag === IUserFlag.BANNED && <p>Banned</p>}
+            {user.flag === IUserFlag.REVIEW && <p>Under Review</p>}
+            {user.flag === IUserFlag.LIMIT && <p>Limited</p>}
+          </Footnote>
+        )}
+      </>
       {editUser ? (
         <UserEdit
           onCancel={() => {

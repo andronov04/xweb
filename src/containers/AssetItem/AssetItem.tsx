@@ -12,6 +12,7 @@ import Items from '../../components/Items/Items';
 import { useStore } from '../../store';
 import AssetItemApprove from './AssetItemApprove';
 import ItemToken from '../../components/Item/ItemToken';
+import Footnote from '../../components/Library/Footnote/Footnote';
 
 const AssetItem = ({ item }: { item: IAsset }) => {
   const router = useRouter();
@@ -30,9 +31,11 @@ const AssetItem = ({ item }: { item: IAsset }) => {
   return (
     <section>
       {item.flag !== IAssetFlag.NONE && (
-        <div className={'bg-amber-300 p-1 text-xs rounded-sm mb-4 text-black'}>
-          {item.flag === IAssetFlag.REVIEW && <p>In Review. We’re reviewing this asset.</p>}
-        </div>
+        <Footnote type={item.flag === IAssetFlag.REVIEW ? 'info' : item.flag === IAssetFlag.HIDDEN ? 'warning' : 'error'}>
+          {item.flag === IAssetFlag.BANNED && <p>Banned</p>}
+          {item.flag === IAssetFlag.REVIEW && <p>Under Review</p>}
+          {item.flag === IAssetFlag.HIDDEN && <p>Hidden</p>}
+        </Footnote>
       )}
       <div className={'flex w-full items-center md:flex-row flex-col gap-x-8'}>
         <div className={'flex-grow flex h-96 flex-col justify-between'}>

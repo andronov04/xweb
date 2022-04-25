@@ -4,8 +4,7 @@ export enum IAssetFlag {
   NONE = 0,
   REVIEW = 1,
   BANNED = 2,
-  REPORTED = 3,
-  HIDDEN = 4
+  HIDDEN = 3
 }
 
 export enum IUserRole {
@@ -14,12 +13,26 @@ export enum IUserRole {
   ADMIN = 2
 }
 
+export enum ITokenFlag {
+  NONE = 0,
+  REVIEW = 1,
+  BANNED = 2
+}
+
+export enum IUserFlag {
+  NONE = 0,
+  REVIEW = 1,
+  BANNED = 2,
+  LIMIT = 3
+}
+
 export interface IUser {
   id: string;
   username?: string;
   description?: string;
   avatarUri?: string;
   role?: IUserRole;
+  flag?: IUserFlag;
   metadata_uri?: string;
   metadata?: any; // TODO Description
   created?: string;
@@ -69,14 +82,14 @@ export interface IToken {
   created?: string;
   updated?: string;
   price?: number;
-  flag: number;
+  enabled?: boolean;
+  flag?: ITokenFlag;
   buy_editions?: number;
   royalties?: number;
   editions?: number;
   metadataUri?: string;
   metadata?: ITokenMetadata;
   zhash?: string;
-  enabled?: boolean;
   tags?: string[];
   height?: number;
   width?: number;
@@ -89,6 +102,7 @@ export interface IItem {
   offerId?: number;
   name: string;
   description?: string;
+  enabled?: boolean;
   user?: IUser;
   owner?: IUser;
   offer?: IOffer;

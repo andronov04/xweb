@@ -208,7 +208,7 @@ class WalletApi {
             entrypoint: 'offer',
             value: listItemValue
           },
-          gasLimit: 10000,
+          gasLimit: 100000,
           storageLimit: 250
         }
       ])

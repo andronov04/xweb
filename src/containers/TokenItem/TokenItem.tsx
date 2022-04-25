@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { IItem, IToken } from '../../types';
+import { IItem, IToken, ITokenFlag } from '../../types';
 import { displayRoyalty, ipfsToUrl } from '../../utils';
 import Spacing from '../../components/Spacing/Spacing';
 import Navs from 'src/components/Navs/Navs';
@@ -13,6 +13,7 @@ import { QL_GET_ACTION_BY_TOKEN, QL_GET_ASSET_ITEMS_BY_TOKEN } from '../../api/q
 import Items from '../../components/Items/Items';
 import ItemToken from '../../components/Item/ItemToken';
 import { mimeMap } from '../../utils/mime';
+import Footnote from '../../components/Library/Footnote/Footnote';
 
 const TokenItem = ({ item }: { item: IToken }) => {
   const router = useRouter();
@@ -27,6 +28,12 @@ const TokenItem = ({ item }: { item: IToken }) => {
   // TODO Format download
   return (
     <section>
+      {item.flag !== ITokenFlag.NONE && (
+        <Footnote type={item.flag === ITokenFlag.REVIEW ? 'info' : 'error'}>
+          {item.flag === ITokenFlag.BANNED && <p>Banned</p>}
+          {item.flag === ITokenFlag.REVIEW && <p>Under Review</p>}
+        </Footnote>
+      )}
       <div className={'flex w-full items-start md:flex-row flex-col gap-x-8'}>
         <div className={'w-1/2'}>
           <ItemToken item={item as IItem} />
