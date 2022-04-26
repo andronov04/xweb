@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { displayPrice } from '../../utils';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useState } from 'react';
-import { IActivityFlag } from '../../types';
+import { IAssetFlag, ITokenFlag } from '../../types';
 
 interface IVariable {
   [key: string]: string | number;
@@ -33,7 +33,7 @@ const TimeActivity = ({ item }: { item: any }) => {
 
 const Activity = ({ variables, query }: IItems) => {
   const [hasMore, setHasMore] = useState(true);
-  const { data, loading, fetchMore } = useQuery(query, {
+  const { data, fetchMore } = useQuery(query, {
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'no-cache', // TODO Good check with cache pagination
     variables: {
@@ -88,12 +88,33 @@ const Activity = ({ variables, query }: IItems) => {
             <div key={item.id} className={'flex w-full justify-between'}>
               {item.kind === IActivityKind.CHANGE_STATUS_ASSET && (
                 <p>
-                  <span className={'text-active'}>System</span> {item.data?.status === IActivityFlag.NONE ? 'accepted' : 'set new status to'}{' '}
-                  <Link href={`/asset/${item.asset.name}`}>
-                    <a href={`/asset/${item.asset.name}`} className={'text-active hover:opacity-80'}>
-                      {item.asset.name}
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
                     </a>
-                  </Link>
+                  </Link>{' '}
+                  changed status to{' '}
+                  <span className={'text-active'}>
+                    {item.data.status === IAssetFlag.NONE ? '"published"' : null}
+                    {item.data.status === IAssetFlag.REVIEW ? '"in moderation"' : null}
+                    {item.data.status === IAssetFlag.BANNED ? '"blocked"' : null}
+                    {item.data.status === IAssetFlag.HIDDEN ? '"hidden"' : null}
+                  </span>
+                </p>
+              )}
+              {item.kind === IActivityKind.CHANGE_STATUS_TOKEN && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  changed status to{' '}
+                  <span className={'text-active'}>
+                    {item.data.status === ITokenFlag.NONE ? '"published"' : null}
+                    {item.data.status === ITokenFlag.REVIEW ? '"in moderation"' : null}
+                    {item.data.status === ITokenFlag.BANNED ? '"blocked"' : null}
+                  </span>
                 </p>
               )}
               {item.kind === IActivityKind.UPDATE_PROFILE && (
@@ -114,8 +135,8 @@ const Activity = ({ variables, query }: IItems) => {
                     </a>
                   </Link>{' '}
                   transferred{' '}
-                  <Link href={`/token/${item.token.name}`}>
-                    <a href={`/token/${item.token.name}`} className={'text-active hover:opacity-80'}>
+                  <Link href={`/token/${item.token.slug}`}>
+                    <a href={`/token/${item.token.slug}`} className={'text-active hover:opacity-80'}>
                       {item.token.name}
                     </a>
                   </Link>{' '}
@@ -123,6 +144,27 @@ const Activity = ({ variables, query }: IItems) => {
                   <Link href={`/@${item.target.username ?? item.target.id}`}>
                     <a href={`/@${item.target.username ?? item.target.id}`} className={'text-active hover:opacity-80'}>
                       @{item.target.username ?? item.target.id}
+                    </a>
+                  </Link>
+                </p>
+              )}
+              {item.kind === IActivityKind.USED_ASSET && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  used{' '}
+                  <Link href={`/asset/${item.asset.slug}`}>
+                    <a href={`/asset/${item.asset.slug}`} className={'text-active hover:opacity-80'}>
+                      {item.asset.name}
+                    </a>
+                  </Link>{' '}
+                  to create{' '}
+                  <Link href={`/token/${item.token.slug}`}>
+                    <a href={`/token/${item.token.slug}`} className={'text-active hover:opacity-80'}>
+                      {item.token.name}
                     </a>
                   </Link>
                 </p>
@@ -135,8 +177,8 @@ const Activity = ({ variables, query }: IItems) => {
                     </a>
                   </Link>{' '}
                   purchased{' '}
-                  <Link href={`/token/${item.token.name}`}>
-                    <a href={`/token/${item.token.name}`} className={'text-active hover:opacity-80'}>
+                  <Link href={`/token/${item.token.slug}`}>
+                    <a href={`/token/${item.token.slug}`} className={'text-active hover:opacity-80'}>
                       {item.token.name}
                     </a>
                   </Link>{' '}
@@ -151,8 +193,8 @@ const Activity = ({ variables, query }: IItems) => {
                     </a>
                   </Link>{' '}
                   created{' '}
-                  <Link href={`/asset/${item.asset.name}`}>
-                    <a href={`/asset/${item.asset.name}`} className={'text-active hover:opacity-80'}>
+                  <Link href={`/asset/${item.asset.slug}`}>
+                    <a href={`/asset/${item.asset.slug}`} className={'text-active hover:opacity-80'}>
                       {item.asset.name}
                     </a>
                   </Link>
@@ -166,8 +208,8 @@ const Activity = ({ variables, query }: IItems) => {
                     </a>
                   </Link>{' '}
                   minted{' '}
-                  <Link href={`/token/${item.token.name}`}>
-                    <a href={`/token/${item.token.name}`} className={'text-active hover:opacity-80'}>
+                  <Link href={`/token/${item.token.slug}`}>
+                    <a href={`/token/${item.token.slug}`} className={'text-active hover:opacity-80'}>
                       {item.token.name}
                     </a>
                   </Link>
@@ -181,8 +223,8 @@ const Activity = ({ variables, query }: IItems) => {
                     </a>
                   </Link>{' '}
                   listed{' '}
-                  <Link href={`/token/${item.token.name}`}>
-                    <a href={`/token/${item.token.name}`} className={'text-active hover:opacity-80'}>
+                  <Link href={`/token/${item.token.slug}`}>
+                    <a href={`/token/${item.token.slug}`} className={'text-active hover:opacity-80'}>
                       {item.token.name}
                     </a>
                   </Link>{' '}
@@ -197,8 +239,8 @@ const Activity = ({ variables, query }: IItems) => {
                     </a>
                   </Link>{' '}
                   cancelled listing{' '}
-                  <Link href={`/token/${item.token.name}`}>
-                    <a href={`/token/${item.token.name}`} className={'text-active hover:opacity-80'}>
+                  <Link href={`/token/${item.token.slug}`}>
+                    <a href={`/token/${item.token.slug}`} className={'text-active hover:opacity-80'}>
                       {item.token.name}
                     </a>
                   </Link>

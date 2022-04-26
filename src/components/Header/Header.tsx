@@ -1,22 +1,42 @@
 import Menu from '../Menu/Menu';
 import { useState } from 'react';
+import Logo from '../Logo/Logo';
 
-const Logo = () => {
+const Logos = () => {
   return (
     <div>
-      <a href={'/'} className={'flex items-center'}>
+      <a href={'/'} className={'group flex items-center'}>
+        <Logo />
         <span>
-          <svg width="84" height="44" viewBox="0 0 84 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/*<div style={{*/}
+          {/*  width: '44px',*/}
+          {/*  height: '44px',*/}
+          {/*  transformOrigin: 'center center',*/}
+          {/*  transform: 'rotate(-90deg)'*/}
+          {/*}}>*/}
+          {/*  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">*/}
+          {/*  <path*/}
+          {/*    fillRule="evenodd"*/}
+          {/*    clipRule="evenodd"*/}
+          {/*    d="M4 14H6V12H4C1.79086 12 0 13.7909 0 16V28C0 30.2091 1.79086 32 4 32H6V30H4C2.89543 30 2 29.1046 2 28V16C2 14.8954 2.89543 14 4 14Z"*/}
+          {/*    fill="white"*/}
+          {/*  />*/}
+          {/*    <circle style={{ transform: 'scaleX(0.5) translateX(-50px)' }} cx="12" cy="28" r="3" stroke="white" strokeWidth="2" />*/}
+          {/*    <path d="M15 13L9 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />*/}
+          {/*    <path d="M15 19L9 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />*/}
+          {/*</svg>*/}
+          {/*</div>*/}
+          <svg style={{ marginLeft: '-25px' }} width="84" height="44" viewBox="0 0 84 44" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_4398_235)">
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M4 14H6V12H4C1.79086 12 0 13.7909 0 16V28C0 30.2091 1.79086 32 4 32H6V30H4C2.89543 30 2 29.1046 2 28V16C2 14.8954 2.89543 14 4 14Z"
-                fill="white"
-              />
-              <circle cx="12" cy="28" r="3" stroke="white" strokeWidth="2" />
-              <path d="M15 13L9 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M15 19L9 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              {/*<path*/}
+              {/*  fillRule="evenodd"*/}
+              {/*  clipRule="evenodd"*/}
+              {/*  d="M4 14H6V12H4C1.79086 12 0 13.7909 0 16V28C0 30.2091 1.79086 32 4 32H6V30H4C2.89543 30 2 29.1046 2 28V16C2 14.8954 2.89543 14 4 14Z"*/}
+              {/*  fill="white"*/}
+              {/*/>*/}
+              {/*<circle cx="12" cy="28" r="3" stroke="white" strokeWidth="2" />*/}
+              {/*<path d="M15 13L9 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />*/}
+              {/*<path d="M15 19L9 13" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />*/}
               <path
                 d="M79 30V18H81V19.0025V20H80C80.2824 19.4906 81.4078 18.6565 81.8941 18.3982C82.3882 18.1327 82.8569 18 83.5 18C84.5353 18 84 18 84 18V20C84 20 83.5725 20 83 20C82.4196 20 81.8451 20.17 81.5 20.5C81.1627 20.83 81 21.4547 81 22V30H79Z"
                 fill="white"
@@ -85,7 +105,7 @@ function Header() {
       ) : null}
 
       <div className="md:hidden flex justify-between items-center">
-        <Logo />
+        <Logos />
         <button
           onClick={() => {
             setOpen(true);
@@ -100,7 +120,7 @@ function Header() {
         </button>
       </div>
       <header id={'header'} className={'md:flex hidden flex items-center justify-between'}>
-        <Logo />
+        <Logos />
 
         <Menu />
       </header>

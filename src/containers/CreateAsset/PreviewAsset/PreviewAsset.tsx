@@ -78,10 +78,10 @@ const PreviewAsset = () => {
               onLoad={(e) => {
                 token.addAsset({
                   id: 0,
-                  name: 'Asset',
+                  name: 'Preview',
                   // @ts-ignore
                   metadata: {
-                    name: 'Asset',
+                    name: 'Preview',
                     artifactUri: `ipfs://${asset.cid}`
                   }
                 });

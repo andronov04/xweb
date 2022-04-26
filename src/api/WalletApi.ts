@@ -1,6 +1,6 @@
-import { ContractAbstraction, MichelsonMap, OpKind, TezosToolkit, Wallet } from '@taquito/taquito';
+import { ContractAbstraction, OpKind, TezosToolkit, Wallet } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
-import { RPC_LIST, TZ_ADDRESS_ASSET, TZ_ADDRESS_MARKETPLACE, TZ_ADDRESS_PROFILE, TZ_ADDRESS_TOKEN, TZ_NETWORK } from '../constants';
+import { MINI_LOGO_URL, RPC_LIST, TZ_ADDRESS_ASSET, TZ_ADDRESS_MARKETPLACE, TZ_ADDRESS_PROFILE, TZ_ADDRESS_TOKEN, TZ_NETWORK } from '../constants';
 import { NetworkType } from '@airgap/beacon-sdk/dist/cjs/types/beacon/NetworkType';
 import {
   CollectCallData,
@@ -14,6 +14,7 @@ import {
   TradeTokenCallData
 } from '../types/contract';
 import { MichelsonV1Expression } from '@taquito/rpc';
+import { ColorMode } from '@airgap/beacon-sdk/dist/cjs/types/ColorMode';
 
 const addresses: Record<EContract, string> = {
   ASSET: TZ_ADDRESS_ASSET,
@@ -39,6 +40,9 @@ class WalletApi {
     // Init wallet
     this.wallet = new BeaconWallet({
       name: 'Contter',
+      appUrl: 'https://contter.com',
+      iconUrl: MINI_LOGO_URL,
+      colorMode: ColorMode.DARK,
       preferredNetwork: TZ_NETWORK as NetworkType
     });
   }
@@ -190,7 +194,7 @@ class WalletApi {
         {
           kind: OpKind.TRANSACTION,
           to: addresses.TOKEN,
-          fee: 1000,
+          fee: 1500,
           amount: 0,
           parameter: {
             entrypoint: 'update_operators',
@@ -208,7 +212,7 @@ class WalletApi {
             entrypoint: 'offer',
             value: listItemValue
           },
-          gasLimit: 100000,
+          gasLimit: 20000,
           storageLimit: 250
         }
       ])

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { IItem } from '../../types';
 import { displayPrice, ipfsToUrl } from '../../utils';
 import { IMAGE_MIMETYPES } from '../../constants';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
 const getUrl = (item: IItem) => {
   if (item.__typename === 'asset') {

@@ -11,7 +11,7 @@ interface IItemComp {
   align?: 'right' | 'left';
 }
 
-const ItemToken = ({ item, align }: IItemComp) => {
+const ItemToken = ({ item }: IItemComp) => {
   const size = useWindowSize();
   const formats = useMemo(() => item.metadata?.formats ?? [], [item]);
   const defaultMime = useMemo(() => formats.find((a) => a.mimeType.startsWith('image'))?.mimeType ?? '', [formats]);
@@ -75,7 +75,7 @@ const ItemToken = ({ item, align }: IItemComp) => {
                       .map((frmt) => (
                         <div key={frmt.mimeType} className={'w-full h-full relative'}>
                           {frmt.mimeType === MimeType.html ? <IframeToken url={iframeUrl} width={width} height={height} /> : null}
-                          {[MimeType.png, MimeType.jpeg].includes(frmt.mimeType as any) ? (
+                          {[MimeType.png, MimeType.jpeg].includes(frmt.mimeType as MimeType) ? (
                             <div
                               style={{
                                 backgroundSize: 'cover',

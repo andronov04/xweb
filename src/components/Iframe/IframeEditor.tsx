@@ -51,7 +51,6 @@ const IframeEditor = ({ onLoad, check }: { onLoad?: (e: any) => void; check?: bo
         }}
         onError={(e) => {
           setStatus('error');
-          console.log('e', e);
         }}
         width={'100%'}
         height={'100%'}

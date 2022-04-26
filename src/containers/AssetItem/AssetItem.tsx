@@ -32,9 +32,9 @@ const AssetItem = ({ item }: { item: IAsset }) => {
     <section>
       {item.flag !== IAssetFlag.NONE && (
         <Footnote type={item.flag === IAssetFlag.REVIEW ? 'info' : item.flag === IAssetFlag.HIDDEN ? 'warning' : 'error'}>
-          {item.flag === IAssetFlag.BANNED && <p>Banned</p>}
-          {item.flag === IAssetFlag.REVIEW && <p>Under Review</p>}
-          {item.flag === IAssetFlag.HIDDEN && <p>Hidden</p>}
+          {item.flag === IAssetFlag.BANNED && <p>Blocked. This asset violates our Code of Conduct.</p>}
+          {item.flag === IAssetFlag.REVIEW && <p>In moderation. This asset is undergoing moderation.</p>}
+          {item.flag === IAssetFlag.HIDDEN && <p>Hidden. This asset is hidden from everyone.</p>}
         </Footnote>
       )}
       <div className={'flex w-full items-center md:flex-row flex-col-reverse gap-x-8'}>

@@ -580,6 +580,7 @@ export const QL_GET_ACTION_BY_TOKEN = gql`
         name
         slug
       }
+      kind
       offer {
         id
         price

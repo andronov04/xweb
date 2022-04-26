@@ -25,7 +25,7 @@ interface IItems {
 const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeIds }: IItems) => {
   const size = useWindowSize();
   const [hasMore, setHasMore] = useState(true);
-  const { data, loading, fetchMore } = useQuery(query, {
+  const { data, fetchMore } = useQuery(query, {
     //, fetchMore, refetch
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'no-cache', // TODO Good check with cache pagination
@@ -125,7 +125,7 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
   }, [size, kind]);
 
   const structure = useMemo(() => {
-    const blocks: IItem[][] = new Array(column).fill(Boolean).map((_) => []);
+    const blocks: IItem[][] = new Array(column).fill(Boolean).map(() => []);
     let idx = 0;
     (items ?? [])
       .slice()

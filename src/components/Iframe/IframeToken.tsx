@@ -53,7 +53,7 @@ const IframeToken = ({ url, onLoad }: IIframeToken) => {
             onLoad?.(e);
           }
         }}
-        onError={(e) => {
+        onError={() => {
           setStatus('error');
         }}
         width={'100%'}

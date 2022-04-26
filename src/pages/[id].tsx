@@ -29,13 +29,9 @@ export default Profile;
 export async function getServerSideProps({ params }) {
   const { id: _id } = params;
   const id = _id.slice(1);
-  let data: any = {};
+  let data: { user: IUser[] } = { user: [] };
   try {
-    const {
-      data: _data,
-      networkStatus,
-      error
-    } = await GraphqlApi.query({
+    const { data: _data } = await GraphqlApi.query({
       query: QL_GET_USER,
       variables: { username: id },
       errorPolicy: 'all',

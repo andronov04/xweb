@@ -62,12 +62,14 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
           {error ? (
             <div>
               <p className={'text-red text-2xl'}>
-                Error // Could not find the confirmation <br />
+                Error // Confirmation is not found. <br />
+                Link to the transaction hash &ldquo;
                 <Link href={`${TZKT_URL}${opHash}`}>
                   <a target={'_blank'} rel={'noreferrer'} href={`${TZKT_URL}${opHash}`} className={'font-normal hover:opacity-80'}>
                     {opHash}
                   </a>
                 </Link>
+                &ldquo;
               </p>
               <p className={'text-inactive mt-6 text-lg'}>
                 Contact us at{' '}
@@ -76,10 +78,10 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
                     support@contter.com
                   </a>
                 </Link>{' '}
-                or go to our{' '}
+                or visit our{' '}
                 <Link href={'https://discord.gg/jAdcbHAbQE'}>
                   <a className={'text-active hover:opacity-80'} target={'_blank'} rel={'noreferrer'} href={'https://discord.gg/jAdcbHAbQE'}>
-                    discord server
+                    Discord server
                   </a>
                 </Link>
                 .
@@ -95,13 +97,14 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
           ) : (
             <div>
               <p className={'text-active text-2xl'}>
-                Waiting for blockchain confirmation
+                Wait for confirmation from the blockchain.
                 <br />
-                This can sometimes take up to two-minutes
+                This can take some time. Please, be patient.
               </p>
               <p className={'text-inactive mt-3 text-lg'}>
-                iI successful, you will be redirected to the result page. <br />
-                Don &apos;t close the page. In case of failure, rule 21 (Terms of Service) comes into effect.
+                In case of success, You will be redirected to a page with the result.
+                <br />
+                In case of failure, You will see an error message.
               </p>
             </div>
           )}

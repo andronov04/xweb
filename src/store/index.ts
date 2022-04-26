@@ -162,7 +162,8 @@ export const useStore = create<IStore>((set, get) => ({
               data: {
                 conf: {
                   ipfsPrefix: IPFS_PREFIX_URL
-                }
+                },
+                target: 'all'
               }
             },
             EDITOR_URL

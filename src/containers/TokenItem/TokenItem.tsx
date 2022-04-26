@@ -30,8 +30,8 @@ const TokenItem = ({ item }: { item: IToken }) => {
     <section>
       {item.flag !== ITokenFlag.NONE && (
         <Footnote type={item.flag === ITokenFlag.REVIEW ? 'info' : 'error'}>
-          {item.flag === ITokenFlag.BANNED && <p>Banned</p>}
-          {item.flag === ITokenFlag.REVIEW && <p>Under Review</p>}
+          {item.flag === ITokenFlag.BANNED && <p>Blocked. This token violates our Code of Conduct.</p>}
+          {item.flag === ITokenFlag.REVIEW && <p>In moderation. This token is undergoing moderation.</p>}
         </Footnote>
       )}
       <div className={'flex w-full items-start md:flex-row flex-col gap-x-8'}>
