@@ -1,7 +1,6 @@
 import { ContractAbstraction, OpKind, TezosToolkit, Wallet } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { MINI_LOGO_URL, RPC_LIST, TZ_ADDRESS_ASSET, TZ_ADDRESS_MARKETPLACE, TZ_ADDRESS_PROFILE, TZ_ADDRESS_TOKEN, TZ_NETWORK } from '../constants';
-import { NetworkType } from '@airgap/beacon-sdk/dist/cjs/types/beacon/NetworkType';
 import {
   CollectCallData,
   ContractCall,
@@ -14,7 +13,7 @@ import {
   TradeTokenCallData
 } from '../types/contract';
 import { MichelsonV1Expression } from '@taquito/rpc';
-import { ColorMode } from '@airgap/beacon-sdk/dist/cjs/types/ColorMode';
+import { ColorMode, NetworkType } from '@airgap/beacon-sdk';
 
 const addresses: Record<EContract, string> = {
   ASSET: TZ_ADDRESS_ASSET,
