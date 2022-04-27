@@ -29,6 +29,7 @@ export enum IUserFlag {
 export interface IUser {
   id: string;
   username?: string;
+  temp?: boolean;
   description?: string;
   avatarUri?: string;
   role?: IUserRole;

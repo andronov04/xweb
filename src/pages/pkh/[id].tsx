@@ -1,17 +1,17 @@
-import Page from '../containers/Page/Page';
+import Page from '../../containers/Page/Page';
 import Head from 'next/head';
-import GraphqlApi from '../api/GraphqlApi';
-import { QL_GET_USER } from '../api/queries';
-import { IUser } from '../types';
-import UserProfile from '../containers/UserProfile/UserProfile';
-import { ipfsToUrl } from '../utils';
+import GraphqlApi from '../../api/GraphqlApi';
+import { IUser } from '../../types';
+import UserProfile from '../../containers/UserProfile/UserProfile';
+import { ipfsToUrl } from '../../utils';
+import { QL_GET_USER_BY_ID } from '../../api/queries';
 
 const Profile = ({ user }: { user: IUser }) => {
   return (
     <Page>
       <Head>
-        <title>@{user?.username ?? user?.id} – Contter</title>
-        <meta key="og:title" property="og:title" content={`@${user?.username ?? user?.id} – Contter`} />
+        <title>{user?.id} – Contter</title>
+        <meta key="og:title" property="og:title" content={`${user?.id} – Contter`} />
         <meta key="description" name="description" content={user.description} />
         <meta key="og:description" property="og:description" content={user.description} />
         <meta key="og:type" property="og:type" content="website" />
@@ -28,19 +28,17 @@ export default Profile;
 
 export async function getServerSideProps({ params }) {
   const { id: _id } = params;
-  const id = _id.slice(1);
+  const id = _id;
   let data: { user: IUser[] } = { user: [] };
   try {
     const { data: _data } = await GraphqlApi.query({
-      query: QL_GET_USER,
-      variables: { username: id },
+      query: QL_GET_USER_BY_ID,
+      variables: { id },
       errorPolicy: 'all',
       fetchPolicy: 'no-cache'
     });
     data = _data;
   } catch (e) {
-    // TODO handle error
-    // console.log('e', e);
     return {
       props: {},
       notFound: true,
@@ -50,12 +48,11 @@ export async function getServerSideProps({ params }) {
       }
     };
   }
-  const user = data?.user?.find((a) => a.username === id);
+  let user = data?.user?.find((a) => a.username === id);
   if (!user) {
-    return {
-      redirect: {
-        destination: `/pkh/${id}`
-      }
+    user = {
+      id,
+      temp: true
     };
   }
 

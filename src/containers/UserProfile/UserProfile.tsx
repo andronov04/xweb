@@ -11,34 +11,71 @@ import UserItems from './UserItems';
 import Activity from '../../components/Activity/Activity';
 import { QL_GET_ACTION_BY_USER } from '../../api/queries';
 import Navs from '../../components/Navs/Navs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserEdit from './UserEdit';
 import { setMsg } from '../../services/snackbar';
 import Popup from 'reactjs-popup';
 import Footnote from '../../components/Library/Footnote/Footnote';
+import Loader from '../../components/Utils/Loader';
 
 const UserProfile = ({ user }: { user: IUser }) => {
+  const [loadUser, setLoadUser] = useState(true);
   const [editUser, setEditUser] = useState(false);
   const [stateUser, disconnectUser] = useStore((state) => [state.user, state.disconnectUser], shallow);
   const router = useRouter();
   const isCurrent = user.id === stateUser?.id;
-  const url = `/@${user.username ?? user.id}`;
+  let url = `/@${user.username ?? user.id}`;
 
+  const isPkh = router.asPath.startsWith('/pkh/');
   const isActivity = router.asPath.endsWith('activity');
   const isOwned = router.asPath.endsWith('owned');
   const isSales = router.asPath.endsWith('sales');
   const isCreated = !isActivity && !isOwned && !isSales;
+  if (isPkh) {
+    url = `/pkh/${url.slice(2)}`;
+  }
+
+  useEffect(() => {
+    if (user.temp && loadUser) {
+      // check exists pkh
+      fetch(`https://api.tzkt.io/v1/accounts/${user.id}`)
+        .then(async (response) => {
+          const data = await response.json();
+          if (data?.type === 'user') {
+            setLoadUser(false);
+          } else {
+            router.replace('/').then();
+          }
+        })
+        .catch((reason) => {
+          router.replace('/').then();
+        });
+    }
+  }, []);
+
+  if (user.temp && loadUser) {
+    return (
+      <div className={'flex justify-center items-center w-full h-full'}>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <>
       <>
-        {user.flag !== IUserFlag.NONE && (
+        {user.flag !== IUserFlag.NONE && !user.temp && (
           <Footnote type={user.flag === IUserFlag.REVIEW ? 'info' : user.flag === IUserFlag.LIMIT ? 'warning' : 'error'}>
             {user.flag === IUserFlag.BANNED && <p>Banned</p>}
             {user.flag === IUserFlag.REVIEW && <p>Under Review</p>}
             {user.flag === IUserFlag.LIMIT && <p>Limited</p>}
           </Footnote>
         )}
+        {user.temp ? (
+          <Footnote type={'warning'}>
+            <p className={'font-light'}>This account has not interacted with Contter contracts yet.</p>
+          </Footnote>
+        ) : null}
       </>
       {editUser ? (
         <UserEdit
@@ -117,10 +154,10 @@ const UserProfile = ({ user }: { user: IUser }) => {
 
       <Navs
         links={[
-          { url: url, active: isCreated, displayName: 'Created', pathname: '[id]' },
-          { url: `${url}/owned`, active: isOwned, displayName: 'Owned', pathname: '/[id]/owned' },
-          { url: `${url}/sales`, active: isSales, displayName: 'On sale', pathname: '/[id]/sales' },
-          { url: `${url}/activity`, active: isActivity, displayName: 'Activity', pathname: '/[id]/activity' }
+          { url: url, active: isCreated, displayName: 'Created', pathname: `${isPkh ? '/pkh/' : ''}[id]` },
+          { url: `${url}/owned`, active: isOwned, displayName: 'Owned', pathname: `${isPkh ? '/pkh/' : ''}[id]/owned` },
+          { url: `${url}/sales`, active: isSales, displayName: 'On sale', pathname: `${isPkh ? '/pkh/' : ''}[id]/sales` },
+          { url: `${url}/activity`, active: isActivity, displayName: 'Activity', pathname: `${isPkh ? '/pkh/' : ''}[id]/activity` }
         ]}
       />
 

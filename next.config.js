@@ -14,10 +14,20 @@ module.exports = {
         source: '/:id/activity',
         destination: '/:id'
       },
-      // {
-      //   source: '/:id/assets',
-      //   destination: '/:id'
-      // }
+
+      {
+        source: '/pkh/:id/owned',
+        destination: '/pkh/:id/'
+      },
+      {
+        source: '/pkh/:id/sales',
+        destination: '/pkh/:id/'
+      },
+      {
+        source: '/pkh/:id/activity',
+        destination: '/pkh/:id/'
+      },
+
       {
         source: '/token/:id/assets',
         destination: '/token/:id'

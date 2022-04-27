@@ -7,7 +7,7 @@ import ReactTimeAgo from 'react-time-ago';
 import Link from 'next/link';
 import { displayPrice } from '../../utils';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IAssetFlag, ITokenFlag } from '../../types';
 
 interface IVariable {
@@ -44,6 +44,7 @@ const Activity = ({ variables, query }: IItems) => {
   });
 
   const items = data?.action ?? [];
+  // TODO IF empty
   // console.log('items:::', items);
 
   const fetchNextMore = async () => {

@@ -24,6 +24,7 @@ export const QL_GET_USER_BY_ID = gql`
       username
       description
       role
+      flag
       avatarUri
       metadataUri
       metadata
