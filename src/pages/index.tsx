@@ -22,15 +22,7 @@ export default function Home() {
       <main>
         <section style={{ height: '50vh' }} className={'flex-col flex md:flex-row gap-x-10 justify-between items-center'}>
           <div className={'md:w-1/2 w-full'}>
-            <div className={'text-3xl md:text-left text-center font-medium'}>
-              <p>
-                A place where <span style={{ color: '#1EA2ED' }}>everyone</span> can
-              </p>
-              <p>
-                create <span style={{ color: '#E8D315' }}>art</span>, <span style={{ color: '#FF47CC' }}>design</span>
-                <span style={{ color: 'rgba(255,255,255,0.3)' }}>, and more</span>
-              </p>
-            </div>
+            <div className={'text-3xl md:text-left text-center font-medium'}>Endless creative possibilities</div>
           </div>
           <div className={'md:w-1/2 w-full h-full'}>
             <ConditionRender client>

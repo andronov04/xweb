@@ -1,5 +1,6 @@
 module.exports = {
   reactStrictMode: true,
+  optimizeFonts: false,
   async rewrites() {
     return [
       {

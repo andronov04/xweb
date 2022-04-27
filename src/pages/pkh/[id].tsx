@@ -48,7 +48,7 @@ export async function getServerSideProps({ params }) {
       }
     };
   }
-  let user = data?.user?.find((a) => a.username === id);
+  let user = data?.user?.find((a) => a.id === id);
   if (!user) {
     user = {
       id,
