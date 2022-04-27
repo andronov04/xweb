@@ -1,3 +1,6 @@
+import Link from 'next/link';
+import Spacing from '../Spacing/Spacing';
+
 const FAQ = () => {
   const navs = [
     {
@@ -7,50 +10,65 @@ const FAQ = () => {
         // return <div>TA collaborative platform, где каждый может создать, продать и купить NFT творения.</div>;
         return (
           <div>
-            <p>The web3 design platform and NFT marketplace on the Tezos blockchain</p>
+            <p>The web3 design platform and NFT marketplace on the Tezos blockchain.</p>
+            {/*<Spacing size={0.5} />*/}
+            <p>The platform where anyone can create, sell and buy NFT tokens.</p>
           </div>
         );
       }
     },
     {
-      title: 'What makes Contter different from others?',
+      title: 'What makes Contter different from the others?',
       key: 'different',
       desc: () => {
-        return <div>Тем, что каждое творение уникально. Каждый параметр минтед токена, не может использоваться дважды в создание любого другого творения.</div>;
+        return (
+          <div>
+            <p>Every NFT Token created with our platform is unique. Parameters of generated tokens can’t be reused to create new tokens.</p>
+
+            <p>Users can create tokens even without possessing any designing or programming skills.</p>
+          </div>
+        );
       }
     },
     {
-      title: 'How do i mint?',
+      title: 'How do i create and mint?',
       key: 'mint',
       desc: () => {
         return (
           <div>
-            Перейдите на страницу создания творения, где вам будет доступен редактор и ассеты*. Далее следуйте подсказками.
-            <br />
-            Вы не можете загружать свои творения из-за пределов платформы (кроме ассетов).
-            <br />
-            *В бета версии можно использовать только один ассет.
+            <p>Go to the token creation page, where you will gain access to the editor and assets.</p>
+            <p>In the beta you can only use one asset.</p>
+            <p>You can’t upload tokens from other sources to this platform (however, you can upload assets).</p>
           </div>
         );
       }
     },
     {
-      title: 'What is assets?',
-      key: 'assets',
+      title: 'What is an asset?',
+      key: 'asset',
       desc: () => {
         return (
           <div>
-            Это любой айтем (инструмент) который можно использовать в редакторе для создания своего творения. <br />
-            Ассет создается вне платформы с помощью SDK (подробнее на странице создания ассета).
+            <p>
+              It is any item (tool) that can be used in the editor to create your token. An asset is created outside of the platform with Moulder Framework
+              (further information is available on the asset creation page). All assets are free to use, but every asset gets royalties from the sell.
+            </p>
           </div>
         );
       }
     },
     {
-      title: 'How the editor works?',
+      title: 'How does the editor work?',
       key: 'editor',
       desc: () => {
-        return <div>Это среда из ассетов, инструментов и дополнительных фич, способствующие простому и понятному созданию своего творения.</div>;
+        return (
+          <div>
+            <p>
+              It is an environment of assets, tools and other features that provide clear and simple experience of token creation. By changing asset parameters
+              you can generate different design variations.
+            </p>
+          </div>
+        );
       }
     },
     {
@@ -59,17 +77,25 @@ const FAQ = () => {
       desc: () => {
         return (
           <div>
-            Для создателя творения 0-20%. Для создателя ассета 0-20% (при использование больше одного ассета в творении: роялти делится исходя из процентов
-            каждого создателя ассета из общей суммы процентов, но не больше 20%).
+            <p>0-20% for creator of the token.</p>
+            <p>
+              0-20% for creator of the asset. If several assets from different creators were used in the token, then royalties are calculated based on the
+              percentage of the use of every asset. If the final sum is more than 20%, then every asset’s percentage of 20% is calculated (i.e. percentage of a
+              percentage is calculated and in this equation 20% acts like 100%).
+            </p>
           </div>
         );
       }
     },
     {
-      title: 'Are there platform fees?',
+      title: 'What about the platform fees?',
       key: 'fees',
       desc: () => {
-        return <div>3% за транзакцию.</div>;
+        return (
+          <div>
+            <p>3% of token purchase.</p>
+          </div>
+        );
       }
     },
     {
@@ -78,25 +104,53 @@ const FAQ = () => {
       desc: () => {
         return (
           <div>
-            Все творения принадлежат создателю творения. Создателю ассета принадлежит своей собственный ассет, но не творения созданные с помощью его ассета. В
-            случае если вы думаете, что кто-то или что-то нарушает авторские права, напишите нам.
+            <p>
+              Creator of the token owns copyright to this token. Creator of the asset owns copyright to this asset, but not to the tokens created with this
+              asset. More on licensing and copyright (
+              <Link href={'/code-of-conduct'}>
+                <a href={'/code-of-conduct'} className={'hover:opacity-80 cursor-pointer underline'}>
+                  paragraph 10 in Code of Conduct
+                </a>
+              </Link>
+              ).
+            </p>
+            <br />
+            <p>
+              <Link href={'mailto:support@contter.com'}>
+                <a href={'mailto:support@contter.com'} className={'hover:opacity-80 cursor-pointer underline'}>
+                  Contact us
+                </a>
+              </Link>{' '}
+              if you suspect someone or something violates the copyright.
+            </p>
           </div>
         );
       }
     },
     {
-      title: 'What technologies are used?',
+      title: 'Which technologies are used?',
       key: 'technologies',
       desc: () => {
-        return <div>Платформа основана на Тезос-блокчейне, для хранения используется IPFS, обработка идет через Pinata.</div>;
+        return (
+          <div>
+            <p>
+              Platform uses Tezos blockchain. All assets and tokens are stored in distributed file system (IPFS). Smart contracts are written in SmartPy.
+              tzkt.io is used for indexation and API.
+            </p>
+            <br />
+            <p>Moulder Framework is used for asset creation (distributed under free-software license).</p>
+          </div>
+        );
       }
     },
     {
-      title: 'What are the future plans?',
+      title: 'What are our plans for the future?',
       key: 'future',
       desc: () => {
         return (
-          <div>Перейти к стабильной версии платформы. Планируется поддержка нескольких ассетов, что позволит создавать еще более потрясающие творения.</div>
+          <div>
+            <p>Go to a stable version of the platform. Support of multiple assets, which will allow to create even more marvelous artworks, is in plans.</p>
+          </div>
         );
       }
     },
@@ -106,16 +160,41 @@ const FAQ = () => {
       desc: () => {
         return (
           <div>
-            Могут быть баги и ошибки, приносим свои извинения. Ограничен функционал; не работает редактирование профиля; редактирования своего контента.
+            <p>
+              There can be bugs and errors present, for which we apologize in advance. Furthermore, in the future we may update contracts, API, UI/UX, etc. We
+              announce all updates for this platform on our{' '}
+              <Link href={'https://discord.gg/jAdcbHAbQE'}>
+                <a target={'_blank'} href={'https://discord.gg/jAdcbHAbQE'} rel={'noreferrer'} className={'hover:opacity-80 cursor-pointer underline'}>
+                  discord server
+                </a>
+              </Link>
+              .
+            </p>
           </div>
         );
       }
     },
     {
-      title: 'Остались еще вопросы?',
+      title: 'Still have questions?',
       key: 'questions',
       desc: () => {
-        return <div>Свяжитесь с нами по почте support@contter.com или перейти в наш дискорд сервер.</div>;
+        return (
+          <div>
+            Contact us at{' '}
+            <Link href={'mailto:support@contter.com'}>
+              <a href={'mailto:support@contter.com'} className={'hover:opacity-80 cursor-pointer underline'}>
+                support@contter.com
+              </a>
+            </Link>{' '}
+            or visit our{' '}
+            <Link href={'https://discord.gg/jAdcbHAbQE'}>
+              <a target={'_blank'} href={'https://discord.gg/jAdcbHAbQE'} rel={'noreferrer'} className={'hover:opacity-80 cursor-pointer underline'}>
+                discord server
+              </a>
+            </Link>
+            .
+          </div>
+        );
       }
     }
   ];
