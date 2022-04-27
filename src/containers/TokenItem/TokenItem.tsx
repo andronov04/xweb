@@ -40,7 +40,10 @@ const TokenItem = ({ item }: { item: IToken }) => {
         </div>
         <div className={'flex-grow'}>
           <div>
-            <h1 className={'text-active text-2xl'}>{item.name}</h1>
+            <h1 className={'text-active text-2xl'}>
+              {item.name}
+              <span className={'hidden'}> {item.id}</span>
+            </h1>
             <p className={'text-inactive text-base'}>
               Owned by{' '}
               <Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
@@ -55,11 +58,13 @@ const TokenItem = ({ item }: { item: IToken }) => {
           {item.metadata?.isTransferable && (
             <div className={'mt-10'}>
               <ConditionRender client>
-                {(currentUser?.id === item.user?.id && item?.owner?.id === undefined) || currentUser?.id === item.owner?.id ? (
-                  <TradeAction item={item} />
-                ) : item.offer ? (
-                  <PurchaseAction item={item} />
-                ) : null}
+                <>
+                  {(currentUser?.id === item.user?.id && item?.owner?.id === undefined) || currentUser?.id === item.owner?.id ? (
+                    <TradeAction item={item} />
+                  ) : item.offer ? (
+                    <PurchaseAction item={item} />
+                  ) : null}
+                </>
               </ConditionRender>
             </div>
           )}

@@ -41,7 +41,10 @@ const AssetItem = ({ item }: { item: IAsset }) => {
         <div className={'flex-grow flex md:h-96 h-auto md:w-auto w-full flex-col justify-between'}>
           <div>
             <div>
-              <h1 className={'text-active text-2xl'}>{item.name}</h1>
+              <h1 className={'text-active text-2xl'}>
+                {item.name}
+                <span className={'hidden'}> {item.id}</span>
+              </h1>
               <p className={'text-inactive text-base'}>
                 {tokens ? (
                   <span>

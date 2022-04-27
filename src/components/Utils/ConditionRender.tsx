@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 export interface ConditionRenderProps {
   client?: boolean;
   server?: boolean;
+  children: React.ReactElement;
 }
 
 const ConditionRender: React.FC<ConditionRenderProps> = (props) => {
