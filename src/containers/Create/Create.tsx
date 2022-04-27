@@ -8,6 +8,7 @@ import { useMemo } from 'react';
 const Create = () => {
   const { data, loading, fetchMore, refetch } = useQuery(QL_GET_SCRIPTS, {
     notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'no-cache',
     variables: {
       offset: 0,
       limit: ITEMS_PER_PAGE

@@ -1,11 +1,25 @@
 import { ContractAbstraction, TezosToolkit, Wallet } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
-import { RPC_LIST, TZ_ADDRESS_ASSET, TZ_NETWORK } from '../constants';
-import { NetworkType } from '@airgap/beacon-sdk/dist/cjs/types/beacon/NetworkType';
-import { ContractCall, ContractRequestStatus, EContract, MintAssetCallData } from '../types/contract';
+import { MINI_LOGO_URL, RPC_LIST, TZ_ADDRESS_ASSET, TZ_ADDRESS_MARKETPLACE, TZ_ADDRESS_PROFILE, TZ_ADDRESS_TOKEN, TZ_NETWORK } from '../constants';
+import {
+  CollectCallData,
+  ContractCall,
+  ContractRequestStatus,
+  EContract,
+  MintAssetCallData,
+  MintStatusCallData,
+  MintTokenCallData,
+  MintUpdProfileCallData,
+  TradeTokenCallData
+} from '../types/contract';
+import { MichelsonV1Expression } from '@taquito/rpc';
+import { ColorMode, NetworkType } from '@airgap/beacon-sdk';
 
 const addresses: Record<EContract, string> = {
-  ASSET: TZ_ADDRESS_ASSET
+  ASSET: TZ_ADDRESS_ASSET,
+  TOKEN: TZ_ADDRESS_TOKEN,
+  MARKETPLACE: TZ_ADDRESS_MARKETPLACE,
+  PROFILE: TZ_ADDRESS_PROFILE
 };
 
 class WalletApi {
@@ -13,7 +27,10 @@ class WalletApi {
   rpcl: string[] = [];
   tzToolkit: TezosToolkit;
   contracts: Record<EContract, ContractAbstraction<Wallet> | null> = {
-    ASSET: null
+    ASSET: null,
+    TOKEN: null,
+    MARKETPLACE: null,
+    PROFILE: null
   };
 
   constructor() {
@@ -21,9 +38,23 @@ class WalletApi {
     this.tzToolkit = new TezosToolkit(this.rpcl[0]);
     // Init wallet
     this.wallet = new BeaconWallet({
-      name: 'art3s',
+      name: 'Contter',
+      appUrl: 'https://contter.com',
+      iconUrl: MINI_LOGO_URL,
+      colorMode: ColorMode.DARK,
       preferredNetwork: TZ_NETWORK as NetworkType
     });
+  }
+
+  async disconnect(): Promise<void> {
+    await this.wallet.disconnect();
+    this.tzToolkit.setWalletProvider(this.wallet);
+    this.contracts = {
+      ASSET: null,
+      TOKEN: null,
+      MARKETPLACE: null,
+      PROFILE: null
+    };
   }
 
   async connect(): Promise<string | false> {
@@ -63,17 +94,91 @@ class WalletApi {
       return false;
     }
   }
+
   mintAsset: ContractCall<MintAssetCallData> = async (tzData, requestCallback) => {
     const contract = await this.getContract(EContract.ASSET);
 
     requestCallback(ContractRequestStatus.CALLING);
+    const opSend = await contract.methodsObject.mint_asset(tzData).send();
+
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
+  };
+
+  mintToken: ContractCall<MintTokenCallData> = async (tzData, requestCallback) => {
+    const contract = await this.getContract(EContract.TOKEN);
+
+    requestCallback(ContractRequestStatus.CALLING);
     const opSend = await contract.methodsObject.mint(tzData).send();
 
-    console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
-    // await isOperationApplied(opSend.opHash)
 
-    // OK, injected
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
+  };
+
+  // To cancel token to marketplace
+  cancelOffer: ContractCall<number> = async (offerId, requestCallback) => {
+    const contract = await this.getContract(EContract.MARKETPLACE);
+
+    requestCallback(ContractRequestStatus.CALLING);
+    const opSend = await contract.methodsObject.cancel_offer(offerId).send();
+
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
+  };
+
+  // To trade token to marketplace
+  tradeToken: ContractCall<TradeTokenCallData> = async (tzData, requestCallback) => {
+    const contract = await this.getContract(EContract.MARKETPLACE);
+    const opSend = await contract.methodsObject
+      .offer({
+        price: tzData.price,
+        token_id: tzData.tokenId
+      })
+      .send();
+
+    // wait
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
+  };
+
+  statusAsset: ContractCall<MintStatusCallData> = async (tzData, requestCallback) => {
+    const contract = await this.getContract(EContract.ASSET);
+
+    requestCallback(ContractRequestStatus.CALLING);
+    const opSend = await contract.methodsObject.status_asset(tzData).send();
+
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
+  };
+
+  collect: ContractCall<CollectCallData> = async (tzData, requestCallback) => {
+    const contract = await this.getContract(EContract.MARKETPLACE);
+
+    requestCallback(ContractRequestStatus.CALLING);
+    const opSend = await contract.methodsObject.collect(tzData.id).send({
+      mutez: true,
+      amount: tzData.price,
+      storageLimit: 150
+    });
+
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
+  };
+
+  updateProfile: ContractCall<MintUpdProfileCallData> = async (tzData, requestCallback) => {
+    const contract = await this.getContract(EContract.PROFILE);
+
+    requestCallback(ContractRequestStatus.CALLING);
+    const opSend = await contract.methodsObject.update(tzData).send();
+
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+
     requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
   };
 }

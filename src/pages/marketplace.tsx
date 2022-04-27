@@ -8,8 +8,8 @@ export default function MarketplacePage() {
   return (
     <Page>
       <Head>
-        <title>Marketplace – xweb</title>
-        <meta key="og:title" property="og:title" content={'Marketplace – xweb'} />
+        <title>Marketplace – Contter</title>
+        <meta key="og:title" property="og:title" content={'Marketplace – Contter'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />

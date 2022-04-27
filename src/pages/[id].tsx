@@ -10,12 +10,12 @@ const Profile = ({ user }: { user: IUser }) => {
   return (
     <Page>
       <Head>
-        <title>@{user?.username ?? user?.id} – xweb</title>
-        <meta key="og:title" property="og:title" content={`@${user?.username ?? user?.id} – xweb`} />
+        <title>@{user?.username ?? user?.id} – Contter</title>
+        <meta key="og:title" property="og:title" content={`@${user?.username ?? user?.id} – Contter`} />
         <meta key="description" name="description" content={user.description} />
         <meta key="og:description" property="og:description" content={user.description} />
         <meta key="og:type" property="og:type" content="website" />
-        <meta key="og:image" property="og:image" content={ipfsToUrl(user.avatar_uri || '')} />
+        <meta key="og:image" property="og:image" content={ipfsToUrl(user.avatarUri || '')} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -29,14 +29,37 @@ export default Profile;
 export async function getServerSideProps({ params }) {
   const { id: _id } = params;
   const id = _id.slice(1);
-  const { data } = await GraphqlApi.query({
-    query: QL_GET_USER,
-    variables: { username: id }
-  });
+  let data: { user: IUser[] } = { user: [] };
+  try {
+    const { data: _data } = await GraphqlApi.query({
+      query: QL_GET_USER,
+      variables: { username: id },
+      errorPolicy: 'all',
+      fetchPolicy: 'no-cache'
+    });
+    data = _data;
+  } catch (e) {
+    return {
+      props: {},
+      notFound: true,
+      redirect: {
+        destination: '/',
+        permanent: 410
+      }
+    };
+  }
+  const user = data?.user?.find((a) => a.username === id);
+  if (!user) {
+    return {
+      redirect: {
+        destination: `/pkh/${id}`
+      }
+    };
+  }
 
   return {
     props: {
-      user: data.users.find((a) => a.username === id) ?? { id }
+      user: user
     }
   };
 }

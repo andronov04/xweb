@@ -1,40 +1,30 @@
-import { DocumentNode, useQuery } from '@apollo/client';
-import { ITEMS_PER_PAGE } from '../../constants';
-import Loader from '../../components/Utils/Loader';
-import { IItem, IUser } from '../../types';
-import { useMemo } from 'react';
-// import Items from '../Items/Items';
+import { IUser } from '../../types';
+import { useRouter } from 'next/router';
+import { QL_GET_TOKEN_OWNED_ITEMS_BY_USER, QL_GET_TOKEN_SALES_ITEMS_BY_USER, QL_GET_CREATED_BY_USER } from '../../api/queries';
+import Items from '../../components/Items/Items';
 
-export interface IUserItemsVariables {
-  [key: string]: string | number;
-}
-
-interface IUserItems {
-  user: IUser;
-  query: DocumentNode;
-  variables: IUserItemsVariables;
-  price: boolean;
-}
-
-const UserItems = ({ user, query, price, variables }: IUserItems) => {
-  const { data, loading, fetchMore, refetch } = useQuery(query, {
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      offset: 0,
-      limit: ITEMS_PER_PAGE,
-      ...variables
-    }
-  });
-  const items = useMemo<IItem[]>(() => {
-    const items = (data?.scripts ?? []).concat(data?.tokens ?? []);
-    return items.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
-  }, [data]);
+const UserItems = ({ user }: { user: IUser }) => {
+  const router = useRouter();
+  let query = QL_GET_CREATED_BY_USER;
+  let variables: any = { userId: user.id };
+  let kind: string | string[] = ['token', 'asset'];
+  let mode: any = 'all';
+  if (router.asPath.endsWith('owned')) {
+    query = QL_GET_TOKEN_OWNED_ITEMS_BY_USER;
+    variables = { ownerId: user.id };
+    mode = 'normal';
+  }
+  if (router.asPath.endsWith('sales')) {
+    query = QL_GET_TOKEN_SALES_ITEMS_BY_USER;
+    variables = { userId: user.id };
+    kind = 'offer';
+    mode = 'offer';
+  }
 
   return (
-    <main>
-      {loading && <Loader className={'mt-32'} />}
-      {/*<Items items={items} price={price} />*/}
-    </main>
+    <>
+      <Items key={mode} kind={kind} mode={mode} query={query} variables={variables} />
+    </>
   );
 };
 

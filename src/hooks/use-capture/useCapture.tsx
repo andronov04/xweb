@@ -1,5 +1,5 @@
 import React, { RefObject, useEffect } from 'react';
-import { FILE_API_CAPTURE_IMG_URL, MESSAGE_GET_CAPTURE_IMG, MESSAGE_GET_DIGEST } from '../../constants';
+import { FILE_API_CAPTURE_IMG_URL, USE_COMPLETE_CAPTURE, USE_RESPONSE_ASSET_CAPTURE, USE_RESPONSE_CAPTURE, USE_RESPONSE_TOKEN_CAPTURE } from '../../constants';
 import { postFetch } from '../../api/RestApi';
 
 interface ICapture {}
@@ -14,7 +14,6 @@ interface ICaptureSetup {
 }
 
 const createCapture = (props: ICapture, updater: () => void) => {
-  console.log('captureControl');
   // TODO Unmount addEventListener
   let _controlState = {
     loading: false,
@@ -42,9 +41,9 @@ const createCapture = (props: ICapture, updater: () => void) => {
       window.addEventListener(
         'message',
         (event) => {
-          if (event.data?.type === MESSAGE_GET_CAPTURE_IMG) {
-            console.log('MESSAGE_GET_CAPTURE_IMG', event.data);
-            setState({ status: 'Upload image to ipfs...' });
+          // TODO Capture for token and asset
+          if (event.data?.type === USE_RESPONSE_ASSET_CAPTURE || event.data?.type === USE_RESPONSE_TOKEN_CAPTURE || event.data?.type === USE_RESPONSE_CAPTURE) {
+            setState({ status: 'Uploading...' });
             const formData = new FormData();
             formData.append('file', event.data.data.blob);
             postFetch(FILE_API_CAPTURE_IMG_URL, formData)
@@ -53,7 +52,6 @@ const createCapture = (props: ICapture, updater: () => void) => {
                 setState({ loading: false, status: '', data: { ...data, hash: event.data.data.hash } });
               })
               .catch((e) => {
-                console.log('error', e);
                 setState({ loading: false, status: '' });
               });
           }
@@ -103,14 +101,12 @@ export const useCapture = (props: ICapture = {}) => {
   const control = _reference.current?.control;
   const callback = React.useCallback(() => {
     const newState = _reference.current.control._controlState;
-    // console.log('upd', newState);
     setCaptureState({ ...newState });
   }, [control]);
 
   useEffect(() => {
     return () => {
       // TODO Unmount addEventListener
-      console.log('unmount');
     };
   }, []);
 

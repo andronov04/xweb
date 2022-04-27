@@ -1,38 +1,53 @@
 import { IAsset, IUser } from './index';
 
-export interface ITempAsset {
-  kind: 'style' | null;
+export interface IPreviewMedia {
   cid: string;
-  requestHash: string;
-  previews: string[];
   hash: string;
-  setPreview: (previews: string[], hash: string) => void;
-  setAsset: (cid: string, requestHash: string, kind: 'style') => void;
+  // mimetype
 }
 
-export interface ITempArt {
+export interface ITempAsset {
+  cid: string;
+  requestHash: string;
+  previews: IPreviewMedia[];
+  hash: string;
+  addPreview: (cid: string, hash: string) => void;
+  setAsset: (cid: string, requestHash: string) => void;
+}
+
+export interface ITempToken {
   assets: IAsset[];
-  setAssets: (assets: IAsset[]) => void;
+  state?: any;
+  previews: IPreviewMedia[];
+  addPreview: (cid: string, hash: string) => void;
+  addAsset: (asset: IAsset) => void;
+  removeAsset: (asset: IAsset) => void;
   setProxy: (proxy: WindowProxy) => void;
   emit: () => void;
   generate: () => void;
+  prepare: () => Promise<void>;
   digest: string;
+  isProxy: boolean;
+  cid: string;
+
+  setCid: (cid: string) => void;
 }
 
 export interface IMessageBar {
-  kind: 'error' | 'warn' | 'info' | 'success';
-  title: string;
+  kind?: 'error' | 'warn' | 'info' | 'success';
+  title?: string;
   description?: string;
+  autoClose?: number | boolean;
+  block?: boolean;
+  clear?: boolean;
 }
 
 export interface IStore {
   asset: ITempAsset;
-  art: ITempArt;
-
-  message: IMessageBar | null;
-  setMessage: (message: IMessageBar | null) => void;
+  token: ITempToken;
 
   user: IUser | null;
   connectUser: () => Promise<void>;
+  disconnectUser: () => Promise<void>;
   initUser: () => Promise<void>;
 }

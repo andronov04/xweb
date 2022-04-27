@@ -7,8 +7,8 @@ export default function BasePage() {
   return (
     <Page>
       <Head>
-        <title>create – art3s</title>
-        <meta key="og:title" property="og:title" content={'create – art3s'} />
+        <title>Create – Contter</title>
+        <meta key="og:title" property="og:title" content={'Create – Contter'} />
         <meta key="description" name="description" content={DESCRIPTION_SEO} />
         <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
         <meta key="og:type" property="og:type" content="website" />
@@ -17,19 +17,18 @@ export default function BasePage() {
       </Head>
 
       <div className={'flex justify-center'}>
-        <div className={'max-w-md w-full text-inactive font-thin'}>
-          <Link href={'/create/art'}>
-            <a href={'/create/art'}>
-              <div className={'cursor-pointer bg-dart2C p-4 rounded-sm hover:opacity-80'}>
-                <h2 className={'text-xl'}>create your own art</h2>
-                <p>Using assets and an editor, create unique and non-repeating art</p>
+        <div className={'max-w-md w-full text-inactive font-normal'}>
+          <Link href={'/create/token'}>
+            <a href={'/create/token'}>
+              <div className={'cursor-pointer  text-center bg-dart2C p-4 rounded-md hover:opacity-80'}>
+                <h2 className={'text-lg'}>Create and mint your own NFT</h2>
               </div>
             </a>
           </Link>
-          <div className={'text-right mt-4'}>
-            <Link href={'/create/asset'}>
-              <a href={'/create/asset'} className={'hover:opacity-80'}>
-                create an asset
+          <div className={'text-lg text-center mt-4'}>
+            <Link href={'/upload/asset'}>
+              <a href={'/upload/asset'} className={'hover:opacity-80'}>
+                Upload asset
               </a>
             </Link>
           </div>

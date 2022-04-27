@@ -1,8 +1,8 @@
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import SnackBar from '../SnackBar/SnackBar';
 import { useStore } from '../../store';
 import { useAsync } from 'react-async-hook';
+import '../../api/ListenerApi';
 
 export default function Page({ children }) {
   const initUser = useStore((state) => state.initUser);
@@ -11,12 +11,19 @@ export default function Page({ children }) {
     await initUser();
   }, []);
 
+  //  sm:mx-auto
   return (
-    <div className={'p-10 w-full'}>
+    <div className={'font-normal p-5 pb-0 max-w-4xl mx-auto flex flex-col h-full'}>
       <Header />
-      <SnackBar />
 
-      <main id={'main'} className={'my-20 flex-grow w-full h-auto'}>
+      <main
+        style={{
+          minHeight: 'fit-content',
+          height: 'auto'
+        }}
+        id={'main'}
+        className={'my-10 flex-grow w-full h-full'}
+      >
         {children}
       </main>
 

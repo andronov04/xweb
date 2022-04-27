@@ -1,12 +1,13 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GRAPHQL_API_KEY, GRAPHQL_API_URL, GRAPHQL_API_WS_URL } from '../constants';
+import { GRAPHQL_API_URL, GRAPHQL_API_WS_URL } from '../constants';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 
+// TODO Check credentials and production mode
 const createHttpLink = (headers) => {
   return new HttpLink({
     uri: GRAPHQL_API_URL,
-    credentials: 'include',
+    // credentials: 'include',
     headers, // auth token is fetched on the server side
     fetch
   });
@@ -30,14 +31,22 @@ const initClient = () => {
   const ssrMode = typeof window === 'undefined';
   let link;
   if (ssrMode) {
-    link = createHttpLink({ 'x-hasura-admin-secret': GRAPHQL_API_KEY });
+    link = createHttpLink({ 'x-hasura-role': 'user' });
   } else {
-    link = createWSLink({ 'x-hasura-admin-secret': GRAPHQL_API_KEY });
+    link = createWSLink({ 'x-hasura-role': 'user' });
   }
   return new ApolloClient({
     ssrMode,
     link,
     cache: new InMemoryCache().restore({})
+    // defaultOptions: {
+    //   watchQuery: {
+    //     fetchPolicy: 'no-cache'
+    //   },
+    //   query: {
+    //     fetchPolicy: 'no-cache'
+    //   }
+    // }
   });
 };
 

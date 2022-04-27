@@ -1,5 +1,10 @@
 module.exports = {
-  content: ['./src/containers/**/*.{js,ts,jsx,tsx}', './src/pages/**/*.{js,ts,jsx,tsx}', './src/components/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './src/containers/**/*.{js,ts,jsx,tsx}',
+    './src/services/**/*.{js,ts,jsx,tsx}',
+    './src/pages/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}'
+  ],
   variants: {
     extend: {
       margin: ['last', 'first'],
@@ -12,10 +17,25 @@ module.exports = {
   },
   darkMode: 'class',
   theme: {
+    container: {
+      center: true
+    },
     fontFamily: {
       sans: ['Mohave', 'sans-serif'],
       display: ['Mohave'],
       body: ['Mohave']
+    },
+    fontWeight: {
+      'extra-light': 100,
+      thin: 200,
+      light: 300,
+      normal: 400,
+      medium: 500,
+      semibold: 600,
+      bold: 700,
+      extrabold: 800,
+      'extra-bold': 800,
+      black: 900
     },
     fontSize: {
       point: '.4rem',
@@ -26,7 +46,7 @@ module.exports = {
       tiny: '.875rem',
       base: '1rem',
       lg: '1.125rem',
-      xl: '1.25rem',
+      xl: '1.3rem',
       '2xl': '1.5rem',
       '3xl': '1.875rem',
       '4xl': '2.25rem',
@@ -57,6 +77,9 @@ module.exports = {
         w24: '24px',
         w130: '130px'
       },
+      gap: {
+        8: '2rem'
+      },
       height: {
         h28: '28px',
         h24: '24px',
@@ -70,10 +93,14 @@ module.exports = {
         white10: 'rgba(255, 255, 255, 0.1)',
         white20: 'rgba(255, 255, 255, 0.2)',
         white30: 'rgba(255, 255, 255, 0.3)',
+        blackopacity: 'rgba(0, 0, 0, 0.65)',
         warn: '#FF6D03',
+        red: '#E73131',
         green: '#5AFB1E',
         dark: '#101010',
+        black20: '#202020',
         dark21: '#212121',
+        dark4A: '#4A4C50',
         dart2C: '#2c2c2c'
       },
       fontSize: {
@@ -83,17 +110,17 @@ module.exports = {
         '6xl': '2.75rem',
         '7xl': '4.5rem',
         '8xl': '6.25rem'
-      },
-      screens: {
-        tablet: '640px',
-        // => @media (min-width: 640px) { ... }
-
-        laptop: '1024px',
-        // => @media (min-width: 1024px) { ... }
-
-        desktop: '1280px'
-        // => @media (min-width: 1280px) { ... }
       }
+      // screens: {
+      //   tablet: '640px',
+      //   // => @media (min-width: 640px) { ... }
+      //
+      //   laptop: '1024px',
+      //   // => @media (min-width: 1024px) { ... }
+      //
+      //   desktop: '1280px'
+      //   // => @media (min-width: 1280px) { ... }
+      // }
     }
   }
 };
