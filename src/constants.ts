@@ -1,6 +1,10 @@
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;
-export const RPC_LIST = process.env.NEXT_PUBLIC_RPC_LIST ?? 'https://mainnet.api.tez.ie,https://mainnet.smartpy.io';
-export const TZ_NETWORK = process.env.NEXT_PUBLIC_TZ_NETWORK ?? 'hangzhounet';
+export const RPC_LIST =
+  process.env.NEXT_PUBLIC_RPC_LIST ??
+  'https://mainnet.api.tez.ie,https://mainnet.smartpy.io,https://rpc.tzbeta.net,https://mainnet-tezos.giganode.io,https://teznode.letzbake.com';
+// https://rpc.contter.com,
+// https://ithacanet.ecadinfra.com,https://ithacanet.smartpy.io,https://rpczero.tzbeta.net
+export const TZ_NETWORK = process.env.NEXT_PUBLIC_TZ_NETWORK ?? 'ithacanet';
 export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https://graph.art3s.xyz/v1/graphql';
 export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://graph.art3s.xyz/v1/graphql';
 export const IPFS_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_PREFIX_URL ?? 'https://contter.mypinata.cloud/ipfs/';
