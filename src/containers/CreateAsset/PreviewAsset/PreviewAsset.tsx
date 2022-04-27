@@ -52,14 +52,14 @@ const PreviewAsset = () => {
     <section>
       <div className={'flex w-full justify-between items-center'}>
         <div className={'text-right'}>
-          <i className={'font-thin text-sm opacity-90 text-warn'}>Warning: This is just a check, no state changes in your asset. </i>
+          <i className={'font-thin text-sm opacity-90 text-warn'}>Warning: this is a test run, changes will not be saved!</i>
         </div>
 
         <div className={'w-1/3 text-right space-x-2'}>
-          <span className={'font-normal text-inactive text-sm'}>details and publish</span>
+          <span className={'font-normal text-inactive text-sm'}>Details and publish</span>
           <Link href={'/upload/asset/publish'}>
             <a href={'/upload/asset/publish'}>
-              <CustomButton style={'white'} value={'next step'} />
+              <CustomButton style={'white'} value={'Next step'} />
             </a>
           </Link>
         </div>

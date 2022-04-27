@@ -10,10 +10,10 @@ interface IInput {
   type?: HTMLInputTypeAttribute | 'textarea' | undefined;
 }
 const Input = ({ register, label, type, placeholder, defaultValue, min }: IInput) => (
-  <div className={'flex font-thin flex-col'}>
+  <div className={'flex font-normal flex-col'}>
     {label && <label className={'text-inactive'}>{label}</label>}
     {type === 'textarea' ? (
-      <textarea {...register} defaultValue={defaultValue} placeholder={placeholder} className={'rounded-md border border-solid font-thin bg-black p-2'} />
+      <textarea {...register} defaultValue={defaultValue} placeholder={placeholder} className={'rounded-md border border-solid bg-black p-2'} />
     ) : (
       <input
         defaultValue={defaultValue}
@@ -22,7 +22,7 @@ const Input = ({ register, label, type, placeholder, defaultValue, min }: IInput
         min={min}
         step={'any'}
         placeholder={placeholder}
-        className={'rounded-md border border-solid font-thin bg-black p-2'}
+        className={'rounded-md border-2 border-whitegrey focus:border-active border-solid bg-black p-2'}
       />
     )}
   </div>

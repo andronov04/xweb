@@ -28,7 +28,7 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
   const { data, fetchMore } = useQuery(query, {
     //, fetchMore, refetch
     notifyOnNetworkStatusChange: true,
-    fetchPolicy: 'no-cache', // TODO Good check with cache pagination
+    // fetchPolicy: 'no-cache', // TODO Good check with cache pagination
     variables: {
       offset: 0,
       limit: ITEMS_PER_PAGE,
@@ -60,7 +60,7 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
       query: query,
       variables: {
         ...variables,
-        offset: list.length + ITEMS_PER_PAGE,
+        offset: list.length,
         limit: ITEMS_PER_PAGE
       },
       updateQuery: (prev: any, { fetchMoreResult }: any) => {
@@ -157,9 +157,9 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
             <div
               key={i}
               style={{
-                width: `calc((100% - (20px * (${column} - 1))) / ${column})`
+                width: `calc((100% - (10px * (${column} - 1))) / ${column})`
               }}
-              className={'flex-col flex gap-y-4'}
+              className={'flex-col flex gap-y-2'}
             >
               {items.map((item) => (
                 <Item

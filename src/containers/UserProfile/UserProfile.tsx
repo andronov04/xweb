@@ -109,7 +109,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
                 >
                   <Popup
                     trigger={() => (
-                      <span className={'md:text-base text-xs cursor-pointer'}>
+                      <span className={'md:text-base font-normal text-xs cursor-pointer'}>
                         {user.id.slice(0, 4)}...{user.id.slice(-4)}
                       </span>
                     )}

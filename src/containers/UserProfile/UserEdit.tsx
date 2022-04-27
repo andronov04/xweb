@@ -93,9 +93,7 @@ const UserEdit = ({ user, onCancel }: { user: IUser; onCancel: () => void }) => 
           setAvatarUri(reader.result);
         }
       };
-      reader.onerror = function (error) {
-        // console.log('Error: ', error);
-      };
+      reader.onerror = function (error) {};
     }
   };
 

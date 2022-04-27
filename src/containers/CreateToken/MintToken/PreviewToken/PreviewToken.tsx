@@ -32,7 +32,6 @@ const PreviewToken = ({ url, width, height, onPreview }: IPreviewMedia) => {
   } = useCapture();
   // TODO Generate capture
   useEffect(() => {
-    console.log('data', data);
     if (data) {
       onPreview(data.cid, ''); // TODO hash good?
     }

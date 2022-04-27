@@ -21,7 +21,6 @@ const CreateAsset = () => {
             }}
             onError={(e) => {
               setMsg({ clear: true, title: 'Failed to fetch.', kind: 'error' });
-              // console.log('eee', e);
             }}
             onStart={() => {
               setMsg({ autoClose: false, block: true, title: 'Uploading...', kind: 'info' });

@@ -12,6 +12,7 @@ const UserItems = ({ user }: { user: IUser }) => {
   if (router.asPath.endsWith('owned')) {
     query = QL_GET_TOKEN_OWNED_ITEMS_BY_USER;
     variables = { ownerId: user.id };
+    mode = 'normal';
   }
   if (router.asPath.endsWith('sales')) {
     query = QL_GET_TOKEN_SALES_ITEMS_BY_USER;
@@ -22,7 +23,7 @@ const UserItems = ({ user }: { user: IUser }) => {
 
   return (
     <>
-      <Items kind={kind} mode={mode} query={query} variables={variables} />
+      <Items key={mode} kind={kind} mode={mode} query={query} variables={variables} />
     </>
   );
 };

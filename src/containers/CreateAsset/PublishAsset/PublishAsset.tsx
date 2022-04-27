@@ -35,15 +35,8 @@ const PublishAsset = () => {
     call,
     state: { loading, status, result }
   } = useContract<MintAssetCallData>(getWallet().mintAsset);
-  console.log('useContract:::', loading, status);
-
-  // useEffect(() => {
-  //   // wait subscript in db
-  //   console.log('!data:::', data);
-  // }, [data]);
 
   useEffect(() => {
-    console.log('result', result);
     if (result) {
       // wait subscript in db
       setOpHash(result);
@@ -86,7 +79,6 @@ const PublishAsset = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log('data:::', data);
     const previewImage = asset.previews[0];
 
     if (!previewImage) {
@@ -101,7 +93,6 @@ const PublishAsset = () => {
       const metadata: IAssetMetadata = getMetadata(data);
 
       setMsg({ autoClose: false, title: 'Generate metadata...', kind: 'info' });
-      // console.log('metadata', metadata);
       const response = await postDataFetch(API_META_ASSET_URL, metadata);
       if (response.status !== 200) {
         setMsg({ clear: true, title: 'Unknown error', kind: 'error' });
@@ -112,7 +103,6 @@ const PublishAsset = () => {
       const result = await response.json();
       const { cid } = result;
       metadataCid = cid;
-      console.log('metadata:::', metadata);
       setMetaCid(cid);
     }
     clearMsg();

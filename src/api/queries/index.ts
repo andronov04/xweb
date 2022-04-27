@@ -468,6 +468,9 @@ export const QL_GET_TOKEN_ITEMS_BY_SCRIPT = gql`
     }
   }
 `;
+
+//  { _or: [{ ownerId: { _eq: $ownerId } }, { userId: { _eq: $ownerId } }] }
+//
 export const QL_GET_TOKEN_OWNED_ITEMS_BY_USER = gql`
   query MyQuery($ownerId: String, $limit: Int, $offset: Int) {
     token(where: { ownerId: { _eq: $ownerId }, userId: { _neq: $ownerId } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
@@ -481,6 +484,10 @@ export const QL_GET_TOKEN_OWNED_ITEMS_BY_USER = gql`
       height
       name
       flag
+      offer {
+        id
+        price
+      }
       user {
         id
         username

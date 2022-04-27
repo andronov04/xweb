@@ -13,7 +13,7 @@ interface IItems {
 }
 
 const Subscription = ({ variables, query, onComplete }: IItems) => {
-  const { data, loading: loadingSub } = useSubscription(query, {
+  const { data } = useSubscription(query, {
     variables: variables,
     fetchPolicy: 'no-cache'
   });

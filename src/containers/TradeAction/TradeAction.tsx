@@ -38,7 +38,6 @@ const TradeAction = ({ item }: { item: IToken }) => {
       setMsg({ clear: true, title: 'You are not logged in. Please log in and try again', kind: 'error' });
       return;
     }
-    console.log('onSubmit:::', data);
     const price = Math.floor(data.price * 1000000); // Math.floor(parseFloat(price) * 1000000)
     if (item.user && item.owner) {
       call({
@@ -56,7 +55,6 @@ const TradeAction = ({ item }: { item: IToken }) => {
     }
   }, [result, result2]);
 
-  // console.log('user', item);
   return (
     <div>
       {opHash ? (
@@ -71,7 +69,6 @@ const TradeAction = ({ item }: { item: IToken }) => {
       {item.offer ? (
         <CustomButton
           onClick={() => {
-            console.log('Cancel Trade');
             if (!currentUser) {
               setMsg({ clear: true, title: 'You are not logged in. Please log in and try again', kind: 'error' });
               return;

@@ -1,6 +1,5 @@
 import Menu from '../Menu/Menu';
 import { useState } from 'react';
-import Logo from '../Logo/Logo';
 
 const Logos = () => {
   return (

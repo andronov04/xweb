@@ -11,12 +11,6 @@ const RandomItem = () => {
   const { data: dt, loading: ld } = useQuery(QL_GET_COUNT_TOKENS, {
     fetchPolicy: 'no-cache'
   });
-  // const count = dt?.tokenAggregate?.aggregate?.count;
-  // console.log('data1', dt, count);
-  // const id = 4;//Math.floor(RN(0, count-1));
-  //tokenAggregate:
-  // aggregate:
-  // count: 8
   const count = useMemo(() => dt?.tokenAggregate?.aggregate?.count, [dt]);
   const id = useMemo(() => Math.floor(RN(1, count - 1)), [count]);
   // TODO Many renderes
@@ -29,13 +23,6 @@ const RandomItem = () => {
       id: id
     }
   });
-  // const { data } = await GraphqlApi.query({
-  //   query: QL_GET_TOKEN,
-  //   variables: { id: 2 }
-  // });
-  // - get count tokens
-  // random token between 0- max count
-
   return (
     <div ref={refContainer} className={'w-full h-full mt-5 md:mt-0  flex md:justify-end justify-center items-center'}>
       {loading && <Loader />}
@@ -46,7 +33,7 @@ const RandomItem = () => {
             height: Math.min(refContainer.current?.offsetWidth ?? 500, refContainer.current?.offsetHeight ?? 500)
           }}
         >
-          <Item key={`${data.token[0].id}_${data.token[0].slug}`} item={data.token[0]} mode={'normal'} />
+          <Item key={`${data.token[0].id}_${data.token[0].slug}`} item={data.token[0]} mode={data.token[0].offer ? 'offer' : 'normal'} />
         </div>
       ) : null}
     </div>

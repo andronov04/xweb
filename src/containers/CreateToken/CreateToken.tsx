@@ -17,6 +17,8 @@ const CreateToken = () => {
   const router = useRouter();
   const token = useStore((state) => state.token);
   const [assetIds, setAssetIds] = useState<number[]>([]);
+  const [ready, setReady] = useState(false);
+  const [mountAsset, setMountAsset] = useState(false);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const refContainer = useRef<HTMLDivElement | null>(null);
   const { data, loading, error, post } = useFetch<UploadAssetFileResponse | UploadFileError>(API_BUILD_TOKEN_URL, { cachePolicy: CachePolicies.NO_CACHE });
@@ -32,10 +34,9 @@ const CreateToken = () => {
   // if from asset
   useEffect(() => {
     if (router.query?.a && size.width && size.height && token.isProxy) {
-      // TODO BUG
-      // const assets = (router.query?.a as string).split(',');
-      // router.replace('/create/token', undefined, { shallow: true }).then();
-      // setAssetIds(assets.map((a) => parseInt(a)));
+      const assets = (router.query?.a as string).split(',');
+      router.replace('/create/token', undefined, { shallow: true }).then();
+      setAssetIds(assets.map((a) => parseInt(a)).slice(0, 1));
     }
   }, [router, size, token]);
 
@@ -72,7 +73,7 @@ const CreateToken = () => {
     <section>
       <div className={'flex w-full justify-end items-center'}>
         <div className={'w-1/3 text-right space-x-2'}>
-          <span className={'font-normal text-inactive text-sm'}>details and mint</span>
+          <span className={'font-normal text-inactive text-sm'}>Details and mint</span>
           <Link href={'/create/token/mint'}>
             <a
               onClick={(e) => {
@@ -95,7 +96,7 @@ const CreateToken = () => {
               }}
               href={'/create/token/mint'}
             >
-              <CustomButton style={'white'} value={'next step'} />
+              <CustomButton style={'white'} value={'Next step'} />
             </a>
           </Link>
         </div>
@@ -124,7 +125,11 @@ const CreateToken = () => {
                 </h2>
               </div>
             ) : null}
-            <IframeEditor />
+            <IframeEditor
+              onLoad={() => {
+                setReady(true);
+              }}
+            />
           </div>
         )}
       </div>
@@ -133,14 +138,18 @@ const CreateToken = () => {
         <div className={'flex my-5 gap-x-4'}>
           <p className={'text-active text-lg'}>Assets</p>
         </div>
-        {assetIds.length ? (
+        {assetIds.length && ready ? (
           <Items
+            key={'exist'}
             kind={'asset'}
             mode={'selected'}
             // activeIds={assetIds}
             activeIds={token.assets.map((a) => a.id)}
             onMountItem={(item) => {
-              token.addAsset(JSON.parse(JSON.stringify(item)) as any);
+              if (!token.assets.length && !mountAsset) {
+                token.addAsset(JSON.parse(JSON.stringify(item)) as any);
+                setMountAsset(true);
+              }
             }}
             onClickItem={(item) => {
               let _item = JSON.parse(JSON.stringify(item));
@@ -160,33 +169,36 @@ const CreateToken = () => {
             query={QL_GET_ASSET_ITEMS_BY_IDS}
           />
         ) : null}
-        <Items
-          kind={'asset'}
-          mode={'selected'}
-          activeIds={token.assets.map((a) => a.id)}
-          onClickItem={(item) => {
-            const testUrl = 'http://localhost:3000/'; //'https://art3s.mypinata.cloud/ipfs/QmU3jrjyZFP83itaiuzqD7MuBZ4C8BgAGtR8CRT8J3mAfL';
-            // Now only once
-            let _item = JSON.parse(JSON.stringify(item));
-            // _item.metadata.artifactUri = testUrl;
-            // const _item = item;
-            // Now delete all
-            const isRemove = token.assets.map((a) => a.id).includes(_item.id);
-            if (token.assets.length) {
-              token.assets.forEach((ast) => {
-                token.removeAsset(ast);
-              });
-            }
-            if (!isRemove) {
-              token.addAsset(_item as any);
-            }
-          }}
-          variables={{
-            ids: assetIds,
-            flag: IAssetFlag.NONE
-          }}
-          query={QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG}
-        />
+        {ready ? (
+          <Items
+            key={'next'}
+            kind={'asset'}
+            mode={'selected'}
+            activeIds={token.assets.map((a) => a.id)}
+            onClickItem={(item) => {
+              const testUrl = 'http://localhost:3000/'; //'https://art3s.mypinata.cloud/ipfs/QmU3jrjyZFP83itaiuzqD7MuBZ4C8BgAGtR8CRT8J3mAfL';
+              // Now only once
+              let _item = JSON.parse(JSON.stringify(item));
+              // _item.metadata.artifactUri = testUrl;
+              // const _item = item;
+              // Now delete all
+              const isRemove = token.assets.map((a) => a.id).includes(_item.id);
+              if (token.assets.length) {
+                token.assets.forEach((ast) => {
+                  token.removeAsset(ast);
+                });
+              }
+              if (!isRemove) {
+                token.addAsset(_item as any);
+              }
+            }}
+            variables={{
+              ids: assetIds,
+              flag: IAssetFlag.NONE
+            }}
+            query={QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG}
+          />
+        ) : null}
       </div>
     </section>
   );

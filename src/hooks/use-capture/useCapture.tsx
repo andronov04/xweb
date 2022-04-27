@@ -14,7 +14,6 @@ interface ICaptureSetup {
 }
 
 const createCapture = (props: ICapture, updater: () => void) => {
-  console.log('captureControl');
   // TODO Unmount addEventListener
   let _controlState = {
     loading: false,
@@ -44,7 +43,6 @@ const createCapture = (props: ICapture, updater: () => void) => {
         (event) => {
           // TODO Capture for token and asset
           if (event.data?.type === USE_RESPONSE_ASSET_CAPTURE || event.data?.type === USE_RESPONSE_TOKEN_CAPTURE || event.data?.type === USE_RESPONSE_CAPTURE) {
-            console.log('USE_RESPONSE_CAPTURE', event.data);
             setState({ status: 'Uploading...' });
             const formData = new FormData();
             formData.append('file', event.data.data.blob);
@@ -54,7 +52,6 @@ const createCapture = (props: ICapture, updater: () => void) => {
                 setState({ loading: false, status: '', data: { ...data, hash: event.data.data.hash } });
               })
               .catch((e) => {
-                console.log('error', e);
                 setState({ loading: false, status: '' });
               });
           }
@@ -72,7 +69,6 @@ const createCapture = (props: ICapture, updater: () => void) => {
       return;
     }
     // Post message and get blob
-    console.log('postData', postData);
     refIframe?.contentWindow?.postMessage(postData, postData.url);
     // TODO Max wait
   };
@@ -105,14 +101,12 @@ export const useCapture = (props: ICapture = {}) => {
   const control = _reference.current?.control;
   const callback = React.useCallback(() => {
     const newState = _reference.current.control._controlState;
-    // console.log('upd', newState);
     setCaptureState({ ...newState });
   }, [control]);
 
   useEffect(() => {
     return () => {
       // TODO Unmount addEventListener
-      console.log('unmount');
     };
   }, []);
 

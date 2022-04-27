@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Spacing from '../Spacing/Spacing';
 
 const FAQ = () => {
   const navs = [
@@ -205,7 +204,7 @@ const FAQ = () => {
       {navs.map((a) => (
         <div className={'md:text-xl text-base'} id={a.key} key={a.key}>
           <h2>{a.title}</h2>
-          <div className={' text-inactive'}>{a.desc()}</div>
+          <div className={' text-whitegrey md:text-lg'}>{a.desc()}</div>
         </div>
       ))}
     </div>

@@ -101,12 +101,8 @@ class WalletApi {
     requestCallback(ContractRequestStatus.CALLING);
     const opSend = await contract.methodsObject.mint_asset(tzData).send();
 
-    console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
-    console.log('opSend.opHash:::', opSend.opHash);
-    // await wait(opSend.opHash)
 
-    // OK, injected
     requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
   };
 
@@ -116,10 +112,8 @@ class WalletApi {
     requestCallback(ContractRequestStatus.CALLING);
     const opSend = await contract.methodsObject.mint(tzData).send();
 
-    console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
 
-    // OK, injected
     requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
   };
 
@@ -130,10 +124,8 @@ class WalletApi {
     requestCallback(ContractRequestStatus.CALLING);
     const opSend = await contract.methodsObject.cancel_offer(offerId).send();
 
-    console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
 
-    // OK, injected
     requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
   };
 
@@ -146,12 +138,10 @@ class WalletApi {
         token_id: tzData.tokenId
       })
       .send();
-    console.log('opSend', opSend);
 
     // wait
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
 
-    // OK, injected
     requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
   };
 
@@ -161,12 +151,8 @@ class WalletApi {
     requestCallback(ContractRequestStatus.CALLING);
     const opSend = await contract.methodsObject.status_asset(tzData).send();
 
-    console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
-    console.log('opSend.opHash:::', opSend.opHash);
-    // await wait(opSend.opHash)
 
-    // OK, injected
     requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
   };
 
@@ -180,12 +166,8 @@ class WalletApi {
       storageLimit: 150
     });
 
-    console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
-    console.log('opSend.opHash:::', opSend.opHash);
-    // await wait(opSend.opHash)
 
-    // OK, injected
     requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
   };
 
@@ -195,12 +177,8 @@ class WalletApi {
     requestCallback(ContractRequestStatus.CALLING);
     const opSend = await contract.methodsObject.update(tzData).send();
 
-    console.log('opSend', opSend);
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
-    console.log('opSend.opHash:::', opSend.opHash);
-    // await wait(opSend.opHash)
 
-    // OK, injected
     requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
   };
 }

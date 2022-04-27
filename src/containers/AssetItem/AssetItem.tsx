@@ -23,8 +23,6 @@ const AssetItem = ({ item }: { item: IAsset }) => {
   const isTokens = router.asPath.endsWith('tokens');
   const isCurrent = !isActivity && !isTokens;
 
-  // console.log('item:::', item);
-  // console.log('currentUser:::', currentUser);
   const tokens = item.assetTokenAssets_aggregate?.aggregate.count ?? 0;
 
   // TODO All flags
@@ -38,7 +36,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
         </Footnote>
       )}
       <div className={'flex w-full items-center md:flex-row flex-col-reverse gap-x-8'}>
-        <div className={'flex-grow flex md:h-96 h-auto md:w-auto w-full flex-col justify-between'}>
+        <div className={'flex-grow flex md:h-96 h-auto md:w-1/2 w-full flex-col justify-between'}>
           <div>
             <div>
               <h1 className={'text-active text-2xl'}>
@@ -52,7 +50,9 @@ const AssetItem = ({ item }: { item: IAsset }) => {
                   </span>
                 ) : null}
               </p>
-              <p className={'text-inactive text-lg pt-8'}>{item.description}</p>
+              <p style={{ overflowWrap: 'break-word' }} className={'text-inactive text-lg pt-8'}>
+                {item.description}
+              </p>
               {/*<span className={'text-sm text-white30 mt-3'}>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>*/}
             </div>
           </div>
@@ -152,7 +152,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
             </div>
           )}
           <div className={'flex'}>
-            <span className={'pr-1'}>Creator: </span>
+            <span className={'pr-1'}>Publisher: </span>
             <span>
               <Link href={`/@${item.user?.username || item.user?.id}`}>
                 <a href={`/@${item.user?.username || item.user?.id}`} className={'text-active hover:text-inactive'}>

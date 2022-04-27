@@ -39,8 +39,6 @@ export async function getServerSideProps({ params }) {
     });
     data = _data;
   } catch (e) {
-    // TODO handle error
-    // console.log('e', e);
     return {
       props: {},
       notFound: true,

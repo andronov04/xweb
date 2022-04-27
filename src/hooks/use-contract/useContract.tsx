@@ -12,7 +12,6 @@ export function useContract<T>(contractCall: ContractCall<T>): ContractUseCallRe
     setState({ ...state, loading: true });
 
     contractCall(data, (status, tzData) => {
-      console.log('contractCall', status, tzData);
       // setState({ ...state, status, hash: tzData?.hash });
       if (status === ContractRequestStatus.INJECTED) {
         setState({ ...state, status, result: tzData?.hash });

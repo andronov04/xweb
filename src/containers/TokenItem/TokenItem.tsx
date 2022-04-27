@@ -23,9 +23,6 @@ const TokenItem = ({ item }: { item: IToken }) => {
   const isAssets = router.asPath.endsWith('assets');
   const isCurrent = !isActivity && !isAssets;
 
-  console.log('item:::', item);
-
-  // TODO Format download
   return (
     <section>
       {item.flag !== ITokenFlag.NONE && (
@@ -38,13 +35,13 @@ const TokenItem = ({ item }: { item: IToken }) => {
         <div className={'md:w-1/2 w-full'}>
           <ItemToken item={item as IItem} />
         </div>
-        <div className={'flex-grow'}>
+        <div className={'md:w-1/2 w-full flex-grow'}>
           <div>
             <h1 className={'text-active text-2xl'}>
               {item.name}
               <span className={'hidden'}> {item.id}</span>
             </h1>
-            <p className={'text-inactive text-base'}>
+            <p className={'  text-inactive text-base'}>
               Owned by{' '}
               <Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
                 <a className={'text-active hover:text-inactive'} href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>
@@ -52,7 +49,9 @@ const TokenItem = ({ item }: { item: IToken }) => {
                 </a>
               </Link>
             </p>
-            <p className={'text-inactive text-lg pt-8'}>{item.description}</p>
+            <p style={{ overflowWrap: 'break-word' }} className={'text-inactive text-lg pt-8'}>
+              {item.description}
+            </p>
           </div>
 
           {item.metadata?.isTransferable && (
@@ -130,14 +129,13 @@ const TokenItem = ({ item }: { item: IToken }) => {
                         <a className={'text-active cursor-pointer: hover:opacity-80'} href={ipfsToUrl(frmt.uri)} target={'_blank'} rel={'noreferrer'}>
                           Open original
                         </a>
-                      </Link>{' '}
-                      /{' '}
-                      <Link href={'.'}>
-                        <a className={'text-active cursor-pointer: hover:opacity-80'} href={'.'} target={'_blank'} rel={'noreferrer'}>
-                          Download
-                        </a>
                       </Link>
-                      )
+                      {/*/{' '}*/}
+                      {/*<Link href={'.'}>*/}
+                      {/*  <a className={'text-active cursor-pointer: hover:opacity-80'} href={'.'} target={'_blank'} rel={'noreferrer'}>*/}
+                      {/*    Download*/}
+                      {/*  </a>*/}
+                      {/*</Link>*/})
                     </span>
                     {(item.metadata?.formats?.length ?? 0) - 1 !== i ? ',' : ''}
                   </div>

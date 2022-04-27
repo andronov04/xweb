@@ -49,7 +49,7 @@ const IframeEditor = ({ onLoad, check }: { onLoad?: (e: any) => void; check?: bo
             onLoad?.(e);
           }
         }}
-        onError={(e) => {
+        onError={() => {
           setStatus('error');
         }}
         width={'100%'}

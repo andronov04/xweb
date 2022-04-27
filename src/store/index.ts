@@ -122,8 +122,10 @@ export const useStore = create<IStore>((set, get) => ({
     addAsset: (asset) =>
       set(
         produce((state) => {
+          if (state.token.assets.map((a) => a.id).includes(asset.id)) {
+            return state;
+          }
           state.token.assets.push(asset);
-          console.log('asset', asset);
           tokenProxy?.postMessage(
             {
               type: USE_ADD_ASSET,
@@ -181,9 +183,6 @@ export const useStore = create<IStore>((set, get) => ({
               })
             );
           }
-          // if (event.data?.type === USE_SET_THEME) {
-          //   console.log('USE_SET_THEME', event.data)
-          // }
         },
         false
       );

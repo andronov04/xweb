@@ -76,13 +76,3 @@ export const clearMsg = (): void => {
   document.body.classList.remove('pointer-events-none', 'cursor-progress');
   toast.dismiss();
 };
-
-//const response = await toast.promise(
-//     fetch("A_URL"),
-//     {
-//       pending: 'Promise is pending',
-//       success: 'Promise resolved 👌',
-//       error: 'Promise rejected 🤯'
-//     }
-// );
-// console.log(response)

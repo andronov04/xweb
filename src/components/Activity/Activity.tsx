@@ -7,7 +7,7 @@ import ReactTimeAgo from 'react-time-ago';
 import Link from 'next/link';
 import { displayPrice } from '../../utils';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IAssetFlag, ITokenFlag } from '../../types';
 
 interface IVariable {
@@ -35,7 +35,7 @@ const Activity = ({ variables, query }: IItems) => {
   const [hasMore, setHasMore] = useState(true);
   const { data, fetchMore } = useQuery(query, {
     notifyOnNetworkStatusChange: true,
-    fetchPolicy: 'no-cache', // TODO Good check with cache pagination
+    // fetchPolicy: 'no-cache', // TODO Good check with cache pagination
     variables: {
       offset: 0,
       limit: ITEMS_PER_PAGE,
@@ -45,14 +45,13 @@ const Activity = ({ variables, query }: IItems) => {
 
   const items = data?.action ?? [];
   // TODO IF empty
-  // console.log('items:::', items);
 
   const fetchNextMore = async () => {
     await fetchMore({
       query: query,
       variables: {
         ...variables,
-        offset: items.length + ITEMS_PER_PAGE,
+        offset: items.length,
         limit: ITEMS_PER_PAGE
       },
       updateQuery: (prev: any, { fetchMoreResult }: any) => {

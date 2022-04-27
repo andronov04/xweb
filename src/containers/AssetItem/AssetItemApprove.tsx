@@ -14,7 +14,6 @@ const AssetItemApprove = ({ item }: { item: IAsset }) => {
   } = useContract<MintStatusCallData>(getWallet().statusAsset);
   const router = useRouter();
   const [opHash, setOpHash] = useState<string | null>();
-  // console.log('useContract:::', loading, status, result);
 
   useEffect(() => {
     if (result) {

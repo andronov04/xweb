@@ -27,7 +27,6 @@ const PreviewMedia = ({ url, width, height, onPreview }: IPreviewMedia) => {
   } = useCapture();
 
   useEffect(() => {
-    console.log('data', data);
     if (data) {
       onPreview(data.cid, hash);
     }

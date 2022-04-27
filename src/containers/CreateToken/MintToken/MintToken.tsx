@@ -32,7 +32,6 @@ const MintToken = () => {
     call,
     state: { loading, status, result }
   } = useContract<MintTokenCallData>(getWallet().mintToken);
-  console.log('useContract:::', loading, status);
 
   useEffect(() => {
     if (result) {
@@ -103,7 +102,6 @@ const MintToken = () => {
       return;
     }
     clearMsg();
-    console.log('token', token);
     const _assets = Object.fromEntries(token.state.assets.map((a) => [a.order, new BigNumber(a.id)]));
     call({
       assets: MichelsonMap.fromLiteral(_assets) as any,
@@ -111,7 +109,6 @@ const MintToken = () => {
       royalties: Math.floor(data.royalties! * 10),
       metadata: strToByteStr(urlToIpfs(metadataCid))
     });
-    console.log('publish', data);
   };
 
   const submit = () => {
