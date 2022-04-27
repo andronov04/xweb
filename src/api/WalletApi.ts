@@ -1,4 +1,4 @@
-import { ContractAbstraction, OpKind, TezosToolkit, Wallet } from '@taquito/taquito';
+import { ContractAbstraction, TezosToolkit, Wallet } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { MINI_LOGO_URL, RPC_LIST, TZ_ADDRESS_ASSET, TZ_ADDRESS_MARKETPLACE, TZ_ADDRESS_PROFILE, TZ_ADDRESS_TOKEN, TZ_NETWORK } from '../constants';
 import {
@@ -139,89 +139,20 @@ class WalletApi {
 
   // To trade token to marketplace
   tradeToken: ContractCall<TradeTokenCallData> = async (tzData, requestCallback) => {
-    // the origination parameters
-    const updateOperatorsValue: MichelsonV1Expression = [
-      {
-        prim: 'Left',
-        args: [
-          {
-            prim: 'Pair',
-            args: [
-              {
-                string: tzData.ownerId
-              },
-              {
-                prim: 'Pair',
-                args: [
-                  {
-                    string: addresses.MARKETPLACE
-                  },
-                  {
-                    int: '' + tzData.tokenId
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ];
-
-    //price mutez
-    // royalties map(address, nat)
-    // royalty nat
-    // token_id nat
-    // user_id address
-    const listItemValue: MichelsonV1Expression = {
-      prim: 'Pair',
-      args: [
-        {
-          int: '' + tzData.price
-        },
-        {
-          int: '' + tzData.tokenId
-        }
-      ]
-    };
-
-    // call the contract (open wallet)
-    requestCallback(ContractRequestStatus.CALLING);
-    // const opSend = await objktContract.methodsObject.update_operators().getSignature()
-    const batchOp = await this.tzToolkit.wallet
-      .batch()
-      .with([
-        {
-          kind: OpKind.TRANSACTION,
-          to: addresses.TOKEN,
-          fee: 1500,
-          amount: 0,
-          parameter: {
-            entrypoint: 'update_operators',
-            value: updateOperatorsValue
-          },
-          gasLimit: 8000,
-          storageLimit: 250
-        },
-        {
-          kind: OpKind.TRANSACTION,
-          to: addresses.MARKETPLACE,
-          fee: 1500,
-          amount: 0,
-          parameter: {
-            entrypoint: 'offer',
-            value: listItemValue
-          },
-          gasLimit: 20000,
-          storageLimit: 250
-        }
-      ])
+    const contract = await this.getContract(EContract.MARKETPLACE);
+    const opSend = await contract.methodsObject
+      .offer({
+        price: tzData.price,
+        token_id: tzData.tokenId
+      })
       .send();
+    console.log('opSend', opSend);
 
     // wait
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
 
     // OK, injected
-    requestCallback(ContractRequestStatus.INJECTED, { hash: batchOp.opHash });
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
   };
 
   statusAsset: ContractCall<MintStatusCallData> = async (tzData, requestCallback) => {
