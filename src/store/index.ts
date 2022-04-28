@@ -108,6 +108,9 @@ export const useStore = create<IStore>((set, get) => ({
       const formData = new FormData();
       formData.append('file', data.blob);
       const response = await postFetch(FILE_API_CAPTURE_IMG_URL, formData);
+      if (response.status !== 200) {
+        throw 'Network error';
+      }
       const resp = await response.json();
 
       set({
