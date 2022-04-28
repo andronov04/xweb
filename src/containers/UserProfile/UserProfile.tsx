@@ -66,9 +66,9 @@ const UserProfile = ({ user }: { user: IUser }) => {
       <>
         {user.flag !== IUserFlag.NONE && !user.temp && (
           <Footnote type={user.flag === IUserFlag.REVIEW ? 'info' : user.flag === IUserFlag.LIMIT ? 'warning' : 'error'}>
-            {user.flag === IUserFlag.BANNED && <p>Banned</p>}
-            {user.flag === IUserFlag.REVIEW && <p>Under Review</p>}
-            {user.flag === IUserFlag.LIMIT && <p>Limited</p>}
+            {user.flag === IUserFlag.BANNED && <p>Blocked. This user violated our Code of Conduct.</p>}
+            {user.flag === IUserFlag.REVIEW && <p>In moderation. This user is undergoing moderation.</p>}
+            {user.flag === IUserFlag.LIMIT && <p>Temporarily restricted. This user is temporarily restricted from using this platform.</p>}
           </Footnote>
         )}
         {user.temp ? (

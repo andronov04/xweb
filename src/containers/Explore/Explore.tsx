@@ -1,5 +1,6 @@
 import { QL_GET_TOKEN_ITEMS } from '../../api/queries';
 import Items from '../../components/Items/Items';
+import { ITokenFlag } from '../../types';
 
 const Explore = () => {
   return (
@@ -9,7 +10,7 @@ const Explore = () => {
           <p className={'italic text-whitegrey'}>Recently minted</p>
         </div>
       </div>
-      <Items kind={'token'} query={QL_GET_TOKEN_ITEMS} />
+      <Items kind={'token'} variables={{ flag: ITokenFlag.NONE }} query={QL_GET_TOKEN_ITEMS} />
     </main>
   );
 };

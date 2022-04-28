@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { CachePolicies, useFetch } from 'use-http';
-import { FILE_API_ASSET_STYLE_URL } from '../../constants';
+import { FILE_API_ASSET_URL } from '../../constants';
 import { UploadFileError } from '../../types/error';
 import { UploadAssetFileResponse } from '../../types/api';
 import Loader from '../Utils/Loader';
@@ -14,7 +14,7 @@ interface IUploadFile {
 const UploadFile = ({ onSuccess, onError, onStart }: IUploadFile) => {
   const [active, setActive] = useState(false);
   const refInput = useRef<HTMLInputElement | null>(null);
-  const { data, loading, error, post } = useFetch<UploadAssetFileResponse | UploadFileError>(FILE_API_ASSET_STYLE_URL, { cachePolicy: CachePolicies.NO_CACHE });
+  const { data, loading, error, post } = useFetch<UploadAssetFileResponse | UploadFileError>(FILE_API_ASSET_URL, { cachePolicy: CachePolicies.NO_CACHE });
 
   // TODO Handle error
   useEffect(() => {

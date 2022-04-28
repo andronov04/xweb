@@ -27,7 +27,7 @@ const RandomWrapperItem = ({ width, height, offset }: { width: number; height: n
       }}
     >
       {loading && <Loader />}
-      {data ? (
+      {data && data?.token?.[index] ? (
         <Item key={`${data.token[index].id}_${data.token[index].slug}`} item={data.token[index]} mode={data.token[index].offer ? 'offer' : 'normal'} />
       ) : null}
     </div>

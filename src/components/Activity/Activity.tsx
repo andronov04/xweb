@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { displayPrice } from '../../utils';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useState } from 'react';
-import { IAssetFlag, ITokenFlag } from '../../types';
+import { IAssetFlag, ITokenFlag, IUserFlag } from '../../types';
 
 interface IVariable {
   [key: string]: string | number;
@@ -114,6 +114,22 @@ const Activity = ({ variables, query }: IItems) => {
                     {item.data.status === ITokenFlag.NONE ? '"published"' : null}
                     {item.data.status === ITokenFlag.REVIEW ? '"in moderation"' : null}
                     {item.data.status === ITokenFlag.BANNED ? '"blocked"' : null}
+                  </span>
+                </p>
+              )}
+              {item.kind === IActivityKind.CHANGE_STATUS_PROFILE && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  changed status to{' '}
+                  <span className={'text-active'}>
+                    {item.data.status === IUserFlag.NONE ? '"active"' : null}
+                    {item.data.status === IUserFlag.REVIEW ? '"in moderation"' : null}
+                    {item.data.status === IUserFlag.BANNED ? '"blocked"' : null}
+                    {item.data.status === IUserFlag.LIMIT ? '"temporarily restricted"' : null}
                   </span>
                 </p>
               )}

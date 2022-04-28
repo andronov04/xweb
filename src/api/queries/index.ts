@@ -304,8 +304,8 @@ export const QL_GET_TOKEN_ITEMS_BY_ASSET = gql`
 `;
 
 export const QL_GET_TOKEN_ITEMS = gql`
-  query MyQuery($limit: Int, $offset: Int) {
-    token(order_by: { created: desc }, limit: $limit, offset: $offset) {
+  query MyQuery($flag: smallint, $limit: Int, $offset: Int) {
+    token(where: { flag: { _eq: $flag } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       created
       description
       id
@@ -562,6 +562,7 @@ export const QL_GET_ACTION_BY_USER = gql`
         id
         username
       }
+      data
       target {
         id
         username
