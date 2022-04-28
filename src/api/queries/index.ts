@@ -420,6 +420,32 @@ export const QL_GET_TOKEN_BY_ID = gql`
   }
 `;
 
+export const QL_GET_TOKEN_RANDOM_BY_ID = gql`
+  query Query($limit: Int, $offset: Int) {
+    token(where: { flag: { _eq: 0 } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      created
+      description
+      id
+      metadata
+      slug
+      metadataUri
+      tags
+      width
+      height
+      name
+      flag
+      offer {
+        id
+        price
+      }
+      user {
+        id
+        username
+        avatarUri
+      }
+    }
+  }
+`;
 export const QL_GET_ASSET = gql`
   query Query($slug: String) {
     asset(where: { slug: { _eq: $slug } }) {
