@@ -70,6 +70,11 @@ export const QL_GET_TOKENS_BY_USER = gql`
       height
       name
       flag
+      owner {
+        id
+        username
+        avatarUri
+      }
       offer {
         id
         price
@@ -98,6 +103,11 @@ export const QL_GET_CREATED_BY_USER = gql`
       offer {
         id
         price
+      }
+      owner {
+        id
+        username
+        avatarUri
       }
       user {
         id
@@ -295,6 +305,11 @@ export const QL_GET_TOKEN_ITEMS_BY_ASSET = gql`
       height
       name
       flag
+      owner {
+        id
+        username
+        avatarUri
+      }
       user {
         id
         username
@@ -317,6 +332,11 @@ export const QL_GET_TOKEN_ITEMS = gql`
       height
       name
       flag
+      owner {
+        id
+        username
+        avatarUri
+      }
       user {
         id
         username
@@ -407,6 +427,11 @@ export const QL_GET_TOKEN_BY_ID = gql`
       height
       name
       flag
+      owner {
+        id
+        username
+        avatarUri
+      }
       offer {
         id
         price
@@ -434,6 +459,11 @@ export const QL_GET_TOKEN_RANDOM_BY_ID = gql`
       height
       name
       flag
+      owner {
+        id
+        username
+        avatarUri
+      }
       offer {
         id
         price
