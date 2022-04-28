@@ -164,7 +164,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
       <Spacing size={1.2} />
 
       <ConditionRender client>
-        {isActivity ? <Activity query={QL_GET_ACTION_BY_USER} variables={{ userId: user.id }} /> : <UserItems user={user} />}
+        <div>{isActivity ? <Activity query={QL_GET_ACTION_BY_USER} variables={{ userId: user.id }} /> : <UserItems user={user} />}</div>
       </ConditionRender>
     </>
   );

@@ -85,9 +85,11 @@ const TokenItem = ({ item }: { item: IToken }) => {
       <Spacing size={1.2} />
 
       {isAssets ? (
-        <div>
-          <Items kind={'asset'} query={QL_GET_ASSET_ITEMS_BY_TOKEN} variables={{ tokenId: item.id }} />
-        </div>
+        <ConditionRender client>
+          <div>
+            <Items kind={'asset'} query={QL_GET_ASSET_ITEMS_BY_TOKEN} variables={{ tokenId: item.id }} />
+          </div>
+        </ConditionRender>
       ) : null}
 
       {isActivity ? (
