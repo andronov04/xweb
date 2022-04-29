@@ -9,6 +9,7 @@ export const QL_GET_USER = gql`
       role
       flag
       avatarUri
+      verified
       metadataUri
       metadata
       created
@@ -24,6 +25,7 @@ export const QL_GET_USER_BY_ID = gql`
       username
       description
       role
+      verified
       flag
       avatarUri
       metadataUri
@@ -50,6 +52,7 @@ export const QL_GET_SCRIPTS = gql`
       created
       user {
         id
+        verified
         username
       }
       date_publish
@@ -72,6 +75,7 @@ export const QL_GET_TOKENS_BY_USER = gql`
       flag
       owner {
         id
+        verified
         username
         avatarUri
       }
@@ -81,6 +85,7 @@ export const QL_GET_TOKENS_BY_USER = gql`
       }
       user {
         id
+        verified
         username
       }
     }
@@ -106,11 +111,13 @@ export const QL_GET_CREATED_BY_USER = gql`
       }
       owner {
         id
+        verified
         username
         avatarUri
       }
       user {
         id
+        verified
         username
       }
     }
@@ -131,6 +138,7 @@ export const QL_GET_CREATED_BY_USER = gql`
       }
       user {
         id
+        verified
         username
       }
     }
@@ -156,6 +164,7 @@ export const QL_GET_ASSETS_BY_USER = gql`
       }
       user {
         id
+        verified
         username
       }
     }
@@ -181,6 +190,7 @@ export const QL_GET_ASSET_ITEMS = gql`
       }
       user {
         id
+        verified
         username
       }
       datePublish
@@ -207,6 +217,7 @@ export const QL_GET_ASSET_ITEMS_BY_IDS = gql`
       }
       user {
         id
+        verified
         username
       }
       datePublish
@@ -233,6 +244,7 @@ export const QL_GET_ASSET_ITEMS_BY_NOT_IDS = gql`
       }
       user {
         id
+        verified
         username
       }
       datePublish
@@ -259,6 +271,7 @@ export const QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG = gql`
       }
       user {
         id
+        verified
         username
       }
       datePublish
@@ -285,6 +298,7 @@ export const QL_GET_ASSET_ITEMS_BY_TOKEN = gql`
       }
       user {
         id
+        verified
         username
       }
       datePublish
@@ -307,11 +321,13 @@ export const QL_GET_TOKEN_ITEMS_BY_ASSET = gql`
       flag
       owner {
         id
+        verified
         username
         avatarUri
       }
       user {
         id
+        verified
         username
       }
     }
@@ -334,11 +350,13 @@ export const QL_GET_TOKEN_ITEMS = gql`
       flag
       owner {
         id
+        verified
         username
         avatarUri
       }
       user {
         id
+        verified
         username
       }
     }
@@ -356,11 +374,13 @@ export const QL_GET_OFFER_TOKENS = gql`
         metadata
         user {
           id
+          verified
           username
           avatarUri
         }
         owner {
           id
+          verified
           username
           avatarUri
         }
@@ -392,11 +412,13 @@ export const QL_GET_TOKEN = gql`
       }
       user {
         id
+        verified
         username
         avatarUri
       }
       owner {
         id
+        verified
         username
         avatarUri
       }
@@ -429,6 +451,7 @@ export const QL_GET_TOKEN_BY_ID = gql`
       flag
       owner {
         id
+        verified
         username
         avatarUri
       }
@@ -438,6 +461,7 @@ export const QL_GET_TOKEN_BY_ID = gql`
       }
       user {
         id
+        verified
         username
         avatarUri
       }
@@ -461,6 +485,7 @@ export const QL_GET_TOKEN_RANDOM_BY_ID = gql`
       flag
       owner {
         id
+        verified
         username
         avatarUri
       }
@@ -470,6 +495,7 @@ export const QL_GET_TOKEN_RANDOM_BY_ID = gql`
       }
       user {
         id
+        verified
         username
         avatarUri
       }
@@ -482,6 +508,7 @@ export const QL_GET_ASSET = gql`
       id
       user {
         id
+        verified
         username
         avatarUri
       }
@@ -519,6 +546,7 @@ export const QL_GET_TOKEN_ITEMS_BY_SCRIPT = gql`
       flag
       user {
         id
+        verified
         username
       }
     }
@@ -546,10 +574,12 @@ export const QL_GET_TOKEN_OWNED_ITEMS_BY_USER = gql`
       }
       user {
         id
+        verified
         username
       }
       owner {
         id
+        verified
         username
       }
     }
@@ -567,11 +597,13 @@ export const QL_GET_TOKEN_SALES_ITEMS_BY_USER = gql`
         metadata
         user {
           id
+          verified
           username
           avatarUri
         }
         owner {
           id
+          verified
           username
           avatarUri
         }

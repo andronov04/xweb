@@ -86,6 +86,36 @@ const Activity = ({ variables, query }: IItems) => {
         >
           {items.map((item) => (
             <div key={item.id} className={'flex w-full justify-between'}>
+              {item.kind === IActivityKind.UNVERIFIED_PROFILE && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  set unverified{' '}
+                  <Link href={`/@${item.target.username ?? item.target.id}`}>
+                    <a href={`/@${item.target.username ?? item.target.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.target.username ?? item.target.id}
+                    </a>
+                  </Link>
+                </p>
+              )}
+              {item.kind === IActivityKind.VERIFIED_PROFILE && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  set verified{' '}
+                  <Link href={`/@${item.target.username ?? item.target.id}`}>
+                    <a href={`/@${item.target.username ?? item.target.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.target.username ?? item.target.id}
+                    </a>
+                  </Link>
+                </p>
+              )}
               {item.kind === IActivityKind.CHANGE_STATUS_ASSET && (
                 <p>
                   <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>

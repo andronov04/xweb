@@ -30,6 +30,7 @@ export interface IUser {
   id: string;
   username?: string;
   temp?: boolean;
+  verified?: boolean;
   description?: string;
   avatarUri?: string;
   role?: IUserRole;
