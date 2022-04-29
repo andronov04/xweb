@@ -138,11 +138,11 @@ const UserEdit = ({ user, onCancel }: { user: IUser; onCancel: () => void }) => 
           />
           <Input
             type={'textarea'}
-            placeholder={'max 512 characters'}
+            placeholder={'Description (max 512 characters)'}
             label={'Description'}
             defaultValue={user.description}
             register={register('description', {
-              maxLength: { message: 'Description max length 2048', value: 512 },
+              maxLength: { message: 'Description max length 512', value: 512 },
               required: false,
               // required: { message: 'Required description', value: false },
               minLength: { message: 'Description min length 0', value: 0 }

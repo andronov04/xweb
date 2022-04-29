@@ -160,19 +160,19 @@ const MintToken = () => {
           <form className={'flex gap-y-3 flex-col'} onSubmit={handleSubmit(onSubmit)}>
             <Input
               label={'Name'}
-              placeholder={'Name (max 280 characters)'}
+              placeholder={'Name (max 36 characters)'}
               register={register('name', {
                 required: { message: 'Required name', value: true },
                 minLength: { message: 'Name min length 3', value: 3 },
-                maxLength: { message: 'Name max length 280', value: 280 }
+                maxLength: { message: 'Name max length 36', value: 36 }
               })}
             />
             <Input
               type={'textarea'}
-              placeholder={'Description (max 2048 characters)'}
+              placeholder={'Description (max 512 characters'}
               label={'Description'}
               register={register('description', {
-                maxLength: { message: 'Description max length 2048', value: 2048 },
+                maxLength: { message: 'Description max length 512', value: 512 },
                 required: false,
                 minLength: { message: 'Description min length 12', value: 0 }
               })}
@@ -181,7 +181,7 @@ const MintToken = () => {
               label={'Tags'}
               placeholder={'Tags (comma separated)'}
               register={register('tags', {
-                maxLength: { message: 'Tags max length 512', value: 512 }
+                maxLength: { message: 'Tags max length 108', value: 108 }
               })}
             />
             <div className={'w-1/2'}>
@@ -189,7 +189,9 @@ const MintToken = () => {
                 label={'Royalties'}
                 type={'number'}
                 defaultValue={0}
-                placeholder={'royalties (0-20%)'}
+                min={0}
+                max={20}
+                placeholder={'Royalties (0-20%)'}
                 register={register('royalties', {
                   min: 0,
                   max: 20,
