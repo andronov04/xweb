@@ -1,4 +1,4 @@
-import { IUser, IUserFlag } from '../../types';
+import { IUser, IUserFlag, IUserRole } from '../../types';
 import Avatar from '../../components/Avatar/Avatar';
 import CustomButton from 'src/components/CustomButton/CustomButton';
 import Spacing from '../../components/Spacing/Spacing';
@@ -92,7 +92,12 @@ const UserProfile = ({ user }: { user: IUser }) => {
           <div className={'flex-grow md:mt-0 mt-5 flex flex-col items-start'}>
             {/*<p className={'text-whitegrey text-sm'}>{user.id}</p>*/}
             {(user.id ?? user.username) && (
-              <h2 className={'md:text-2xl text-base font-medium text-active'}>
+              <h2 className={'md:text-2xl text-center text-base font-medium text-active relative'}>
+                {(user.role === IUserRole.MODERATOR || user.role === IUserRole.ADMIN) && (
+                  <span className={'px-1.5 py-0.5 md:absolute md:mb-0 mb-2 flex w-fit -top-6 rounded-sm font-normal bg-black20 text-inactive text-xs'}>
+                    {user.role === IUserRole.MODERATOR ? 'Moderator' : 'Administrator'}
+                  </span>
+                )}
                 @{user.username ?? user.id}
                 {user.verified ? (
                   <span>

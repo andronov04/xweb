@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GRAPHQL_API_URL, GRAPHQL_API_WS_URL } from '../constants';
+import { GRAPHQL_API_URL, GRAPHQL_API_KEY, GRAPHQL_API_WS_URL } from '../constants';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 
@@ -30,10 +30,14 @@ const createWSLink = (headers) => {
 const initClient = () => {
   const ssrMode = typeof window === 'undefined';
   let link;
+  let headers: any = { 'x-hasura-role': 'user' };
+  if (GRAPHQL_API_KEY) {
+    headers = { 'x-hasura-admin-secret': GRAPHQL_API_KEY };
+  }
   if (ssrMode) {
-    link = createHttpLink({ 'x-hasura-role': 'user' });
+    link = createHttpLink(headers);
   } else {
-    link = createWSLink({ 'x-hasura-role': 'user' });
+    link = createWSLink(headers);
   }
   return new ApolloClient({
     ssrMode,

@@ -7,6 +7,7 @@ export const RPC_LIST =
 export const TZ_NETWORK = process.env.NEXT_PUBLIC_TZ_NETWORK ?? 'ithacanet';
 export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https://graph.art3s.xyz/v1/graphql';
 export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://graph.art3s.xyz/v1/graphql';
+export const GRAPHQL_API_KEY = process.env.NEXT_PUBLIC_GRAPHQL_API_KEY ?? '';
 export const IPFS_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_PREFIX_URL ?? 'https://contter.mypinata.cloud/ipfs/';
 export const MINI_LOGO_URL = process.env.NEXT_PUBLIC_MINI_LOGO_URL ?? 'https://contter.mypinata.cloud/ipfs/QmPD9ZiRqjxp8DktWhJ1zzsQ8z6S34G7oBjwUbNwLaXPHw';
 export const TZKT_URL = process.env.NEXT_PUBLIC_TZKT_URL ?? 'https://tzkt.io/';

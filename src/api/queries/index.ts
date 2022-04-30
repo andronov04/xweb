@@ -193,7 +193,6 @@ export const QL_GET_ASSET_ITEMS = gql`
         verified
         username
       }
-      datePublish
     }
   }
 `;
@@ -220,7 +219,6 @@ export const QL_GET_ASSET_ITEMS_BY_IDS = gql`
         verified
         username
       }
-      datePublish
     }
   }
 `;
@@ -247,7 +245,6 @@ export const QL_GET_ASSET_ITEMS_BY_NOT_IDS = gql`
         verified
         username
       }
-      datePublish
     }
   }
 `;
@@ -274,7 +271,6 @@ export const QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG = gql`
         verified
         username
       }
-      datePublish
     }
   }
 `;
@@ -301,7 +297,6 @@ export const QL_GET_ASSET_ITEMS_BY_TOKEN = gql`
         verified
         username
       }
-      datePublish
     }
   }
 `;
