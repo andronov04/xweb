@@ -86,6 +86,16 @@ const Activity = ({ variables, query }: IItems) => {
         >
           {items.map((item) => (
             <div key={item.id} className={'flex w-full justify-between'}>
+              {item.kind === IActivityKind.BURN_TOKEN && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  burn token {item.data?.token_name ?? 'Unknown'}
+                </p>
+              )}
               {item.kind === IActivityKind.UNVERIFIED_PROFILE && (
                 <p>
                   <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
