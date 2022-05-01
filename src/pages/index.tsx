@@ -8,7 +8,7 @@ import Spacing from '../components/Spacing/Spacing';
 
 export default function Home() {
   return (
-    <div>
+    <Page>
       <Head>
         <title>Contter</title>
         <meta key="og:title" property="og:title" content={'Contter'} />
@@ -19,25 +19,24 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>Soon</main>
-      {/*<main>*/}
-      {/*  <section style={{ height: '50vh' }} className={'flex-col flex md:flex-row gap-x-10 justify-between items-center'}>*/}
-      {/*    <div className={'md:w-1/2 w-full'}>*/}
-      {/*      <div className={'text-3xl md:text-left text-center font-medium'}>Endless creative possibilities</div>*/}
-      {/*    </div>*/}
-      {/*    <div className={'md:w-1/2 w-full h-full'}>*/}
-      {/*      <ConditionRender client>*/}
-      {/*        <RandomItem />*/}
-      {/*      </ConditionRender>*/}
-      {/*    </div>*/}
-      {/*  </section>*/}
+      <main>
+        <section style={{ height: '50vh' }} className={'flex-col flex md:flex-row gap-x-10 justify-between items-center'}>
+          <div className={'md:w-1/2 w-full'}>
+            <div className={'text-3xl md:text-left text-center font-medium'}>Endless creative possibilities</div>
+          </div>
+          <div className={'md:w-1/2 w-full h-full'}>
+            <ConditionRender client>
+              <RandomItem />
+            </ConditionRender>
+          </div>
+        </section>
 
-      {/*  <Spacing size={4} />*/}
+        <Spacing size={4} />
 
-      {/*  <div className={'mt-20'}>*/}
-      {/*    <FAQ />*/}
-      {/*  </div>*/}
-      {/*</main>*/}
-    </div>
+        <div className={'mt-20'}>
+          <FAQ />
+        </div>
+      </main>
+    </Page>
   );
 }
