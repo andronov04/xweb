@@ -26,7 +26,7 @@ export default function AssetsPage() {
               <p className={'italic text-whitegrey'}>Recently published</p>
             </div>
           </div>
-          <Items kind={'asset'} variables={{ flag: IAssetFlag.NONE }} query={QL_GET_ASSET_ITEMS} />
+          <Items kind={'asset'} variables={{ flag: IAssetFlag.NONE, enabled: true }} query={QL_GET_ASSET_ITEMS} />
         </main>
       </ConditionRender>
     </Page>

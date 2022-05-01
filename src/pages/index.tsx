@@ -8,7 +8,7 @@ import Spacing from '../components/Spacing/Spacing';
 
 export default function Home() {
   return (
-    <div className={'flex justify-center items-center w-full h-full'}>
+    <div>
       <Head>
         <title>Contter</title>
         <meta key="og:title" property="og:title" content={'Contter'} />
@@ -18,8 +18,6 @@ export default function Home() {
         <meta key="og:image" property="og:image" content={IMAGE_SEO} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main>Soon...</main>
 
       {/*<main>*/}
       {/*  <section style={{ height: '50vh' }} className={'flex-col flex md:flex-row gap-x-10 justify-between items-center'}>*/}

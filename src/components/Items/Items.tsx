@@ -77,10 +77,14 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
         }
         let dt = {};
         if (typeof kind === 'string') {
-          dt = { ...dt, [kind]: [...(prev[kind] ?? []), ...(fetchMoreResult[kind] ?? [])] };
+          const prevs = prev[kind] ?? [];
+          const nexts = (fetchMoreResult[kind] ?? []).filter((a) => !prevs.map((b) => b.id).includes(a.id));
+          dt = { ...dt, [kind]: [...prevs, ...nexts] };
         } else {
           kind.forEach((knd) => {
-            dt = { ...dt, [knd]: [...(prev[knd] ?? []), ...(fetchMoreResult[knd] ?? [])] };
+            const prevs = prev[knd] ?? [];
+            const nexts = (fetchMoreResult[knd] ?? []).filter((a) => !prevs.map((b) => b.id).includes(a.id));
+            dt = { ...dt, [knd]: [...prevs, ...nexts] };
           });
         }
         return Object.assign({}, prev, dt);

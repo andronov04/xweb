@@ -30,6 +30,7 @@ export interface IUser {
   id: string;
   username?: string;
   temp?: boolean;
+  verified?: boolean;
   description?: string;
   avatarUri?: string;
   role?: IUserRole;
@@ -65,6 +66,7 @@ export interface IAsset {
   kind?: number; // Enum
   digest?: string;
   hash?: string;
+  enabled?: boolean;
   flag?: IAssetFlag;
   state?: string;
   created?: string;

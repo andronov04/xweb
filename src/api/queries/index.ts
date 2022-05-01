@@ -9,6 +9,7 @@ export const QL_GET_USER = gql`
       role
       flag
       avatarUri
+      verified
       metadataUri
       metadata
       created
@@ -24,6 +25,7 @@ export const QL_GET_USER_BY_ID = gql`
       username
       description
       role
+      verified
       flag
       avatarUri
       metadataUri
@@ -50,6 +52,7 @@ export const QL_GET_SCRIPTS = gql`
       created
       user {
         id
+        verified
         username
       }
       date_publish
@@ -70,12 +73,19 @@ export const QL_GET_TOKENS_BY_USER = gql`
       height
       name
       flag
+      owner {
+        id
+        verified
+        username
+        avatarUri
+      }
       offer {
         id
         price
       }
       user {
         id
+        verified
         username
       }
     }
@@ -99,8 +109,15 @@ export const QL_GET_CREATED_BY_USER = gql`
         id
         price
       }
+      owner {
+        id
+        verified
+        username
+        avatarUri
+      }
       user {
         id
+        verified
         username
       }
     }
@@ -121,6 +138,61 @@ export const QL_GET_CREATED_BY_USER = gql`
       }
       user {
         id
+        verified
+        username
+      }
+    }
+  }
+`;
+
+// enabled
+export const QL_GET_CREATED_WITH_BY_USER = gql`
+  query MyQuery($userId: String!, $enabled: Boolean, $limit: Int, $offset: Int) {
+    token(where: { userId: { _eq: $userId }, enabled: { _eq: $enabled } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      created
+      description
+      id
+      digest
+      metadata
+      slug
+      width
+      height
+      name
+      flag
+      offer {
+        id
+        price
+      }
+      owner {
+        id
+        verified
+        username
+        avatarUri
+      }
+      user {
+        id
+        verified
+        username
+      }
+    }
+    asset(where: { userId: { _eq: $userId }, enabled: { _eq: $enabled } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      name
+      id
+      description
+      flag
+      enabled
+      metadata
+      royalties
+      slug
+      created
+      assetTokenAssets_aggregate {
+        aggregate {
+          count
+        }
+      }
+      user {
+        id
+        verified
         username
       }
     }
@@ -146,6 +218,7 @@ export const QL_GET_ASSETS_BY_USER = gql`
       }
       user {
         id
+        verified
         username
       }
     }
@@ -153,8 +226,8 @@ export const QL_GET_ASSETS_BY_USER = gql`
 `;
 
 export const QL_GET_ASSET_ITEMS = gql`
-  query MyQuery($flag: smallint, $limit: Int, $offset: Int) {
-    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { flag: { _eq: $flag } }) {
+  query MyQuery($flag: smallint, $enabled: Boolean, $limit: Int, $offset: Int) {
+    asset(where: { flag: { _eq: $flag }, enabled: { _eq: $enabled } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       name
       id
       description
@@ -171,16 +244,16 @@ export const QL_GET_ASSET_ITEMS = gql`
       }
       user {
         id
+        verified
         username
       }
-      datePublish
     }
   }
 `;
 
 export const QL_GET_ASSET_ITEMS_BY_IDS = gql`
   query MyQuery($ids: [bigint], $limit: Int, $offset: Int) {
-    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _in: $ids } }) {
+    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _in: $ids }, _and: { enabled: { _eq: true } } }) {
       name
       id
       description
@@ -197,9 +270,9 @@ export const QL_GET_ASSET_ITEMS_BY_IDS = gql`
       }
       user {
         id
+        verified
         username
       }
-      datePublish
     }
   }
 `;
@@ -223,16 +296,16 @@ export const QL_GET_ASSET_ITEMS_BY_NOT_IDS = gql`
       }
       user {
         id
+        verified
         username
       }
-      datePublish
     }
   }
 `;
 
 export const QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG = gql`
   query MyQuery($ids: [bigint], $flag: smallint, $limit: Int, $offset: Int) {
-    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _nin: $ids }, _and: { flag: { _eq: $flag } } }) {
+    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _nin: $ids }, _and: { flag: { _eq: $flag }, enabled: { _eq: true } } }) {
       name
       id
       description
@@ -249,9 +322,9 @@ export const QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG = gql`
       }
       user {
         id
+        verified
         username
       }
-      datePublish
     }
   }
 `;
@@ -275,9 +348,9 @@ export const QL_GET_ASSET_ITEMS_BY_TOKEN = gql`
       }
       user {
         id
+        verified
         username
       }
-      datePublish
     }
   }
 `;
@@ -295,8 +368,15 @@ export const QL_GET_TOKEN_ITEMS_BY_ASSET = gql`
       height
       name
       flag
+      owner {
+        id
+        verified
+        username
+        avatarUri
+      }
       user {
         id
+        verified
         username
       }
     }
@@ -304,8 +384,8 @@ export const QL_GET_TOKEN_ITEMS_BY_ASSET = gql`
 `;
 
 export const QL_GET_TOKEN_ITEMS = gql`
-  query MyQuery($limit: Int, $offset: Int) {
-    token(order_by: { created: desc }, limit: $limit, offset: $offset) {
+  query MyQuery($flag: smallint, $enabled: Boolean, $limit: Int, $offset: Int) {
+    token(where: { flag: { _eq: $flag }, enabled: { _eq: $enabled } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       created
       description
       id
@@ -317,8 +397,15 @@ export const QL_GET_TOKEN_ITEMS = gql`
       height
       name
       flag
+      owner {
+        id
+        verified
+        username
+        avatarUri
+      }
       user {
         id
+        verified
         username
       }
     }
@@ -336,11 +423,13 @@ export const QL_GET_OFFER_TOKENS = gql`
         metadata
         user {
           id
+          verified
           username
           avatarUri
         }
         owner {
           id
+          verified
           username
           avatarUri
         }
@@ -363,6 +452,7 @@ export const QL_GET_TOKEN = gql`
       tags
       width
       height
+      enabled
       royalties
       name
       flag
@@ -372,11 +462,13 @@ export const QL_GET_TOKEN = gql`
       }
       user {
         id
+        verified
         username
         avatarUri
       }
       owner {
         id
+        verified
         username
         avatarUri
       }
@@ -407,12 +499,19 @@ export const QL_GET_TOKEN_BY_ID = gql`
       height
       name
       flag
+      owner {
+        id
+        verified
+        username
+        avatarUri
+      }
       offer {
         id
         price
       }
       user {
         id
+        verified
         username
         avatarUri
       }
@@ -420,12 +519,46 @@ export const QL_GET_TOKEN_BY_ID = gql`
   }
 `;
 
+export const QL_GET_TOKEN_RANDOM_BY_ID = gql`
+  query Query($limit: Int, $offset: Int) {
+    token(where: { flag: { _eq: 0 } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      created
+      description
+      id
+      metadata
+      slug
+      metadataUri
+      tags
+      width
+      height
+      name
+      flag
+      owner {
+        id
+        verified
+        username
+        avatarUri
+      }
+      offer {
+        id
+        price
+      }
+      user {
+        id
+        verified
+        username
+        avatarUri
+      }
+    }
+  }
+`;
 export const QL_GET_ASSET = gql`
   query Query($slug: String) {
     asset(where: { slug: { _eq: $slug } }) {
       id
       user {
         id
+        verified
         username
         avatarUri
       }
@@ -438,6 +571,7 @@ export const QL_GET_ASSET = gql`
       description
       tags
       royalties
+      enabled
       created
       updated
       assetTokenAssets_aggregate {
@@ -463,6 +597,7 @@ export const QL_GET_TOKEN_ITEMS_BY_SCRIPT = gql`
       flag
       user {
         id
+        verified
         username
       }
     }
@@ -490,10 +625,12 @@ export const QL_GET_TOKEN_OWNED_ITEMS_BY_USER = gql`
       }
       user {
         id
+        verified
         username
       }
       owner {
         id
+        verified
         username
       }
     }
@@ -511,11 +648,13 @@ export const QL_GET_TOKEN_SALES_ITEMS_BY_USER = gql`
         metadata
         user {
           id
+          verified
           username
           avatarUri
         }
         owner {
           id
+          verified
           username
           avatarUri
         }
@@ -536,6 +675,7 @@ export const QL_GET_ACTION_BY_USER = gql`
         id
         username
       }
+      data
       target {
         id
         username

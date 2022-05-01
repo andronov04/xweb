@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { displayPrice } from '../../utils';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useState } from 'react';
-import { IAssetFlag, ITokenFlag } from '../../types';
+import { IAssetFlag, ITokenFlag, IUserFlag } from '../../types';
 
 interface IVariable {
   [key: string]: string | number;
@@ -86,6 +86,100 @@ const Activity = ({ variables, query }: IItems) => {
         >
           {items.map((item) => (
             <div key={item.id} className={'flex w-full justify-between'}>
+              {item.kind === IActivityKind.UNVERIFIED_PROFILE && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  set unverified{' '}
+                  <Link href={`/@${item.target.username ?? item.target.id}`}>
+                    <a href={`/@${item.target.username ?? item.target.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.target.username ?? item.target.id}
+                    </a>
+                  </Link>
+                </p>
+              )}
+              {item.kind === IActivityKind.VERIFIED_PROFILE && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  set verified{' '}
+                  <Link href={`/@${item.target.username ?? item.target.id}`}>
+                    <a href={`/@${item.target.username ?? item.target.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.target.username ?? item.target.id}
+                    </a>
+                  </Link>
+                </p>
+              )}
+              {item.kind === IActivityKind.ENABLE_TOKEN && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  changed the status of{' '}
+                  <Link href={`/token/${item.token.slug}`}>
+                    <a href={`/token/${item.token.slug}`} className={'text-active hover:opacity-80'}>
+                      {item.token.name}
+                    </a>
+                  </Link>{' '}
+                  to <span>enabled</span>
+                </p>
+              )}
+              {item.kind === IActivityKind.DISABLE_TOKEN && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  changed the status of{' '}
+                  <Link href={`/token/${item.token.slug}`}>
+                    <a href={`/token/${item.token.slug}`} className={'text-active hover:opacity-80'}>
+                      {item.token.name}
+                    </a>
+                  </Link>{' '}
+                  to <span>disabled</span>
+                </p>
+              )}
+              {item.kind === IActivityKind.ENABLE_ASSET && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  changed the status of{' '}
+                  <Link href={`/asset/${item.asset.slug}`}>
+                    <a href={`/asset/${item.asset.slug}`} className={'text-active hover:opacity-80'}>
+                      {item.asset.name}
+                    </a>
+                  </Link>{' '}
+                  to <span>enabled</span>
+                </p>
+              )}
+              {item.kind === IActivityKind.DISABLE_ASSET && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
+                  changed the status of{' '}
+                  <Link href={`/asset/${item.asset.slug}`}>
+                    <a href={`/asset/${item.asset.slug}`} className={'text-active hover:opacity-80'}>
+                      {item.asset.name}
+                    </a>
+                  </Link>{' '}
+                  to <span>disabled</span>
+                </p>
+              )}
               {item.kind === IActivityKind.CHANGE_STATUS_ASSET && (
                 <p>
                   <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
@@ -93,12 +187,18 @@ const Activity = ({ variables, query }: IItems) => {
                       @{item.issuer.username ?? item.issuer.id}
                     </a>
                   </Link>{' '}
-                  changed status to{' '}
-                  <span className={'text-active'}>
-                    {item.data.status === IAssetFlag.NONE ? '"published"' : null}
-                    {item.data.status === IAssetFlag.REVIEW ? '"in moderation"' : null}
-                    {item.data.status === IAssetFlag.BANNED ? '"blocked"' : null}
-                    {item.data.status === IAssetFlag.HIDDEN ? '"hidden"' : null}
+                  changed the status of{' '}
+                  <Link href={`/asset/${item.asset.slug}`}>
+                    <a href={`/asset/${item.asset.slug}`} className={'text-active hover:opacity-80'}>
+                      {item.asset.name}
+                    </a>
+                  </Link>{' '}
+                  to{' '}
+                  <span>
+                    {item.data.status === IAssetFlag.NONE ? 'published' : null}
+                    {item.data.status === IAssetFlag.REVIEW ? 'in moderation' : null}
+                    {item.data.status === IAssetFlag.BANNED ? 'blocked' : null}
+                    {item.data.status === IAssetFlag.HIDDEN ? 'hidden' : null}
                   </span>
                 </p>
               )}
@@ -109,11 +209,33 @@ const Activity = ({ variables, query }: IItems) => {
                       @{item.issuer.username ?? item.issuer.id}
                     </a>
                   </Link>{' '}
+                  changed the status of{' '}
+                  <Link href={`/token/${item.token.slug}`}>
+                    <a href={`/token/${item.token.slug}`} className={'text-active hover:opacity-80'}>
+                      {item.token.name}
+                    </a>
+                  </Link>{' '}
+                  to{' '}
+                  <span>
+                    {item.data.status === ITokenFlag.NONE ? 'published' : null}
+                    {item.data.status === ITokenFlag.REVIEW ? 'in moderation' : null}
+                    {item.data.status === ITokenFlag.BANNED ? 'blocked' : null}
+                  </span>
+                </p>
+              )}
+              {item.kind === IActivityKind.CHANGE_STATUS_PROFILE && (
+                <p>
+                  <Link href={`/@${item.issuer.username ?? item.issuer.id}`}>
+                    <a href={`/@${item.issuer.username ?? item.issuer.id}`} className={'text-active hover:opacity-80'}>
+                      @{item.issuer.username ?? item.issuer.id}
+                    </a>
+                  </Link>{' '}
                   changed status to{' '}
                   <span className={'text-active'}>
-                    {item.data.status === ITokenFlag.NONE ? '"published"' : null}
-                    {item.data.status === ITokenFlag.REVIEW ? '"in moderation"' : null}
-                    {item.data.status === ITokenFlag.BANNED ? '"blocked"' : null}
+                    {item.data.status === IUserFlag.NONE ? 'active' : null}
+                    {item.data.status === IUserFlag.REVIEW ? 'in moderation' : null}
+                    {item.data.status === IUserFlag.BANNED ? 'blocked' : null}
+                    {item.data.status === IUserFlag.LIMIT ? 'temporarily restricted' : null}
                   </span>
                 </p>
               )}

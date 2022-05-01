@@ -1,4 +1,4 @@
-import { IUser, IUserFlag } from '../../types';
+import { IUser, IUserFlag, IUserRole } from '../../types';
 import Avatar from '../../components/Avatar/Avatar';
 import CustomButton from 'src/components/CustomButton/CustomButton';
 import Spacing from '../../components/Spacing/Spacing';
@@ -64,18 +64,20 @@ const UserProfile = ({ user }: { user: IUser }) => {
   return (
     <>
       <>
-        {user.flag !== IUserFlag.NONE && !user.temp && (
-          <Footnote type={user.flag === IUserFlag.REVIEW ? 'info' : user.flag === IUserFlag.LIMIT ? 'warning' : 'error'}>
-            {user.flag === IUserFlag.BANNED && <p>Banned</p>}
-            {user.flag === IUserFlag.REVIEW && <p>Under Review</p>}
-            {user.flag === IUserFlag.LIMIT && <p>Limited</p>}
-          </Footnote>
-        )}
-        {user.temp ? (
-          <Footnote type={'warning'}>
-            <p className={'font-light'}>This account has not interacted with Contter contracts yet.</p>
-          </Footnote>
-        ) : null}
+        <div className={'flex flex-col gap-y-1 w-full mb-4'}>
+          {user.flag !== IUserFlag.NONE && !user.temp && (
+            <Footnote type={user.flag === IUserFlag.REVIEW ? 'info' : user.flag === IUserFlag.LIMIT ? 'warning' : 'error'}>
+              {user.flag === IUserFlag.BANNED && <p>Blocked. This user violated our Code of Conduct.</p>}
+              {user.flag === IUserFlag.REVIEW && <p>In moderation. This user is undergoing moderation.</p>}
+              {user.flag === IUserFlag.LIMIT && <p>Temporarily restricted. This user is temporarily restricted from using this platform.</p>}
+            </Footnote>
+          )}
+          {user.temp ? (
+            <Footnote type={'warning'}>
+              <p className={'font-light'}>This account has not interacted with Contter contracts yet.</p>
+            </Footnote>
+          ) : null}
+        </div>
       </>
       {editUser ? (
         <UserEdit
@@ -92,8 +94,27 @@ const UserProfile = ({ user }: { user: IUser }) => {
           <div className={'flex-grow md:mt-0 mt-5 flex flex-col items-start'}>
             {/*<p className={'text-whitegrey text-sm'}>{user.id}</p>*/}
             {(user.id ?? user.username) && (
-              <h2 className={'md:text-2xl text-base font-medium text-active'}>
+              <h2 className={'md:text-2xl text-center text-base font-medium text-active relative'}>
+                {(user.role === IUserRole.MODERATOR || user.role === IUserRole.ADMIN) && (
+                  <span className={'px-1.5 py-0.5 md:absolute md:mb-0 mb-2 flex w-fit -top-6 rounded-sm font-normal bg-black20 text-inactive text-xs'}>
+                    {user.role === IUserRole.MODERATOR ? 'Moderator' : 'Administrator'}
+                  </span>
+                )}
                 @{user.username ?? user.id}
+                {user.verified ? (
+                  <span>
+                    <svg className={'inline -mt-1'} width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M15.636 28.364C14.8395 27.5675 15.3678 25.8952 14.9624 24.9154C14.5421 23.8997 13 23.0822 13 22C13 20.9178 14.5422 20.1003 14.9624 19.0846C15.3678 18.1048 14.8395 16.4325 15.636 15.636C16.4325 14.8395 18.1048 15.3678 19.0846 14.9624C20.1003 14.5421 20.9178 13 22 13C23.0822 13 23.8997 14.5422 24.9154 14.9624C25.8952 15.3678 27.5675 14.8395 28.364 15.636C29.1605 16.4325 28.6322 18.1048 29.0376 19.0846C29.4579 20.1003 31 20.9178 31 22C31 23.0822 29.4578 23.8997 29.0376 24.9154C28.6322 25.8952 29.1605 27.5675 28.364 28.364C27.5675 29.1605 25.8952 28.6322 24.9154 29.0376C23.8997 29.4579 23.0822 31 22 31C20.9178 31 20.1003 29.4578 19.0846 29.0376C18.1048 28.6322 16.4325 29.1605 15.636 28.364Z"
+                        stroke="white"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path d="M25.8078 19.9231L20.7308 24.7692L18.1924 22.3462" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                ) : null}
                 <span
                   onClick={() => {
                     navigator.clipboard.writeText(user.id).then(
@@ -105,7 +126,7 @@ const UserProfile = ({ user }: { user: IUser }) => {
                       }
                     );
                   }}
-                  className={'cursor-pointer text-xs text-white30 ml-1.5 hover:opacity-80'}
+                  className={`cursor-pointer text-xs text-white30 ${user.verified ? '' : 'ml-1.5'} hover:opacity-80`}
                 >
                   <Popup
                     trigger={() => (
@@ -164,7 +185,13 @@ const UserProfile = ({ user }: { user: IUser }) => {
       <Spacing size={1.2} />
 
       <ConditionRender client>
-        {isActivity ? <Activity query={QL_GET_ACTION_BY_USER} variables={{ userId: user.id }} /> : <UserItems user={user} />}
+        <div>
+          {isActivity ? (
+            <Activity query={QL_GET_ACTION_BY_USER} variables={{ userId: user.id }} />
+          ) : (
+            <UserItems key={isCurrent ? 'yes' : 'no'} isCurrent={isCurrent} user={user} />
+          )}
+        </div>
       </ConditionRender>
     </>
   );
