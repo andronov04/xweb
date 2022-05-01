@@ -55,7 +55,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
                   @{item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}
                 </a>
               </Link>
-              {(item.owner?.verified && item.owner?.id !== item.user?.id) || item.user?.verified ? (
+              {item.owner?.verified || (item.user?.verified && item.owner?.id !== item.user?.id) ? (
                 <span className={'px-1'}>
                   <svg className={'inline -mt-0.5'} width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
