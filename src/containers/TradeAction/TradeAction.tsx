@@ -11,6 +11,7 @@ import { setMsg } from '../../services/snackbar';
 import { useRouter } from 'next/router';
 import { useStore } from '../../store';
 import Waiting from '../../components/Waiting/Waiting';
+import TokenAction from './TokenAction';
 
 const TradeAction = ({ item }: { item: IToken }) => {
   const router = useRouter();
@@ -66,67 +67,77 @@ const TradeAction = ({ item }: { item: IToken }) => {
         />
       ) : null}
 
-      {item.offer ? (
-        <CustomButton
-          onClick={() => {
-            if (!currentUser) {
-              setMsg({ clear: true, title: 'You are not logged in. Please log in and try again', kind: 'error' });
-              return;
-            }
-            if (item.offer) {
-              callCancel(item.offer.id);
-            }
-          }}
-          style={'white'}
-          styles={{
-            color: 'rgba(255,53,53,0.9)'
-          }}
-          value={`Cancel trade (${displayPrice(item.offer.price)} ꜩ)`}
-        />
-      ) : (
-        <div className={'flex gap-x-3 justify-start items-center'}>
-          {trade ? (
-            <div>
-              <form className={'flex gap-y-3 flex-col'} onSubmit={handleSubmit(onSubmit)}>
-                <Input
-                  label={null}
-                  type={'number'}
-                  defaultValue={0}
-                  min={0}
-                  placeholder={'ꜩ (0-9999)'}
-                  register={register('price', {
-                    min: 0,
-                    max: Infinity,
-                    required: { message: 'Required extended price', value: true },
-                    valueAsNumber: true
-                  })}
-                />
-                <input ref={refSubmit} className={'hidden'} type="submit" />
-              </form>
-            </div>
-          ) : null}
-          <CustomButton
-            onClick={() => {
-              setTrade(true);
-              refSubmit.current?.click();
-            }}
-            style={'white'}
-            value={trade ? 'List' : 'List for trade'}
-          />
-          {trade && (
+      <div className={'flex flex gap-x-3'}>
+        <div>
+          {item.offer ? (
             <CustomButton
               onClick={() => {
-                setTrade(false);
+                if (!currentUser) {
+                  setMsg({ clear: true, title: 'You are not logged in. Please log in and try again', kind: 'error' });
+                  return;
+                }
+                if (item.offer) {
+                  callCancel(item.offer.id);
+                }
               }}
+              style={'white'}
               styles={{
                 color: 'rgba(255,53,53,0.9)'
               }}
-              style={'black'}
-              value={'Cancel'}
+              value={`Cancel trade (${displayPrice(item.offer.price)} ꜩ)`}
             />
+          ) : (
+            <div className={'flex gap-x-3 justify-start items-center'}>
+              {trade ? (
+                <div>
+                  <form className={'flex gap-y-3 flex-col'} onSubmit={handleSubmit(onSubmit)}>
+                    <Input
+                      label={null}
+                      type={'number'}
+                      defaultValue={0}
+                      min={0}
+                      placeholder={'ꜩ (0-9999)'}
+                      register={register('price', {
+                        min: 0,
+                        max: Infinity,
+                        required: { message: 'Required extended price', value: true },
+                        valueAsNumber: true
+                      })}
+                    />
+                    <input ref={refSubmit} className={'hidden'} type="submit" />
+                  </form>
+                </div>
+              ) : null}
+              <CustomButton
+                onClick={() => {
+                  setTrade(true);
+                  refSubmit.current?.click();
+                }}
+                style={'white'}
+                value={trade ? 'List' : 'List for trade'}
+              />
+              {trade && (
+                <CustomButton
+                  onClick={() => {
+                    setTrade(false);
+                  }}
+                  styles={{
+                    color: 'rgba(255,53,53,0.9)'
+                  }}
+                  style={'black'}
+                  value={'Cancel'}
+                />
+              )}
+            </div>
           )}
         </div>
-      )}
+
+        {!trade && !item.offer ? (
+          <div>
+            <TokenAction item={item} />
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };

@@ -66,6 +66,7 @@ export interface IAsset {
   kind?: number; // Enum
   digest?: string;
   hash?: string;
+  enabled?: boolean;
   flag?: IAssetFlag;
   state?: string;
   created?: string;

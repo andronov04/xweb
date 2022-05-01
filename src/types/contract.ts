@@ -53,6 +53,16 @@ export interface CollectCallData {
   id: number;
 }
 
+export interface UpdateAssetCallData {
+  enabled: boolean;
+  token_id: number;
+}
+
+export interface UpdateTokenCallData {
+  enabled: boolean;
+  token_id: number;
+}
+
 export interface TradeTokenCallData {
   price: number;
   ownerId: string; // owner current

@@ -10,7 +10,7 @@ const Explore = () => {
           <p className={'italic text-whitegrey'}>Recently minted</p>
         </div>
       </div>
-      <Items kind={'token'} variables={{ flag: ITokenFlag.NONE }} query={QL_GET_TOKEN_ITEMS} />
+      <Items kind={'token'} variables={{ flag: ITokenFlag.NONE, enabled: true }} query={QL_GET_TOKEN_ITEMS} />
     </main>
   );
 };

@@ -145,6 +145,60 @@ export const QL_GET_CREATED_BY_USER = gql`
   }
 `;
 
+// enabled
+export const QL_GET_CREATED_WITH_BY_USER = gql`
+  query MyQuery($userId: String!, $enabled: Boolean, $limit: Int, $offset: Int) {
+    token(where: { userId: { _eq: $userId }, enabled: { _eq: $enabled } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      created
+      description
+      id
+      digest
+      metadata
+      slug
+      width
+      height
+      name
+      flag
+      offer {
+        id
+        price
+      }
+      owner {
+        id
+        verified
+        username
+        avatarUri
+      }
+      user {
+        id
+        verified
+        username
+      }
+    }
+    asset(where: { userId: { _eq: $userId }, enabled: { _eq: $enabled } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+      name
+      id
+      description
+      flag
+      enabled
+      metadata
+      royalties
+      slug
+      created
+      assetTokenAssets_aggregate {
+        aggregate {
+          count
+        }
+      }
+      user {
+        id
+        verified
+        username
+      }
+    }
+  }
+`;
+
 export const QL_GET_ASSETS_BY_USER = gql`
   query MyQuery($userId: String!, $limit: Int, $offset: Int) {
     asset(where: { userId: { _eq: $userId } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
@@ -172,8 +226,8 @@ export const QL_GET_ASSETS_BY_USER = gql`
 `;
 
 export const QL_GET_ASSET_ITEMS = gql`
-  query MyQuery($flag: smallint, $limit: Int, $offset: Int) {
-    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { flag: { _eq: $flag } }) {
+  query MyQuery($flag: smallint, $enabled: Boolean, $limit: Int, $offset: Int) {
+    asset(where: { flag: { _eq: $flag }, enabled: { _eq: $enabled } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       name
       id
       description
@@ -199,7 +253,7 @@ export const QL_GET_ASSET_ITEMS = gql`
 
 export const QL_GET_ASSET_ITEMS_BY_IDS = gql`
   query MyQuery($ids: [bigint], $limit: Int, $offset: Int) {
-    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _in: $ids } }) {
+    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _in: $ids }, _and: { enabled: { _eq: true } } }) {
       name
       id
       description
@@ -251,7 +305,7 @@ export const QL_GET_ASSET_ITEMS_BY_NOT_IDS = gql`
 
 export const QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG = gql`
   query MyQuery($ids: [bigint], $flag: smallint, $limit: Int, $offset: Int) {
-    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _nin: $ids }, _and: { flag: { _eq: $flag } } }) {
+    asset(order_by: { created: desc }, limit: $limit, offset: $offset, where: { id: { _nin: $ids }, _and: { flag: { _eq: $flag }, enabled: { _eq: true } } }) {
       name
       id
       description
@@ -330,8 +384,8 @@ export const QL_GET_TOKEN_ITEMS_BY_ASSET = gql`
 `;
 
 export const QL_GET_TOKEN_ITEMS = gql`
-  query MyQuery($flag: smallint, $limit: Int, $offset: Int) {
-    token(where: { flag: { _eq: $flag } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+  query MyQuery($flag: smallint, $enabled: Boolean, $limit: Int, $offset: Int) {
+    token(where: { flag: { _eq: $flag }, enabled: { _eq: $enabled } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       created
       description
       id
@@ -398,6 +452,7 @@ export const QL_GET_TOKEN = gql`
       tags
       width
       height
+      enabled
       royalties
       name
       flag
@@ -516,6 +571,7 @@ export const QL_GET_ASSET = gql`
       description
       tags
       royalties
+      enabled
       created
       updated
       assetTokenAssets_aggregate {

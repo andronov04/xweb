@@ -25,12 +25,19 @@ const TokenItem = ({ item }: { item: IToken }) => {
 
   return (
     <section>
-      {item.flag !== ITokenFlag.NONE && (
-        <Footnote type={item.flag === ITokenFlag.REVIEW ? 'info' : 'error'}>
-          {item.flag === ITokenFlag.BANNED && <p>Blocked. This token violates our Code of Conduct.</p>}
-          {item.flag === ITokenFlag.REVIEW && <p>In moderation. This token is undergoing moderation.</p>}
-        </Footnote>
-      )}
+      <div className={'flex flex-col gap-y-1 w-full mb-4'}>
+        {item.flag !== ITokenFlag.NONE && (
+          <Footnote type={item.flag === ITokenFlag.REVIEW ? 'info' : 'error'}>
+            {item.flag === ITokenFlag.BANNED && <p>Blocked. This token violates our Code of Conduct.</p>}
+            {item.flag === ITokenFlag.REVIEW && <p>In moderation. This token is undergoing moderation.</p>}
+          </Footnote>
+        )}
+        {!item.enabled ? (
+          <Footnote type={'warning'}>
+            <p>This token is disabled</p>
+          </Footnote>
+        ) : null}
+      </div>
       <div className={'flex w-full items-start md:flex-row flex-col gap-x-8'}>
         <div className={'md:w-1/2 w-full'}>
           <ItemToken item={item as IItem} />

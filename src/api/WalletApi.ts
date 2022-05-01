@@ -10,7 +10,9 @@ import {
   MintStatusCallData,
   MintTokenCallData,
   MintUpdProfileCallData,
-  TradeTokenCallData
+  TradeTokenCallData,
+  UpdateAssetCallData,
+  UpdateTokenCallData
 } from '../types/contract';
 import { MichelsonV1Expression } from '@taquito/rpc';
 import { ColorMode, NetworkType } from '@airgap/beacon-sdk';
@@ -165,6 +167,28 @@ class WalletApi {
       amount: tzData.price,
       storageLimit: 150
     });
+
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
+  };
+
+  updateAsset: ContractCall<UpdateAssetCallData> = async (tzData, requestCallback) => {
+    const contract = await this.getContract(EContract.ASSET);
+
+    requestCallback(ContractRequestStatus.CALLING);
+    const opSend = await contract.methodsObject.update_asset(tzData).send();
+
+    requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
+
+    requestCallback(ContractRequestStatus.INJECTED, { hash: opSend.opHash });
+  };
+
+  updateToken: ContractCall<UpdateTokenCallData> = async (tzData, requestCallback) => {
+    const contract = await this.getContract(EContract.TOKEN);
+
+    requestCallback(ContractRequestStatus.CALLING);
+    const opSend = await contract.methodsObject.update_token(tzData).send();
 
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
 

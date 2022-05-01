@@ -13,7 +13,7 @@ const Footnote = ({ children, type }: IFootnote) => {
   if (type === 'warning') {
     cl = 'bg-orange-600 text-white';
   }
-  return <div className={`${cl} p-1 text-xs rounded-sm mb-4`}>{children}</div>;
+  return <div className={`${cl} w-full p-1 text-xs rounded-sm`}>{children}</div>;
 };
 
 export default Footnote;

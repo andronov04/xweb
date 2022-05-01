@@ -13,6 +13,7 @@ import { useStore } from '../../store';
 import AssetItemApprove from './AssetItemApprove';
 import ItemToken from '../../components/Item/ItemToken';
 import Footnote from '../../components/Library/Footnote/Footnote';
+import AssetAction from './AssetAction';
 
 const AssetItem = ({ item }: { item: IAsset }) => {
   const router = useRouter();
@@ -25,16 +26,22 @@ const AssetItem = ({ item }: { item: IAsset }) => {
 
   const tokens = item.assetTokenAssets_aggregate?.aggregate.count ?? 0;
 
-  // TODO All flags
   return (
     <section>
-      {item.flag !== IAssetFlag.NONE && (
-        <Footnote type={item.flag === IAssetFlag.REVIEW ? 'info' : item.flag === IAssetFlag.HIDDEN ? 'warning' : 'error'}>
-          {item.flag === IAssetFlag.BANNED && <p>Blocked. This asset violates our Code of Conduct.</p>}
-          {item.flag === IAssetFlag.REVIEW && <p>In moderation. This asset is undergoing moderation.</p>}
-          {item.flag === IAssetFlag.HIDDEN && <p>Hidden. This asset is hidden from everyone.</p>}
-        </Footnote>
-      )}
+      <div className={'flex flex-col gap-y-1 w-full mb-4'}>
+        {item.flag !== IAssetFlag.NONE && (
+          <Footnote type={item.flag === IAssetFlag.REVIEW ? 'info' : item.flag === IAssetFlag.HIDDEN ? 'warning' : 'error'}>
+            {item.flag === IAssetFlag.BANNED && <p>Blocked. This asset violates our Code of Conduct.</p>}
+            {item.flag === IAssetFlag.REVIEW && <p>In moderation. This asset is undergoing moderation.</p>}
+            {item.flag === IAssetFlag.HIDDEN && <p>Hidden. This asset is hidden from everyone.</p>}
+          </Footnote>
+        )}
+        {!item.enabled ? (
+          <Footnote type={'warning'}>
+            <p>This asset is disabled</p>
+          </Footnote>
+        ) : null}
+      </div>
       <div className={'flex w-full items-center md:flex-row flex-col-reverse gap-x-8'}>
         <div className={'flex-grow flex md:h-96 h-auto md:w-1/2 w-full flex-col justify-between'}>
           <div>
@@ -57,22 +64,19 @@ const AssetItem = ({ item }: { item: IAsset }) => {
             </div>
           </div>
           <div className={'flex gap-x-3 justify-end text-right'}>
-            <ConditionRender client={true}>
-              <div>
-                {(currentUser?.role === IUserRole.ADMIN || currentUser?.role === IUserRole.MODERATOR) && item.flag === IAssetFlag.REVIEW && (
-                  <AssetItemApprove item={item} />
-                )}
-              </div>
-            </ConditionRender>
+            {/*<ConditionRender client={true}>*/}
+            {/*  <div>*/}
+            {/*    {(currentUser?.role === IUserRole.ADMIN || currentUser?.role === IUserRole.MODERATOR) && item.flag === IAssetFlag.REVIEW && (*/}
+            {/*      <AssetItemApprove item={item} />*/}
+            {/*    )}*/}
+            {/*  </div>*/}
+            {/*</ConditionRender>*/}
 
-            <div>
-              {/*{item.count_tokens ? (*/}
-              {/*  <p className={'pb-1 text-inactive text-sm'}>*/}
-              {/*    {item.count_tokens} {(item.count_tokens || 0) <= 1 ? 'art' : 'arts'}*/}
-              {/*  </p>*/}
-              {/*) : null}*/}
+            <div className={'flex gap-x-3'}>
+              {item.user?.id === currentUser?.id ? <AssetAction item={item} /> : null}
+
               <CustomButton
-                disabled={item.flag !== IAssetFlag.NONE}
+                disabled={item.flag !== IAssetFlag.NONE || !item.enabled}
                 style={'white'}
                 onClick={() => {
                   if (item.flag === IAssetFlag.NONE) {

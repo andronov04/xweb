@@ -64,18 +64,20 @@ const UserProfile = ({ user }: { user: IUser }) => {
   return (
     <>
       <>
-        {user.flag !== IUserFlag.NONE && !user.temp && (
-          <Footnote type={user.flag === IUserFlag.REVIEW ? 'info' : user.flag === IUserFlag.LIMIT ? 'warning' : 'error'}>
-            {user.flag === IUserFlag.BANNED && <p>Blocked. This user violated our Code of Conduct.</p>}
-            {user.flag === IUserFlag.REVIEW && <p>In moderation. This user is undergoing moderation.</p>}
-            {user.flag === IUserFlag.LIMIT && <p>Temporarily restricted. This user is temporarily restricted from using this platform.</p>}
-          </Footnote>
-        )}
-        {user.temp ? (
-          <Footnote type={'warning'}>
-            <p className={'font-light'}>This account has not interacted with Contter contracts yet.</p>
-          </Footnote>
-        ) : null}
+        <div className={'flex flex-col gap-y-1 w-full mb-4'}>
+          {user.flag !== IUserFlag.NONE && !user.temp && (
+            <Footnote type={user.flag === IUserFlag.REVIEW ? 'info' : user.flag === IUserFlag.LIMIT ? 'warning' : 'error'}>
+              {user.flag === IUserFlag.BANNED && <p>Blocked. This user violated our Code of Conduct.</p>}
+              {user.flag === IUserFlag.REVIEW && <p>In moderation. This user is undergoing moderation.</p>}
+              {user.flag === IUserFlag.LIMIT && <p>Temporarily restricted. This user is temporarily restricted from using this platform.</p>}
+            </Footnote>
+          )}
+          {user.temp ? (
+            <Footnote type={'warning'}>
+              <p className={'font-light'}>This account has not interacted with Contter contracts yet.</p>
+            </Footnote>
+          ) : null}
+        </div>
       </>
       {editUser ? (
         <UserEdit
@@ -183,7 +185,13 @@ const UserProfile = ({ user }: { user: IUser }) => {
       <Spacing size={1.2} />
 
       <ConditionRender client>
-        <div>{isActivity ? <Activity query={QL_GET_ACTION_BY_USER} variables={{ userId: user.id }} /> : <UserItems user={user} />}</div>
+        <div>
+          {isActivity ? (
+            <Activity query={QL_GET_ACTION_BY_USER} variables={{ userId: user.id }} />
+          ) : (
+            <UserItems key={isCurrent ? 'yes' : 'no'} isCurrent={isCurrent} user={user} />
+          )}
+        </div>
       </ConditionRender>
     </>
   );
