@@ -47,12 +47,12 @@ const AssetAction = ({ item }: { item: IAsset }) => {
           });
         }}
         styles={{
-          color: 'rgba(255,53,53,0.9)',
+          color: item.enabled ? 'rgba(255,53,53,0.9)' : '#0C9300',
           background: 'transparent'
         }}
         style={'black'}
         classNames={'bg-active text-dark hover:bg-inactive'}
-        value={item.enabled ? 'Disabled' : 'Enabled'}
+        value={item.enabled ? 'Disable' : 'Enable'}
       />
     </div>
   );
