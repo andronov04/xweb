@@ -129,7 +129,7 @@ const Activity = ({ variables, query }: IItems) => {
                       {item.token.name}
                     </a>
                   </Link>{' '}
-                  to <span>"enabled"</span>
+                  to <span>enabled</span>
                 </p>
               )}
               {item.kind === IActivityKind.DISABLE_TOKEN && (
@@ -145,7 +145,7 @@ const Activity = ({ variables, query }: IItems) => {
                       {item.token.name}
                     </a>
                   </Link>{' '}
-                  to <span>"disabled"</span>
+                  to <span>disabled</span>
                 </p>
               )}
               {item.kind === IActivityKind.ENABLE_ASSET && (
@@ -161,7 +161,7 @@ const Activity = ({ variables, query }: IItems) => {
                       {item.asset.name}
                     </a>
                   </Link>{' '}
-                  to <span>"enabled"</span>
+                  to <span>enabled</span>
                 </p>
               )}
               {item.kind === IActivityKind.DISABLE_ASSET && (
@@ -177,7 +177,7 @@ const Activity = ({ variables, query }: IItems) => {
                       {item.asset.name}
                     </a>
                   </Link>{' '}
-                  to <span>"disabled"</span>
+                  to <span>disabled</span>
                 </p>
               )}
               {item.kind === IActivityKind.CHANGE_STATUS_ASSET && (
@@ -195,10 +195,10 @@ const Activity = ({ variables, query }: IItems) => {
                   </Link>{' '}
                   to{' '}
                   <span>
-                    {item.data.status === IAssetFlag.NONE ? '"published"' : null}
-                    {item.data.status === IAssetFlag.REVIEW ? '"in moderation"' : null}
-                    {item.data.status === IAssetFlag.BANNED ? '"blocked"' : null}
-                    {item.data.status === IAssetFlag.HIDDEN ? '"hidden"' : null}
+                    {item.data.status === IAssetFlag.NONE ? 'published' : null}
+                    {item.data.status === IAssetFlag.REVIEW ? 'in moderation' : null}
+                    {item.data.status === IAssetFlag.BANNED ? 'blocked' : null}
+                    {item.data.status === IAssetFlag.HIDDEN ? 'hidden' : null}
                   </span>
                 </p>
               )}
@@ -217,9 +217,9 @@ const Activity = ({ variables, query }: IItems) => {
                   </Link>{' '}
                   to{' '}
                   <span>
-                    {item.data.status === ITokenFlag.NONE ? '"published"' : null}
-                    {item.data.status === ITokenFlag.REVIEW ? '"in moderation"' : null}
-                    {item.data.status === ITokenFlag.BANNED ? '"blocked"' : null}
+                    {item.data.status === ITokenFlag.NONE ? 'published' : null}
+                    {item.data.status === ITokenFlag.REVIEW ? 'in moderation' : null}
+                    {item.data.status === ITokenFlag.BANNED ? 'blocked' : null}
                   </span>
                 </p>
               )}
@@ -232,10 +232,10 @@ const Activity = ({ variables, query }: IItems) => {
                   </Link>{' '}
                   changed status to{' '}
                   <span className={'text-active'}>
-                    {item.data.status === IUserFlag.NONE ? '"active"' : null}
-                    {item.data.status === IUserFlag.REVIEW ? '"in moderation"' : null}
-                    {item.data.status === IUserFlag.BANNED ? '"blocked"' : null}
-                    {item.data.status === IUserFlag.LIMIT ? '"temporarily restricted"' : null}
+                    {item.data.status === IUserFlag.NONE ? 'active' : null}
+                    {item.data.status === IUserFlag.REVIEW ? 'in moderation' : null}
+                    {item.data.status === IUserFlag.BANNED ? 'blocked' : null}
+                    {item.data.status === IUserFlag.LIMIT ? 'temporarily restricted' : null}
                   </span>
                 </p>
               )}

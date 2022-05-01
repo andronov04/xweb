@@ -165,7 +165,8 @@ class WalletApi {
     const opSend = await contract.methodsObject.collect(tzData.id).send({
       mutez: true,
       amount: tzData.price,
-      storageLimit: 150
+      gasLimit: 50000,
+      storageLimit: 1000
     });
 
     requestCallback(ContractRequestStatus.WAITING_CONFIRMATION);
