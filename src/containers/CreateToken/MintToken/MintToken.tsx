@@ -169,7 +169,7 @@ const MintToken = () => {
             />
             <Input
               type={'textarea'}
-              placeholder={'Description (max 512 characters'}
+              placeholder={'Description (max 512 characters)'}
               label={'Description'}
               register={register('description', {
                 maxLength: { message: 'Description max length 512', value: 512 },

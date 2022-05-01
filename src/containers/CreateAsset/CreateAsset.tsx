@@ -34,14 +34,14 @@ const CreateAsset = () => {
         )}
       </div>
       {!active ? (
-        <div className={'text-inactive text-center'}>
+        <div className={'text-lg text-inactive text-center'}>
           How to create your own asset?{' '}
           <Link href={'https://github.com/contter/moulder'}>
             <a className={'text-active cursor-pointer hover:opacity-80'} href={'https://github.com/contter/moulder'} target={'_blank'} rel={'noreferrer'}>
               Go to GitHub
             </a>
           </Link>
-          <p className={'mt-8 text-sm text-whitegrey'}>
+          <p className={'text-base mt-8 text-sm text-whitegrey'}>
             At this moment asset creation is available with HTML/CSS/JS. <br />
             We are planning to add Figma, Unity and other third-party services integration, <br />
             as well as support of PNG, SVG and other formats in future versions of the platform.

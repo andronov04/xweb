@@ -156,7 +156,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
             </div>
           )}
           <div className={'flex'}>
-            <span className={'pr-1'}>Publisher: </span>
+            <span className={'pr-1'}>Creator: </span>
             <span>
               <Link href={`/@${item.user?.username || item.user?.id}`}>
                 <a href={`/@${item.user?.username || item.user?.id}`} className={'text-active hover:text-inactive'}>
@@ -192,7 +192,9 @@ const AssetItem = ({ item }: { item: IAsset }) => {
 
       {isTokens ? (
         <div>
-          <Items kind={'token'} query={QL_GET_TOKEN_ITEMS_BY_ASSET} variables={{ assetId: item.id }} />
+          <ConditionRender client>
+            <Items kind={'token'} query={QL_GET_TOKEN_ITEMS_BY_ASSET} variables={{ assetId: item.id }} />
+          </ConditionRender>
         </div>
       ) : null}
       {/*<ConditionRender client>*/}

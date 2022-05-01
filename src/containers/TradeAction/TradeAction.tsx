@@ -80,6 +80,7 @@ const TradeAction = ({ item }: { item: IToken }) => {
                   callCancel(item.offer.id);
                 }
               }}
+              disabled={!item.enabled}
               style={'white'}
               styles={{
                 color: 'rgba(255,53,53,0.9)'
@@ -113,6 +114,7 @@ const TradeAction = ({ item }: { item: IToken }) => {
                   setTrade(true);
                   refSubmit.current?.click();
                 }}
+                disabled={!item.enabled}
                 style={'white'}
                 value={trade ? 'List' : 'List for trade'}
               />
@@ -121,6 +123,7 @@ const TradeAction = ({ item }: { item: IToken }) => {
                   onClick={() => {
                     setTrade(false);
                   }}
+                  disabled={!item.enabled}
                   styles={{
                     color: 'rgba(255,53,53,0.9)'
                   }}

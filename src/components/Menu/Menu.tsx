@@ -32,7 +32,7 @@ const Menu = () => {
               <a href={'/create'}>Create</a>
             </Link>
           </li>
-          <li className={`text-active hover:text-active ${router.pathname.startsWith('/[id]') && 'text-active'}`}>
+          <li className={`hover:text-active ${router.pathname.startsWith('/[id]') && 'text-active'}`}>
             {user ? (
               <Link href={`/@${user.username ?? user.id}`}>
                 <a href={`/@${user.username ?? user.id}`}>Profile</a>
