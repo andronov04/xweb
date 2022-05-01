@@ -19,6 +19,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <main>Soon</main>
       {/*<main>*/}
       {/*  <section style={{ height: '50vh' }} className={'flex-col flex md:flex-row gap-x-10 justify-between items-center'}>*/}
       {/*    <div className={'md:w-1/2 w-full'}>*/}
