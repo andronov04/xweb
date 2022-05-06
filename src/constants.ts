@@ -1,7 +1,7 @@
 export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;
 export const RPC_LIST =
   process.env.NEXT_PUBLIC_RPC_LIST ??
-  'https://mainnet.api.tez.ie,https://mainnet.smartpy.io,https://rpc.tzbeta.net,https://mainnet-tezos.giganode.io,https://teznode.letzbake.com';
+  'https://mainnet.smartpy.io,https://mainnet.api.tez.ie,https://rpc.tzbeta.net,https://mainnet-tezos.giganode.io,https://teznode.letzbake.com';
 // https://rpc.contter.com,
 // https://ithacanet.ecadinfra.com,https://ithacanet.smartpy.io,https://rpczero.tzbeta.net
 export const TZ_NETWORK = process.env.NEXT_PUBLIC_TZ_NETWORK ?? 'mainnet';
