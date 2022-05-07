@@ -13,6 +13,8 @@ import { useRouter } from 'next/router';
 import { IAssetFlag } from '../../types';
 import IframeEditor from '../../components/Iframe/IframeEditor';
 
+const MIN_HEIGHT = 600;
+
 const CreateToken = () => {
   const router = useRouter();
   const token = useStore((state) => state.token);
@@ -63,7 +65,8 @@ const CreateToken = () => {
     if (refContainer.current) {
       const offset = 50;
       const rect = refContainer.current?.getBoundingClientRect();
-      const height = window.innerHeight - rect.top - offset;
+      let height = window.innerHeight - rect.top - offset;
+      height = height < MIN_HEIGHT ? MIN_HEIGHT : height;
       const width = rect.width;
       setSize({ width, height });
     }
