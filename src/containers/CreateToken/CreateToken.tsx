@@ -12,6 +12,7 @@ import { API_BUILD_TOKEN_URL } from '../../constants';
 import { useRouter } from 'next/router';
 import { IAssetFlag } from '../../types';
 import IframeEditor from '../../components/Iframe/IframeEditor';
+import { Logos } from '../../components/Header/Header';
 
 const MIN_HEIGHT = 600;
 
@@ -21,7 +22,7 @@ const CreateToken = () => {
   const [assetIds, setAssetIds] = useState<number[]>([]);
   const [ready, setReady] = useState(false);
   const [mountAsset, setMountAsset] = useState(false);
-  const [size, setSize] = useState({ width: 0, height: 0 });
+  const [size, setSize] = useState({ width: 0, height: 0, top: 0 });
   const refContainer = useRef<HTMLDivElement | null>(null);
   const { data, loading, error, post } = useFetch<UploadAssetFileResponse | UploadFileError>(API_BUILD_TOKEN_URL, { cachePolicy: CachePolicies.NO_CACHE });
   // TODO Handle errors
@@ -63,81 +64,92 @@ const CreateToken = () => {
 
   useEffect(() => {
     if (refContainer.current) {
-      const offset = 50;
-      const rect = refContainer.current?.getBoundingClientRect();
+      const offset = 100;
+      const rectCont = refContainer.current?.getBoundingClientRect();
+      let top = rectCont.top ?? 0;
+      let rect = {
+        top: rectCont.top,
+        width: window.innerWidth
+      };
       let height = window.innerHeight - rect.top - offset;
       height = height < MIN_HEIGHT ? MIN_HEIGHT : height;
       const width = rect.width;
-      setSize({ width, height });
+      console.log('width, height ', width, height);
+      setSize({ width, height, top });
     }
   }, []);
 
   return (
-    <section>
-      <div className={'flex w-full justify-end items-center'}>
-        <div className={'w-1/3 text-right space-x-2'}>
-          <span className={'font-normal text-inactive text-sm'}>Details and mint</span>
-          <Link href={'/create/token/mint'}>
-            <a
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (!token.assets.length) {
-                  setMsg({ title: 'You need to create a token', kind: 'error' });
-                  return;
-                }
-                // TODO Send now and message
-                setMsg({ autoClose: false, clear: true, block: true, title: 'Generate metadata...', kind: 'info' });
-                token
-                  .prepare()
-                  .then(() => {
-                    setMsg({ autoClose: false, clear: true, block: true, title: 'Uploading...', kind: 'info' });
-                  })
-                  .catch(() => {
-                    setMsg({ clear: true, title: 'Unknown error', kind: 'error' });
-                  });
+    <section ref={refContainer}>
+      <div>
+        <div className={'flex w-full justify-between items-center p-5'}>
+          <div>
+            <Logos />
+          </div>
+          <div className={'w-1/3 text-right space-x-2'}>
+            <span className={'font-normal text-inactive text-sm'}>Details and mint</span>
+            <Link href={'/create/token/mint'}>
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // if (!token.assets.length) {
+                  //   setMsg({ title: 'You need to create a token', kind: 'error' });
+                  //   return;
+                  // }
+                  // // TODO Send now and message
+                  // setMsg({ autoClose: false, clear: true, block: true, title: 'Generate metadata...', kind: 'info' });
+                  // token
+                  //   .prepare()
+                  //   .then(() => {
+                  //     setMsg({ autoClose: false, clear: true, block: true, title: 'Uploading...', kind: 'info' });
+                  //   })
+                  //   .catch(() => {
+                  //     setMsg({ clear: true, title: 'Unknown error', kind: 'error' });
+                  //   });
+                }}
+                href={'/create/token/mint'}
+              >
+                <CustomButton disabled={true} style={'white'} value={'Next step'} />
+              </a>
+            </Link>
+          </div>
+        </div>
+
+        <div ref={refContainer} className={'w-full h-full'}>
+          {size.width && size.height && (
+            <div
+              style={{
+                width: size.width,
+                height: size.height
               }}
-              href={'/create/token/mint'}
+              className={'relative'}
             >
-              <CustomButton style={'white'} value={'Next step'} />
-            </a>
-          </Link>
+              {!token.assets.length ? (
+                <div
+                  style={{
+                    backgroundColor: 'rgba(0,0,0,0.6)'
+                  }}
+                  className={'w-full z-30 absolute h-full text-center flex items-center justify-center'}
+                >
+                  <h2>
+                    To get started, select
+                    <br />
+                    any of the asset below
+                  </h2>
+                </div>
+              ) : null}
+              <IframeEditor
+                onLoad={() => {
+                  setReady(true);
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
 
-      <div ref={refContainer} className={'w-full h-full pt-4'}>
-        {size.width && size.height && (
-          <div
-            style={{
-              width: size.width,
-              height: size.height
-            }}
-            className={'relative'}
-          >
-            {!token.assets.length ? (
-              <div
-                style={{
-                  backgroundColor: 'rgba(0,0,0,0.6)'
-                }}
-                className={'w-full z-30 absolute h-full text-center flex items-center justify-center'}
-              >
-                <h2>
-                  To get started, select
-                  <br />
-                  any of the asset below
-                </h2>
-              </div>
-            ) : null}
-            <IframeEditor
-              onLoad={() => {
-                setReady(true);
-              }}
-            />
-          </div>
-        )}
-      </div>
-
-      <div>
+      <div className={'p-5'}>
         <div className={'flex my-5 gap-x-4'}>
           <p className={'text-active text-lg'}>Assets</p>
         </div>

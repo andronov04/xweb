@@ -1,12 +1,11 @@
 import Head from 'next/head';
 import { DESCRIPTION_SEO, IMAGE_SEO } from '../../constants';
-import Page from '../../containers/Page/Page';
 import ConditionRender from '../../components/Utils/ConditionRender';
 import CreateToken from '../../containers/CreateToken/CreateToken';
 
 export default function CreateTokenPage() {
   return (
-    <Page>
+    <div className={'w-full h-full'}>
       <Head>
         <title>Create a token – Contter</title>
         <meta key="og:title" property="og:title" content={'Create a token – Contter'} />
@@ -20,6 +19,6 @@ export default function CreateTokenPage() {
       <ConditionRender client>
         <CreateToken />
       </ConditionRender>
-    </Page>
+    </div>
   );
 }

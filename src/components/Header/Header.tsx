@@ -1,7 +1,7 @@
 import Menu from '../Menu/Menu';
 import { useState } from 'react';
 
-const Logos = () => {
+export const Logos = () => {
   return (
     <div>
       <a href={'/'} className={'group flex items-center'}>
