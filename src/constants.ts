@@ -49,3 +49,5 @@ export const TZ_ADDRESS_MARKETPLACE = process.env.NEXT_PUBLIC_TZ_ADDRESS_MARKETP
 export const TZ_ADDRESS_PROFILE = process.env.NEXT_PUBLIC_TZ_ADDRESS_PROFILE ?? '';
 // Mimetypes
 export const IMAGE_MIMETYPES = ['image/png'];
+
+export const MOULDER_CMD_STATUS = 'MOULDER_CMD_STATUS';

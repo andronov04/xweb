@@ -99,6 +99,7 @@ module.exports = {
         green: '#5AFB1E',
         dark: '#101010',
         black20: '#202020',
+        black21: '#212121',
         dark21: '#212121',
         dark4A: '#4A4C50',
         dart2C: '#2c2c2c'

@@ -21,9 +21,9 @@ const CustomButton = ({ value, classNames, disabled, onClick, style, styles }: I
         }}
         onClick={onClick}
         disabled={disabled}
-        className={`${classNames} ${
-          style === 'white' ? ' bg-white text-black' : 'bg-white10 text-inactive '
-        } font-normal text-lg hover:opacity-80 rounded-lg py-2.5 px-4`}
+        className={`${classNames} ${style === 'white' ? ' bg-white text-black' : 'bg-white10 text-inactive '} font-normal text-lg hover:opacity-80 ${
+          disabled ? 'opacity-60' : ''
+        } rounded-lg py-2.5 px-4`}
       >
         {value}
       </button>

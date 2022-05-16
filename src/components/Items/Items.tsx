@@ -125,6 +125,9 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
     if ((size.width ?? 0) <= 640) {
       count = 1;
     }
+    if (mode === 'selected') {
+      count = 1;
+    }
     return count;
   }, [size, kind]);
 
