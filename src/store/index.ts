@@ -38,7 +38,7 @@ let tokenProxy;
 export const useStore = create<IStore>((set, get) => ({
   asset: {
     cid: '',
-    requestHash: '',
+    authHash: '',
     previews: [],
     hash: '',
     addPreview: (cid, hash) =>
@@ -50,11 +50,11 @@ export const useStore = create<IStore>((set, get) => ({
           // state.asset.hash = hash;
         })
       ),
-    setAsset: (cid: string, requestHash: string) =>
+    setAsset: (cid: string, authHash: string) =>
       set(
         produce((state) => {
           state.asset.cid = cid;
-          state.asset.requestHash = requestHash;
+          state.asset.authHash = authHash;
         })
       )
   },

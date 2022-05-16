@@ -8,11 +8,11 @@ export interface IPreviewMedia {
 
 export interface ITempAsset {
   cid: string;
-  requestHash: string;
+  authHash: string;
   previews: IPreviewMedia[];
   hash: string;
   addPreview: (cid: string, hash: string) => void;
-  setAsset: (cid: string, requestHash: string) => void;
+  setAsset: (cid: string, authHash: string) => void;
 }
 
 export interface ITempToken {
