@@ -20,10 +20,10 @@ export const ItemContent = ({ item }: { item: IItem }) => {
     setRender(true);
   }, [setRender]);
 
-  const w = refItem.current?.clientWidth ?? 100;
-  const h = refItem.current?.clientHeight ?? 100;
+  // const w = refItem.current?.clientWidth ?? 100;
+  // const h = refItem.current?.clientHeight ?? 100;
   return (
-    <div className={'item relative'}>
+    <div className={'item relative w-full h-full'}>
       <div
         ref={refItem}
         className={'relative overflow-hidden'}
@@ -37,12 +37,12 @@ export const ItemContent = ({ item }: { item: IItem }) => {
         {render &&
           item.metadata?.formats?.map((format) => {
             return (
-              <div key={format.mimeType}>
+              <div className={'w-full h-full'} key={format.mimeType}>
                 {IMAGE_MIMETYPES.includes(format.mimeType) ? (
                   <img
                     style={{
-                      width: `${w}px`,
-                      height: `${h}px`
+                      width: `${refItem.current?.clientWidth || 48}px`,
+                      height: `${refItem.current?.clientHeight || 48}px`
                     }}
                     className={'object-center object-contain'}
                     src={ipfsToUrl(item.metadata?.thumbnailUri ?? '')}

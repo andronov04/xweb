@@ -18,6 +18,7 @@ export interface ITempAsset {
 export interface ITempToken {
   assets: IAsset[];
   state?: any;
+  stateCid?: string;
   previews: IPreviewMedia[];
   addPreview: (cid: string, hash: string) => void;
   addAsset: (asset: IAsset) => void;
@@ -25,7 +26,7 @@ export interface ITempToken {
   setProxy: (proxy: WindowProxy) => void;
   emit: () => void;
   generate: () => void;
-  prepare: () => Promise<void>;
+  prepare: (snapshot: any) => Promise<void>;
   digest: string;
   isProxy: boolean;
   cid: string;

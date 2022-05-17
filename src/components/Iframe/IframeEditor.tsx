@@ -43,10 +43,10 @@ const IframeEditor = ({ onLoad, check }: { onLoad?: (e: any) => void; check?: bo
       <iframe
         onLoad={(e) => {
           if (e.currentTarget) {
-            setStatus('success');
             token.setProxy((e.currentTarget as any).contentWindow);
             token.emit();
             onLoad?.(e);
+            setStatus('success');
           }
         }}
         onError={() => {

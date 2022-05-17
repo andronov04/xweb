@@ -3,6 +3,7 @@ import {
   IFRAME_SANDBOX,
   IPFS_PREFIX_URL,
   MESSAGE_GET_CAPTURE_IMG,
+  MOULDER_CMD_REQUEST_CAPTURE,
   USE_REQUEST_ASSET_CAPTURE,
   USE_REQUEST_CAPTURE,
   USE_REQUEST_TOKEN_CAPTURE
@@ -86,7 +87,7 @@ const PreviewToken = ({ url, width, height, onPreview }: IPreviewMedia) => {
                 {...setup({
                   ref: refIframe,
                   postData: {
-                    type: USE_REQUEST_CAPTURE,
+                    type: MOULDER_CMD_REQUEST_CAPTURE,
                     hash: '',
                     url
                   }

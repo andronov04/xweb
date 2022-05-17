@@ -29,6 +29,7 @@ export interface ITokenMetadata {
   displayUri: string;
   thumbnailUri: string;
   symbol: string;
+  stateUri?: string;
   decimals: number;
   version: string;
   type: string;

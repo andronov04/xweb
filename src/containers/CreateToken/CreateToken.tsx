@@ -38,6 +38,40 @@ const SelectAssets = () => {
   return (
     <div className={'max-w-4xl relative'}>
       <div>
+        {!token.assets.length ? (
+          <div className={'flex gap-x-6 justify-between items-center'}>
+            <div className={'h-12 w-12 bg-gray-300 rounded-sm overflow-hidden'} />
+            <div className={'flex-grow text-base text-inactive'}>Select an asset to get started...</div>
+            <div>
+              <div
+                onClick={() => {
+                  setActive(!active);
+                  // onSelect?.();
+                }}
+                className={'flex select-none cursor-pointer hover:opacity-90 items-center gap-x-2 text-inactive text-xl'}
+              >
+                More assets
+                {active ? (
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M5.48239 3.29518C5.71244 2.90161 6.28756 2.90161 6.51761 3.29518L9.91903 9.11446C10.1491 9.50803 9.86152 10 9.40143 10L2.59857 10C2.13848 10 1.85092 9.50803 2.08097 9.11446L5.48239 3.29518Z"
+                      fill="white"
+                      fillOpacity="0.7"
+                    />
+                  </svg>
+                ) : (
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M6.51761 8.70482C6.28756 9.09839 5.71244 9.09839 5.48239 8.70482L2.08097 2.88554C1.85092 2.49197 2.13848 2 2.59857 2H9.40143C9.86152 2 10.1491 2.49197 9.91903 2.88554L6.51761 8.70482Z"
+                      fill="white"
+                      fillOpacity="0.7"
+                    />
+                  </svg>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : null}
         {token.assets.map((asset) => (
           <ItemLine
             key={asset.id}
@@ -46,12 +80,16 @@ const SelectAssets = () => {
             onSelect={() => {
               setActive(!active);
             }}
-            onClickItem={(item) => {}}
+            selected={active}
+            onClickItem={(item) => {
+              // TODO Remove previosly
+              token.addAsset(JSON.parse(JSON.stringify(item)) as any);
+            }}
           />
         ))}
       </div>
 
-      <div className={`w-full ${active ? 'block' : 'hidden'} mt-2 absolute z-30 bg-black20 rounded-md p-4`}>
+      <div className={`w-full ${active ? 'block' : 'hidden'} mt-2 absolute z-50 bg-black20 rounded-md p-4`}>
         {assetIds.length ? (
           <Items
             key={'exist'}
@@ -60,10 +98,10 @@ const SelectAssets = () => {
             // activeIds={assetIds}
             activeIds={token.assets.map((a) => a.id)}
             onMountItem={(item) => {
-              if (!token.assets.length && !mountAsset) {
-                token.addAsset(JSON.parse(JSON.stringify(item)) as any);
-                setMountAsset(true);
-              }
+              // if (!token.assets.length && !mountAsset) {
+              //   token.addAsset(JSON.parse(JSON.stringify(item)) as any);
+              //   setMountAsset(true);
+              // }
             }}
             onClickItem={(item) => {
               setActive(false);
@@ -92,10 +130,10 @@ const SelectAssets = () => {
           mode={'selected'}
           activeIds={token.assets.map((a) => a.id)}
           onMountItem={(item) => {
-            if (!token.assets.length && !mountAsset) {
-              token.addAsset(JSON.parse(JSON.stringify(item)) as any);
-              setMountAsset(true);
-            }
+            // if (!token.assets.length && !mountAsset) {
+            //   token.addAsset(JSON.parse(JSON.stringify(item)) as any);
+            //   setMountAsset(true);
+            // }
           }}
           onClickItem={(item) => {
             setActive(false);
@@ -148,19 +186,8 @@ const CreateToken = () => {
 
   useEffect(() => {
     if (token.digest && token.state) {
-      const state: any = token.state;
-      state.assets = state.assets.map((a) => {
-        const _asset = token.assets.find((asset) => asset.id === a.id);
-        return {
-          id: a.id,
-          order: a.order,
-          hash: a.data.hash,
-          state: a.data.state,
-          artifactUri: _asset?.metadata?.artifactUri
-        };
-      });
       (async function () {
-        await post(state);
+        await post(token.state.state);
       })();
     }
   }, [token.digest]);
@@ -185,7 +212,6 @@ const CreateToken = () => {
   useEffect(() => {
     // snapshot, setSnapshot
     eventEmitter.on(MOULDER_CMD_STATUS, (data) => {
-      console.log('MOULDER_CMD_STATUS', data);
       if (data.status === 'ready' && data.snapshot) {
         setSnapshot(data.snapshot);
       } else {
@@ -215,16 +241,16 @@ const CreateToken = () => {
                   //   setMsg({ title: 'You need to create a token', kind: 'error' });
                   //   return;
                   // }
-                  // // TODO Send now and message
-                  // setMsg({ autoClose: false, clear: true, block: true, title: 'Generate metadata...', kind: 'info' });
-                  // token
-                  //   .prepare()
-                  //   .then(() => {
-                  //     setMsg({ autoClose: false, clear: true, block: true, title: 'Uploading...', kind: 'info' });
-                  //   })
-                  //   .catch(() => {
-                  //     setMsg({ clear: true, title: 'Unknown error', kind: 'error' });
-                  //   });
+                  // TODO Send now and message
+                  setMsg({ autoClose: false, clear: true, block: true, title: 'Generate...', kind: 'info' });
+                  token
+                    .prepare(snapshot)
+                    .then(() => {
+                      setMsg({ autoClose: false, clear: true, block: true, title: 'Uploading...', kind: 'info' });
+                    })
+                    .catch(() => {
+                      setMsg({ clear: true, title: 'Unknown error', kind: 'error' });
+                    });
                 }}
                 href={'/create/token/mint'}
               >
@@ -244,20 +270,20 @@ const CreateToken = () => {
             }}
             className={'relative'}
           >
-            {/*{!token.assets.length ? (*/}
-            {/*  <div*/}
-            {/*    style={{*/}
-            {/*      backgroundColor: 'rgba(0,0,0,0.6)'*/}
-            {/*    }}*/}
-            {/*    className={'w-full z-30 absolute h-full text-center flex items-center justify-center'}*/}
-            {/*  >*/}
-            {/*    <h2>*/}
-            {/*      To get started, select*/}
-            {/*      <br />*/}
-            {/*      any of the asset above*/}
-            {/*    </h2>*/}
-            {/*  </div>*/}
-            {/*) : null}*/}
+            {!token.assets.length ? (
+              <div
+                style={{
+                  backgroundColor: 'rgba(0,0,0,0.6)'
+                }}
+                className={'w-full z-30 absolute h-full text-center flex items-center justify-center'}
+              >
+                {/*<h2>*/}
+                {/*  To get started, select*/}
+                {/*  <br />*/}
+                {/*  any of the asset above*/}
+                {/*</h2>*/}
+              </div>
+            ) : null}
             <IframeEditor
               onLoad={() => {
                 setReady(true);
