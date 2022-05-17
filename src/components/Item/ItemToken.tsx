@@ -9,9 +9,10 @@ import { MimeType } from '../../types/mime';
 interface IItemComp {
   item: IItem;
   align?: 'right' | 'left';
+  formats?: boolean;
 }
 
-const ItemToken = ({ item }: IItemComp) => {
+const ItemToken = ({ item, formats: isFormats }: IItemComp) => {
   const size = useWindowSize();
   const formats = useMemo(() => item.metadata?.formats ?? [], [item]);
   const defaultMime = useMemo(() => formats.find((a) => a.mimeType.startsWith('image'))?.mimeType ?? '', [formats]);
@@ -26,8 +27,8 @@ const ItemToken = ({ item }: IItemComp) => {
     return () => {
       if (refContainer.current) {
         // TODO Better fix size
-        const w = (refContainer.current?.parentNode as HTMLElement).clientWidth;
-        const h = (refContainer.current?.parentNode as HTMLElement).clientHeight;
+        const w = (refContainer.current as HTMLElement).clientWidth;
+        const h = (refContainer.current as HTMLElement).clientHeight;
         const sc = Math.min(w / width, h / height);
         setScale(sc);
       }
@@ -47,8 +48,9 @@ const ItemToken = ({ item }: IItemComp) => {
   const iframeUrl = ipfsToUrl(item.metadata?.artifactUri);
 
   //  ${align === 'right' ? 'items-end' : 'items-start'}
+  //  style={{ flex: '1 0' }}
   return (
-    <div style={{ flex: '1 0' }} className={'w-full flex flex-col flex-grow'}>
+    <div ref={refContainer} className={'md:h-96 h-auto relative w-full flex flex-col'}>
       <div
         style={{
           width: '100%',
@@ -56,10 +58,10 @@ const ItemToken = ({ item }: IItemComp) => {
           position: 'relative'
         }}
       >
-        <div className={'absolute top-0 left-0 w-full h-full'}>
-          <div className={'w-full overflow-hidden h-full'}>
-            <div ref={refContainer} className={`relative h-full flex flex-col justify-center items-center`}>
-              <div className={'overflow-hidden'} style={{ width: width * scale, height: height * scale }}>
+        <div className={'absolute top-0 left-0 w-full h-auto'}>
+          <div className={'w-full overflow-hidden h-auto'}>
+            <div className={`relative flex h-auto flex-col justify-center items-center`}>
+              <div style={{ width: width * scale, height: height * scale }}>
                 {render && (
                   <div
                     style={{
@@ -89,23 +91,25 @@ const ItemToken = ({ item }: IItemComp) => {
                   </div>
                 )}
               </div>
-              <nav className={'mt-2'}>
-                <ol className={'flex text-sm gap-x-3'}>
-                  {formats.map((frmt) => (
-                    <li
-                      key={frmt.mimeType}
-                      onClick={() => {
-                        setMime(frmt.mimeType);
-                      }}
-                      className={`${frmt.mimeType === mime ? 'text-active' : 'text-inactive'} text-thin hover:opacity-80 cursor-pointer`}
-                    >
-                      {mimeMap[frmt.mimeType] ?? 'UNKNOWN'}
-                    </li>
-                  ))}
-                </ol>
-              </nav>
             </div>
           </div>
+          {isFormats ? (
+            <nav className={'mt-2 flex justify-center'}>
+              <ol className={'flex text-base gap-x-4'}>
+                {formats.map((frmt) => (
+                  <li
+                    key={frmt.mimeType}
+                    onClick={() => {
+                      setMime(frmt.mimeType);
+                    }}
+                    className={`${frmt.mimeType === mime ? 'text-active' : 'text-inactive'} text-thin hover:opacity-80 cursor-pointer`}
+                  >
+                    {mimeMap[frmt.mimeType] ?? 'UNKNOWN'}
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          ) : null}
         </div>
       </div>
     </div>

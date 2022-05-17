@@ -164,7 +164,7 @@ const FAQ = () => {
               announce all updates for this platform on our{' '}
               <Link href={'https://discord.gg/jAdcbHAbQE'}>
                 <a target={'_blank'} href={'https://discord.gg/jAdcbHAbQE'} rel={'noreferrer'} className={'hover:opacity-80 cursor-pointer underline'}>
-                  discord server
+                  Discord server
                 </a>
               </Link>
               .
@@ -188,7 +188,7 @@ const FAQ = () => {
             or visit our{' '}
             <Link href={'https://discord.gg/jAdcbHAbQE'}>
               <a target={'_blank'} href={'https://discord.gg/jAdcbHAbQE'} rel={'noreferrer'} className={'hover:opacity-80 cursor-pointer underline'}>
-                discord server
+                Discord server
               </a>
             </Link>
             .

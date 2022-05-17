@@ -104,6 +104,37 @@ body,
   color: #202020 !important;
 }
 
+.loading {
+  background: #fff;
+  border-radius: 100%;
+  float: left;
+  margin-right: 16px;
+}
+.loading-0 {
+  -webkit-animation: bounce 1s infinite;
+  -webkit-animation-delay: 0.1s;
+  background: #1ea2ed;
+}
+.loading-1 {
+  -webkit-animation: bounce 1s infinite;
+  -webkit-animation-delay: 0.3s;
+  background: #ff47cc;
+}
+.loading-2 {
+  -webkit-animation: bounce 1s infinite ease;
+  -webkit-animation-delay: 0.5s;
+  background: #e8d315;
+}
+@-webkit-keyframes bounce {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+  }
+}
+
 .conduct {
   font-weight: normal;
 }

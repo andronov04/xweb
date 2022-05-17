@@ -19,9 +19,10 @@ interface IItemComp {
   onClickItem?: (item: IItem) => void;
   onMountItem?: (item: IItem) => void;
   active?: boolean;
+  hidePrice?: boolean;
 }
 
-const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
+const Item = ({ item, onMountItem, mode, hidePrice, onClickItem, active }: IItemComp) => {
   useEffect(() => {
     onMountItem?.(item);
   }, [onMountItem, item]);
@@ -154,7 +155,7 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
                 </span>
               ) : null}
             </div>
-            <p className={'whitespace-pre text-white'}>{`${displayPrice(item.offer?.price ?? item.price ?? 0)} ꜩ`}</p>
+            {!hidePrice ? <p className={'whitespace-pre text-white'}>{`${displayPrice(item.offer?.price ?? item.price ?? 0)} ꜩ`}</p> : null}
           </div>
         </div>
       )}
@@ -184,7 +185,7 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
               {/*  </a>*/}
               {/*</Link>*/}
             </p>
-            {item.offer && <p className={'text-white'}>{`${displayPrice(item.offer.price ?? 0)} ꜩ`}</p>}
+            {item.offer && !hidePrice ? <p className={'text-white'}>{`${displayPrice(item.offer.price ?? 0)} ꜩ`}</p> : null}
           </div>
         </div>
       )}

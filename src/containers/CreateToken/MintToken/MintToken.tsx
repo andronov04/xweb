@@ -143,6 +143,7 @@ const MintToken = () => {
             <div className={'absolute top-0 left-0 w-full h-full'}>
               <div>
                 <ItemToken
+                  formats={true}
                   item={{
                     id: -1,
                     name: '',
