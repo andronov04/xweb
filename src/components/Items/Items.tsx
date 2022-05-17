@@ -129,7 +129,7 @@ const Items = ({ variables, mode, query, kind, onClickItem, onMountItem, activeI
       count = 1;
     }
     return count;
-  }, [size, kind]);
+  }, [size, kind, mode]);
 
   const structure = useMemo(() => {
     const blocks: IItem[][] = new Array(column).fill(Boolean).map(() => []);

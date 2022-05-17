@@ -15,7 +15,7 @@ export const ITEMS_PER_PAGE: number = parseInt(process.env.NEXT_PUBLIC_ITEMS_PER
 export const MAX_TZ_WAITING_TIMEOUT: number = parseInt(process.env.NEXT_PUBLIC_MAX_TZ_WAITING_TIMEOUT ?? '300') ?? 300;
 export const IMAGE_SEO = process.env.NEXT_PUBLIC_IMAGE_SEO ?? 'https://contter.mypinata.cloud/ipfs/QmP6B8MUcV5sBsZ2ie9DhLfzYKeDkYfExuYaGRuBhf8Nn1';
 export const DESCRIPTION_SEO = process.env.NEXT_PUBLIC_DESCRIPTION_SEO ?? 'The web3 design platform and NFT marketplace on the Tezos blockchain';
-export const EDITOR_URL = 'https://contter.mypinata.cloud/ipfs/QmRLRWonDRjka4XR9XrLwY9Me1c3WvgFcA5Yg9rWXAgjWa?editor=1'; //process.env.NEXT_PUBLIC_EDITOR_URL ?? 'https://xeditor-dun.vercel.app/';
+export const EDITOR_URL = process.env.NEXT_PUBLIC_EDITOR_URL ?? 'https://contter.mypinata.cloud/ipfs/QmRLRWonDRjka4XR9XrLwY9Me1c3WvgFcA5Yg9rWXAgjWa?editor=1';
 export const MESSAGE_GENERATE_NEW = 'X_GENERATE_NEW';
 export const MESSAGE_GET_DIGEST = 'X_GET_GET_DIGEST';
 export const MESSAGE_GET_CAPTURE_IMG = 'X_GET_CAPTURE_IMG';
