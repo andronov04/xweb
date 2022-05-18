@@ -29,25 +29,35 @@ const Menu = () => {
           </li>
           <Popup
             trigger={() => (
-              <div className={'cursor-pointer flex items-center gap-x-2'} onClick={connectUser}>
+              <div className={'cursor-pointer flex items-center gap-x-1.5'}>
                 More
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg style={{ marginTop: '-1px' }} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M11 4L6 9L1 4" stroke="white" strokeOpacity="0.7" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
             )}
-            on={['hover', 'focus']}
+            on={['hover']}
             position="bottom center"
             closeOnDocumentClick
           >
-            <nav className={'bg-black20 rounded-md px-6 py-3 text-whitegrey flex flex-col'}>
+            <nav className={'bg-black20 text-lg  rounded-md px-6 py-3 text-whitegrey flex flex-col'}>
               <Link href={'https://twitter.com/contter'}>
-                <a target={'_blank'} rel={'noreferrer'} className={'hover:opacity-90 cursor-pointer'} href={'https://twitter.com/contter'}>
+                <a
+                  target={'_blank'}
+                  rel={'noreferrer'}
+                  className={'outline-none select-none hover:opacity-90 cursor-pointer'}
+                  href={'https://twitter.com/contter'}
+                >
                   Twitter
                 </a>
               </Link>
               <Link href={'https://discord.gg/jAdcbHAbQE'}>
-                <a target={'_blank'} rel={'noreferrer'} className={'hover:opacity-90 cursor-pointer'} href={'https://discord.gg/jAdcbHAbQE'}>
+                <a
+                  target={'_blank'}
+                  rel={'noreferrer'}
+                  className={'outline-none select-none hover:opacity-90 cursor-pointer'}
+                  href={'https://discord.gg/jAdcbHAbQE'}
+                >
                   Discord
                 </a>
               </Link>
@@ -66,7 +76,7 @@ const Menu = () => {
             ) : (
               <Popup
                 trigger={() => (
-                  <div className={'italic cursor-pointer'} onClick={connectUser}>
+                  <div className={'cursor-pointer'} onClick={connectUser}>
                     Connect Wallet
                   </div>
                 )}
