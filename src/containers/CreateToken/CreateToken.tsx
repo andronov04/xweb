@@ -101,10 +101,10 @@ const SelectAssets = () => {
             // activeIds={assetIds}
             activeIds={token.assets.map((a) => a.id)}
             onMountItem={(item) => {
-              // if (!token.assets.length && !mountAsset) {
-              //   token.addAsset(JSON.parse(JSON.stringify(item)) as any);
-              //   setMountAsset(true);
-              // }
+              if (!token.assets.length && !mountAsset) {
+                token.addAsset(JSON.parse(JSON.stringify(item)) as any);
+                setMountAsset(true);
+              }
             }}
             onClickItem={(item) => {
               setActive(false);
@@ -127,43 +127,47 @@ const SelectAssets = () => {
             query={QL_GET_ASSET_ITEMS_BY_IDS}
           />
         ) : null}
-        <Items
-          key={'next'}
-          kind={'asset'}
-          mode={'selected'}
-          activeIds={token.assets.map((a) => a.id)}
-          onMountItem={(item) => {
-            // if (!token.assets.length && !mountAsset) {
-            //   token.addAsset(JSON.parse(JSON.stringify(item)) as any);
-            //   setMountAsset(true);
-            // }
-          }}
-          onClickItem={(item) => {
-            setActive(false);
-            // TODO Select
+        {active ? (
+          <div className={'mt-2'}>
+            <Items
+              key={'next'}
+              kind={'asset'}
+              mode={'selected'}
+              activeIds={token.assets.map((a) => a.id)}
+              onMountItem={(item) => {
+                // if (!token.assets.length && !mountAsset) {
+                //   token.addAsset(JSON.parse(JSON.stringify(item)) as any);
+                //   setMountAsset(true);
+                // }
+              }}
+              onClickItem={(item) => {
+                setActive(false);
+                // TODO Select
 
-            const testUrl = 'http://localhost:3000/'; //'https://art3s.mypinata.cloud/ipfs/QmU3jrjyZFP83itaiuzqD7MuBZ4C8BgAGtR8CRT8J3mAfL';
-            // Now only once
-            let _item = JSON.parse(JSON.stringify(item));
-            // _item.metadata.artifactUri = testUrl;
-            // const _item = item;
-            // Now delete all
-            const isRemove = token.assets.map((a) => a.id).includes(_item.id);
-            if (token.assets.length) {
-              token.assets.forEach((ast) => {
-                token.removeAsset(ast);
-              });
-            }
-            if (!isRemove) {
-              token.addAsset(_item as any);
-            }
-          }}
-          variables={{
-            ids: assetIds,
-            flag: IAssetFlag.NONE
-          }}
-          query={QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG}
-        />
+                const testUrl = 'http://localhost:3000/'; //'https://art3s.mypinata.cloud/ipfs/QmU3jrjyZFP83itaiuzqD7MuBZ4C8BgAGtR8CRT8J3mAfL';
+                // Now only once
+                let _item = JSON.parse(JSON.stringify(item));
+                // _item.metadata.artifactUri = testUrl;
+                // const _item = item;
+                // Now delete all
+                const isRemove = token.assets.map((a) => a.id).includes(_item.id);
+                if (token.assets.length) {
+                  token.assets.forEach((ast) => {
+                    token.removeAsset(ast);
+                  });
+                }
+                if (!isRemove) {
+                  token.addAsset(_item as any);
+                }
+              }}
+              variables={{
+                ids: assetIds,
+                flag: IAssetFlag.NONE
+              }}
+              query={QL_GET_ASSET_ITEMS_BY_NOT_IDS_AND_FLAG}
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   );
