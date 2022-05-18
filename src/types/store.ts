@@ -8,16 +8,17 @@ export interface IPreviewMedia {
 
 export interface ITempAsset {
   cid: string;
-  requestHash: string;
+  authHash: string;
   previews: IPreviewMedia[];
   hash: string;
   addPreview: (cid: string, hash: string) => void;
-  setAsset: (cid: string, requestHash: string) => void;
+  setAsset: (cid: string, authHash: string) => void;
 }
 
 export interface ITempToken {
   assets: IAsset[];
   state?: any;
+  stateCid?: string;
   previews: IPreviewMedia[];
   addPreview: (cid: string, hash: string) => void;
   addAsset: (asset: IAsset) => void;
@@ -25,7 +26,7 @@ export interface ITempToken {
   setProxy: (proxy: WindowProxy) => void;
   emit: () => void;
   generate: () => void;
-  prepare: () => Promise<void>;
+  prepare: (snapshot: any) => Promise<void>;
   digest: string;
   isProxy: boolean;
   cid: string;

@@ -43,7 +43,7 @@ class WalletApi {
       name: 'Contter',
       appUrl: 'https://contter.com',
       iconUrl: MINI_LOGO_URL,
-      colorMode: ColorMode.DARK,
+      colorMode: ColorMode.LIGHT,
       preferredNetwork: TZ_NETWORK as NetworkType
     });
   }

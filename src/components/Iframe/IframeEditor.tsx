@@ -17,7 +17,7 @@ const IframeEditor = ({ onLoad, check }: { onLoad?: (e: any) => void; check?: bo
 
   const url = check ? `${EDITOR_URL}&check=1` : EDITOR_URL;
   return (
-    <div className={'border relative border-solid border-dark4A w-full h-full'}>
+    <div className={'relative w-full h-full'}>
       {status === 'loading' ? (
         <div className={'absolute z-20 w-full h-full'}>
           <div className={'w-full h-full bg-black absolute z-10 opacity-60'} />
@@ -43,10 +43,10 @@ const IframeEditor = ({ onLoad, check }: { onLoad?: (e: any) => void; check?: bo
       <iframe
         onLoad={(e) => {
           if (e.currentTarget) {
-            setStatus('success');
             token.setProxy((e.currentTarget as any).contentWindow);
             token.emit();
             onLoad?.(e);
+            setStatus('success');
           }
         }}
         onError={() => {

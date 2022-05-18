@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 function Footer() {
   return (
-    <footer className={'md:flex md:flex-row flex-col pb-5 justify-between items-center'}>
+    <footer className={'md:flex md:flex-row flex-col pb-4 justify-between items-center'}>
       <div className={'flex  text-base gap-x-6 items-center'}>
         <div className={'flex items-center gap-x-2.5'}>
           <svg style={{ marginTop: '-2px' }} width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -19,7 +19,7 @@ function Footer() {
         <div className={'text-whitegrey'}>
           powered by{' '}
           <a className={'text-inactive hover:opacity-90 cursor-pointer'} href="https://tzkt.io/" target="_blank" rel="noreferrer">
-            tzkt
+            TzKT
           </a>{' '}
           &{' '}
           <a className={'text-inactive hover:opacity-90 cursor-pointer'} href="https://smartpy.io/" target="_blank" rel="noreferrer">

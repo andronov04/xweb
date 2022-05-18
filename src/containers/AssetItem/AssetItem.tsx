@@ -90,7 +90,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
           </div>
         </div>
         <div className={'md:w-1/2 w-full md:h-96 h-auto'}>
-          <ItemToken align={'right'} item={item as IItem} />
+          <ItemToken align={'right'} formats={false} item={item as IItem} />
         </div>
         {/*<div>*/}
         {/*  <div*/}
@@ -128,7 +128,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
       {isCurrent ? (
         <div className={'flex md:text-base text-sm gap-y-1 flex-col text-inactive'}>
           <div className={'flex'}>
-            <span className={'pr-1'}>Minted: </span>
+            <span className={'pr-1'}>Published: </span>
             <span>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>
           </div>
           {item.royalties !== undefined ? (

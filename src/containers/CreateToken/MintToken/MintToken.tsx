@@ -39,8 +39,8 @@ const MintToken = () => {
       setOpHash(result);
     }
   }, [result]);
-  const w = token.state?.root?.width ?? 1000;
-  const h = token.state?.root?.height ?? 1000;
+  const w = token.state.root.properties.find((a) => a.id === 'size')?.state?.width?.value ?? 1000;
+  const h = token.state.root.properties.find((a) => a.id === 'size')?.state?.height?.value ?? 1000;
 
   const getMetadata = (data: any = {}): ITokenMetadata => {
     const previewImage = token.previews[0];
@@ -54,6 +54,7 @@ const MintToken = () => {
       artifactUri: urlToIpfs(token.cid),
       displayUri: urlToIpfs(previewImage.cid),
       thumbnailUri: urlToIpfs(previewImage.cid),
+      stateUri: urlToIpfs(token.stateCid ?? ''),
       symbol: 'CNTNT',
       decimals: 0,
       version: '0.1',
@@ -75,8 +76,6 @@ const MintToken = () => {
           mimeType: 'text/html'
         }
       ]
-      // TODO formats
-      // State ??? stateUri
     };
   };
 
@@ -144,6 +143,7 @@ const MintToken = () => {
             <div className={'absolute top-0 left-0 w-full h-full'}>
               <div>
                 <ItemToken
+                  formats={true}
                   item={{
                     id: -1,
                     name: '',

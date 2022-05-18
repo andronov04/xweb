@@ -50,11 +50,14 @@ const Waiting = ({ query, opHash, onSuccess, onError }: IWaiting) => {
             </div>
           ) : (
             <div className={'relative w-ful flex justify-center'}>
-              <div style={{ width: '170px' }} className="lr-dots block relative w-72 h-16">
-                <div className="absolute top-0 mt-1 w-10 h-10 rounded-full bg-white" />
-                <div className="absolute top-0 mt-1 w-10 h-10 rounded-full bg-white" />
-                <div className="absolute top-0 mt-1 w-10 h-10 rounded-full bg-white" />
-                <div className="absolute top-0 mt-1 w-10 h-10 rounded-full bg-white" />
+              <div style={{ width: '170px' }} className="block relative w-72 h-16">
+                <div className="loading loading-0 w-10 h-10 "></div>
+                <div className="loading loading-1 w-10 h-10 "></div>
+                <div className="loading loading-2 w-10 h-10 "></div>
+                {/*<div className="absolute top-0 mt-1 w-10 h-10 rounded-full bg-blue" />*/}
+                {/*<div className="absolute top-0 mt-1 w-10 h-10 rounded-full bg-pink" />*/}
+                {/*<div className="absolute z-10 top-0 mt-1 w-10 h-10 rounded-full bg-yellow" />*/}
+                {/*<div className="absolute top-0 mt-1 w-10 h-10 rounded-full bg-white" />*/}
               </div>
             </div>
           )}

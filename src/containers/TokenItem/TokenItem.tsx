@@ -40,7 +40,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
       </div>
       <div className={'flex w-full items-start md:flex-row flex-col gap-x-8'}>
         <div className={'md:w-1/2 w-full'}>
-          <ItemToken item={item as IItem} />
+          <ItemToken item={item as IItem} formats={true} />
         </div>
         <div className={'md:w-1/2 w-full flex-grow'}>
           <div>

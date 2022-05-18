@@ -82,7 +82,7 @@ const PreviewAsset = () => {
                   // @ts-ignore
                   metadata: {
                     name: 'Preview',
-                    artifactUri: `ipfs://${asset.cid}`
+                    artifactUri: `ipfs://${asset.cid}?r=1`
                   }
                 });
               }}

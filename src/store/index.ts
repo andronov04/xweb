@@ -8,20 +8,20 @@ import { IStore } from '../types/store';
 import {
   EDITOR_URL,
   FILE_API_CAPTURE_IMG_URL,
+  FILE_API_STATE_URL,
   IPFS_PREFIX_URL,
   MESSAGE_GENERATE_NEW,
-  MESSAGE_GET_DIGEST,
-  USE_ADD_ASSET,
-  USE_PREPARE,
-  USE_REMOVE_ASSET,
-  USE_REQUEST_CAPTURE,
-  USE_SET_CONF
+  MOULDER_CMD_ADD_ASSET,
+  MOULDER_CMD_REMOVE_ASSET,
+  MOULDER_CMD_REQUEST_CAPTURE,
+  MOULDER_CMD_RESPONSE_CAPTURE,
+  MOULDER_CMD_SET_CONF
 } from '../constants';
 import { nanoid } from 'nanoid';
 import { getWallet } from '../api/WalletApi';
 import { IUser } from '../types';
 import { eventOnceWaitFor } from '../api/EventApi';
-import { postFetch } from '../api/RestApi';
+import { postDataFetch, postFetch } from '../api/RestApi';
 import GraphqlApi from '../api/GraphqlApi';
 import { QL_GET_USER_BY_ID } from '../api/queries';
 
@@ -38,7 +38,7 @@ let tokenProxy;
 export const useStore = create<IStore>((set, get) => ({
   asset: {
     cid: '',
-    requestHash: '',
+    authHash: '',
     previews: [],
     hash: '',
     addPreview: (cid, hash) =>
@@ -50,11 +50,11 @@ export const useStore = create<IStore>((set, get) => ({
           // state.asset.hash = hash;
         })
       ),
-    setAsset: (cid: string, requestHash: string) =>
+    setAsset: (cid: string, authHash: string) =>
       set(
         produce((state) => {
           state.asset.cid = cid;
-          state.asset.requestHash = requestHash;
+          state.asset.authHash = authHash;
         })
       )
   },
@@ -76,37 +76,41 @@ export const useStore = create<IStore>((set, get) => ({
           state.token.cid = cid;
         })
       ),
-    prepare: async () => {
+    prepare: async (snapshot: any) => {
       // Get store and digest and hashes from assets;
       const token = get().token;
-      let requestId = nanoid();
-      tokenProxy?.postMessage(
-        {
-          type: USE_PREPARE,
-          requestId,
-          data: {}
-        },
-        EDITOR_URL
-      );
-
-      const result = await eventOnceWaitFor(requestId);
+      // tokenProxy?.postMessage(
+      //   {
+      //     type: USE_PREPARE,
+      //     requestId,
+      //     data: {}
+      //   },
+      //   EDITOR_URL
+      // );
+      //
+      // const result = await eventOnceWaitFor(requestId);
 
       // Get preview/capture
-      requestId = nanoid();
+      const requestId = nanoid();
       tokenProxy?.postMessage(
         {
-          type: USE_REQUEST_CAPTURE,
-          requestId,
+          type: MOULDER_CMD_REQUEST_CAPTURE,
           data: {}
         },
         EDITOR_URL
       );
 
-      const data = await eventOnceWaitFor(requestId);
+      const data = await eventOnceWaitFor(MOULDER_CMD_RESPONSE_CAPTURE);
+
+      const responseState = await postDataFetch(FILE_API_STATE_URL, snapshot);
+      if (responseState.status !== 200) {
+        throw 'Network error';
+      }
+      const respState = await responseState.json();
 
       // TODO Upload blob to server and set previews;
       const formData = new FormData();
-      formData.append('file', data.blob);
+      formData.append('file', data.data.blob);
       const response = await postFetch(FILE_API_CAPTURE_IMG_URL, formData);
       if (response.status !== 200) {
         throw 'Network error';
@@ -116,8 +120,9 @@ export const useStore = create<IStore>((set, get) => ({
       set({
         token: {
           ...token,
-          digest: result.digest,
-          state: result.state,
+          digest: snapshot.digest,
+          state: snapshot,
+          stateCid: respState.cid,
           previews: [{ cid: resp.cid, hash: data.hash }]
         }
       });
@@ -128,11 +133,20 @@ export const useStore = create<IStore>((set, get) => ({
           if (state.token.assets.map((a) => a.id).includes(asset.id)) {
             return state;
           }
+          const order = state.token.assets.length;
           state.token.assets.push(asset);
+          const url = asset.metadata?.artifactUri; // 'http://localhost:3000/'; // asset.metadata?.artifactUri
           tokenProxy?.postMessage(
             {
-              type: USE_ADD_ASSET,
-              data: asset
+              type: MOULDER_CMD_ADD_ASSET,
+              data: {
+                asset: {
+                  id: asset.id,
+                  name: asset.name,
+                  order,
+                  url
+                }
+              }
             },
             EDITOR_URL
           );
@@ -145,7 +159,7 @@ export const useStore = create<IStore>((set, get) => ({
           state.token.assets.splice(index, 1);
           tokenProxy?.postMessage(
             {
-              type: USE_REMOVE_ASSET,
+              type: MOULDER_CMD_REMOVE_ASSET,
               data: {
                 assetId: asset.id
               }
@@ -163,7 +177,7 @@ export const useStore = create<IStore>((set, get) => ({
           // Set configuration
           tokenProxy?.postMessage(
             {
-              type: USE_SET_CONF,
+              type: MOULDER_CMD_SET_CONF,
               data: {
                 conf: {
                   ipfsPrefix: IPFS_PREFIX_URL
@@ -176,19 +190,7 @@ export const useStore = create<IStore>((set, get) => ({
         })
       ),
     emit: () => {
-      window.addEventListener(
-        'message',
-        (event) => {
-          if (event.data?.type === MESSAGE_GET_DIGEST) {
-            set(
-              produce((state) => {
-                state.token.digest = event.data.data.digest;
-              })
-            );
-          }
-        },
-        false
-      );
+      //
     },
     generate: () => {
       tokenProxy?.postMessage(

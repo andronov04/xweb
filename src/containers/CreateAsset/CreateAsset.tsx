@@ -16,9 +16,9 @@ const CreateAsset = () => {
         {!asset.cid && (
           <UploadFile
             onSuccess={(data) => {
-              if (data.cid && data.requestHash) {
+              if (data.cid && data.authHash) {
                 setMsg({ autoClose: 1000, clear: true, title: 'Successfully uploaded.', kind: 'success' });
-                asset.setAsset(data.cid, data.requestHash);
+                asset.setAsset(data.cid, data.authHash);
                 router.replace('/upload/asset/preview').then().catch();
               }
             }}

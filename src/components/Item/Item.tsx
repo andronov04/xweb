@@ -3,6 +3,8 @@ import { IItem } from '../../types';
 import { displayPrice, ipfsToUrl } from '../../utils';
 import { IMAGE_MIMETYPES } from '../../constants';
 import { useEffect, useRef, useState } from 'react';
+import { ItemContent } from './ItemMixin';
+import { ItemLine } from './ItemLine';
 
 const getUrl = (item: IItem) => {
   if (item.__typename === 'asset') {
@@ -17,63 +19,10 @@ interface IItemComp {
   onClickItem?: (item: IItem) => void;
   onMountItem?: (item: IItem) => void;
   active?: boolean;
+  hidePrice?: boolean;
 }
 
-const ItemContent = ({ item }: { item: IItem }) => {
-  const [render, setRender] = useState(false);
-  const refItem = useRef<HTMLDivElement | null>(null);
-  // TODO different size video,html,png and etc
-  // const formats = item.metadata?.formats;
-  // const withDim = formats?.filter((a) => a.dimensions);
-  // let size = { width: item.width ?? 1000, height: item.height ?? 1000 };
-  // if (withDim && (!item.width && !item.height)) {
-  //   const dim = withDim[0].dimensions.value;
-  //   size.width = parseInt(dim.split('x')[0]);
-  //   size.height = parseInt(dim.split('x')[1]);
-  // }
-
-  useEffect(() => {
-    setRender(true);
-  }, [setRender]);
-
-  const w = refItem.current?.clientWidth ?? 100;
-  const h = refItem.current?.clientHeight ?? 100;
-  return (
-    <div className={'item relative'}>
-      <div
-        ref={refItem}
-        className={'relative overflow-hidden'}
-        style={{
-          display: 'block',
-          width: '100%',
-          height: '0px',
-          paddingBottom: `calc(100% / ${1})`
-        }}
-      >
-        {render &&
-          item.metadata?.formats?.map((format) => {
-            return (
-              <div key={format.mimeType}>
-                {IMAGE_MIMETYPES.includes(format.mimeType) ? (
-                  <img
-                    style={{
-                      width: `${w}px`,
-                      height: `${h}px`
-                    }}
-                    className={'object-center object-contain'}
-                    src={ipfsToUrl(item.metadata?.thumbnailUri ?? '')}
-                    alt={item.name}
-                  />
-                ) : null}
-              </div>
-            );
-          })}
-      </div>
-    </div>
-  );
-};
-
-const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
+const Item = ({ item, onMountItem, mode, hidePrice, onClickItem, active }: IItemComp) => {
   useEffect(() => {
     onMountItem?.(item);
   }, [onMountItem, item]);
@@ -84,37 +33,40 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
     <div className={'font-normal text-lg '}>
       {mode === 'selected' && (
         <div>
-          <div
-            onClick={() => {
-              onClickItem?.(item);
-            }}
-            className={'relative cursor-pointer hover:opacity-90'}
-          >
-            <div className={'bg-white20 z-20 absolute w-full h-full flex justify-center items-center'}>
-              <p
-                style={{
-                  visibility: active ? 'visible' : 'hidden'
-                }}
-                className={'invisible font-thin bg-dark px-3 py-1 rounded-sm opacity-90'}
-              >
-                Selected
-              </p>
-            </div>
-            <ItemContent item={item} />
-          </div>
-          <Link href={getUrl(item)}>
-            <a className={'hover:opacity-90 cursor-pointer'} target={'_blank'} rel={'noreferrer'} href={getUrl(item)}>
-              <h2 className={'truncate ... pt-2 text-active'}>{item.name}</h2>
-            </a>
-          </Link>
-          <div className={'flex justify-between text-base'}>
-            {/*{item.assetTokenAssets_aggregate?.aggregate?.count ? (*/}
-            {/*  <p className={'text-xs text-inactive'}>*/}
-            {/*    <span className={'text-green opacity-70'}>Style</span> / {plural_suggest()}*/}
-            {/*  </p>*/}
-            {/*) : null}*/}
-          </div>
+          <ItemLine onClickItem={onClickItem} active={active} item={item} />
         </div>
+        // <div>
+        //   <div
+        //     onClick={() => {
+        //       onClickItem?.(item);
+        //     }}
+        //     className={'relative cursor-pointer hover:opacity-90'}
+        //   >
+        //     <div className={'bg-white20 z-20 absolute w-full h-full flex justify-center items-center'}>
+        //       <p
+        //         style={{
+        //           visibility: active ? 'visible' : 'hidden'
+        //         }}
+        //         className={'invisible font-thin bg-dark px-3 py-1 rounded-sm opacity-90'}
+        //       >
+        //         Selected
+        //       </p>
+        //     </div>
+        //     <ItemContent item={item} />
+        //   </div>
+        //   <Link href={getUrl(item)}>
+        //     <a className={'hover:opacity-90 cursor-pointer'} target={'_blank'} rel={'noreferrer'} href={getUrl(item)}>
+        //       <h2 className={'truncate ... pt-2 text-active'}>{item.name}</h2>
+        //     </a>
+        //   </Link>
+        //   <div className={'flex justify-between text-base'}>
+        //     {/*{item.assetTokenAssets_aggregate?.aggregate?.count ? (*/}
+        //     {/*  <p className={'text-xs text-inactive'}>*/}
+        //     {/*    <span className={'text-green opacity-70'}>Style</span> / {plural_suggest()}*/}
+        //     {/*  </p>*/}
+        //     {/*) : null}*/}
+        //   </div>
+        // </div>
       )}
       {mode === 'normal' && (
         <div className={'overflow-hidden'}>
@@ -203,7 +155,7 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
                 </span>
               ) : null}
             </div>
-            <p className={'whitespace-pre text-white'}>{`${displayPrice(item.offer?.price ?? item.price ?? 0)} ꜩ`}</p>
+            {!hidePrice ? <p className={'whitespace-pre text-white'}>{`${displayPrice(item.offer?.price ?? item.price ?? 0)} ꜩ`}</p> : null}
           </div>
         </div>
       )}
@@ -233,7 +185,7 @@ const Item = ({ item, onMountItem, mode, onClickItem, active }: IItemComp) => {
               {/*  </a>*/}
               {/*</Link>*/}
             </p>
-            {item.offer && <p className={'text-white'}>{`${displayPrice(item.offer.price ?? 0)} ꜩ`}</p>}
+            {item.offer && !hidePrice ? <p className={'text-white'}>{`${displayPrice(item.offer.price ?? 0)} ꜩ`}</p> : null}
           </div>
         </div>
       )}

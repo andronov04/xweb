@@ -1,5 +1,11 @@
 import { IAssetMetadata, ITokenMetadata } from './metadata';
 
+declare global {
+  interface Window {
+    CONTTER_LISTENER_SETUP: boolean;
+  }
+}
+
 export enum IAssetFlag {
   NONE = 0,
   REVIEW = 1,

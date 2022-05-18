@@ -1,5 +1,12 @@
 import React, { RefObject, useEffect } from 'react';
-import { FILE_API_CAPTURE_IMG_URL, USE_COMPLETE_CAPTURE, USE_RESPONSE_ASSET_CAPTURE, USE_RESPONSE_CAPTURE, USE_RESPONSE_TOKEN_CAPTURE } from '../../constants';
+import {
+  FILE_API_CAPTURE_IMG_URL,
+  MOULDER_CMD_RESPONSE_CAPTURE,
+  USE_COMPLETE_CAPTURE,
+  USE_RESPONSE_ASSET_CAPTURE,
+  USE_RESPONSE_CAPTURE,
+  USE_RESPONSE_TOKEN_CAPTURE
+} from '../../constants';
 import { postFetch } from '../../api/RestApi';
 
 interface ICapture {}
@@ -42,14 +49,15 @@ const createCapture = (props: ICapture, updater: () => void) => {
         'message',
         (event) => {
           // TODO Capture for token and asset
-          if (event.data?.type === USE_RESPONSE_ASSET_CAPTURE || event.data?.type === USE_RESPONSE_TOKEN_CAPTURE || event.data?.type === USE_RESPONSE_CAPTURE) {
+          // || event.data?.type === USE_RESPONSE_TOKEN_CAPTURE || event.data?.type === USE_RESPONSE_CAPTURE
+          if (event.data?.type === MOULDER_CMD_RESPONSE_CAPTURE) {
             setState({ status: 'Uploading...' });
             const formData = new FormData();
-            formData.append('file', event.data.data.blob);
+            formData.append('file', event.data.data.data.blob);
             postFetch(FILE_API_CAPTURE_IMG_URL, formData)
               .then(async (response) => {
                 const data = await response.json();
-                setState({ loading: false, status: '', data: { ...data, hash: event.data.data.hash } });
+                setState({ loading: false, status: '', data: { ...data, hash: event.data.data.data.hash } });
               })
               .catch((e) => {
                 setState({ loading: false, status: '' });
