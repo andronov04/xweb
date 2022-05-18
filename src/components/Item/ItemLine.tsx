@@ -17,7 +17,7 @@ export const ItemLine = ({ item, mode: _mode, active, selected, onSelect, onClic
   const mode = _mode ?? 'list';
   const tokens = item.assetTokenAssets_aggregate?.aggregate.count ?? 0;
   return (
-    <div className={'flex gap-x-6 justify-between items-center'}>
+    <div className={'group flex gap-x-6 justify-between items-center'}>
       <div className={'flex gap-x-6 justify-start items-center'}>
         <div className={'h-12 w-12 rounded-sm overflow-hidden'}>
           <ItemContent item={item} />
@@ -66,7 +66,7 @@ export const ItemLine = ({ item, mode: _mode, active, selected, onSelect, onClic
             onClick={() => {
               onClickItem?.(item);
             }}
-            className={'text-active hover:opacity-90 cursor-pointer'}
+            className={'text-active group-hover:block hidden hover:opacity-90 cursor-pointer'}
           >
             Use this asset
           </div>

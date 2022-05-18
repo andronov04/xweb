@@ -34,6 +34,7 @@ const SelectAssets = () => {
       setAssetIds(assets.map((a) => parseInt(a)).slice(0, 1));
     }
   }, [router, token]);
+  // TODO Close click outside
 
   return (
     <div className={'max-w-4xl relative'}>
@@ -48,7 +49,7 @@ const SelectAssets = () => {
                   setActive(!active);
                   // onSelect?.();
                 }}
-                className={'flex select-none cursor-pointer hover:opacity-90 items-center gap-x-2 text-inactive text-xl'}
+                className={'flex more select-none cursor-pointer hover:opacity-90 items-center gap-x-2 text-inactive text-xl'}
               >
                 More assets
                 {active ? (
@@ -72,21 +73,23 @@ const SelectAssets = () => {
             </div>
           </div>
         ) : null}
-        {token.assets.map((asset) => (
-          <ItemLine
-            key={asset.id}
-            item={asset as any}
-            mode={'main'}
-            onSelect={() => {
-              setActive(!active);
-            }}
-            selected={active}
-            onClickItem={(item) => {
-              // TODO Remove previosly
-              token.addAsset(JSON.parse(JSON.stringify(item)) as any);
-            }}
-          />
-        ))}
+        <div className={'pre-modal'}>
+          {token.assets.map((asset) => (
+            <ItemLine
+              key={asset.id}
+              item={asset as any}
+              mode={'main'}
+              onSelect={() => {
+                setActive(!active);
+              }}
+              selected={active}
+              onClickItem={(item) => {
+                // TODO Remove previosly
+                token.addAsset(JSON.parse(JSON.stringify(item)) as any);
+              }}
+            />
+          ))}
+        </div>
       </div>
 
       <div className={`w-full ${active ? 'block' : 'hidden'} mt-2 absolute z-50 bg-black20 rounded-md p-4`}>
