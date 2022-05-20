@@ -13,11 +13,18 @@ import { setMsg } from '../../../../services/snackbar';
 import { useWindowSize } from '../../../../hooks/use-resized/useWindowSize';
 import { generateHash } from '../../../../utils';
 
+interface IPreviewMediaData {
+  authHash: string;
+  cid: string;
+  format: string;
+  mime: string;
+}
+
 interface IPreviewMedia {
   url: string;
   width: number;
   height: number;
-  onPreview: (cid, hash) => void;
+  onPreview: (data: IPreviewMediaData[]) => void;
 }
 // TODO Almost duplicate PreviewToken, two-one
 const PreviewMedia = ({ url, width, height, onPreview }: IPreviewMedia) => {
@@ -35,7 +42,7 @@ const PreviewMedia = ({ url, width, height, onPreview }: IPreviewMedia) => {
 
   useEffect(() => {
     if (data) {
-      onPreview(data.cid, hash);
+      onPreview(data);
     }
   }, [data]);
 
@@ -103,19 +110,21 @@ const PreviewMedia = ({ url, width, height, onPreview }: IPreviewMedia) => {
             </div>
           ) : null}
 
-          {data && (
-            <div
-              style={{
-                width: `${width}px`,
-                height: `${height}px`,
-                transform: `scale(${scale})`,
-                transformOrigin: 'top left'
-              }}
-              className={`relative select-none`}
-            >
-              <img alt={'Name'} className={'w-full h-full'} src={`${IPFS_PREFIX_URL}${data.cid}`} />
-            </div>
-          )}
+          {data &&
+            data.forEach((format) => (
+              <div
+                key={format.mime}
+                style={{
+                  width: `${width}px`,
+                  height: `${height}px`,
+                  transform: `scale(${scale})`,
+                  transformOrigin: 'top left'
+                }}
+                className={`relative select-none`}
+              >
+                <img alt={'Name'} className={'w-full h-full'} src={`${IPFS_PREFIX_URL}${data.cid}`} />
+              </div>
+            ))}
 
           {render && (
             <div

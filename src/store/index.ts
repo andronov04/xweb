@@ -7,7 +7,7 @@ import TimeAgo from 'javascript-time-ago';
 import { IStore } from '../types/store';
 import {
   EDITOR_URL,
-  FILE_API_CAPTURE_IMG_URL,
+  FILE_API_CAPTURE_URL,
   FILE_API_STATE_URL,
   IPFS_PREFIX_URL,
   MESSAGE_GENERATE_NEW,
@@ -20,10 +20,12 @@ import {
 import { nanoid } from 'nanoid';
 import { getWallet } from '../api/WalletApi';
 import { IUser } from '../types';
-import { eventOnceWaitFor } from '../api/EventApi';
+import { eventEmitter, eventOnceWaitFor } from '../api/EventApi';
 import { postDataFetch, postFetch } from '../api/RestApi';
 import GraphqlApi from '../api/GraphqlApi';
 import { QL_GET_USER_BY_ID } from '../api/queries';
+import { getExtByMime } from '../utils/mime';
+import { waitUntil } from 'async-wait-until';
 
 const getUser = async (id: string) => {
   const { data } = await GraphqlApi.query({
@@ -41,11 +43,11 @@ export const useStore = create<IStore>((set, get) => ({
     authHash: '',
     previews: [],
     hash: '',
-    addPreview: (cid, hash) =>
+    addPreview: (data) =>
       set(
         produce((state) => {
-          state.asset.previews.push({ cid, hash });
-          state.asset.hash = hash;
+          state.asset.previews = data;
+          // state.asset.hash = hash;
           // state.asset.previews = previews;
           // state.asset.hash = hash;
         })
@@ -64,10 +66,10 @@ export const useStore = create<IStore>((set, get) => ({
     previews: [],
     cid: '',
     isProxy: false,
-    addPreview: (cid, hash) =>
+    addPreview: (data) =>
       set(
         produce((state) => {
-          state.token.previews.push({ cid, hash });
+          state.token.previews = data;
         })
       ),
     setCid: (cid: string) =>
@@ -79,6 +81,7 @@ export const useStore = create<IStore>((set, get) => ({
     prepare: async (snapshot: any) => {
       // Get store and digest and hashes from assets;
       const token = get().token;
+      const asset = get().asset;
       // tokenProxy?.postMessage(
       //   {
       //     type: USE_PREPARE,
@@ -91,7 +94,29 @@ export const useStore = create<IStore>((set, get) => ({
       // const result = await eventOnceWaitFor(requestId);
 
       // Get preview/capture
-      const requestId = nanoid();
+      // TODO Upload blob to server and set previews;
+      let formats: any = [];
+      let formatReady = false;
+      eventEmitter.on(MOULDER_CMD_RESPONSE_CAPTURE, async (data) => {
+        console.log('MOULDER_CMD_RESPONSE_CAPTURE', data);
+        const capture = data.data;
+        const formData = new FormData();
+        formData.append('file', capture.blob, `${nanoid()}.${getExtByMime(capture.mime)}`);
+        const response = await postFetch(FILE_API_CAPTURE_URL, formData);
+        if (response.status !== 200) {
+          throw 'Network error';
+        }
+
+        const resp = await response.json();
+        formats.push({
+          mime: capture.mime,
+          format: capture.format,
+          ...resp
+        });
+        if (formats.length === (capture.count ?? 1)) {
+          formatReady = true;
+        }
+      });
       tokenProxy?.postMessage(
         {
           type: MOULDER_CMD_REQUEST_CAPTURE,
@@ -100,7 +125,7 @@ export const useStore = create<IStore>((set, get) => ({
         EDITOR_URL
       );
 
-      const data = await eventOnceWaitFor(MOULDER_CMD_RESPONSE_CAPTURE);
+      // const data = await eventOnceWaitFor(MOULDER_CMD_RESPONSE_CAPTURE);
 
       const responseState = await postDataFetch(FILE_API_STATE_URL, snapshot);
       if (responseState.status !== 200) {
@@ -108,14 +133,16 @@ export const useStore = create<IStore>((set, get) => ({
       }
       const respState = await responseState.json();
 
-      // TODO Upload blob to server and set previews;
-      const formData = new FormData();
-      formData.append('file', data.data.blob);
-      const response = await postFetch(FILE_API_CAPTURE_IMG_URL, formData);
-      if (response.status !== 200) {
-        throw 'Network error';
-      }
-      const resp = await response.json();
+      await waitUntil(
+        // Here, we specify a function that will be repeatedly called from time to time
+        // Let's call this kind of function a `predicate`
+        () => formatReady,
+        // Here, we can specify a timeout in milliseconds. Once it passes,
+        // we'll stop waiting and throw an exception
+        { timeout: 60000 }
+      );
+
+      console.log('formats', formats);
 
       set({
         token: {
@@ -123,7 +150,11 @@ export const useStore = create<IStore>((set, get) => ({
           digest: snapshot.digest,
           state: snapshot,
           stateCid: respState.cid,
-          previews: [{ cid: resp.cid, hash: data.hash }]
+          previews: formats
+        },
+        asset: {
+          ...asset,
+          previews: formats
         }
       });
     },

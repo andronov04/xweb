@@ -6,29 +6,16 @@ import Loader from '../../../components/Utils/Loader';
 import { useStore } from '../../../store';
 import shallow from 'zustand/shallow';
 import IframeEditor from '../../../components/Iframe/IframeEditor';
+import { eventEmitter } from '../../../api/EventApi';
+import { MOULDER_CMD_STATUS } from '../../../constants';
+import { clearMsg, setMsg } from '../../../services/snackbar';
 
 const PreviewAsset = () => {
+  const [snapshot, setSnapshot] = useState<null | any>(null);
   const [asset, token] = useStore((state) => [state.asset, state.token], shallow);
   const router = useRouter();
   const [size, setSize] = useState({ width: 0, height: 0 });
   const refContainer = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    // TODO Remove timeout?
-    if (size.width && size.height) {
-      // setTimeout(() => {
-      //   token.addAsset({
-      //     id: 0,
-      //     name: 'Style',
-      //     // @ts-ignore
-      //     metadata: {
-      //       name: 'Style',
-      //       artifactUri: `ipfs://${asset.cid}`
-      //     }
-      //   });
-      // }, 500);
-    }
-  }, [size.width, size.height]);
 
   useEffect(() => {
     if (!asset?.cid) {
@@ -48,6 +35,18 @@ const PreviewAsset = () => {
     return <Loader />;
   }
 
+  // available next or no
+  useEffect(() => {
+    // snapshot, setSnapshot
+    eventEmitter.on(MOULDER_CMD_STATUS, (data) => {
+      if (data.status === 'ready' && data.snapshot) {
+        setSnapshot(data.snapshot);
+      } else {
+        setSnapshot(null);
+      }
+    });
+  }, []);
+
   return (
     <section>
       <div className={'flex w-full justify-between items-center'}>
@@ -58,8 +57,28 @@ const PreviewAsset = () => {
         <div className={'w-1/3 text-right space-x-2'}>
           <span className={'font-normal text-inactive text-sm'}>Details and publish</span>
           <Link href={'/upload/asset/publish'}>
-            <a href={'/upload/asset/publish'}>
-              <CustomButton style={'white'} value={'Next step'} />
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!snapshot) {
+                  return;
+                }
+                setMsg({ autoClose: false, clear: true, block: true, title: 'Generate...', kind: 'info' });
+                token
+                  .prepare(snapshot)
+                  .then(() => {
+                    clearMsg();
+                    router.push('/upload/asset/publish').then();
+                    // setMsg({ autoClose: false, clear: true, block: true, title: 'Uploading...', kind: 'info' });
+                  })
+                  .catch(() => {
+                    setMsg({ clear: true, title: 'Unknown error', kind: 'error' });
+                  });
+              }}
+              href={'/upload/asset/publish'}
+            >
+              <CustomButton disabled={!snapshot} style={'white'} value={'Next step'} />
             </a>
           </Link>
         </div>

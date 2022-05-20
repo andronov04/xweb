@@ -90,7 +90,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
           </div>
         </div>
         <div className={'md:w-1/2 w-full md:h-96 h-auto'}>
-          <ItemToken align={'right'} formats={false} item={item as IItem} />
+          <ItemToken align={'right'} formats={true} item={item as IItem} />
         </div>
         {/*<div>*/}
         {/*  <div*/}
