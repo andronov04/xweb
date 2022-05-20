@@ -17,6 +17,7 @@ import { MichelsonMap } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
 import Waiting from '../../../components/Waiting/Waiting';
 import ItemToken from '../../../components/Item/ItemToken';
+import { setMetaFormats } from '../../../utils/mime';
 
 const MintToken = () => {
   const [opHash, setOpHash] = useState<string | null>();
@@ -43,7 +44,13 @@ const MintToken = () => {
   const h = token.state.root.properties.find((a) => a.id === 'size')?.state?.height?.value ?? 1000;
 
   const getMetadata = (data: any = {}): ITokenMetadata => {
-    const previewImage = token.previews[0];
+    let previewImage = token.previews.find((a) => a.format === 'png'); //asset.previews[0];
+    if (!previewImage) {
+      previewImage = token.previews.find((a) => a.format === 'jpeg' || a.format === 'jpg');
+    }
+    if (!previewImage) {
+      throw 'No preview image';
+    }
     const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
 
     return {
@@ -60,22 +67,12 @@ const MintToken = () => {
       version: '0.1',
       type: 'Token',
       date: new Date().toISOString(),
-      formats: [
-        {
-          uri: urlToIpfs(previewImage.cid),
-          hash: token.digest,
-          mimeType: 'image/png',
-          dimensions: {
-            value: `${w}x${h}`,
-            unit: 'px'
-          }
-        },
-        {
-          uri: urlToIpfs(token.cid),
-          hash: token.digest,
-          mimeType: 'text/html'
-        }
-      ]
+      formats: setMetaFormats(token.previews, {
+        width: w,
+        height: h,
+        cid: token.cid,
+        hash: ''
+      })
     };
   };
 

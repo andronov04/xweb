@@ -9,6 +9,20 @@ export const mimeMap = {
   'model/gltf-binary': 'GLB'
 };
 
+export const mimeFriendlyName = (mime: string) => {
+  let name = 'IMAGE';
+  switch (mime) {
+    case 'text/html':
+      name = 'HTML';
+      break;
+    case 'model/gltf-binary':
+      name = '3D';
+      break;
+  }
+
+  return name;
+};
+
 export const getExtByMime = (mime: string) => {
   let ext = 'png';
   //data.data

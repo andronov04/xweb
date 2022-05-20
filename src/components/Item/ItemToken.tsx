@@ -3,7 +3,7 @@ import { useWindowSize } from '../../hooks/use-resized/useWindowSize';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import IframeToken from '../Iframe/IframeToken';
 import { ipfsToUrl } from '../../utils';
-import { mimeMap } from '../../utils/mime';
+import { mimeFriendlyName, mimeMap } from '../../utils/mime';
 import { MimeType } from '../../types/mime';
 
 interface IItemComp {
@@ -81,9 +81,19 @@ const ItemToken = ({ item, formats: isFormats }: IItemComp) => {
                             <div
                               style={{
                                 backgroundSize: 'cover',
-                                backgroundImage: `url(${ipfsToUrl(item.metadata?.displayUri ?? '')})`
+                                backgroundImage: `url(${ipfsToUrl(frmt.uri ?? '')})`
                               }}
                               className={'w-full h-full'}
+                            />
+                          ) : null}
+                          {[MimeType.glb].includes(frmt.mimeType as MimeType) ? (
+                            <div
+                              className={'w-full h-full pre-model-viewer'}
+                              dangerouslySetInnerHTML={{
+                                __html: `<model-viewer alt="Test" src="${ipfsToUrl(
+                                  frmt.uri ?? ''
+                                )}" poster-color="#101010" ar-modes="webxr scene-viewer quick-look" seamless-poster shadow-intensity="1" auto-rotate="true" data-js-focus-visible="true" interaction-prompt="none" ar="true" ar-modes="webxr scene-viewer quick-look" camera-controls="true" ar-status="not-presenting"></model-viewer>`
+                              }}
                             />
                           ) : null}
                         </div>
@@ -104,7 +114,7 @@ const ItemToken = ({ item, formats: isFormats }: IItemComp) => {
                     }}
                     className={`${frmt.mimeType === mime ? 'text-active' : 'text-inactive'} text-thin hover:opacity-80 cursor-pointer`}
                   >
-                    {mimeMap[frmt.mimeType] ?? 'UNKNOWN'}
+                    {mimeFriendlyName(frmt.mimeType) ?? 'UNKNOWN'}
                   </li>
                 ))}
               </ol>
