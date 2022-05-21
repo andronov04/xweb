@@ -38,6 +38,7 @@ export const API_META_ASSET_URL = process.env.NEXT_PUBLIC_API_META_ASSET_URL ?? 
 export const API_META_TOKEN_URL = process.env.NEXT_PUBLIC_API_META_TOKEN_URL ?? 'https://api.contter.com/upload/token/metadata';
 export const API_META_PROFILE_URL = process.env.NEXT_PUBLIC_API_META_PROFILE_URL ?? 'https://api.contter.com/upload/profile/metadata';
 export const API_BUILD_TOKEN_URL = process.env.NEXT_PUBLIC_API_BUILD_TOKEN_URL ?? 'https://api.contter.com/upload/token';
+export const API_TOKEN_DOWNLOAD_URL = process.env.NEXT_PUBLIC_API_TOKEN_DOWNLOAD_URL ?? 'https://api.contter.com/download/token';
 export const IFRAME_ALLOW = process.env.NEXT_PUBLIC_IFRAME_ALLOW ?? 'gyroscope; accelerometer; xr-spatial-tracking; microphone; camera;';
 export const IFRAME_SANDBOX = process.env.NEXT_PUBLIC_IFRAME_SANDBOX ?? 'allow-same-origin allow-modals allow-scripts';
 // Contracts

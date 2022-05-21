@@ -10,6 +10,8 @@ export const mimeMap = {
 };
 
 export const sortMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'model/gltf-binary', 'text/html'];
+export const originalMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'text/html'];
+export const downloadMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'model/gltf-binary'];
 
 export const mimeFriendlyName = (mime: string) => {
   let name = 'IMAGE';

@@ -12,8 +12,9 @@ import Activity from '../../components/Activity/Activity';
 import { QL_GET_ACTION_BY_TOKEN, QL_GET_ASSET_ITEMS_BY_TOKEN } from '../../api/queries';
 import Items from '../../components/Items/Items';
 import ItemToken from '../../components/Item/ItemToken';
-import { mimeMap } from '../../utils/mime';
+import { downloadMimeTypes, getExtByMime, mimeMap, originalMimeTypes } from '../../utils/mime';
 import Footnote from '../../components/Library/Footnote/Footnote';
+import { API_TOKEN_DOWNLOAD_URL } from '../../constants';
 
 const TokenItem = ({ item }: { item: IToken }) => {
   const router = useRouter();
@@ -156,11 +157,26 @@ const TokenItem = ({ item }: { item: IToken }) => {
                     {mimeMap[frmt.mimeType] ?? 'UNKNOWN'}{' '}
                     <span>
                       (
-                      <Link href={ipfsToUrl(frmt.uri)}>
-                        <a className={'text-active cursor-pointer: hover:opacity-80'} href={ipfsToUrl(frmt.uri)} target={'_blank'} rel={'noreferrer'}>
-                          Open original
-                        </a>
-                      </Link>
+                      {originalMimeTypes.includes(frmt.mimeType) ? (
+                        <Link href={ipfsToUrl(frmt.uri)}>
+                          <a className={'text-active cursor-pointer: hover:opacity-80'} href={ipfsToUrl(frmt.uri)} target={'_blank'} rel={'noreferrer'}>
+                            Open original
+                          </a>
+                        </Link>
+                      ) : null}
+                      {originalMimeTypes.includes(frmt.mimeType) && downloadMimeTypes.includes(frmt.mimeType) ? ' / ' : ''}
+                      {downloadMimeTypes.includes(frmt.mimeType) ? (
+                        <Link href={`${API_TOKEN_DOWNLOAD_URL}?uri=${frmt.uri}&ext=${getExtByMime(frmt.mimeType)}&mime=${frmt.mimeType}&slug=${item.slug}`}>
+                          <a
+                            className={'text-active cursor-pointer: hover:opacity-80'}
+                            href={`${API_TOKEN_DOWNLOAD_URL}?uri=${frmt.uri}&ext=${getExtByMime(frmt.mimeType)}&mime=${frmt.mimeType}&slug=${item.slug}`}
+                            target={'_blank'}
+                            rel={'noreferrer'}
+                          >
+                            Download
+                          </a>
+                        </Link>
+                      ) : null}
                       {/*/{' '}*/}
                       {/*<Link href={'.'}>*/}
                       {/*  <a className={'text-active cursor-pointer: hover:opacity-80'} href={'.'} target={'_blank'} rel={'noreferrer'}>*/}
