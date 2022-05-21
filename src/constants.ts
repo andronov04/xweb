@@ -31,13 +31,14 @@ export const USE_REQUEST_ASSET_CAPTURE = 'X_REQUEST_ASSET_CAPTURE';
 export const USE_RESPONSE_ASSET_CAPTURE = 'X_RESPONSE_ASSET_CAPTURE';
 export const USE_SET_THEME = 'X_USE_SET_THEME';
 export const FILE_API_ASSET_URL = process.env.NEXT_PUBLIC_FILE_API_ASSET_URL ?? 'https://api.contter.com/upload/file/asset';
-export const FILE_API_CAPTURE_IMG_URL = process.env.NEXT_PUBLIC_FILE_API_CAPTURE_IMG_URL ?? 'https://api.contter.com/upload/file/img';
+export const FILE_API_CAPTURE_URL = process.env.NEXT_PUBLIC_FILE_API_CAPTURE_URL ?? 'https://api.contter.com/upload/file';
 export const FILE_API_STATE_URL = process.env.NEXT_PUBLIC_FILE_API_STATE_URL ?? 'https://api.contter.com/upload/token/state';
 export const FILE_API_PROFILE_IMG_URL = process.env.NEXT_PUBLIC_FILE_API_PROFILE_IMG_URL ?? 'https://api.contter.com/upload/file/profile/img';
 export const API_META_ASSET_URL = process.env.NEXT_PUBLIC_API_META_ASSET_URL ?? 'https://api.contter.com/upload/asset/metadata';
 export const API_META_TOKEN_URL = process.env.NEXT_PUBLIC_API_META_TOKEN_URL ?? 'https://api.contter.com/upload/token/metadata';
 export const API_META_PROFILE_URL = process.env.NEXT_PUBLIC_API_META_PROFILE_URL ?? 'https://api.contter.com/upload/profile/metadata';
 export const API_BUILD_TOKEN_URL = process.env.NEXT_PUBLIC_API_BUILD_TOKEN_URL ?? 'https://api.contter.com/upload/token';
+export const API_TOKEN_DOWNLOAD_URL = process.env.NEXT_PUBLIC_API_TOKEN_DOWNLOAD_URL ?? 'https://api.contter.com/download/token';
 export const IFRAME_ALLOW = process.env.NEXT_PUBLIC_IFRAME_ALLOW ?? 'gyroscope; accelerometer; xr-spatial-tracking; microphone; camera;';
 export const IFRAME_SANDBOX = process.env.NEXT_PUBLIC_IFRAME_SANDBOX ?? 'allow-same-origin allow-modals allow-scripts';
 // Contracts

@@ -3,7 +3,7 @@ import { ItemContent } from './ItemMixin';
 
 interface IItemComp {
   item: IItem;
-  mode?: 'main' | 'list';
+  mode?: 'main' | 'list' | 'preview';
   onSelect?: () => void;
   onClickItem?: (item: IItem) => void;
   active?: boolean;

@@ -1,6 +1,6 @@
 import React, { RefObject, useEffect } from 'react';
 import {
-  FILE_API_CAPTURE_IMG_URL,
+  FILE_API_CAPTURE_URL,
   MOULDER_CMD_RESPONSE_CAPTURE,
   USE_COMPLETE_CAPTURE,
   USE_RESPONSE_ASSET_CAPTURE,
@@ -45,23 +45,46 @@ const createCapture = (props: ICapture, updater: () => void) => {
       refIframe = opts.ref.current as HTMLIFrameElement;
       init = true;
 
+      let formats: any = [];
+
       window.addEventListener(
         'message',
         (event) => {
           // TODO Capture for token and asset
           // || event.data?.type === USE_RESPONSE_TOKEN_CAPTURE || event.data?.type === USE_RESPONSE_CAPTURE
           if (event.data?.type === MOULDER_CMD_RESPONSE_CAPTURE) {
+            const capture = event.data.data.data;
+            console.log('event.data.data.data', capture);
             setState({ status: 'Uploading...' });
             const formData = new FormData();
             formData.append('file', event.data.data.data.blob);
-            postFetch(FILE_API_CAPTURE_IMG_URL, formData)
+            postFetch(FILE_API_CAPTURE_URL, formData)
               .then(async (response) => {
                 const data = await response.json();
-                setState({ loading: false, status: '', data: { ...data, hash: event.data.data.data.hash } });
+                formats.push({
+                  mime: capture.mime,
+                  format: capture.format,
+                  ...data
+                });
+                if (formats.length === (capture.count ?? 1)) {
+                  console.log('result all', formats);
+                  setState({ loading: false, status: '', data: formats });
+                }
+                // setState({ loading: false, status: '', data: { ...data, hash: event.data.data.data.hash } });
               })
               .catch((e) => {
                 setState({ loading: false, status: '' });
               });
+            //authHash: "nt7mj9Eruy6LYbhIrnQOR"
+            // cid: "QmQ93DNpt1zHu6r4QfszmAyMLSkBnaGWrvVvVQKbqr9Kuj"
+            // format: "png"
+            // mime: "image/png"
+
+            //blob: Blob {size: 9936, type: 'model/gltf-binary'}
+            // count: 2
+            // format: "glb"
+            // mime: "model/gltf-binary"
+            // order: 1
           }
         },
         false

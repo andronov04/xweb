@@ -3,7 +3,8 @@ import { IAsset, IUser } from './index';
 export interface IPreviewMedia {
   cid: string;
   hash: string;
-  // mimetype
+  format: string;
+  mime: string;
 }
 
 export interface ITempAsset {
@@ -11,7 +12,7 @@ export interface ITempAsset {
   authHash: string;
   previews: IPreviewMedia[];
   hash: string;
-  addPreview: (cid: string, hash: string) => void;
+  addPreview: (data: any) => void;
   setAsset: (cid: string, authHash: string) => void;
 }
 
@@ -20,7 +21,7 @@ export interface ITempToken {
   state?: any;
   stateCid?: string;
   previews: IPreviewMedia[];
-  addPreview: (cid: string, hash: string) => void;
+  addPreview: (data: any) => void;
   addAsset: (asset: IAsset) => void;
   removeAsset: (asset: IAsset) => void;
   setProxy: (proxy: WindowProxy) => void;

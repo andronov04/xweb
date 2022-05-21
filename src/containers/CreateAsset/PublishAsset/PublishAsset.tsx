@@ -15,13 +15,16 @@ import { postDataFetch } from '../../../api/RestApi';
 import { API_META_ASSET_URL } from '../../../constants';
 import { clearMsg, setMsg } from '../../../services/snackbar';
 import Waiting from '../../../components/Waiting/Waiting';
+import ItemToken from '../../../components/Item/ItemToken';
+import { setMetaFormats } from '../../../utils/mime';
+import shallow from 'zustand/shallow';
 
 const DEFAULT_WIDTH = 1000;
 const DEFAULT_HEIGHT = 1000;
 
 const PublishAsset = () => {
   const [opHash, setOpHash] = useState<string | null>();
-  const asset = useStore((state) => state.asset);
+  const [asset, token] = useStore((state) => [state.asset, state.token], shallow);
   const router = useRouter();
   // TODO Validation https://github.com/ianstormtaylor/superstruct one place for use backend and another
   const refSubmit = useRef<HTMLInputElement | null>(null);
@@ -45,7 +48,15 @@ const PublishAsset = () => {
 
   const getMetadata = (data: any = {}): IAssetMetadata => {
     const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
-    const previewImage = asset.previews[0];
+    let previewImage = asset.previews.find((a) => a.format === 'png'); //asset.previews[0];
+    if (!previewImage) {
+      previewImage = asset.previews.find((a) => a.format === 'jpeg' || a.format === 'jpg');
+    }
+    if (!previewImage) {
+      throw 'No preview image';
+    }
+    console.log('gggg', token.cid, asset.cid);
+
     return {
       name: data.name,
       isTransferable: false,
@@ -59,22 +70,12 @@ const PublishAsset = () => {
       decimals: 0,
       version: '0.1',
       type: 'Asset',
-      formats: [
-        {
-          uri: urlToIpfs(previewImage.cid),
-          hash: asset.hash,
-          mimeType: 'image/png',
-          dimensions: {
-            value: `${DEFAULT_WIDTH}x${DEFAULT_HEIGHT}`,
-            unit: 'px'
-          }
-        },
-        {
-          uri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
-          hash: asset.hash,
-          mimeType: 'text/html'
-        }
-      ]
+      formats: setMetaFormats(asset.previews, {
+        width: DEFAULT_WIDTH,
+        height: DEFAULT_HEIGHT,
+        cid: token.cid,
+        hash: asset.hash
+      })
     };
   };
 
@@ -186,18 +187,43 @@ const PublishAsset = () => {
             <input ref={refSubmit} className={'hidden'} type="submit" />
           </form>
         </div>
-        <div className={'w-1/2'}>
-          <div className={'p-4'}>
-            <PreviewMedia
-              width={DEFAULT_WIDTH}
-              height={DEFAULT_HEIGHT}
-              url={`${ipfsToUrl(urlToIpfs(asset.cid))}?hash=`}
-              onPreview={(cid, hash) => {
-                asset.addPreview(cid, hash);
-              }}
-            />
+
+        <div style={{ flex: '1 0' }} className={'w-1/2 flex flex-col flex-grow'}>
+          <div
+            style={{
+              width: '100%',
+              paddingTop: '100%',
+              position: 'relative'
+            }}
+          >
+            <div className={'absolute top-0 left-0 w-full h-full'}>
+              <div>
+                <ItemToken
+                  formats={true}
+                  item={{
+                    id: -1,
+                    name: '',
+                    width: DEFAULT_WIDTH,
+                    height: DEFAULT_HEIGHT,
+                    metadata: getMetadata()
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
+        {/*<div className={'w-1/2'}>*/}
+        {/*  <div className={'p-4'}>*/}
+        {/*    <PreviewMedia*/}
+        {/*      width={DEFAULT_WIDTH}*/}
+        {/*      height={DEFAULT_HEIGHT}*/}
+        {/*      url={`${ipfsToUrl(urlToIpfs(asset.cid))}?hash=`}*/}
+        {/*      onPreview={(data) => {*/}
+        {/*        asset.addPreview(data);*/}
+        {/*      }}*/}
+        {/*    />*/}
+        {/*  </div>*/}
+        {/*</div>*/}
       </div>
       <div className={'flex justify-end items-center space-x-2'}>
         <CustomButton
