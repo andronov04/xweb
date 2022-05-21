@@ -9,6 +9,8 @@ export const mimeMap = {
   'model/gltf-binary': 'GLB'
 };
 
+export const sortMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'model/gltf-binary', 'text/html'];
+
 export const mimeFriendlyName = (mime: string) => {
   let name = 'IMAGE';
   switch (mime) {
@@ -64,9 +66,13 @@ export const setMetaFormats = (data: IPreviewMedia[], opts: any = {}) => {
       });
     }
   });
+  let uri = `${urlToIpfs(cid)}`;
+  if (hash) {
+    uri += `?hash=${hash}`;
+  }
 
   meta.push({
-    uri: `${urlToIpfs(cid)}?hash=${hash}`,
+    uri,
     hash,
     mimeType: 'text/html'
   });

@@ -17,13 +17,14 @@ import { clearMsg, setMsg } from '../../../services/snackbar';
 import Waiting from '../../../components/Waiting/Waiting';
 import ItemToken from '../../../components/Item/ItemToken';
 import { setMetaFormats } from '../../../utils/mime';
+import shallow from 'zustand/shallow';
 
 const DEFAULT_WIDTH = 1000;
 const DEFAULT_HEIGHT = 1000;
 
 const PublishAsset = () => {
   const [opHash, setOpHash] = useState<string | null>();
-  const asset = useStore((state) => state.asset);
+  const [asset, token] = useStore((state) => [state.asset, state.token], shallow);
   const router = useRouter();
   // TODO Validation https://github.com/ianstormtaylor/superstruct one place for use backend and another
   const refSubmit = useRef<HTMLInputElement | null>(null);
@@ -54,6 +55,7 @@ const PublishAsset = () => {
     if (!previewImage) {
       throw 'No preview image';
     }
+    console.log('gggg', token.cid, asset.cid);
 
     return {
       name: data.name,
@@ -71,7 +73,7 @@ const PublishAsset = () => {
       formats: setMetaFormats(asset.previews, {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
-        cid: asset.cid,
+        cid: token.cid,
         hash: asset.hash
       })
     };

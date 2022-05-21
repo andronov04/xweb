@@ -3,7 +3,7 @@ import { useWindowSize } from '../../hooks/use-resized/useWindowSize';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import IframeToken from '../Iframe/IframeToken';
 import { ipfsToUrl } from '../../utils';
-import { mimeFriendlyName, mimeMap } from '../../utils/mime';
+import { mimeFriendlyName, mimeMap, sortMimeTypes } from '../../utils/mime';
 import { MimeType } from '../../types/mime';
 
 interface IItemComp {
@@ -49,6 +49,8 @@ const ItemToken = ({ item, formats: isFormats }: IItemComp) => {
 
   //  ${align === 'right' ? 'items-end' : 'items-start'}
   //  style={{ flex: '1 0' }}
+  const imageFormat = formats.find((a) => a.mimeType.startsWith('image'));
+
   return (
     <div ref={refContainer} className={'md:h-96 h-auto relative w-full flex flex-col'}>
       <div
@@ -76,7 +78,7 @@ const ItemToken = ({ item, formats: isFormats }: IItemComp) => {
                       .filter((frmt) => frmt.mimeType === mime)
                       .map((frmt) => (
                         <div key={frmt.mimeType} className={'w-full h-full relative'}>
-                          {frmt.mimeType === MimeType.html ? <IframeToken url={iframeUrl} width={width} height={height} /> : null}
+                          {frmt.mimeType === MimeType.html ? <IframeToken url={ipfsToUrl(frmt.uri ?? '')} width={width} height={height} /> : null}
                           {[MimeType.png, MimeType.jpeg].includes(frmt.mimeType as MimeType) ? (
                             <div
                               style={{
@@ -90,9 +92,11 @@ const ItemToken = ({ item, formats: isFormats }: IItemComp) => {
                             <div
                               className={'w-full h-full pre-model-viewer'}
                               dangerouslySetInnerHTML={{
-                                __html: `<model-viewer alt="Test" src="${ipfsToUrl(
+                                __html: `<model-viewer alt="${item.name}" src="${ipfsToUrl(
                                   frmt.uri ?? ''
-                                )}" poster-color="#101010" ar-modes="webxr scene-viewer quick-look" seamless-poster shadow-intensity="1" auto-rotate="true" data-js-focus-visible="true" interaction-prompt="none" ar="true" ar-modes="webxr scene-viewer quick-look" camera-controls="true" ar-status="not-presenting"></model-viewer>`
+                                )}" style="background-color: unset;" exposure="0.5" poster="${ipfsToUrl(
+                                  imageFormat?.uri ?? ''
+                                )}" poster-color="transparent" ar-modes="webxr scene-viewer quick-look" auto-rotate="true" data-js-focus-visible="true" interaction-prompt="none" ar="true" ar-modes="webxr scene-viewer quick-look" camera-controls="true" ar-status="not-presenting"></model-viewer>`
                               }}
                             />
                           ) : null}
@@ -106,17 +110,19 @@ const ItemToken = ({ item, formats: isFormats }: IItemComp) => {
           {isFormats ? (
             <nav className={'mt-2 flex justify-center'}>
               <ol className={'flex text-base gap-x-4'}>
-                {formats.map((frmt) => (
-                  <li
-                    key={frmt.mimeType}
-                    onClick={() => {
-                      setMime(frmt.mimeType);
-                    }}
-                    className={`${frmt.mimeType === mime ? 'text-active' : 'text-inactive'} text-thin hover:opacity-80 cursor-pointer`}
-                  >
-                    {mimeFriendlyName(frmt.mimeType) ?? 'UNKNOWN'}
-                  </li>
-                ))}
+                {formats
+                  .sort((a, b) => sortMimeTypes.indexOf(a.mimeType) - sortMimeTypes.indexOf(b.mimeType))
+                  .map((frmt) => (
+                    <li
+                      key={frmt.mimeType}
+                      onClick={() => {
+                        setMime(frmt.mimeType);
+                      }}
+                      className={`${frmt.mimeType === mime ? 'text-active' : 'text-inactive'} text-thin hover:opacity-80 cursor-pointer`}
+                    >
+                      {mimeFriendlyName(frmt.mimeType) ?? 'UNKNOWN'}
+                    </li>
+                  ))}
               </ol>
             </nav>
           ) : null}

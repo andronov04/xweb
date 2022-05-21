@@ -1,12 +1,11 @@
 import Head from 'next/head';
-import Page from '../../../containers/Page/Page';
 import ConditionRender from '../../../components/Utils/ConditionRender';
 import { DESCRIPTION_SEO, IMAGE_SEO } from '../../../constants';
 import PreviewAsset from '../../../containers/CreateAsset/PreviewAsset/PreviewAsset';
 
 export default function BasePage() {
   return (
-    <Page>
+    <div className={'w-full h-full'}>
       <Head>
         <title>Asset preview – Contter</title>
         <meta key="og:title" property="og:title" content={'Asset preview – Contter'} />
@@ -20,6 +19,6 @@ export default function BasePage() {
       <ConditionRender client>
         <PreviewAsset />
       </ConditionRender>
-    </Page>
+    </div>
   );
 }
