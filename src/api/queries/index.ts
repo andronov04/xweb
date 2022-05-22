@@ -555,6 +555,38 @@ export const QL_GET_TOKEN_RANDOM_BY_ID = gql`
     }
   }
 `;
+
+export const QL_GET_ASSET_BY_ID = gql`
+  query Query($id: bigint) {
+    asset(where: { id: { _eq: $id } }) {
+      id
+      user {
+        id
+        verified
+        username
+        avatarUri
+      }
+      enabled
+      flag
+      metadata
+      metadataUri
+      slug
+      name
+      description
+      tags
+      royalties
+      enabled
+      created
+      updated
+      assetTokenAssets_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+`;
+
 export const QL_GET_ASSET = gql`
   query Query($slug: String) {
     asset(where: { slug: { _eq: $slug } }) {
