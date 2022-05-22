@@ -36,7 +36,7 @@ const Menu = () => {
                 </svg>
               </div>
             )}
-            on={['hover']}
+            on={['click']}
             position="bottom center"
             closeOnDocumentClick
           >

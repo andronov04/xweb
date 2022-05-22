@@ -4,7 +4,7 @@ import { useState } from 'react';
 export const Logos = () => {
   return (
     <div>
-      <a href={'/'} className={'group flex items-center'}>
+      <a href={'/'} className={'group w-fit flex items-center'}>
         {/*<Logo />*/}
         <span>
           <svg width="84" height="44" viewBox="0 0 84 44" fill="none" xmlns="http://www.w3.org/2000/svg">
