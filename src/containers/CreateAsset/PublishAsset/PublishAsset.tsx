@@ -55,7 +55,6 @@ const PublishAsset = () => {
     if (!previewImage) {
       throw 'No preview image';
     }
-    console.log('gggg', token.cid, asset.cid);
 
     return {
       name: data.name,

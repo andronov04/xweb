@@ -48,7 +48,7 @@ module.exports = withMDX({
         destination: '/token/:id'
       },
       {
-        source: '/asset/:id/tokens',
+        source: '/asset/:id/details',
         destination: '/asset/:id'
       },
       {

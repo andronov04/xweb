@@ -476,15 +476,6 @@ export const QL_GET_TOKEN = gql`
   }
 `;
 
-export const QL_GET_COUNT_TOKENS = gql`
-  query MyQuery {
-    tokenAggregate {
-      aggregate {
-        count
-      }
-    }
-  }
-`;
 export const QL_GET_TOKEN_BY_ID = gql`
   query Query($id: bigint) {
     token(where: { id: { _eq: $id } }) {
@@ -497,14 +488,10 @@ export const QL_GET_TOKEN_BY_ID = gql`
       tags
       width
       height
+      enabled
+      royalties
       name
       flag
-      owner {
-        id
-        verified
-        username
-        avatarUri
-      }
       offer {
         id
         price
@@ -514,6 +501,22 @@ export const QL_GET_TOKEN_BY_ID = gql`
         verified
         username
         avatarUri
+      }
+      owner {
+        id
+        verified
+        username
+        avatarUri
+      }
+    }
+  }
+`;
+
+export const QL_GET_COUNT_TOKENS = gql`
+  query MyQuery {
+    tokenAggregate {
+      aggregate {
+        count
       }
     }
   }
@@ -552,6 +555,38 @@ export const QL_GET_TOKEN_RANDOM_BY_ID = gql`
     }
   }
 `;
+
+export const QL_GET_ASSET_BY_ID = gql`
+  query Query($id: bigint) {
+    asset(where: { id: { _eq: $id } }) {
+      id
+      user {
+        id
+        verified
+        username
+        avatarUri
+      }
+      enabled
+      flag
+      metadata
+      metadataUri
+      slug
+      name
+      description
+      tags
+      royalties
+      enabled
+      created
+      updated
+      assetTokenAssets_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+`;
+
 export const QL_GET_ASSET = gql`
   query Query($slug: String) {
     asset(where: { slug: { _eq: $slug } }) {

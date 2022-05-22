@@ -21,8 +21,8 @@ const AssetItem = ({ item }: { item: IAsset }) => {
   const user = item.user?.username ?? item.user?.id;
 
   const isActivity = router.asPath.endsWith('activity');
-  const isTokens = router.asPath.endsWith('tokens');
-  const isCurrent = !isActivity && !isTokens;
+  const isDetails = router.asPath.endsWith('details');
+  const isCurrent = !isActivity && !isDetails;
 
   const tokens = item.assetTokenAssets_aggregate?.aggregate.count ?? 0;
 
@@ -108,8 +108,8 @@ const AssetItem = ({ item }: { item: IAsset }) => {
       <div>
         <Navs
           links={[
-            { url: `/asset/${item.slug ?? item.id}/tokens`, active: isTokens, displayName: 'Recently created', pathname: '/asset/[id]/tokens' },
-            { url: `/asset/${item.slug ?? item.id}`, active: isCurrent, displayName: 'Details', pathname: '/asset/[id]' },
+            { url: `/asset/${item.slug ?? item.id}`, active: isCurrent, displayName: 'Recently created', pathname: '/asset/[id]' },
+            { url: `/asset/${item.slug ?? item.id}/details`, active: isDetails, displayName: 'Details', pathname: '/asset/[id]/details' },
             { url: `/asset/${item.slug ?? item.id}/activity`, active: isActivity, displayName: 'Activity', startsWith: '/asset/[id]/activity' }
           ]}
         />
@@ -125,8 +125,18 @@ const AssetItem = ({ item }: { item: IAsset }) => {
         </div>
       ) : null}
 
-      {isCurrent ? (
+      {isDetails ? (
         <div className={'flex md:text-base text-sm gap-y-1 flex-col text-inactive'}>
+          <div className={'flex'}>
+            <span className={'pr-1'}>ID: </span>
+            <span>
+              <Link href={`/cnsst/${item.id}`}>
+                <a href={`/cnsst/${item.id}`} className={'text-active hover:text-inactive'}>
+                  {item.id}
+                </a>
+              </Link>
+            </span>
+          </div>
           <div className={'flex'}>
             <span className={'pr-1'}>Published: </span>
             <span>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>
@@ -190,7 +200,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
         </div>
       ) : null}
 
-      {isTokens ? (
+      {isCurrent ? (
         <div>
           <ConditionRender client>
             <Items kind={'token'} query={QL_GET_TOKEN_ITEMS_BY_ASSET} variables={{ assetId: item.id }} />

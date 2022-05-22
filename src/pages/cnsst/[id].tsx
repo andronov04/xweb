@@ -1,12 +1,12 @@
 import Head from 'next/head';
-import { IToken } from '../../types';
+import { IAsset } from '../../types';
 import GraphqlApi from '../../api/GraphqlApi';
-import { QL_GET_TOKEN } from '../../api/queries';
-import TokenItem from '../../containers/TokenItem/TokenItem';
+import { QL_GET_ASSET_BY_ID } from '../../api/queries';
 import { ipfsToUrl } from '../../utils';
 import Page from '../../containers/Page/Page';
+import AssetItem from '../../containers/AssetItem/AssetItem';
 
-const ArtPage = ({ item }: { item: IToken }) => {
+const MainPage = ({ item }: { item: IAsset }) => {
   return (
     <Page>
       <Head>
@@ -19,26 +19,28 @@ const ArtPage = ({ item }: { item: IToken }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <TokenItem item={item} />
+      <AssetItem item={item} />
     </Page>
   );
 };
 
-export default ArtPage;
+export default MainPage;
 
 export async function getServerSideProps({ params }) {
   const { id } = params;
   const { data } = await GraphqlApi.query({
-    query: QL_GET_TOKEN,
+    query: QL_GET_ASSET_BY_ID,
     fetchPolicy: 'no-cache',
-    variables: { slug: id }
+    variables: { id }
   });
-  const item = data.token.find((a) => a.slug === id);
+  const item = { ...data.asset.find((a) => a.id === parseInt(id)) };
   if (item === undefined) {
     return {
       notFound: true
     };
   }
+  // count_tokens
+  item.count_tokens = item.tokens_aggregate?.aggregate?.count ?? 0;
 
   return {
     props: {

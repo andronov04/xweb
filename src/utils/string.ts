@@ -11,3 +11,16 @@ export function strToByteStr(str: string): string {
   }
   return bytesToStr(bytes);
 }
+
+const regex_url = /(\b(((https?|ftp):\/\/)|www.)[A-Z0-9+&@#\/%?=~_|!:,.;-]*[-A-Z0-9+&@#\/%=~_|])/gim;
+
+export const parseStringUrl = (text: string): string => {
+  const urls = regex_url;
+  text = text ? String(text).replace(/<[^>]+>/gm, '') : '';
+
+  if (text.match(urls)) {
+    text = text.replace(urls, '<a class=\'underline hover:opacity-80\' href="$1" target="_blank">$1</a>');
+  }
+
+  return text.replace(/\n\r?/g, '<br />');
+};
