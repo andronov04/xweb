@@ -55,3 +55,4 @@ export const MOULDER_CMD_RESPONSE_CAPTURE = 'MOULDER_CMD_RESPONSE_CAPTURE';
 export const MOULDER_CMD_SET_CONF = 'MOULDER_CMD_SET_CONF';
 export const MOULDER_CMD_ADD_ASSET = 'MOULDER_CMD_ADD_ASSET';
 export const MOULDER_CMD_REMOVE_ASSET = 'MOULDER_CMD_REMOVE_ASSET';
+export const TZP_PROFILE_URL = 'https://indexer.tzprofiles.com/v1/graphql';

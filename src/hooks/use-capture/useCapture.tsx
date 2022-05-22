@@ -54,7 +54,6 @@ const createCapture = (props: ICapture, updater: () => void) => {
           // || event.data?.type === USE_RESPONSE_TOKEN_CAPTURE || event.data?.type === USE_RESPONSE_CAPTURE
           if (event.data?.type === MOULDER_CMD_RESPONSE_CAPTURE) {
             const capture = event.data.data.data;
-            console.log('event.data.data.data', capture);
             setState({ status: 'Uploading...' });
             const formData = new FormData();
             formData.append('file', event.data.data.data.blob);
@@ -67,7 +66,6 @@ const createCapture = (props: ICapture, updater: () => void) => {
                   ...data
                 });
                 if (formats.length === (capture.count ?? 1)) {
-                  console.log('result all', formats);
                   setState({ loading: false, status: '', data: formats });
                 }
                 // setState({ loading: false, status: '', data: { ...data, hash: event.data.data.data.hash } });

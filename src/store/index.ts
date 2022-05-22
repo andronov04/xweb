@@ -98,7 +98,6 @@ export const useStore = create<IStore>((set, get) => ({
       let formats: any = [];
       let formatReady = false;
       eventEmitter.on(MOULDER_CMD_RESPONSE_CAPTURE, async (data) => {
-        console.log('MOULDER_CMD_RESPONSE_CAPTURE', data);
         const capture = data.data;
         const formData = new FormData();
         formData.append('file', capture.blob, `${nanoid()}.${getExtByMime(capture.mime)}`);
@@ -141,8 +140,6 @@ export const useStore = create<IStore>((set, get) => ({
         // we'll stop waiting and throw an exception
         { timeout: 60000 }
       );
-
-      console.log('formats', formats);
 
       set({
         token: {
