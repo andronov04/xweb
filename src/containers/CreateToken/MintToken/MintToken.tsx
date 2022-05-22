@@ -18,6 +18,7 @@ import BigNumber from 'bignumber.js';
 import Waiting from '../../../components/Waiting/Waiting';
 import ItemToken from '../../../components/Item/ItemToken';
 import { setMetaFormats } from '../../../utils/mime';
+import Footnote from '../../../components/Library/Footnote/Footnote';
 
 const MintToken = () => {
   const [opHash, setOpHash] = useState<string | null>();
@@ -128,6 +129,11 @@ const MintToken = () => {
           }}
         />
       ) : null}
+      <div className={' mb-4'}>
+        <Footnote type={'warning'}>
+          <p>Note: Check all formats before publishing.</p>
+        </Footnote>
+      </div>
       <div className={'flex gap-x-3'}>
         <div style={{ flex: '1 0' }} className={'w-1/2 flex flex-col flex-grow'}>
           <div
