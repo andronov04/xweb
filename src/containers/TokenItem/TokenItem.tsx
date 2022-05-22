@@ -133,6 +133,16 @@ const TokenItem = ({ item }: { item: IToken }) => {
       {isCurrent ? (
         <div className={'flex md:text-base text-sm gap-y-1 flex-col text-inactive'}>
           <div className={'flex'}>
+            <span className={'pr-1'}>ID: </span>
+            <span>
+              <Link href={`/cntnt/${item.id}`}>
+                <a href={`/cntnt/${item.id}`} className={'text-active hover:text-inactive'}>
+                  {item.id}
+                </a>
+              </Link>
+            </span>
+          </div>
+          <div className={'flex'}>
             <span className={'pr-1'}>Minted: </span>
             <span>{item.created ? new Date(item.created).toLocaleDateString('en-US') : null}</span>
           </div>
@@ -188,6 +198,14 @@ const TokenItem = ({ item }: { item: IToken }) => {
                   </div>
                 ))}
               </div>
+            </div>
+          ) : null}
+          {item.width && item.height ? (
+            <div className={'flex'}>
+              <span className={'pr-1'}>Size: </span>
+              <span>
+                {item.width}x{item.height}
+              </span>
             </div>
           ) : null}
           {item.metadataUri && (
