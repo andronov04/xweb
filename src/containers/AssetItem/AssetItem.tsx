@@ -130,8 +130,8 @@ const AssetItem = ({ item }: { item: IAsset }) => {
           <div className={'flex'}>
             <span className={'pr-1'}>ID: </span>
             <span>
-              <Link href={`/cnsst/${item.id}`}>
-                <a href={`/cnsst/${item.id}`} className={'text-active hover:text-inactive'}>
+              <Link href={`/a/${item.id}`}>
+                <a href={`/a/${item.id}`} className={'text-active hover:text-inactive'}>
                   {item.id}
                 </a>
               </Link>

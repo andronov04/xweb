@@ -135,8 +135,8 @@ const TokenItem = ({ item }: { item: IToken }) => {
           <div className={'flex'}>
             <span className={'pr-1'}>ID: </span>
             <span>
-              <Link href={`/cntnt/${item.id}`}>
-                <a href={`/cntnt/${item.id}`} className={'text-active hover:text-inactive'}>
+              <Link href={`/t/${item.id}`}>
+                <a href={`/t/${item.id}`} className={'text-active hover:text-inactive'}>
                   {item.id}
                 </a>
               </Link>
