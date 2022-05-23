@@ -413,8 +413,8 @@ export const QL_GET_TOKEN_ITEMS = gql`
 `;
 
 export const QL_GET_OFFER_TOKENS = gql`
-  query Query($limit: Int, $offset: Int) {
-    offer(order_by: { created: desc }, limit: $limit, offset: $offset) {
+  query Query($flag: smallint, $enabled: Boolean, $limit: Int, $offset: Int) {
+    offer(where: { token: { flag: { _eq: $flag }, enabled: { _eq: $enabled } } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       id
       token {
         id
@@ -524,7 +524,7 @@ export const QL_GET_COUNT_TOKENS = gql`
 
 export const QL_GET_TOKEN_RANDOM_BY_ID = gql`
   query Query($limit: Int, $offset: Int) {
-    token(where: { flag: { _eq: 0 } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
+    token(where: { _and: { flag: { _eq: 0 }, enabled: { _eq: true } } }, order_by: { created: desc }, limit: $limit, offset: $offset) {
       created
       description
       id
