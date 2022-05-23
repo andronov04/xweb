@@ -9,7 +9,7 @@ const Marketplace = () => {
           <p className={'italic text-whitegrey'}>Recently listed</p>
         </div>
       </div>
-      <Items kind={'offer'} mode={'offer'} query={QL_GET_OFFER_TOKENS} />
+      <Items kind={'offer'} mode={'offer'} query={QL_GET_OFFER_TOKENS} variables={{ flag: 0, enabled: true }} />
     </main>
   );
 };
