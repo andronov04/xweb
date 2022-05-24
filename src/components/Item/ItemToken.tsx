@@ -5,6 +5,7 @@ import IframeToken from '../Iframe/IframeToken';
 import { ipfsToUrl } from '../../utils';
 import { mimeFriendlyName, mimeMap, sortMimeTypes } from '../../utils/mime';
 import { MimeType } from '../../types/mime';
+import { SvgViewer } from '../SVG/SvgViewer';
 
 interface IItemComp {
   item: IItem;
@@ -87,6 +88,10 @@ const ItemToken = ({ item, formats: isFormats }: IItemComp) => {
                               }}
                               className={'w-full h-full'}
                             />
+                          ) : null}
+                          {/*<iframe frameBorder="0" src={ipfsToUrl(frmt.uri ?? '')} width={'100%'} height={'100%'} />*/}
+                          {[MimeType.svg].includes(frmt.mimeType as MimeType) ? (
+                            <SvgViewer width={item.width} height={item.height} url={ipfsToUrl(frmt.uri ?? '')} />
                           ) : null}
                           {[MimeType.glb].includes(frmt.mimeType as MimeType) ? (
                             <div

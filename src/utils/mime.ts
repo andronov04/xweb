@@ -6,12 +6,13 @@ export const mimeMap = {
   'image/jpeg': 'JPEG',
   'image/jpg': 'JPG',
   'text/html': 'HTML', // change ?
-  'model/gltf-binary': 'GLB'
+  'model/gltf-binary': 'GLB',
+  'image/svg+xml': 'SVG'
 };
 
-export const sortMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'model/gltf-binary', 'text/html'];
-export const originalMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'text/html'];
-export const downloadMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'model/gltf-binary'];
+export const sortMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml', 'model/gltf-binary', 'text/html'];
+export const originalMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'text/html', 'image/svg+xml'];
+export const downloadMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'model/gltf-binary', 'image/svg+xml'];
 
 export const mimeFriendlyName = (mime: string) => {
   let name = 'IMAGE';
@@ -21,6 +22,9 @@ export const mimeFriendlyName = (mime: string) => {
       break;
     case 'model/gltf-binary':
       name = '3D';
+      break;
+    case 'image/svg+xml':
+      name = 'SVG';
       break;
   }
 
@@ -39,6 +43,9 @@ export const getExtByMime = (mime: string) => {
       break;
     case 'model/gltf-binary':
       ext = 'glb';
+      break;
+    case 'image/svg+xml':
+      ext = 'svg';
       break;
   }
 
