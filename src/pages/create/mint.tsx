@@ -1,8 +1,8 @@
 import Head from 'next/head';
-import Page from '../../../containers/Page/Page';
-import ConditionRender from '../../../components/Utils/ConditionRender';
-import { DESCRIPTION_SEO, IMAGE_SEO } from '../../../constants';
-import MintToken from '../../../containers/CreateToken/MintToken/MintToken';
+import Page from '../../containers/Page/Page';
+import ConditionRender from '../../components/Utils/ConditionRender';
+import { DESCRIPTION_SEO, IMAGE_SEO } from '../../constants';
+import MintToken from '../../containers/CreateToken/MintToken/MintToken';
 
 export default function MainPage() {
   return (

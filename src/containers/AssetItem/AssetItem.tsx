@@ -80,7 +80,7 @@ const AssetItem = ({ item }: { item: IAsset }) => {
                 style={'white'}
                 onClick={() => {
                   if (item.flag === IAssetFlag.NONE) {
-                    router.push(`/create/token?a=${item.id}`).then();
+                    router.push(`/create?a=${item.id}`).then();
                   }
                 }}
                 classNames={'bg-active text-dark hover:bg-inactive'}
