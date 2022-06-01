@@ -3,5 +3,6 @@ export enum MimeType {
   'png' = 'image/png',
   'jpeg' = 'image/jpeg',
   'glb' = 'model/gltf-binary',
-  'svg' = 'image/svg+xml'
+  'svg' = 'image/svg+xml',
+  'txt' = 'text/plain'
 }

@@ -30,7 +30,7 @@ const SelectAssets = () => {
   useEffect(() => {
     if (router.query?.a && token.isProxy) {
       const assets = (router.query?.a as string).split(',');
-      router.replace('/create/token', undefined, { shallow: true }).then();
+      router.replace('/create', undefined, { shallow: true }).then();
       setAssetIds(assets.map((a) => parseInt(a)).slice(0, 1));
     }
   }, [router, token]);
@@ -187,7 +187,7 @@ const CreateToken = () => {
     if (data) {
       setMsg({ clear: true, autoClose: 1000, title: 'Uploaded', kind: 'success' });
       token.setCid((data as UploadAssetFileResponse).cid);
-      router.replace('/create/token/mint').then().catch();
+      router.replace('/create/mint').then().catch();
     }
   }, [data]);
 
@@ -238,7 +238,7 @@ const CreateToken = () => {
 
         <div className={'w-1/3 text-right space-x-2'}>
           <div className={` ${snapshot ? 'animate__pulse' : ''} pre_animate__pulse animate__animated`}>
-            <Link href={'/create/token/mint'}>
+            <Link href={'/create/mint'}>
               <a
                 className={'select-none'}
                 onClick={(e) => {
@@ -259,7 +259,7 @@ const CreateToken = () => {
                       setMsg({ clear: true, title: 'Unknown error', kind: 'error' });
                     });
                 }}
-                href={'/create/token/mint'}
+                href={'/create/mint'}
               >
                 <CustomButton disabled={!snapshot} style={'white'} value={'Next step'} />
               </a>
@@ -307,7 +307,7 @@ const CreateToken = () => {
       {/*    </div>*/}
       {/*    <div className={'w-1/3 text-right space-x-2'}>*/}
       {/*      <span className={'font-normal text-inactive text-sm'}>Details and mint</span>*/}
-      {/*      <Link href={'/create/token/mint'}>*/}
+      {/*      <Link href={'/create/mint'}>*/}
       {/*        <a*/}
       {/*          onClick={(e) => {*/}
       {/*            e.preventDefault();*/}
@@ -327,7 +327,7 @@ const CreateToken = () => {
       {/*            //     setMsg({ clear: true, title: 'Unknown error', kind: 'error' });*/}
       {/*            //   });*/}
       {/*          }}*/}
-      {/*          href={'/create/token/mint'}*/}
+      {/*          href={'/create/mint'}*/}
       {/*        >*/}
       {/*          <CustomButton disabled={true} style={'white'} value={'Next step'} />*/}
       {/*        </a>*/}

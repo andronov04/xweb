@@ -6,6 +6,7 @@ import { ipfsToUrl } from '../../utils';
 import { mimeFriendlyName, mimeMap, sortMimeTypes } from '../../utils/mime';
 import { MimeType } from '../../types/mime';
 import { SvgViewer } from '../SVG/SvgViewer';
+import { TextViewer } from '../Text/TextViewer';
 
 interface IItemComp {
   item: IItem;
@@ -73,7 +74,7 @@ const ItemToken = ({ item, formats: isFormats }: IItemComp) => {
                       transform: `scale(${scale})`,
                       transformOrigin: 'top left'
                     }}
-                    className={`relative select-none`}
+                    className={`relative ${mime === MimeType.txt ? '' : 'select-none'}`}
                   >
                     {formats
                       .filter((frmt) => frmt.mimeType === mime)
@@ -92,6 +93,9 @@ const ItemToken = ({ item, formats: isFormats }: IItemComp) => {
                           {/*<iframe frameBorder="0" src={ipfsToUrl(frmt.uri ?? '')} width={'100%'} height={'100%'} />*/}
                           {[MimeType.svg].includes(frmt.mimeType as MimeType) ? (
                             <SvgViewer width={item.width} height={item.height} url={ipfsToUrl(frmt.uri ?? '')} />
+                          ) : null}
+                          {[MimeType.txt].includes(frmt.mimeType as MimeType) ? (
+                            <TextViewer width={item.width} height={item.height} url={ipfsToUrl(frmt.uri ?? '')} />
                           ) : null}
                           {[MimeType.glb].includes(frmt.mimeType as MimeType) ? (
                             <div
