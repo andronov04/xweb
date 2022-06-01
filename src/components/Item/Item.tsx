@@ -10,6 +10,9 @@ const getUrl = (item: IItem) => {
   if (item.__typename === 'asset') {
     return `/asset/${item.slug ?? item.id}`;
   }
+  if (!item.slug || item.slug === '') {
+    return `/t/${item.id}`;
+  }
   return `/token/${item.slug ?? item.id}`;
 };
 
