@@ -609,6 +609,8 @@ export const QL_GET_ASSET = gql`
       enabled
       created
       updated
+      width
+      height
       assetTokenAssets_aggregate {
         aggregate {
           count

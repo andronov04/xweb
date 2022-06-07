@@ -1,20 +1,24 @@
 import { useEffect, useState } from 'react';
 import Loader from '../Utils/Loader';
+import { IMetaFormat } from '../../types/metadata';
+import { ipfsToUrl } from '../../utils';
 
-interface ITextViewerProps {
+interface ISvgViewerProps {
   width?: number;
   height?: number;
-  url: string;
+  formats: IMetaFormat[];
 }
 
-export const TextViewer = ({ width, height, url }: ITextViewerProps) => {
+export const SVGViewer = ({ width, height, formats }: ISvgViewerProps) => {
   const [data, setData] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(url)
-      .then((response) => response.text())
-      .then((text) => setData(text));
-  }, [url]);
+    if (formats.length) {
+      fetch(ipfsToUrl(formats[0].uri))
+        .then((response) => response.text())
+        .then((text) => setData(text));
+    }
+  }, [formats]);
 
   return (
     <div style={{ width, height }}>
@@ -26,7 +30,7 @@ export const TextViewer = ({ width, height, url }: ITextViewerProps) => {
           </div>
         </div>
       ) : null}
-      {data ? <div className={'whitespace-pre-wrap'} dangerouslySetInnerHTML={{ __html: data }} /> : null}
+      {data ? <div dangerouslySetInnerHTML={{ __html: data }} /> : null}
     </div>
   );
 };

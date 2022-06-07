@@ -8,16 +8,59 @@ export const mimeMap = {
   'text/html': 'HTML', // change ?
   'model/gltf-binary': 'GLB',
   'image/svg+xml': 'SVG',
-  'text/plain': 'TEXT'
+  'text/plain': 'TEXT',
+  'video/webm': 'WEBM',
+  'video/mp4': 'MP4'
 };
 
-export const sortMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml', 'model/gltf-binary', 'text/plain', 'text/html'];
-export const originalMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'text/html', 'image/svg+xml', 'text/plain'];
-export const downloadMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'model/gltf-binary', 'image/svg+xml', 'text/plain'];
+export const tokenFormats = [
+  {
+    label: 'IMAGE',
+    mimes: ['image/png', 'image/jpeg', 'image/jpg']
+  },
+  {
+    label: 'VIDEO',
+    mimes: ['video/webm', 'video/mp4']
+  },
+  {
+    label: 'SVG',
+    mimes: ['image/svg+xml']
+  },
+  {
+    label: '3D',
+    mimes: ['model/gltf-binary']
+  },
+  {
+    label: 'TEXT',
+    mimes: ['text/plain']
+  },
+  {
+    label: 'HTML',
+    mimes: ['text/html']
+  }
+];
+
+export const sortMimeTypes = [
+  'image/png',
+  'image/jpeg',
+  'image/jpg',
+  'video/webm',
+  'video/mp4',
+  'image/svg+xml',
+  'model/gltf-binary',
+  'text/plain',
+  'text/html'
+];
+export const originalMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'video/webm', 'video/mp4', 'text/html', 'image/svg+xml', 'text/plain'];
+export const downloadMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'video/webm', 'video/mp4', 'model/gltf-binary', 'image/svg+xml', 'text/plain'];
 
 export const mimeFriendlyName = (mime: string) => {
   let name = 'IMAGE';
   switch (mime) {
+    case 'video/webm':
+    case 'video/mp4':
+      name = 'VIDEO';
+      break;
     case 'text/html':
       name = 'HTML';
       break;
@@ -53,6 +96,12 @@ export const getExtByMime = (mime: string) => {
       break;
     case 'image/svg+xml':
       ext = 'svg';
+      break;
+    case 'video/webm':
+      ext = 'webm';
+      break;
+    case 'video/mp4':
+      ext = 'mp4';
       break;
   }
 
