@@ -9,6 +9,7 @@ export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https
 export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://graphql.contter.com/v1/graphql';
 export const GRAPHQL_API_KEY = process.env.NEXT_PUBLIC_GRAPHQL_API_KEY ?? '';
 export const IPFS_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_PREFIX_URL ?? 'https://contter.mypinata.cloud/ipfs/';
+export const IPFS_BASE_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_BASE_PREFIX_URL ?? 'https://contter.mypinata.cloud/ipfs/';
 export const MINI_LOGO_URL = process.env.NEXT_PUBLIC_MINI_LOGO_URL ?? 'https://contter.mypinata.cloud/ipfs/QmPD9ZiRqjxp8DktWhJ1zzsQ8z6S34G7oBjwUbNwLaXPHw';
 export const TZKT_URL = process.env.NEXT_PUBLIC_TZKT_URL ?? 'https://tzkt.io/';
 export const ITEMS_PER_PAGE: number = parseInt(process.env.NEXT_PUBLIC_ITEMS_PER_PAGE ?? '25') ?? 25;

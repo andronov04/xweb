@@ -9,6 +9,7 @@ import {
   EDITOR_URL,
   FILE_API_CAPTURE_URL,
   FILE_API_STATE_URL,
+  IPFS_BASE_PREFIX_URL,
   IPFS_PREFIX_URL,
   MESSAGE_GENERATE_NEW,
   MOULDER_CMD_ADD_ASSET,
@@ -98,6 +99,7 @@ export const useStore = create<IStore>((set, get) => ({
       let formats: any = [];
       let formatReady = false;
       eventEmitter.on(MOULDER_CMD_RESPONSE_CAPTURE, async (data) => {
+        console.log('MOULDER_CMD_RESPONSE_CAPTURE:::', data);
         const capture = data.data;
         const formData = new FormData();
         formData.append('file', capture.blob, `${nanoid()}.${getExtByMime(capture.mime)}`);
@@ -163,7 +165,13 @@ export const useStore = create<IStore>((set, get) => ({
           }
           const order = state.token.assets.length;
           state.token.assets.push(asset);
-          const url = asset.metadata?.artifactUri; // 'http://localhost:3000/'; // asset.metadata?.artifactUri
+          let url = asset.metadata?.artifactUri; // 'http://localhost:3000/'; // asset.metadata?.artifactUri
+          console.log('url', url);
+          url = url?.replace('?', '/index.html?');
+          if (!url?.includes('?')) {
+            url += '/index.html?';
+          }
+          console.log('tokenProxy', tokenProxy, EDITOR_URL, url);
           tokenProxy?.postMessage(
             {
               type: MOULDER_CMD_ADD_ASSET,
@@ -208,7 +216,7 @@ export const useStore = create<IStore>((set, get) => ({
               type: MOULDER_CMD_SET_CONF,
               data: {
                 conf: {
-                  ipfsPrefix: IPFS_PREFIX_URL
+                  ipfsPrefix: IPFS_BASE_PREFIX_URL
                 },
                 target: 'all'
               }

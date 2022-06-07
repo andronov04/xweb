@@ -150,6 +150,9 @@ const PreviewAsset = () => {
           >
             <IframeEditor
               check={true}
+              onError={(e) => {
+                console.log('e', e);
+              }}
               onLoad={() => {
                 token.addAsset({
                   id: 0,

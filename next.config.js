@@ -7,10 +7,13 @@ const withMDX = require('@next/mdx')({
     // providerImportSource: "@mdx-js/react",
   }
 });
+const ENV = 'undefined' !== typeof window ? window.ENV : process.env.ENV;
+
 module.exports = withMDX({
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   reactStrictMode: true,
   optimizeFonts: false,
+  trailingSlash: false,
   async rewrites() {
     return [
       {
@@ -54,6 +57,10 @@ module.exports = withMDX({
       {
         source: '/asset/:id/activity',
         destination: '/asset/:id'
+      },
+      {
+        source: '/ipfs/:id*',
+        destination: ENV === 'dev' ? 'http://localhost:8070/ipfs/:id*' : 'https://contter.mypinata.cloud/ipfs/:id*'
       }
     ];
   }

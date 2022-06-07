@@ -39,6 +39,7 @@ export async function getServerSideProps({ params }) {
       notFound: true
     };
   }
+  console.log(item);
 
   return {
     props: {

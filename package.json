@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 8000",
+    "dev": "cross-env ENV=dev node server.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
@@ -43,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "autoprefixer": "^10.4.5",
     "eslint": "^8.14.0",
+    "cross-env": "^7.0.3",
     "eslint-config-next": "^12.1.5",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",

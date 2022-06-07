@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Loader from '../../components/Utils/Loader';
 import CustomButton from '../../components/CustomButton/CustomButton';
 
-const IframeEditor = ({ onLoad, check }: { onLoad?: (e: any) => void; check?: boolean }) => {
+const IframeEditor = ({ onLoad, onError, check }: { onError?: (e: any) => void; onLoad?: (e: any) => void; check?: boolean }) => {
   const [status, setStatus] = useState<'loading' | 'error' | 'success'>('loading');
   const [rnd, setRnd] = useState('');
   const token = useStore((state) => state.token);
@@ -49,7 +49,8 @@ const IframeEditor = ({ onLoad, check }: { onLoad?: (e: any) => void; check?: bo
             setStatus('success');
           }
         }}
-        onError={() => {
+        onError={(e) => {
+          onError?.(e);
           setStatus('error');
         }}
         width={'100%'}
