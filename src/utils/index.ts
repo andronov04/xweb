@@ -1,8 +1,13 @@
-import { IPFS_PREFIX_URL } from '../constants';
+import { IPFS_PREFIX_URL, S3_SUFFIX_URL } from '../constants';
 
 export const ipfsToUrl = (ipfs: string): string => {
   const preIpfs = ipfs.slice(7);
   return `${IPFS_PREFIX_URL}${preIpfs}`;
+};
+
+export const s3ToUrl = (ipfs: string): string => {
+  const preIpfs = ipfs.slice(7);
+  return `${S3_SUFFIX_URL}${preIpfs}`;
 };
 
 export const urlToIpfs = (ipfs: string): string => {

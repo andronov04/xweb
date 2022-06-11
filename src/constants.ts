@@ -9,6 +9,7 @@ export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https
 export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://graphql.contter.com/v1/graphql';
 export const GRAPHQL_API_KEY = process.env.NEXT_PUBLIC_GRAPHQL_API_KEY ?? '';
 export const IPFS_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_PREFIX_URL ?? 'https://contter.mypinata.cloud/ipfs/';
+export const S3_SUFFIX_URL = process.env.NEXT_PUBLIC_S3_SUFFIX_URL ?? '/s3/';
 export const IPFS_BASE_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_BASE_PREFIX_URL ?? 'https://contter.mypinata.cloud/ipfs/';
 export const MINI_LOGO_URL = process.env.NEXT_PUBLIC_MINI_LOGO_URL ?? 'https://contter.mypinata.cloud/ipfs/QmPD9ZiRqjxp8DktWhJ1zzsQ8z6S34G7oBjwUbNwLaXPHw';
 export const TZKT_URL = process.env.NEXT_PUBLIC_TZKT_URL ?? 'https://tzkt.io/';
@@ -48,7 +49,7 @@ export const TZ_ADDRESS_TOKEN = process.env.NEXT_PUBLIC_TZ_ADDRESS_TOKEN ?? '';
 export const TZ_ADDRESS_MARKETPLACE = process.env.NEXT_PUBLIC_TZ_ADDRESS_MARKETPLACE ?? '';
 export const TZ_ADDRESS_PROFILE = process.env.NEXT_PUBLIC_TZ_ADDRESS_PROFILE ?? '';
 // Mimetypes
-export const IMAGE_MIMETYPES = ['image/png', 'image/jpeg'];
+export const IMAGE_MIMETYPES = ['image/avif', 'image/png', 'image/jpeg', 'image/jpg'];
 
 export const MOULDER_CMD_STATUS = 'MOULDER_CMD_STATUS';
 export const MOULDER_CMD_REQUEST_CAPTURE = 'MOULDER_CMD_REQUEST_CAPTURE';
@@ -57,3 +58,5 @@ export const MOULDER_CMD_SET_CONF = 'MOULDER_CMD_SET_CONF';
 export const MOULDER_CMD_ADD_ASSET = 'MOULDER_CMD_ADD_ASSET';
 export const MOULDER_CMD_REMOVE_ASSET = 'MOULDER_CMD_REMOVE_ASSET';
 export const TZP_PROFILE_URL = 'https://indexer.tzprofiles.com/v1/graphql';
+
+// s3 - dutosyxgruo37.cloudfront.net

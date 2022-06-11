@@ -1,27 +1,13 @@
 import { IItem } from '../../types';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { IMAGE_MIMETYPES } from '../../constants';
-import { ipfsToUrl } from '../../utils';
+import { ipfsToUrl, s3ToUrl } from '../../utils';
 
 export const ItemContent = ({ item }: { item: IItem }) => {
-  const [render, setRender] = useState(false);
+  const [error, setError] = useState(false);
   const refItem = useRef<HTMLDivElement | null>(null);
-  // TODO different size video,html,png and etc
-  // const formats = item.metadata?.formats;
-  // const withDim = formats?.filter((a) => a.dimensions);
-  // let size = { width: item.width ?? 1000, height: item.height ?? 1000 };
-  // if (withDim && (!item.width && !item.height)) {
-  //   const dim = withDim[0].dimensions.value;
-  //   size.width = parseInt(dim.split('x')[0]);
-  //   size.height = parseInt(dim.split('x')[1]);
-  // }
 
-  useEffect(() => {
-    setRender(true);
-  }, [setRender]);
-
-  // const w = refItem.current?.clientWidth ?? 100;
-  // const h = refItem.current?.clientHeight ?? 100;
+  const imageFormat = (item.metadata?.formats ?? []).find((a) => ['image/png', 'image/jpeg', 'image/jpg'].includes(a.mimeType));
   return (
     <div className={'item relative w-full h-full'}>
       <div
@@ -34,24 +20,28 @@ export const ItemContent = ({ item }: { item: IItem }) => {
           paddingBottom: `calc(100% / ${1})`
         }}
       >
-        {render &&
-          item.metadata?.formats?.map((format) => {
-            return (
-              <div className={'w-full h-full'} key={format.mimeType}>
-                {IMAGE_MIMETYPES.includes(format.mimeType) ? (
-                  <img
-                    style={{
-                      width: `${refItem.current?.clientWidth || 48}px`,
-                      height: `${refItem.current?.clientHeight || 48}px`
-                    }}
-                    className={'object-center object-contain'}
-                    src={ipfsToUrl(item.metadata?.thumbnailUri ?? '')}
-                    alt={item.name}
-                  />
-                ) : null}
-              </div>
-            );
-          })}
+        {error ? (
+          <picture>
+            <img alt={item.name} src={ipfsToUrl(imageFormat?.uri ?? '')} />
+          </picture>
+        ) : (
+          <picture>
+            {IMAGE_MIMETYPES.map((mime) => {
+              const source = item.metadata?.formats?.find((a) => a.mimeType === mime);
+              if (!source) {
+                return;
+              }
+              return [<source srcSet={s3ToUrl(source.uri ?? '')} />, <source srcSet={ipfsToUrl(source.uri ?? '')} />];
+            })}
+            <img
+              alt={item.name}
+              src={s3ToUrl(imageFormat?.uri ?? '')}
+              onError={(e) => {
+                setError(true);
+              }}
+            />
+          </picture>
+        )}
       </div>
     </div>
   );

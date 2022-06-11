@@ -34,11 +34,12 @@ const initClient = () => {
   if (GRAPHQL_API_KEY) {
     headers = { 'x-hasura-admin-secret': GRAPHQL_API_KEY };
   }
-  if (ssrMode) {
-    link = createHttpLink(headers);
-  } else {
-    link = createWSLink(headers);
-  }
+  // if (ssrMode) {
+  //   link = createHttpLink(headers);
+  // } else {
+  //   link = createWSLink(headers);
+  // }
+  link = createHttpLink(headers);
   return new ApolloClient({
     ssrMode,
     link,

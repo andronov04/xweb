@@ -5,6 +5,7 @@ export const mimeMap = {
   'image/png': 'PNG',
   'image/jpeg': 'JPEG',
   'image/jpg': 'JPG',
+  'image/avif': 'AVIF',
   'text/html': 'HTML', // change ?
   'model/gltf-binary': 'GLB',
   'image/svg+xml': 'SVG',
@@ -16,7 +17,7 @@ export const mimeMap = {
 export const tokenFormats = [
   {
     label: 'IMAGE',
-    mimes: ['image/png', 'image/jpeg', 'image/jpg']
+    mimes: ['image/avif', 'image/png', 'image/jpeg', 'image/jpg']
   },
   {
     label: 'VIDEO',
@@ -44,6 +45,7 @@ export const sortMimeTypes = [
   'image/png',
   'image/jpeg',
   'image/jpg',
+  'image/avif',
   'video/webm',
   'video/mp4',
   'image/svg+xml',
@@ -51,8 +53,18 @@ export const sortMimeTypes = [
   'text/plain',
   'text/html'
 ];
-export const originalMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'video/webm', 'video/mp4', 'text/html', 'image/svg+xml', 'text/plain'];
-export const downloadMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'video/webm', 'video/mp4', 'model/gltf-binary', 'image/svg+xml', 'text/plain'];
+export const originalMimeTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/avif', 'video/webm', 'video/mp4', 'text/html', 'image/svg+xml', 'text/plain'];
+export const downloadMimeTypes = [
+  'image/png',
+  'image/jpeg',
+  'image/jpg',
+  'image/avif',
+  'video/webm',
+  'video/mp4',
+  'model/gltf-binary',
+  'image/svg+xml',
+  'text/plain'
+];
 
 export const mimeFriendlyName = (mime: string) => {
   let name = 'IMAGE';
@@ -87,6 +99,9 @@ export const getExtByMime = (mime: string) => {
       break;
     case 'image/jpg':
       ext = 'jpg';
+      break;
+    case 'image/avif':
+      ext = 'avif';
       break;
     case 'text/plain':
       ext = 'txt';

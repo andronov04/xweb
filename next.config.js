@@ -17,6 +17,18 @@ module.exports = withMDX({
   async rewrites() {
     return [
       {
+        source: '/ipfs/:id*',
+        destination: ENV === 'dev' ? 'https://xproxyapi-fyhqtmmq7q-uc.a.run.app/ipfs/:id*' : 'https://contter.mypinata.cloud/ipfs/:id*'
+      },
+      {
+        source: '/s3/:id*',
+        destination: 'https://dutosyxgruo37.cloudfront.net/:id*'
+      },
+      {
+        source: '/create',
+        destination: ENV === 'dev' ? 'http://localhost:4173/' : ''
+      },
+      {
         source: '/:id/owned',
         destination: '/:id'
       },
@@ -57,10 +69,6 @@ module.exports = withMDX({
       {
         source: '/asset/:id/activity',
         destination: '/asset/:id'
-      },
-      {
-        source: '/ipfs/:id*',
-        destination: ENV === 'dev' ? 'http://localhost:8070/ipfs/:id*' : 'https://contter.mypinata.cloud/ipfs/:id*'
       }
     ];
   }

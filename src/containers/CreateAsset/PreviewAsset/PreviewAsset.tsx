@@ -92,7 +92,7 @@ const PreviewAsset = () => {
 
   useEffect(() => {
     if (data) {
-      setMsg({ clear: true, autoClose: 1000, title: 'Uploaded', kind: 'success' });
+      // setMsg({ clear: true, autoClose: 1000, title: 'Uploaded', kind: 'success' });
       token.setCid((data as UploadAssetFileResponse).cid);
       router.replace('/upload/asset/publish').then().catch();
     }
@@ -120,14 +120,14 @@ const PreviewAsset = () => {
                   //   return;
                   // }
                   // TODO Send now and message
-                  setMsg({ autoClose: false, clear: true, block: true, title: 'Generate...', kind: 'info' });
+                  // setMsg({ autoClose: false, clear: true, block: true, title: 'Generate...', kind: 'info' });
                   token
                     .prepare(snapshot)
                     .then(() => {
-                      setMsg({ autoClose: false, clear: true, block: true, title: 'Uploading...', kind: 'info' });
+                      // setMsg({ autoClose: false, clear: true, block: true, title: 'Uploading...', kind: 'info' });
                     })
                     .catch(() => {
-                      setMsg({ clear: true, title: 'Unknown error', kind: 'error' });
+                      // setMsg({ clear: true, title: 'Unknown error', kind: 'error' });
                     });
                 }}
                 href={'/upload/asset/publish'}

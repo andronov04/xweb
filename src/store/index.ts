@@ -98,26 +98,15 @@ export const useStore = create<IStore>((set, get) => ({
       // TODO Upload blob to server and set previews;
       let formats: any = [];
       let formatReady = false;
-      eventEmitter.on(MOULDER_CMD_RESPONSE_CAPTURE, async (data) => {
-        console.log('MOULDER_CMD_RESPONSE_CAPTURE:::', data);
-        const capture = data.data;
-        const formData = new FormData();
-        formData.append('file', capture.blob, `${nanoid()}.${getExtByMime(capture.mime)}`);
-        const response = await postFetch(FILE_API_CAPTURE_URL, formData);
-        if (response.status !== 200) {
-          throw 'Network error';
-        }
-
-        const resp = await response.json();
-        formats.push({
-          mime: capture.mime,
-          format: capture.format,
-          ...resp
-        });
-        if (formats.length === (capture.count ?? 1)) {
-          formatReady = true;
-        }
-      });
+      let uploadReady = false;
+      let captures: any = [];
+      // eventEmitter.on(MOULDER_CMD_RESPONSE_CAPTURE, async (data) => {
+      //   console.log('MOULDER_CMD_RESPONSE_CAPTURE:::', data);
+      //   captures.push(data.data);
+      //   if (captures.length === (data.data.count ?? 1)) {
+      //     formatReady = true;
+      //   }
+      // });
       tokenProxy?.postMessage(
         {
           type: MOULDER_CMD_REQUEST_CAPTURE,
@@ -128,34 +117,53 @@ export const useStore = create<IStore>((set, get) => ({
 
       // const data = await eventOnceWaitFor(MOULDER_CMD_RESPONSE_CAPTURE);
 
-      const responseState = await postDataFetch(FILE_API_STATE_URL, snapshot);
-      if (responseState.status !== 200) {
-        throw 'Network error';
-      }
-      const respState = await responseState.json();
+      // const responseState = await postDataFetch(FILE_API_STATE_URL, snapshot);
+      // if (responseState.status !== 200) {
+      //   throw 'Network error';
+      // }
+      // const respState = await responseState.json();
 
-      await waitUntil(
-        // Here, we specify a function that will be repeatedly called from time to time
-        // Let's call this kind of function a `predicate`
-        () => formatReady,
-        // Here, we can specify a timeout in milliseconds. Once it passes,
-        // we'll stop waiting and throw an exception
-        { timeout: 60000 }
-      );
+      // wait get all from asset
+      // await waitUntil(() => formatReady,{ timeout: 60000 });
 
-      set({
-        token: {
-          ...token,
-          digest: snapshot.digest,
-          state: snapshot,
-          stateCid: respState.cid,
-          previews: formats
-        },
-        asset: {
-          ...asset,
-          previews: formats
-        }
-      });
+      // setTimeout(async () => {
+      //   // TODO Use avif and mp4
+      //   for (const capture of captures) {
+      //     const formData = new FormData();
+      //     formData.append('file', capture.blob, `${nanoid()}.${getExtByMime(capture.mime)}`);
+      //     const response = await postFetch(FILE_API_CAPTURE_URL, formData);
+      //     if (response.status !== 200) {
+      //       throw 'Network error';
+      //     }
+      //
+      //     const resp = await response.json();
+      //     formats.push({
+      //       mime: capture.mime,
+      //       format: capture.format,
+      //       ...resp
+      //     });
+      //     if (formats.length === (capture.count ?? 1)) {
+      //       uploadReady = true;
+      //     }
+      //   }
+      // }, 10000)
+
+      // // wait upload all
+      // await waitUntil(() => uploadReady,{ timeout: 60000 });
+      //
+      // set({
+      //   token: {
+      //     ...token,
+      //     digest: snapshot.digest,
+      //     state: snapshot,
+      //     stateCid: respState.cid,
+      //     previews: formats
+      //   },
+      //   asset: {
+      //     ...asset,
+      //     previews: formats
+      //   }
+      // });
     },
     addAsset: (asset) =>
       set(
@@ -166,12 +174,12 @@ export const useStore = create<IStore>((set, get) => ({
           const order = state.token.assets.length;
           state.token.assets.push(asset);
           let url = asset.metadata?.artifactUri; // 'http://localhost:3000/'; // asset.metadata?.artifactUri
-          console.log('url', url);
-          url = url?.replace('?', '/index.html?');
-          if (!url?.includes('?')) {
-            url += '/index.html?';
-          }
-          console.log('tokenProxy', tokenProxy, EDITOR_URL, url);
+          // console.log('url', url);
+          // url = url?.replace('?', '/index.html?');
+          // if (!url?.includes('?')) {
+          //   url += '/index.html?';
+          // }
+          // console.log('tokenProxy', tokenProxy, EDITOR_URL, url);
           tokenProxy?.postMessage(
             {
               type: MOULDER_CMD_ADD_ASSET,

@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { IItem } from '../../types';
-import { displayPrice, ipfsToUrl } from '../../utils';
-import { IMAGE_MIMETYPES } from '../../constants';
-import { useEffect, useRef, useState } from 'react';
+import { displayPrice } from '../../utils';
+import { useEffect } from 'react';
 import { ItemContent } from './ItemMixin';
 import { ItemLine } from './ItemLine';
 
@@ -38,38 +37,6 @@ const Item = ({ item, onMountItem, mode, hidePrice, onClickItem, active }: IItem
         <div>
           <ItemLine onClickItem={onClickItem} active={active} item={item} />
         </div>
-        // <div>
-        //   <div
-        //     onClick={() => {
-        //       onClickItem?.(item);
-        //     }}
-        //     className={'relative cursor-pointer hover:opacity-90'}
-        //   >
-        //     <div className={'bg-white20 z-20 absolute w-full h-full flex justify-center items-center'}>
-        //       <p
-        //         style={{
-        //           visibility: active ? 'visible' : 'hidden'
-        //         }}
-        //         className={'invisible font-thin bg-dark px-3 py-1 rounded-sm opacity-90'}
-        //       >
-        //         Selected
-        //       </p>
-        //     </div>
-        //     <ItemContent item={item} />
-        //   </div>
-        //   <Link href={getUrl(item)}>
-        //     <a className={'hover:opacity-90 cursor-pointer'} target={'_blank'} rel={'noreferrer'} href={getUrl(item)}>
-        //       <h2 className={'truncate ... pt-2 text-active'}>{item.name}</h2>
-        //     </a>
-        //   </Link>
-        //   <div className={'flex justify-between text-base'}>
-        //     {/*{item.assetTokenAssets_aggregate?.aggregate?.count ? (*/}
-        //     {/*  <p className={'text-xs text-inactive'}>*/}
-        //     {/*    <span className={'text-green opacity-70'}>Style</span> / {plural_suggest()}*/}
-        //     {/*  </p>*/}
-        //     {/*) : null}*/}
-        //   </div>
-        // </div>
       )}
       {mode === 'normal' && (
         <div className={'overflow-hidden'}>
@@ -182,11 +149,6 @@ const Item = ({ item, onMountItem, mode, hidePrice, onClickItem, active }: IItem
                   </span>
                 </>
               ) : null}
-              {/*<Link href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>*/}
-              {/*  <a className={'pl-0.5'} href={`/@${item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}`}>*/}
-              {/*    @{item.owner?.username || item.owner?.id || item.user?.username || item.user?.id}*/}
-              {/*  </a>*/}
-              {/*</Link>*/}
             </p>
             {item.offer && !hidePrice ? <p className={'text-white'}>{`${displayPrice(item.offer.price ?? 0)} ꜩ`}</p> : null}
           </div>

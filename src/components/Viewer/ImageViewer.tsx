@@ -1,5 +1,7 @@
 import { IMetaFormat } from '../../types/metadata';
-import { ipfsToUrl } from '../../utils';
+import { ipfsToUrl, s3ToUrl } from '../../utils';
+import { IMAGE_MIMETYPES } from '../../constants';
+import { useState } from 'react';
 
 interface IImageViewer {
   width?: number;
@@ -8,21 +10,32 @@ interface IImageViewer {
 }
 
 export const ImageViewer = ({ width, height, formats }: IImageViewer) => {
-  // TODO Use avif use png use wemp and etc
+  const [error, setError] = useState(false);
+  const imageFormat = (formats ?? []).find((a) => ['image/png', 'image/jpeg', 'image/jpg'].includes(a.mimeType));
   return (
     <div style={{ width, height }}>
-      {formats.map((fr) => {
-        return (
-          <div
-            key={fr.mimeType}
-            style={{
-              backgroundSize: 'cover',
-              backgroundImage: `url(${ipfsToUrl(fr.uri ?? '')})`
+      {error ? (
+        <picture>
+          <img alt={'Image'} src={ipfsToUrl(imageFormat?.uri ?? '')} />
+        </picture>
+      ) : (
+        <picture>
+          {IMAGE_MIMETYPES.map((mime) => {
+            const source = formats.find((a) => a.mimeType === mime);
+            if (!source) {
+              return;
+            }
+            return [<source srcSet={s3ToUrl(source.uri ?? '')} />, <source srcSet={ipfsToUrl(source.uri ?? '')} />];
+          })}
+          <img
+            alt={'Image'}
+            src={s3ToUrl(imageFormat?.uri ?? '')}
+            onError={(e) => {
+              setError(true);
             }}
-            className={'w-full h-full'}
           />
-        );
-      })}
+        </picture>
+      )}
     </div>
   );
 };
