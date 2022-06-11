@@ -58,5 +58,6 @@ export const MOULDER_CMD_SET_CONF = 'MOULDER_CMD_SET_CONF';
 export const MOULDER_CMD_ADD_ASSET = 'MOULDER_CMD_ADD_ASSET';
 export const MOULDER_CMD_REMOVE_ASSET = 'MOULDER_CMD_REMOVE_ASSET';
 export const TZP_PROFILE_URL = 'https://indexer.tzprofiles.com/v1/graphql';
-
+export const CNTTR_CMD_MINT = 'CNTTR_CMD_MINT';
+export const URL = () => `${document.location.protocol}//${document.location.host}`;
 // s3 - dutosyxgruo37.cloudfront.net

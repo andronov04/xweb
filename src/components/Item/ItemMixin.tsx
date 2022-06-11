@@ -22,7 +22,7 @@ export const ItemContent = ({ item }: { item: IItem }) => {
       >
         {error ? (
           <picture>
-            <img alt={item.name} src={ipfsToUrl(imageFormat?.uri ?? '')} />
+            <img alt={item.name} width={item.width ?? 1000} height={item.height ?? 1000} loading={'lazy'} src={ipfsToUrl(imageFormat?.uri ?? '')} />
           </picture>
         ) : (
           <picture>
@@ -34,6 +34,9 @@ export const ItemContent = ({ item }: { item: IItem }) => {
               return [<source srcSet={s3ToUrl(source.uri ?? '')} />, <source srcSet={ipfsToUrl(source.uri ?? '')} />];
             })}
             <img
+              loading={'lazy'}
+              width={refItem.current?.offsetWidth ?? item.width ?? 1000}
+              height={refItem.current?.offsetHeight ?? item.height ?? 1000}
               alt={item.name}
               src={s3ToUrl(imageFormat?.uri ?? '')}
               onError={(e) => {

@@ -124,7 +124,7 @@ export const getExtByMime = (mime: string) => {
 };
 
 export const setMetaFormats = (data: IPreviewMedia[], opts: any = {}) => {
-  const { width, height, cid, hash } = opts;
+  const { width, height, hash } = opts;
   let meta: any = [];
 
   data.forEach((dt) => {
@@ -145,16 +145,6 @@ export const setMetaFormats = (data: IPreviewMedia[], opts: any = {}) => {
         mimeType: dt.mime
       });
     }
-  });
-  let uri = `${urlToIpfs(cid)}`;
-  if (hash) {
-    uri += `?hash=${hash}`;
-  }
-
-  meta.push({
-    uri,
-    hash,
-    mimeType: 'text/html'
   });
   return meta;
 };

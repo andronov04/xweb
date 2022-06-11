@@ -25,9 +25,17 @@ module.exports = withMDX({
         destination: 'https://dutosyxgruo37.cloudfront.net/:id*'
       },
       {
-        source: '/create',
-        destination: ENV === 'dev' ? 'http://localhost:4173/' : ''
+        source: '/editor',
+        destination: ENV === 'dev' ? 'http://localhost:4173/' : 'https://editor.contter.com'
       },
+      // {
+      //   source: '/create',
+      //   destination: ENV === 'dev' ? 'http://localhost:4173/' : ''
+      // },
+      // {
+      //   source: '/upload/asset/preview',
+      //   destination: ENV === 'dev' ? 'http://localhost:4173/' : ''
+      // },
       {
         source: '/:id/owned',
         destination: '/:id'

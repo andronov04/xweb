@@ -57,7 +57,7 @@ const IframeEditor = ({ onLoad, onError, check }: { onError?: (e: any) => void; 
         height={'100%'}
         src={`${url}&rnd=${rnd}`}
         className={'iframe'}
-        fetchPriority={'high'}
+        // fetchPriority={'high'}
         allowFullScreen={true}
         sandbox={IFRAME_SANDBOX}
         allow={IFRAME_ALLOW}

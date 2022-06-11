@@ -1,22 +1,22 @@
 import { useForm } from 'react-hook-form';
-import Input from '../../../components/Form/Input';
+import Input from '../../components/Form/Input';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ipfsToUrl, urlToIpfs } from '../../../utils';
-import CustomButton from '../../../components/CustomButton/CustomButton';
-import { useContract } from '../../../hooks/use-contract/useContract';
-import { MintTokenCallData } from '../../../types/contract';
-import { getWallet } from '../../../api/WalletApi';
-import { ITokenMetadata } from '../../../types/metadata';
-import { postDataFetch } from '../../../api/RestApi';
-import { API_META_TOKEN_URL } from '../../../constants';
-import { strToByteStr } from '../../../utils/string';
-import { clearMsg, setMsg } from '../../../services/snackbar';
+import { ipfsToUrl, urlToIpfs } from '../../utils';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import { useContract } from '../../hooks/use-contract/useContract';
+import { MintTokenCallData } from '../../types/contract';
+import { getWallet } from '../../api/WalletApi';
+import { ITokenMetadata } from '../../types/metadata';
+import { postDataFetch } from '../../api/RestApi';
+import { API_META_TOKEN_URL } from '../../constants';
+import { strToByteStr } from '../../utils/string';
+import { clearMsg, setMsg } from '../../services/snackbar';
 import { useRouter } from 'next/router';
 import { MichelsonMap } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
-import Waiting from '../../../components/Waiting/Waiting';
-import ItemToken from '../../../components/Item/ItemToken';
-import { setMetaFormats } from '../../../utils/mime';
+import Waiting from '../../components/Waiting/Waiting';
+import ItemToken from '../../components/Item/ItemToken';
+import { setMetaFormats } from '../../utils/mime';
 
 const MintToken = () => {
   const [opHash, setOpHash] = useState<string | null>();
@@ -26,7 +26,6 @@ const MintToken = () => {
     if (!tokenStorage || !Object.keys(tokenStorage).length) {
       router.replace('/').then();
     }
-    console.log('tokenStorage', tokenStorage);
     return tokenStorage;
   }, []);
 

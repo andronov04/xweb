@@ -5,6 +5,7 @@ import Page from '../containers/Page/Page';
 import Items from '../components/Items/Items';
 import { QL_GET_ASSET_ITEMS } from '../api/queries';
 import { IAssetFlag } from '../types';
+import Link from 'next/link';
 
 export default function AssetsPage() {
   return (
@@ -21,7 +22,14 @@ export default function AssetsPage() {
 
       <ConditionRender client>
         <main>
-          <div className={'flex justify-end mb-5'}>
+          <div className={'flex justify-between mb-5'}>
+            <div>
+              <Link href={'/upload/asset'}>
+                <a href={'/upload/asset'} className={'text-inactive hover:text-active'}>
+                  Upload asset
+                </a>
+              </Link>
+            </div>
             <div>
               <p className={'italic text-whitegrey'}>Recently published</p>
             </div>
