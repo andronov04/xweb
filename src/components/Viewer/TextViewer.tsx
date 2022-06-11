@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Loader from '../Utils/Loader';
 import { IMetaFormat } from '../../types/metadata';
-import { ipfsToUrl } from '../../utils';
+import { ipfsToUrl, s3ToUrl } from '../../utils';
+import { useAsync } from 'react-async-hook';
 
 interface ITextViewerProps {
   width?: number;
@@ -12,11 +13,14 @@ interface ITextViewerProps {
 export const TextViewer = ({ width, height, formats }: ITextViewerProps) => {
   const [data, setData] = useState<string | null>(null);
 
-  useEffect(() => {
+  useAsync(async () => {
     if (formats.length) {
-      fetch(ipfsToUrl(formats[0].uri))
-        .then((response) => response.text())
-        .then((text) => setData(text));
+      let resp = await fetch(s3ToUrl(formats[0].uri));
+      if (resp.status !== 200) {
+        resp = await fetch(ipfsToUrl(formats[0].uri));
+      }
+      let text = await resp.text();
+      setData(text);
     }
   }, [formats]);
 
