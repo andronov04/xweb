@@ -11,7 +11,7 @@ const ENV = 'undefined' !== typeof window ? window.ENV : process.env.ENV;
 
 module.exports = withMDX({
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-  reactStrictMode: true,
+  reactStrictMode: false,
   optimizeFonts: false,
   trailingSlash: false,
   async rewrites() {

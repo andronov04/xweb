@@ -20,16 +20,20 @@ const DEFAULT_WIDTH = 1000;
 const DEFAULT_HEIGHT = 1000;
 
 const PublishAsset = () => {
+  const router = useRouter();
   const [opHash, setOpHash] = useState<string | null>();
-  const token = useMemo(() => {
+  const [token, setToken] = useState<any | null>(null);
+  useEffect(() => {
     let tokenStorage: any = JSON.parse(localStorage.getItem('token') ?? '{}');
     if (!tokenStorage || !Object.keys(tokenStorage).length) {
       router.replace('/').then();
+    } else {
+      try {
+        localStorage.removeItem('token');
+      } catch (e) {}
     }
-    return tokenStorage;
-  }, []);
-  console.log('token', token);
-  const router = useRouter();
+    setToken(tokenStorage);
+  }, [setToken]);
   // TODO Validation https://github.com/ianstormtaylor/superstruct one place for use backend and another
   const refSubmit = useRef<HTMLInputElement | null>(null);
   const [metaCid, setMetaCid] = useState<string | null>(null);
@@ -52,14 +56,11 @@ const PublishAsset = () => {
 
   const getMetadata = (data: any = {}): IAssetMetadata => {
     const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
-    let previewImage = token.previews.find((a) => a.mime === 'png');
-    if (!previewImage) {
-      previewImage = token.previews.find((a) => a.format === 'jpeg' || a.format === 'jpg');
-    }
+    let previewImage = token.previews.find((a) => ['image/png', 'image/jpeg', 'image/jpg'].includes(a.mime));
     if (!previewImage) {
       throw 'No preview image';
     }
-    const hash = token?.snapshot?.hash;
+    const hash = null; //token?.snapshot?.hash;
     const ast = token.assets[0];
     return {
       name: data.name,
@@ -112,15 +113,9 @@ const PublishAsset = () => {
     });
   };
 
-  useEffect(() => {
-    // if (!asset?.cid) {
-    //   router.replace('/create/asset/style');
-    // }
-  }, []);
-
-  // if (!asset?.cid) {
-  //   return <Loader />;
-  // }
+  if (!token) {
+    return <div />;
+  }
 
   return (
     <section className={'h-full'}>

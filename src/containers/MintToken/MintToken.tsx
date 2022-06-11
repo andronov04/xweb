@@ -21,12 +21,17 @@ import { setMetaFormats } from '../../utils/mime';
 const MintToken = () => {
   const [opHash, setOpHash] = useState<string | null>();
   const router = useRouter();
-  const token = useMemo(() => {
+  const [token, setToken] = useState<any | null>(null);
+  useEffect(() => {
     let tokenStorage: any = JSON.parse(localStorage.getItem('token') ?? '{}');
-    if (!tokenStorage || !Object.keys(tokenStorage).length) {
+    if (!tokenStorage || Object.keys(tokenStorage).length === 0) {
       router.replace('/').then();
+    } else {
+      try {
+        localStorage.removeItem('token');
+      } catch (e) {}
     }
-    return tokenStorage;
+    setToken(tokenStorage);
   }, []);
 
   const {
@@ -47,15 +52,11 @@ const MintToken = () => {
     }
   }, [result]);
 
-  console.log('token', token);
   const w = token?.snapshot?.state?.root?.properties?.find((a) => a.id === 'size')?.state?.width?.value ?? 1000;
   const h = token?.snapshot?.state?.root?.properties?.find((a) => a.id === 'size')?.state?.height?.value ?? 1000;
 
   const getMetadata = (data: any = {}): ITokenMetadata => {
-    let previewImage = token.previews.find((a) => a.format === 'png'); //asset.previews[0];
-    if (!previewImage) {
-      previewImage = token.previews.find((a) => a.format === 'jpeg' || a.format === 'jpg');
-    }
+    let previewImage = token.previews.find((a) => ['image/png', 'image/jpeg', 'image/jpg'].includes(a.mime));
     if (!previewImage) {
       throw 'No preview image';
     }
@@ -79,7 +80,7 @@ const MintToken = () => {
         width: w,
         height: h,
         cid: token.cid,
-        hash: ''
+        hash: token?.snapshot?.hash
       })
     };
   };
@@ -125,6 +126,10 @@ const MintToken = () => {
     }
     refSubmit.current?.click();
   };
+
+  if (!token) {
+    return <div />;
+  }
 
   return (
     <section className={'h-full'}>

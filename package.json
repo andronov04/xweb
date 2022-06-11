@@ -22,7 +22,7 @@
     "immer": "^9.0.12",
     "javascript-time-ago": "^2.3.13",
     "nanoid": "^3.3.3",
-    "next": "^12.1.6",
+    "next": "^12.1.7-canary.35",
     "nextjs-progressbar": "^0.0.14",
     "react": "^18.1.0",
     "react-async-hook": "^4.0.0",

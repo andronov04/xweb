@@ -31,7 +31,7 @@ export const ItemContent = ({ item }: { item: IItem }) => {
               if (!source) {
                 return;
               }
-              return [<source srcSet={s3ToUrl(source.uri ?? '')} />, <source srcSet={ipfsToUrl(source.uri ?? '')} />];
+              return [<source key={`${mime}_1`} srcSet={s3ToUrl(source.uri ?? '')} />, <source key={`${mime}_2`} srcSet={ipfsToUrl(source.uri ?? '')} />];
             })}
             <img
               loading={'lazy'}
