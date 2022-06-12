@@ -18,7 +18,7 @@ module.exports = withMDX({
     return [
       {
         source: '/ipfs/:id*',
-        destination: ENV === 'dev' ? 'https://xproxyapi-fyhqtmmq7q-uc.a.run.app/ipfs/:id*' : 'https://contter.mypinata.cloud/ipfs/:id*'
+        destination: ENV === 'dev' ? 'https://xproxyapi-fyhqtmmq7q-uc.a.run.app/ipfs/:id*' : 'https://xproxyapi-fyhqtmmq7q-uc.a.run.app/ipfs/:id*'
       },
       {
         source: '/s3/:id*',
@@ -26,7 +26,7 @@ module.exports = withMDX({
       },
       {
         source: '/editor',
-        destination: ENV === 'dev' ? 'https://editor.art3s.xyz' : 'https://editor.contter.com'
+        destination: ENV === 'dev' ? 'https://editor.art3s.xyz' : 'https://editor.art3s.xyz'
       }, // 'http://localhost:4173/'
       {
         source: '/:id/owned',
