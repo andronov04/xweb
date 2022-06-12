@@ -26,16 +26,8 @@ module.exports = withMDX({
       },
       {
         source: '/editor',
-        destination: ENV === 'dev' ? 'http://localhost:4173/' : 'https://editor.contter.com'
-      },
-      // {
-      //   source: '/create',
-      //   destination: ENV === 'dev' ? 'http://localhost:4173/' : ''
-      // },
-      // {
-      //   source: '/upload/asset/preview',
-      //   destination: ENV === 'dev' ? 'http://localhost:4173/' : ''
-      // },
+        destination: ENV === 'dev' ? 'https://editor.art3s.xyz' : 'https://editor.contter.com'
+      }, // 'http://localhost:4173/'
       {
         source: '/:id/owned',
         destination: '/:id'

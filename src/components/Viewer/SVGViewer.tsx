@@ -19,7 +19,7 @@ export const SVGViewer = ({ width, height, formats }: ISvgViewerProps) => {
       if (resp.status !== 200) {
         resp = await fetch(ipfsToUrl(formats[0].uri));
       }
-      let text = await resp.text();
+      const text = await resp.text();
       setData(text);
     }
   }, [formats]);

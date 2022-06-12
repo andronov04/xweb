@@ -17,7 +17,7 @@ const IframePage = () => {
     return () => {
       window.removeEventListener('message', listener);
     };
-  });
+  }, [router]);
 
   return (
     <iframe
@@ -40,19 +40,6 @@ const IframePage = () => {
 };
 
 export default function BasePage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    const listener = (ev) => {
-      if (ev.data.type === CNTTR_CMD_MINT) {
-      }
-    };
-    window.addEventListener('message', listener);
-    return () => {
-      window.removeEventListener('message', listener);
-    };
-  });
-
   return (
     <div className={'w-full h-full'}>
       <Head>

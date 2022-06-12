@@ -25,7 +25,7 @@ export const ImageViewer = ({ width, height, formats }: IImageViewer) => {
             if (!source) {
               return;
             }
-            return [<source srcSet={s3ToUrl(source.uri ?? '')} />, <source srcSet={ipfsToUrl(source.uri ?? '')} />];
+            return [<source key={`${mime}_1`} srcSet={s3ToUrl(source.uri ?? '')} />, <source key={`${mime}_2`} srcSet={ipfsToUrl(source.uri ?? '')} />];
           })}
           <img
             alt={'Image'}
