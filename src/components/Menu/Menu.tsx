@@ -32,7 +32,7 @@ const Menu = () => {
               <div className={'cursor-pointer flex items-center gap-x-1.5'}>
                 More
                 <svg style={{ marginTop: '-1px' }} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M11 4L6 9L1 4" stroke="white" strokeOpacity="0.7" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M10 4L6 8L2 4" stroke="white" strokeOpacity="0.7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
             )}
