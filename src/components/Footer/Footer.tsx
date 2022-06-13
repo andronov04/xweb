@@ -14,7 +14,7 @@ function Footer() {
               fillOpacity="0.5"
             />
           </svg>
-          <p className={'text-whitegrey '}>beta v0.3</p>
+          <p className={'text-whitegrey '}>beta v0.4</p>
         </div>
         <div className={'text-whitegrey'}>
           powered by{' '}
