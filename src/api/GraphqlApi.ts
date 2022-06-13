@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { GRAPHQL_API_URL, GRAPHQL_API_KEY, GRAPHQL_API_WS_URL } from '../constants';
+import { GRAPHQL_API_URL, GRAPHQL_API_KEY, GRAPHQL_API_WS_URL, IS_DEV } from '../constants';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 
@@ -34,12 +34,15 @@ const initClient = () => {
   if (GRAPHQL_API_KEY) {
     headers = { 'x-hasura-admin-secret': GRAPHQL_API_KEY };
   }
-  // if (ssrMode) {
-  //   link = createHttpLink(headers);
-  // } else {
-  //   link = createWSLink(headers);
-  // }
-  link = createHttpLink(headers);
+  if (IS_DEV) {
+    link = createHttpLink(headers);
+  } else {
+    if (ssrMode) {
+      link = createHttpLink(headers);
+    } else {
+      link = createWSLink(headers);
+    }
+  }
   return new ApolloClient({
     ssrMode,
     link,

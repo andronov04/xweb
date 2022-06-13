@@ -5,6 +5,8 @@ export const RPC_LIST =
 // https://rpc.contter.com,
 // https://ithacanet.ecadinfra.com,https://ithacanet.smartpy.io,https://rpczero.tzbeta.net
 export const TZ_NETWORK = process.env.NEXT_PUBLIC_TZ_NETWORK ?? 'mainnet';
+export const PUBLIC_MODE = process.env.NEXT_PUBLIC_MODE ?? 'prod';
+export const IS_DEV = PUBLIC_MODE === 'dev';
 export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https://graphql.contter.com/v1/graphql';
 export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://graphql.contter.com/v1/graphql';
 export const GRAPHQL_API_KEY = process.env.NEXT_PUBLIC_GRAPHQL_API_KEY ?? '';
