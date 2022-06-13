@@ -1,10 +1,8 @@
 import { useForm } from 'react-hook-form';
 import Input from '../../../components/Form/Input';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import CustomButton from '../../../components/CustomButton/CustomButton';
-import PreviewMedia from './PreviewMedia/PreviewMedia';
 import { useRouter } from 'next/router';
-import { useStore } from '../../../store';
 import { useContract } from '../../../hooks/use-contract/useContract';
 import { getWallet } from '../../../api/WalletApi';
 import { MintAssetCallData } from '../../../types/contract';
@@ -17,15 +15,25 @@ import { clearMsg, setMsg } from '../../../services/snackbar';
 import Waiting from '../../../components/Waiting/Waiting';
 import ItemToken from '../../../components/Item/ItemToken';
 import { setMetaFormats } from '../../../utils/mime';
-import shallow from 'zustand/shallow';
 
 const DEFAULT_WIDTH = 1000;
 const DEFAULT_HEIGHT = 1000;
 
 const PublishAsset = () => {
-  const [opHash, setOpHash] = useState<string | null>();
-  const [asset, token] = useStore((state) => [state.asset, state.token], shallow);
   const router = useRouter();
+  const [opHash, setOpHash] = useState<string | null>();
+  const [token, setToken] = useState<any | null>(null);
+  useEffect(() => {
+    let tokenStorage: any = JSON.parse(localStorage.getItem('token') ?? '{}');
+    if (!tokenStorage || !Object.keys(tokenStorage).length) {
+      router.replace('/').then();
+    } else {
+      try {
+        localStorage.removeItem('token');
+      } catch (e) {}
+    }
+    setToken(tokenStorage);
+  }, [setToken]);
   // TODO Validation https://github.com/ianstormtaylor/superstruct one place for use backend and another
   const refSubmit = useRef<HTMLInputElement | null>(null);
   const [metaCid, setMetaCid] = useState<string | null>(null);
@@ -48,44 +56,34 @@ const PublishAsset = () => {
 
   const getMetadata = (data: any = {}): IAssetMetadata => {
     const tags = (data.tags?.split(',') ?? []).filter((a) => a.length);
-    let previewImage = asset.previews.find((a) => a.format === 'png'); //asset.previews[0];
-    if (!previewImage) {
-      previewImage = asset.previews.find((a) => a.format === 'jpeg' || a.format === 'jpg');
-    }
+    let previewImage = token.previews.find((a) => ['image/png', 'image/jpeg', 'image/jpg'].includes(a.mime));
     if (!previewImage) {
       throw 'No preview image';
     }
-
+    const hash = null; //token?.snapshot?.hash;
+    const ast = token.assets[0];
     return {
       name: data.name,
       isTransferable: false,
       description: data.description,
       tags: tags,
       date: new Date().toISOString(),
-      artifactUri: `${urlToIpfs(asset.cid)}?hash=${asset.hash}`,
+      artifactUri: `${urlToIpfs(ast.cid)}?hash=${hash}`,
       displayUri: urlToIpfs(previewImage.cid),
       thumbnailUri: urlToIpfs(previewImage.cid),
       symbol: 'CNSST',
       decimals: 0,
       version: '0.1',
       type: 'Asset',
-      formats: setMetaFormats(asset.previews, {
+      formats: setMetaFormats(token.previews, {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
-        cid: token.cid,
-        hash: asset.hash
+        hash
       })
     };
   };
 
   const onSubmit = async (data) => {
-    const previewImage = asset.previews[0];
-
-    if (!previewImage) {
-      setMsg({ clear: true, title: 'You need set preview', kind: 'error' });
-      return;
-    }
-
     // Generate meta
     let metadataCid = metaCid;
     // TODO Get state preview
@@ -115,15 +113,9 @@ const PublishAsset = () => {
     });
   };
 
-  useEffect(() => {
-    // if (!asset?.cid) {
-    //   router.replace('/create/asset/style');
-    // }
-  }, []);
-
-  // if (!asset?.cid) {
-  //   return <Loader />;
-  // }
+  if (!token) {
+    return <div />;
+  }
 
   return (
     <section className={'h-full'}>
@@ -211,18 +203,6 @@ const PublishAsset = () => {
             </div>
           </div>
         </div>
-        {/*<div className={'w-1/2'}>*/}
-        {/*  <div className={'p-4'}>*/}
-        {/*    <PreviewMedia*/}
-        {/*      width={DEFAULT_WIDTH}*/}
-        {/*      height={DEFAULT_HEIGHT}*/}
-        {/*      url={`${ipfsToUrl(urlToIpfs(asset.cid))}?hash=`}*/}
-        {/*      onPreview={(data) => {*/}
-        {/*        asset.addPreview(data);*/}
-        {/*      }}*/}
-        {/*    />*/}
-        {/*  </div>*/}
-        {/*</div>*/}
       </div>
       <div className={'flex justify-end items-center space-x-2'}>
         <CustomButton

@@ -1,20 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Loader from '../Utils/Loader';
+import { IMetaFormat } from '../../types/metadata';
+import { ipfsToUrl, s3ToUrl } from '../../utils';
+import { useAsync } from 'react-async-hook';
 
 interface ISvgViewerProps {
   width?: number;
   height?: number;
-  url: string;
+  formats: IMetaFormat[];
 }
 
-export const SvgViewer = ({ width, height, url }: ISvgViewerProps) => {
+export const SVGViewer = ({ width, height, formats }: ISvgViewerProps) => {
   const [data, setData] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetch(url)
-      .then((response) => response.text())
-      .then((text) => setData(text));
-  }, [url]);
+  useAsync(async () => {
+    if (formats.length) {
+      let resp = await fetch(s3ToUrl(formats[0].uri));
+      if (resp.status !== 200) {
+        resp = await fetch(ipfsToUrl(formats[0].uri));
+      }
+      const text = await resp.text();
+      setData(text);
+    }
+  }, [formats]);
 
   return (
     <div style={{ width, height }}>

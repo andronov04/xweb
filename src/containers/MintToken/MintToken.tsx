@@ -1,29 +1,39 @@
 import { useForm } from 'react-hook-form';
-import { useStore } from '../../../store';
-import Input from '../../../components/Form/Input';
-import { useEffect, useRef, useState } from 'react';
-import { ipfsToUrl, urlToIpfs } from '../../../utils';
-import CustomButton from '../../../components/CustomButton/CustomButton';
-import { useContract } from '../../../hooks/use-contract/useContract';
-import { MintTokenCallData } from '../../../types/contract';
-import { getWallet } from '../../../api/WalletApi';
-import { ITokenMetadata } from '../../../types/metadata';
-import { postDataFetch } from '../../../api/RestApi';
-import { API_META_TOKEN_URL } from '../../../constants';
-import { strToByteStr } from '../../../utils/string';
-import { clearMsg, setMsg } from '../../../services/snackbar';
+import Input from '../../components/Form/Input';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ipfsToUrl, urlToIpfs } from '../../utils';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import { useContract } from '../../hooks/use-contract/useContract';
+import { MintTokenCallData } from '../../types/contract';
+import { getWallet } from '../../api/WalletApi';
+import { ITokenMetadata } from '../../types/metadata';
+import { postDataFetch } from '../../api/RestApi';
+import { API_META_TOKEN_URL } from '../../constants';
+import { strToByteStr } from '../../utils/string';
+import { clearMsg, setMsg } from '../../services/snackbar';
 import { useRouter } from 'next/router';
 import { MichelsonMap } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
-import Waiting from '../../../components/Waiting/Waiting';
-import ItemToken from '../../../components/Item/ItemToken';
-import { setMetaFormats } from '../../../utils/mime';
-import Footnote from '../../../components/Library/Footnote/Footnote';
+import Waiting from '../../components/Waiting/Waiting';
+import ItemToken from '../../components/Item/ItemToken';
+import { setMetaFormats } from '../../utils/mime';
 
 const MintToken = () => {
   const [opHash, setOpHash] = useState<string | null>();
   const router = useRouter();
-  const token = useStore((state) => state.token);
+  const [token, setToken] = useState<any | null>(null);
+  useEffect(() => {
+    let tokenStorage: any = JSON.parse(localStorage.getItem('token') ?? '{}');
+    if (!tokenStorage || Object.keys(tokenStorage).length === 0) {
+      router.replace('/').then();
+    } else {
+      try {
+        localStorage.removeItem('token');
+      } catch (e) {}
+    }
+    setToken(tokenStorage);
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -41,14 +51,12 @@ const MintToken = () => {
       setOpHash(result);
     }
   }, [result]);
-  const w = token.state.root.properties.find((a) => a.id === 'size')?.state?.width?.value ?? 1000;
-  const h = token.state.root.properties.find((a) => a.id === 'size')?.state?.height?.value ?? 1000;
+
+  const w = token?.snapshot?.state?.root?.properties?.find((a) => a.id === 'size')?.state?.width?.value ?? 1000;
+  const h = token?.snapshot?.state?.root?.properties?.find((a) => a.id === 'size')?.state?.height?.value ?? 1000;
 
   const getMetadata = (data: any = {}): ITokenMetadata => {
-    let previewImage = token.previews.find((a) => a.format === 'png'); //asset.previews[0];
-    if (!previewImage) {
-      previewImage = token.previews.find((a) => a.format === 'jpeg' || a.format === 'jpg');
-    }
+    let previewImage = token.previews.find((a) => ['image/png', 'image/jpeg', 'image/jpg'].includes(a.mime));
     if (!previewImage) {
       throw 'No preview image';
     }
@@ -72,7 +80,7 @@ const MintToken = () => {
         width: w,
         height: h,
         cid: token.cid,
-        hash: ''
+        hash: token?.snapshot?.hash
       })
     };
   };
@@ -99,7 +107,7 @@ const MintToken = () => {
       return;
     }
     clearMsg();
-    const _assets = Object.fromEntries(token.state.assets.map((a) => [a.order, new BigNumber(a.id)]));
+    const _assets = Object.fromEntries(token.snapshot.state.data.assets.map((a) => [a.order, new BigNumber(a.id)]));
     call({
       assets: MichelsonMap.fromLiteral(_assets) as any,
       digest: token.digest,
@@ -119,6 +127,10 @@ const MintToken = () => {
     refSubmit.current?.click();
   };
 
+  if (!token) {
+    return <div />;
+  }
+
   return (
     <section className={'h-full'}>
       {opHash ? (
@@ -129,11 +141,11 @@ const MintToken = () => {
           }}
         />
       ) : null}
-      <div className={' mb-4'}>
-        <Footnote type={'warning'}>
-          <p>Note: Check all formats before publishing.</p>
-        </Footnote>
-      </div>
+      {/*<div className={' mb-4'}>*/}
+      {/*  <Footnote type={'warning'}>*/}
+      {/*    <p>Note: Check all formats before publishing.</p>*/}
+      {/*  </Footnote>*/}
+      {/*</div>*/}
       <div className={'flex gap-x-3'}>
         <div style={{ flex: '1 0' }} className={'w-1/2 flex flex-col flex-grow'}>
           <div
@@ -145,16 +157,18 @@ const MintToken = () => {
           >
             <div className={'absolute top-0 left-0 w-full h-full'}>
               <div>
-                <ItemToken
-                  formats={true}
-                  item={{
-                    id: -1,
-                    name: '',
-                    width: w,
-                    height: h,
-                    metadata: getMetadata()
-                  }}
-                />
+                {token ? (
+                  <ItemToken
+                    formats={true}
+                    item={{
+                      id: -1,
+                      name: '',
+                      width: w,
+                      height: h,
+                      metadata: getMetadata()
+                    }}
+                  />
+                ) : null}
               </div>
             </div>
           </div>

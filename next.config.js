@@ -7,12 +7,27 @@ const withMDX = require('@next/mdx')({
     // providerImportSource: "@mdx-js/react",
   }
 });
+const ENV = 'undefined' !== typeof window ? window.ENV : process.env.ENV;
+
 module.exports = withMDX({
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-  reactStrictMode: true,
+  reactStrictMode: false,
   optimizeFonts: false,
+  trailingSlash: false,
   async rewrites() {
     return [
+      {
+        source: '/ipfs/:id*',
+        destination: ENV === 'dev' ? 'https://xproxyapi-fyhqtmmq7q-uc.a.run.app/ipfs/:id*' : 'https://xproxyapi-fm5qkqgytq-uc.a.run.app/ipfs/:id*'
+      },
+      {
+        source: '/s3/:id*',
+        destination: 'https://dutosyxgruo37.cloudfront.net/:id*'
+      },
+      {
+        source: '/editor',
+        destination: ENV === 'dev' ? 'https://editor.art3s.xyz' : 'https://editor.contter.com'
+      }, // 'http://localhost:4173/'
       {
         source: '/:id/owned',
         destination: '/:id'

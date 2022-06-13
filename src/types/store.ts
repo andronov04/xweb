@@ -45,9 +45,6 @@ export interface IMessageBar {
 }
 
 export interface IStore {
-  asset: ITempAsset;
-  token: ITempToken;
-
   user: IUser | null;
   connectUser: () => Promise<void>;
   disconnectUser: () => Promise<void>;

@@ -4,5 +4,7 @@ export enum MimeType {
   'jpeg' = 'image/jpeg',
   'glb' = 'model/gltf-binary',
   'svg' = 'image/svg+xml',
-  'txt' = 'text/plain'
+  'txt' = 'text/plain',
+  'webm' = 'video/webm',
+  'mp4' = 'video/mp4'
 }

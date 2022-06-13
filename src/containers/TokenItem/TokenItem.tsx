@@ -161,7 +161,7 @@ const TokenItem = ({ item }: { item: IToken }) => {
           {item.metadata?.formats?.length ? (
             <div className={'flex'}>
               <div className={'pr-1'}>Formats: </div>
-              <div className={'text-inactive flex gap-x-1'}>
+              <div className={'text-inactive flex-col flex gap-x-1'}>
                 {item.metadata?.formats.map((frmt, i) => (
                   <div key={frmt.mimeType}>
                     {mimeMap[frmt.mimeType] ?? 'UNKNOWN'}{' '}

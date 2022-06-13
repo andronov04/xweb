@@ -1,37 +1,32 @@
 import UploadFile from '../../components/UploadFile/UploadFile';
 import { useRouter } from 'next/router';
-import { useStore } from '../../store';
 import { setMsg } from '../../services/snackbar';
 import Link from 'next/link';
 import { useState } from 'react';
 
 const CreateAsset = () => {
   const [active, setActive] = useState(false);
-  const asset = useStore((state) => state.asset);
   const router = useRouter();
 
   return (
     <section className={'h-full'}>
       <div>
-        {!asset.cid && (
-          <UploadFile
-            onSuccess={(data) => {
-              if (data.cid && data.authHash) {
-                setMsg({ autoClose: 1000, clear: true, title: 'Successfully uploaded.', kind: 'success' });
-                asset.setAsset(data.cid, data.authHash);
-                router.replace('/upload/asset/preview').then().catch();
-              }
-            }}
-            onError={(e) => {
-              setActive(false);
-              setMsg({ clear: true, title: 'Failed to fetch.', kind: 'error' });
-            }}
-            onStart={() => {
-              setActive(true);
-              setMsg({ autoClose: false, block: true, title: 'Uploading...', kind: 'info' });
-            }}
-          />
-        )}
+        <UploadFile
+          onSuccess={(data) => {
+            if (data.cid) {
+              setMsg({ autoClose: 1000, clear: true, title: 'Successfully uploaded.', kind: 'success' });
+              router.replace(`/upload/asset/preview?c=${data.cid}`).then().catch();
+            }
+          }}
+          onError={(e) => {
+            setActive(false);
+            setMsg({ clear: true, title: 'Failed to fetch.', kind: 'error' });
+          }}
+          onStart={() => {
+            setActive(true);
+            setMsg({ autoClose: false, block: true, title: 'Uploading...', kind: 'info' });
+          }}
+        />
       </div>
       {!active ? (
         <div className={'text-lg text-inactive text-center'}>
