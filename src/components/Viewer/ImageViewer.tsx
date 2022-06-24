@@ -28,6 +28,11 @@ export const ImageViewer = ({ width, height, formats }: IImageViewer) => {
             return [<source key={`${mime}_1`} srcSet={s3ToUrl(source.uri ?? '')} />, <source key={`${mime}_2`} srcSet={ipfsToUrl(source.uri ?? '')} />];
           })}
           <img
+            style={{
+              width: `${width}px`,
+              height: `${height}px`,
+              objectFit: 'contain'
+            }}
             alt={'Image'}
             src={s3ToUrl(imageFormat?.uri ?? '')}
             onError={(e) => {
