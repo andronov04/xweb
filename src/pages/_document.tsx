@@ -27,6 +27,7 @@ export default class NewDocument extends Document {
           <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js" />
         </Head>
         <body>
+          <div className={'bg-rose-500 p-1 text-white'}>Warning: The site is experiencing technical difficulties. it will be working soon for everyone</div>
           <Main />
           <NextScript />
         </body>
