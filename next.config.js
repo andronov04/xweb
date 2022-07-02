@@ -18,7 +18,7 @@ module.exports = withMDX({
     return [
       {
         source: '/ipfs/:id*',
-        destination: ENV === 'dev' ? 'https://xproxyapi-fyhqtmmq7q-uc.a.run.app/ipfs/:id*' : 'https://xproxyapi-fm5qkqgytq-uc.a.run.app/ipfs/:id*'
+        destination: ENV === 'dev' ? 'https://proxy-ipfs.contter.com/ipfs/:id*' : 'https://proxy-ipfs.contter.com/ipfs/:id*'
       },
       {
         source: '/s3/:id*',
