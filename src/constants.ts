@@ -7,8 +7,8 @@ export const RPC_LIST =
 export const TZ_NETWORK = process.env.NEXT_PUBLIC_TZ_NETWORK ?? 'mainnet';
 export const PUBLIC_MODE = process.env.NEXT_PUBLIC_MODE ?? 'prod';
 export const IS_DEV = PUBLIC_MODE === 'dev';
-export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https://graphql.contter.com/v1/graphql';
-export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://graphql.contter.com/v1/graphql';
+export const GRAPHQL_API_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_URL ?? 'https://graphql2.contter.com/v1/graphql';
+export const GRAPHQL_API_WS_URL = process.env.NEXT_PUBLIC_GRAPHQL_API_WS_URL ?? 'wss://graphql2.contter.com/v1/graphql';
 export const GRAPHQL_API_KEY = process.env.NEXT_PUBLIC_GRAPHQL_API_KEY ?? '';
 export const IPFS_PREFIX_URL = process.env.NEXT_PUBLIC_IPFS_PREFIX_URL ?? 'https://contter.mypinata.cloud/ipfs/';
 export const S3_SUFFIX_URL = process.env.NEXT_PUBLIC_S3_SUFFIX_URL ?? '/s3/';
