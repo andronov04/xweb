@@ -34,17 +34,15 @@ const initClient = () => {
   if (GRAPHQL_API_KEY) {
     headers = { 'x-hasura-admin-secret': GRAPHQL_API_KEY };
   }
-  link = createHttpLink(headers);
-  // TODO Why not working wss ?
-  // if (IS_DEV) {
-  //   link = createHttpLink(headers);
-  // } else {
-  //   if (ssrMode) {
-  //     link = createHttpLink(headers);
-  //   } else {
-  //     link = createWSLink(headers);
-  //   }
-  // }
+  if (IS_DEV) {
+    link = createHttpLink(headers);
+  } else {
+    if (ssrMode) {
+      link = createHttpLink(headers);
+    } else {
+      link = createWSLink(headers);
+    }
+  }
   return new ApolloClient({
     ssrMode,
     link,
