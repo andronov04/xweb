@@ -8,7 +8,7 @@ import Spacing from '../components/Spacing/Spacing';
 
 export default function Home() {
   return (
-    <Page>
+    <div>
       <Head>
         <title>Contter - First AI social network</title>
         <meta key="og:title" property="og:title" content={'Contter'} />
@@ -16,6 +16,6 @@ export default function Home() {
       </Head>
 
       <main>First AI social network. Coming soon</main>
-    </Page>
+    </div>
   );
 }
