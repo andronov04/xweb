@@ -10,37 +10,12 @@ export default function Home() {
   return (
     <Page>
       <Head>
-        <title>Contter</title>
+        <title>Contter - First AI social network</title>
         <meta key="og:title" property="og:title" content={'Contter'} />
-        <meta key="description" name="description" content={DESCRIPTION_SEO} />
-        <meta key="og:description" property="og:description" content={DESCRIPTION_SEO} />
-        <meta key="og:type" property="og:type" content="website" />
-        <meta key="og:image" property="og:image" content={IMAGE_SEO} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <section style={{ height: '50vh' }} className={'flex-col flex md:flex-row gap-x-10 justify-between items-center'}>
-          <div className={'md:w-1/2 w-full'}>
-            <div className={'text-5xl md:text-left text-center font-medium'}>
-              <p>Endless</p>
-              <p>Creative</p>
-              <p>Possibilities</p>
-            </div>
-          </div>
-          <div className={'md:w-1/2 w-full h-full'}>
-            <ConditionRender client>
-              <RandomItem />
-            </ConditionRender>
-          </div>
-        </section>
-
-        <Spacing size={4} />
-
-        <div className={'mt-20'}>
-          <FAQ />
-        </div>
-      </main>
+      <main>First AI social network. Coming soon</main>
     </Page>
   );
 }
